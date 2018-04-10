@@ -1,0 +1,35 @@
+{
+  "name": "Lesson",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "title": {
+      "type": "string",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "topics": {
+      "type": "hasMany",
+      "model": "Topic",
+      "foreignKey": "",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "discipline": {
+      "type": "belongsTo",
+      "model": "Discipline",
+      "foreignKey": "",
+      "options": {
+        "nestRemoting": true
+      }
+    }
+  },
+  "acls": [],
+  "methods": {}
+}
