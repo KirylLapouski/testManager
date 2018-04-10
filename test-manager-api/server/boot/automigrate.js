@@ -1,4 +1,4 @@
 module.exports = function(app){
-    app.dataSources.db.automigrate();
+    app.dataSources.db.autoupdate();
     console.log("Perfomed automigration");
 }
