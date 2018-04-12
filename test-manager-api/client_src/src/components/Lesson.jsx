@@ -9,12 +9,12 @@ class Lesson extends React.Component {
     }
     render() {
         return(
-        <article>
-            <header>
-                <UserInfo />
+        <article className="z-depth-1">
+            <header style={{overflow:"hidden",background:"rgb(117, 122, 264)"}}>
+                <UserInfo style={{float:"left"}}/>
+                <h2>{this.props.title}</h2>                
             </header>
             <section>
-                <h2>{this.props.title}</h2>
                 <p>{this.props.desc}</p>
             </section>
         </article>)

@@ -11,17 +11,29 @@ class NavBarCustom extends React.Component {
             isWideEnough: false,
             dropdownOpen: false
         }
+
+        this.onClick = this.onClick.bind(this);
+        this.toggle = this.toggle.bind(this);
     };
 
+    onClick() {
+        this.setState({
+            collapse: !this.state.collapse
+        })
+    }
+
+    toggle() {
+        this.setState({
+            dropdownOpen: !this.state.dropdownOpen
+        })
+    }
     render() {
         return (
             <Router>
-                <Navbar>
+                <Navbar color="indigo" dark expand="md" scrolling>
                     <NavbarBrand>
                         <strong>NavBar</strong>
                     </NavbarBrand>
-                    {!this.state.isWideEnough && <NavbarToggler onClick={this.onClick} />}
-                    <Collapse isOpen={this.state.collapse} navbar />
                     <NavbarNav left>
                         <NavItem>
                             <NavLink to="#">Home</NavLink>
@@ -32,6 +44,7 @@ class NavBarCustom extends React.Component {
                             <UserInfo />
                         </NavItem >
                     </NavbarNav>
+                    {!this.state.isWideEnough && <NavbarToggler onClick={this.onClick} />}
                 </Navbar>
             </Router>);
     }

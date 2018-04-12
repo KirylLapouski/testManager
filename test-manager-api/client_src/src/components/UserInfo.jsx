@@ -44,7 +44,7 @@ class UserInfo extends React.Component {
         return (
             <Dropdown style={this.props.style} isOpen={this.state.dropdownOpen} toggle={this.toggle}>
                 <DropdownToggle style={{ padding: "0px" }}>
-                    <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-2.jpg" />
+                    <img width="50px" height="50px" src="https://mdbootstrap.com/img/Photos/Avatars/avatar-2.jpg" />
                 </DropdownToggle>
                 {dropdown}
             </Dropdown>
