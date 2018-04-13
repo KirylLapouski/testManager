@@ -5,3 +5,5 @@ class Test extends React.Component{
         return <div>Test</div>
     }
 }
+
+export default Test;

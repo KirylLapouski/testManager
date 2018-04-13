@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 class Course extends React.Component {
     static propTypes = {
         title: PropTypes.string.isRequired,
-        desc: PropTypes.string.isRequired
     }
     render() {
         return (
@@ -13,7 +12,6 @@ class Course extends React.Component {
                     <UserInfo style={{float:"right"}}/>
                     {this.props.title}
                 </div>
-                {this.props.desc}                
             </div>
         )
     }

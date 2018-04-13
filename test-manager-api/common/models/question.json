@@ -12,6 +12,10 @@
     },
     "description": {
       "type": "string"
+    },
+    "weight": {
+      "type": "number",
+      "required": true
     }
   },
   "validations": [],

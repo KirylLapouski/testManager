@@ -5,7 +5,6 @@ class Lesson extends React.Component {
 
     static propTypes = {
         title: PropTypes.string,
-        desc: PropTypes.string
     }
     render() {
         return(
@@ -15,7 +14,6 @@ class Lesson extends React.Component {
                 <h2>{this.props.title}</h2>                
             </header>
             <section>
-                <p>{this.props.desc}</p>
             </section>
         </article>)
     }

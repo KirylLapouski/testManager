@@ -13,10 +13,6 @@
     "isRight": {
       "type": "boolean",
       "required": true
-    },
-    "weight": {
-      "type": "number",
-      "required": true
     }
   },
   "validations": [],

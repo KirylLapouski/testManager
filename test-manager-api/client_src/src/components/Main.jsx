@@ -9,8 +9,8 @@ class Main extends React.Component {
         <Router>
         <Switch>
             <Route exact path="/" component={CourseContainer}/>
-            <Route path="/lessons" component={LessonContainer}/>
-            <Route path="/lesson/topic" component={TopicContainer}/>
+            <Route path="/:courseId/lessons" component={LessonContainer}/>
+            <Route path="/lesson/:lessonId/topics" component={TopicContainer}/>
         </Switch>
         </Router>)
     }
