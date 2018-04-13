@@ -12,7 +12,7 @@ class Lesson extends React.Component {
         return(
         <article className="z-depth-1">
             <header style={{overflow:"hidden",background:"rgb(117, 122, 264)"}}>
-                <UserInfo style={{float:"left"}}/>
+                <UserInfo disabled={true} style={{float:"left"}}/>
                 <Link to={"/lesson/"+this.props.id+"/topics"}>{this.props.title}</Link>                
             </header>
             <section>

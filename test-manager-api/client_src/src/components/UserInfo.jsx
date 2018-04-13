@@ -31,15 +31,12 @@ class UserInfo extends React.Component {
 
     getDropdown() {
         return (<DropdownMenu>
-            <DropdownItem href="#">Action</DropdownItem>
-            <DropdownItem href="#">Action 2</DropdownItem>
-            <DropdownItem href="#">Action 3</DropdownItem>
-            <DropdownItem href="#">Action 4</DropdownItem>
-            <DropdownItem href="#">Action 5</DropdownItem>
+            <DropdownItem href="#">Profile</DropdownItem>
+            <DropdownItem href="/cources">My Courses</DropdownItem>
         </DropdownMenu>)
     }
     render() {
-        var dropdown = this.disabled ? null : this.getDropdown();
+        var dropdown = this.props.disabled ? null : this.getDropdown();
 
         return (
             <Dropdown style={this.props.style} isOpen={this.state.dropdownOpen} toggle={this.toggle}>
