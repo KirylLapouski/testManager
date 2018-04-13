@@ -30,7 +30,7 @@ class CourseContainer extends React.Component {
     render() {
         if(this.state.courses){
             var courses = this.state.courses.map((value,index,array)=>{
-                return (<div key= {value.id} className="col-xl-3 col-lg-4 col-md-6"><Course title={value.title}/></div>)
+                return (<div key= {value.id} className="col-xl-3 col-lg-4 col-md-6"><Course id={value.id} title={value.title}/></div>)
             })
         }
 

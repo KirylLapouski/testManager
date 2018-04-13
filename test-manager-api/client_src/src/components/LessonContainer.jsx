@@ -21,7 +21,7 @@ class LessonContainer extends React.Component {
     render() {
         if(this.state.lessons){
             var lessons = this.state.lessons.map((value,index,array)=>{
-                return ( <Lesson title={value.title}/>)
+                return ( <Lesson id={value.id} title={value.title}/>)
             })
         }
 
