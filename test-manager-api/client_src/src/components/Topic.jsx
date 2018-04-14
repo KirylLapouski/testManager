@@ -11,7 +11,7 @@ class Topic extends React.Component {
     render() {
         return <div>Topic
             <span style={{color:"black"}}>{this.props.path}</span>
-            <Test/>
+            <Test topicId={this.props.id}/>
         </div> 
     }
 }
