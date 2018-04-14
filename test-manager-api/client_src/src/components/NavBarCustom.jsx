@@ -12,11 +12,11 @@ class NavBarCustom extends React.Component {
             dropdownOpen: false
         }
 
-        this.onClick = this.onClick.bind(this);
+        //this.onClick = this.onClick.bind(this);
         this.toggle = this.toggle.bind(this);
     };
 
-    onClick() {
+    handleClick() {
         this.setState({
             collapse: !this.state.collapse
         })
@@ -44,7 +44,7 @@ class NavBarCustom extends React.Component {
                             <UserInfo />
                         </NavItem >
                     </NavbarNav>
-                    {!this.state.isWideEnough && <NavbarToggler onClick={this.onClick} />}
+                    {!this.state.isWideEnough && <NavbarToggler onClick={this.handleClick} />}
                 </Navbar>
             </Router>);
     }

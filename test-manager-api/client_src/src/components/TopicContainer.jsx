@@ -19,6 +19,7 @@ class TopicContainer extends React.Component {
         this.setState({
             currenTopic: i
         })
+        window.history.pushState(null, null,"/lesson/"+this.props.match.params.lessonId+"/topic/"+ this.state.topics[i-1].id);
     }
     componentWillMount(){
         this.takeTopics();
@@ -36,11 +37,11 @@ class TopicContainer extends React.Component {
     render() {
         if(JSON.stringify(this.state.topics) != "[]"){
             var topic =  this.state.topics[this.state.currenTopic-1]
-            var elem = <Topic path={topic.path}/>
+            var elem = <Topic path={topic.path} id={topic.id}/>
         }
-
+        
         return (<div>
-                    <Paginator length={this.state.topics.length} onClick={this.handlePaginatorClick}/>
+                    <Paginator length={this.state.topics.length} onClick={this.handlePaginatorClick} />
                     {elem}
                 </div>
         )

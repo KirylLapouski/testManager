@@ -10,6 +10,7 @@ class Main extends React.Component {
         <Switch>
             <Route exact path="/courses" component={CourseContainer}/>
             <Route path="/:courseId/lessons" component={LessonContainer}/>
+            <Route path="/lesson/:lessonId/topic/:topicId" component={TopicContainer}/>
             <Route path="/lesson/:lessonId/topics" component={TopicContainer}/>
         </Switch>
         </Router>)

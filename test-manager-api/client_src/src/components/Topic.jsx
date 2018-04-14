@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 class Topic extends React.Component {
    
     static propTypes = {
+        id: PropTypes.number.isRequired,
         path: PropTypes.string.isRequired
     }
     render() {
