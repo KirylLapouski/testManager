@@ -2,6 +2,7 @@ import React from 'react';
 import Paginator from './Paginator';
 import Topic from './Topic';
 import axios from 'axios';
+import toastr from 'toastr';
 class TopicContainer extends React.Component {
     constructor(props) {
         super(props);
@@ -27,6 +28,7 @@ class TopicContainer extends React.Component {
 
     handleTestSubmit(rightAnswersWeight, allAnswersWeight) {
         return () => {
+            toastr.info("Test result: " + rightAnswersWeight*100/allAnswersWeight +"%");
             this.setState(prevState => {
                 return {
                     rightAnswersWeight: prevState.rightAnswersWeight + rightAnswersWeight,

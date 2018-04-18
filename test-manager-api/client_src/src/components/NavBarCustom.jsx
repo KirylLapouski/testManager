@@ -1,7 +1,8 @@
 import React from 'react';
-import { Navbar, NavbarBrand, NavbarNav, NavbarToggler, Collapse, NavItem, NavLink } from 'mdbreact';
+import { Navbar, NavbarBrand, NavbarNav, NavbarToggler, NavItem, NavLink } from 'mdbreact';
 import { BrowserRouter as Router } from 'react-router-dom';
 import UserInfo from './UserInfo';
+import {Link} from 'react-router-dom';
 class NavBarCustom extends React.Component {
     constructor(props) {
         super(props);
@@ -36,7 +37,7 @@ class NavBarCustom extends React.Component {
                     </NavbarBrand>
                     <NavbarNav left>
                             <NavItem>
-                                <NavLink to="/courses">Home</NavLink>
+                                <Link to="/cources">Home</Link>
                             </NavItem>
                     </NavbarNav>
                     <NavbarNav right>
