@@ -7,7 +7,7 @@ class Answer extends React.Component {
         text: PropTypes.string.isRequired
     }
     render() {
-        return <Input label={this.props.text} type="checkbox"/>
+        return <Input onClick={this.props.onClick} label={this.props.text} type="checkbox"/>
     }
 }
 

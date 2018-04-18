@@ -5,13 +5,14 @@ import PropTypes from 'prop-types';
 class Topic extends React.Component {
    
     static propTypes = {
+        handleTestSubmit: PropTypes.func.isRequired,
         id: PropTypes.number.isRequired,
         path: PropTypes.string.isRequired
     }
     render() {
         return <div>Topic
             <span style={{color:"black"}}>{this.props.path}</span>
-            <Test topicId={this.props.id}/>
+            <Test onTestSubmit={this.props.handleTestSubmit} topicId={this.props.id}/>
         </div> 
     }
 }
