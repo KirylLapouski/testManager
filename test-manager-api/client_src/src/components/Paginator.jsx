@@ -56,9 +56,10 @@ class Paginator extends React.Component {
     render() {
         let numbers = [];
         for (let i = 0; i < this.props.length; i++) {
-            var currenCircle = i + 1 == this.state.currenNumber ? "active" : null;
+            var currenCircle = i + 1 == this.state.currenNumber ? true : false;
             numbers.push(
-                <PageItem active={currenCircle} >
+                //!!!!!!
+                <PageItem key={i} active={currenCircle} >
                         <PageLink onClick={() => { this.handleNumberClick(i + 1) }} className="page-link">
                             {i + 1}
                         </PageLink>
@@ -69,14 +70,14 @@ class Paginator extends React.Component {
 
             return (
             <Pagination className="pagination-circle">
-                <PageItem disabled = {this.state.currenNumber==1?"true":""}>
+                <PageItem disabled = {this.state.currenNumber==1?true:false}>
                     <PageLink onClick={this.handleLeftArrowClick} className="page-link" aria-label="Previous">
                         <span aria-hidden="true">&laquo;</span>
                         <span className="sr-only">Previous</span>
                     </PageLink>
                 </PageItem>
                 {numbers}
-                <PageItem disabled = {this.state.currenNumber==this.props.length?"true":""}>
+                <PageItem disabled = {this.state.currenNumber==this.props.length?true:false}>
                     <PageLink  onClick={this.handleRightArrowClick} className="page-link">
                         &raquo;
                     </PageLink>

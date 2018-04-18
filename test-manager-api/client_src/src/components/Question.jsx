@@ -2,13 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import Answer from './Answer';
-import {Button} from 'mdbreact';
+import { Button } from 'mdbreact';
 
-class Question extends React.Component{
-    constructor(props){
+class Question extends React.Component {
+    constructor(props) {
         super(props);
 
-        this.state ={
+        this.state = {
             answers: []
         }
 
@@ -22,27 +22,24 @@ class Question extends React.Component{
         }).isRequired
     }
 
-    componentWillMount(){
+    componentWillMount() {
         axios.get("http://localhost:3000/api/Questions/" + this.props.question.id + "/answers")
-            .then(answers => {
-                for (var k = 0; k < answers.data.length; k++) {
-                    this.setState(prevState => {
-                        answers: prevState.answers.push({
-                            text: answers.data[k].text,
-                            isRight: answers.data[k].isRight,
-                        })
-                    })
+            .then(response => {
+                this.setState({
+                    answers: response.data
                 }
+                )
             })
     }
-    
-    renderAnswers(){
-        return this.state.answers.map((value)=>{
-            return <Answer key={value.text} text={value.text}/>
-        })
+
+    renderAnswers() {
+        debugger;
+        return this.state.answers.map((value, i, array) => {
+            return <Answer key={value.text} text={value.text} />
+        });
     }
-    render(){
-        return <form action="" > 
+    render() {
+        return <form action="" >
             <h3>{this.props.question.title}</h3>
             <p>{this.props.question.description}</p>
             {this.renderAnswers()}

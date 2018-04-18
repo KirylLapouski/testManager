@@ -3,7 +3,6 @@ import {Input} from 'mdbreact';
 import PropTypes from 'prop-types';
 
 class Answer extends React.Component {
-
     static propTypes = {
         text: PropTypes.string.isRequired
     }

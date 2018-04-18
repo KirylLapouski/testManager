@@ -1,7 +1,6 @@
 import React from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
-import { Input } from 'mdbreact';
 import Question from './Question';
 class Test extends React.Component {
     constructor(props) {
