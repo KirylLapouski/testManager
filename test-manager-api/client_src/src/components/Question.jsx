@@ -33,7 +33,6 @@ class Question extends React.Component {
     }
 
     renderAnswers() {
-        debugger;
         return this.state.answers.map((value, i, array) => {
             return <Answer key={value.text} text={value.text} />
         });
