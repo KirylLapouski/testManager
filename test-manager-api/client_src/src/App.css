@@ -27,3 +27,9 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+a{
+  color: rgba(255, 255, 255, 0.8);
+}
+a:hover{
+  color:rgba(255, 255, 255)
+}

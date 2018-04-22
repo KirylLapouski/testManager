@@ -71,30 +71,29 @@ class Test extends React.Component {
         var questions = this.state.questions.map((value, index) => {
             weight += value.weight
             return (<TabPane key={value.id} tabId={index + 1}>
-                <Question  onRightAnswer={this.handleRightAnswer(value.weight)} question={value} />
+                <Question onRightAnswer={this.handleRightAnswer(value.weight)} question={value} />
             </TabPane>)
         })
         var navs = this.state.questions.map((value, index) => {
+            this.state.activeItemPills === index + 1
             return <NavItem key={value.id} >
-                <NavLink to="#" className={ this.state.activeItemPills === index + 1 ? "active" : " "} onClick={() => { this.togglePills(index + 1); }}>
+                <NavLink to="#" className={this.state.activeItemPills === index + 1 ? "cyan darken-4" : " "} onClick={() => { this.togglePills(index + 1); }}>
                     {index + 1}
                 </NavLink>
             </NavItem>
         })
 
         return <div>
-            <Button onClick={this.toggle} >Open Tests</Button>
+            <Button onClick={this.toggle}>{this.state.collapse?"Close Test":"Open Test"}</Button>
             <Collapse isOpen={this.state.collapse}>
                 <Router>
                     <Container className="mt-4">
-                        <section>
-                            <Nav tabs="true" >
-                                {navs}
-                            </Nav>
-                        </section>
-                        <TabContent activeItem={this.state.activeItemPills}>
+                        <Nav style={{ width: "95%", margin: "0 auto" }} tabs="true" className=" cyan darken-3 z-depth-2">
+                            {navs}
+                        </Nav>
+                        <TabContent className="z-depth-1 clearfix" style={{ padding: "20px",position:"relative",top:"-10px" }} activeItem={this.state.activeItemPills}>
                             {questions}
-                            {this.state.activeItemPills === this.state.questions.length && <Button onClick={this.props.onTestSubmit(this.state.rightAnswersWeight, weight)}>Submit Test</Button>}
+                            {this.state.activeItemPills === this.state.questions.length && <Button  color="primary" className="float-right" onClick={this.props.onTestSubmit(this.state.rightAnswersWeight, weight)}>Submit Test</Button>}
                         </TabContent>
                     </Container>
                 </Router>

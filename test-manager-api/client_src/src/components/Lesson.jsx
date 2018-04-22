@@ -10,8 +10,8 @@ class Lesson extends React.Component {
     }
     render() {
         return(
-        <article className="z-depth-1">
-            <header style={{overflow:"hidden",background:"rgb(117, 122, 264)"}}>
+        <article className="z-depth-1" style={{marginTop:"20px",backgroundColor: "blue", backgroundImage:'url("https://lh4.googleusercontent.com/-64uhpsHBEZw/VMqrG_6wowI/AAAAAAAAAIE/_Pw_QoP0opU/w1005-h214-no/123_rainbowtriangle_teal.jpg")'}}>
+            <header style={{overflow:"hidden"}}>
                 <UserInfo disabled={true} style={{float:"left"}}/>
                 <Link to={"/lesson/"+this.props.id+"/topics"}>{this.props.title}</Link>                
             </header>

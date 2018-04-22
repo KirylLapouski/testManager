@@ -27,7 +27,7 @@ class LessonContainer extends React.Component {
 
 
         return (
-            <div className="container">
+            <div className="container" style={{marginTop:"20px",maxWidth:"800px"}}>
                {lessons}
             </div>
         )
