@@ -8,7 +8,7 @@ class Paginator extends React.Component {
         super(props);
 
         this.state = {
-            currenNumber:1
+            currenNumber:this.props.initCurrentPos?this.props.initCurrentPos: 1
         }
         this.handleLeftArrowClick = this.handleLeftArrowClick.bind(this);
         this.handleNumberClick = this.handleNumberClick.bind(this);
@@ -16,9 +16,10 @@ class Paginator extends React.Component {
     }
 
     static propTypes = {
-        length: PropTypes.number,
+        initCurrentPos: PropTypes.number,
+        length: PropTypes.number.isRequired,
         //in onClick will given new number of list
-        onClick: PropTypes.func,
+        onClick: PropTypes.func.isRequired,
     };
 
     static defaultProps = {
@@ -41,7 +42,6 @@ class Paginator extends React.Component {
 
     handleRightArrowClick() {
         this.setState((prevState, props) => {
-            console.log(prevState.currenNumber + 1);
             this.props.onClick(prevState.currenNumber + 1);
             return { currenNumber: prevState.currenNumber + 1 }
         });
@@ -69,7 +69,7 @@ class Paginator extends React.Component {
         if (this.props.length) {
 
             return (
-            <Pagination className="pagination-circle">
+            <Pagination style={{justifyContent:"center"}} className="pagination-circle">
                 <PageItem disabled = {this.state.currenNumber==1?true:false}>
                     <PageLink onClick={this.handleLeftArrowClick} className="page-link" aria-label="Previous">
                         <span aria-hidden="true">&laquo;</span>

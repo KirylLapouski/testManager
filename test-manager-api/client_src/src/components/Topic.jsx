@@ -12,7 +12,7 @@ class Topic extends React.Component {
     render() {
         return <div>Topic
             <span style={{color:"black"}}>{this.props.path}</span>
-            <Test onTestSubmit={this.props.handleTestSubmit} topicId={this.props.id}/>
+            <Test key={this.props.id} onTestSubmit={this.props.handleTestSubmit} topicId={this.props.id}/>
         </div> 
     }
 }

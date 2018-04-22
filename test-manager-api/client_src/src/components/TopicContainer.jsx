@@ -1,21 +1,20 @@
 import React from 'react';
+import axios from 'axios';
 import Paginator from './Paginator';
 import Topic from './Topic';
-import axios from 'axios';
 import toastr from 'toastr';
 class TopicContainer extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            currenTopic: 1,
+            currenTopic: this.props.match.params.topicId?this.props.match.params.topicId:1,
             topics: [],
             rightAnswersWeight: 0,
             allAnswersWeight: 0
         }
 
         this.handlePaginatorClick = this.handlePaginatorClick.bind(this);
-        this.takeTopics = this.takeTopics.bind(this);
         this.handleTestSubmit = this.handleTestSubmit.bind(this);
     }
 
@@ -28,7 +27,7 @@ class TopicContainer extends React.Component {
 
     handleTestSubmit(rightAnswersWeight, allAnswersWeight) {
         return () => {
-            toastr.info("Test result: " + rightAnswersWeight*100/allAnswersWeight +"%");
+            toastr.info("Test result: " + rightAnswersWeight * 100 / allAnswersWeight + "%");
             this.setState(prevState => {
                 return {
                     rightAnswersWeight: prevState.rightAnswersWeight + rightAnswersWeight,
@@ -38,26 +37,23 @@ class TopicContainer extends React.Component {
         }
     }
     componentWillMount() {
-        this.takeTopics();
-    }
-    takeTopics() {
-        var self = this;
         axios.get("http://localhost:3000/api/Lessons/" + this.props.match.params.lessonId + '/topics')
             .then(response => {
-                self.setState({
-                    topics: response.data
+                console.log(this.setState);
+                this.setState({
+                        topics: response.data
                 })
-            })
+            });
     }
 
     render() {
-        if (JSON.stringify(this.state.topics) != "[]") {
+        if ((JSON.stringify(this.state.topics) !== "[]")) {
             var topic = this.state.topics[this.state.currenTopic - 1]
             var elem = <Topic handleTestSubmit={this.handleTestSubmit} path={topic.path} id={topic.id} />
         }
 
         return (<div>
-            <Paginator length={this.state.topics.length} onClick={this.handlePaginatorClick} />
+            <Paginator initCurrentPos={Number(this.props.match.params.topicId)?Number(this.props.match.params.topicId):null} length={this.state.topics.length} onClick={this.handlePaginatorClick} />
             {elem}
         </div>
         )

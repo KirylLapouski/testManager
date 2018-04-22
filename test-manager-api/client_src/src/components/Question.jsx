@@ -37,20 +37,20 @@ class Question extends React.Component {
             })
     }
 
-    checkCorrectAnswers(){
+    checkCorrectAnswers() {
         var answers = this.state.answers;
         var choosen = this.state.choosen;
-        var res = answers.every((answer,i)=>{
-            if(answer.isRight){
-                if(choosen[i]!=true)
+        var res = answers.every((answer, i) => {
+            if (answer.isRight) {
+                if (choosen[i] != true)
                     return false
-            }else{
-                if(choosen[i]==true)
+            } else {
+                if (choosen[i] == true)
                     return false
             }
             return true;
         });
-        if(res){
+        if (res) {
             this.props.onRightAnswer();
         }
     }
@@ -60,7 +60,7 @@ class Question extends React.Component {
             this.setState(prevState => {
                 var res = prevState.choosen;
                 res[i] = !res[i];
-                return {choosen: res}
+                return { choosen: res }
             })
         }
     }
@@ -71,11 +71,11 @@ class Question extends React.Component {
         });
     }
     render() {
-        return <form action="" style={{ color: "black" }}>
+        return <form action="" style={{ color: "black", display:"flex",flexDirection:"column", textAlign:"left" }}>
             <h3>{this.props.question.title}</h3>
             <p>{this.props.question.description}</p>
-            {this.renderAnswers()}
-            <Button onClick={this.checkCorrectAnswers}>Submit</Button>
+                {this.renderAnswers()}
+            <Button className="align-self-end" onClick={this.checkCorrectAnswers}>Submit</Button>
         </form>
     }
 }
