@@ -18,10 +18,9 @@ class CourseContainer extends React.Component {
     }
 
     componentWillMount(){
-        var self = this;
         axios.get('http://localhost:3000/api/Disciplines')
             .then(response=>{
-                self.setState({
+                this.setState({
                     courses: response.data
                 });
             })

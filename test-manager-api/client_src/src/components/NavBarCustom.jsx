@@ -37,7 +37,7 @@ class NavBarCustom extends React.Component {
                     </NavbarBrand>
                     <NavbarNav left>
                             <NavItem>
-                                <Link to="/cources">Home</Link>
+                                <NavLink to="/cources">Home</NavLink>
                             </NavItem>
                     </NavbarNav>
                     <NavbarNav right>
