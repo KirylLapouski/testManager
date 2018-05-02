@@ -5,7 +5,7 @@ const Accordion = (Component) => {
         constructor(props) {
             super(props)
             this.state = {
-                openitemId: props.defaultOpenId
+                openitemId: -1
             }
 
             this.toggleOpenItem = this.toggleOpenItem.bind(this);

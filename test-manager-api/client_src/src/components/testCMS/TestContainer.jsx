@@ -5,9 +5,11 @@ import Accordion from '../decorators/Accordion';
 
 class TestContainer extends React.Component {
     render() {
-        return <div key={this.props.openitemId} className="z-depth-1 container" style={{ padding: "0px" }}>
-            <EditableTest  id={1} {...this.props} />
-            <EditableTest  id={2} {...this.props} />
+        var arr = [1,2,3,4];
+        return <div  className="z-depth-1 container" style={{ padding: "0px" }}>
+            {arr.map((item,i)=>{
+                return  <EditableTest  id={i+1} editing={this.props.openedItem === i+1? true:false} {...this.props} />
+            })}
         </div>
     }
 }
@@ -15,6 +17,6 @@ class TestContainer extends React.Component {
 this.propTypes = {
     //accordion
     toggleOpenItem: PropTypes.func,
-    openitemId: PropTypes.number
+    openedItem: PropTypes.number
 }
 export default Accordion(TestContainer);

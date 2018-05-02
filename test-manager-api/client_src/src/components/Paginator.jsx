@@ -27,7 +27,6 @@ class Paginator extends React.Component {
     }
     /*componentWillMount(){
         this.setState((prevState,props)=>{
-            console.log(props);
             if(props.match)
                 return {currenNumber: props.match.params.topicId?props.match.params.topicId:1}
         })     

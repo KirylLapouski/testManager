@@ -15,9 +15,6 @@ class Test extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = {
-            editing: false
-        }
         this.getAnswers = this.getAnswers.bind(this);
         this.getAnswersText = this.getAnswersText.bind(this);
         this.begginEdit = this.begginEdit.bind(this)
@@ -43,12 +40,9 @@ class Test extends React.Component {
     }
     begginEdit() {
         this.props.toggleOpenItem(this.props.id);
-        this.setState((prevState) => {
-            return { editing: !prevState.editing };
-        })
     }
     render() {
-        var { editing } = this.state;
+        var { editing } = this.props;
         if (editing) {
             var answers = this.getAnswersInputs(this.getAnswersText());
 
@@ -79,7 +73,8 @@ Test.propTypes = {
     //         text: PropTypes.string
     //     })
     // ),
-    testType: PropTypes.string
+    testType: PropTypes.string,
+    editing: PropTypes.bool
 }
 
 

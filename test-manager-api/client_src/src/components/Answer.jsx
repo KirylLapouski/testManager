@@ -16,7 +16,6 @@ class Answer extends React.Component {
     constructor(props) {
         super(props);
 
-        console.log(props);
     }
     getCheckBox(answer) {
         return <Checkbox label={answer} />
