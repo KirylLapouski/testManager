@@ -42,6 +42,7 @@ class Test extends React.Component {
         })
     }
     begginEdit() {
+        this.props.toggleOpenItem(this.props.id);
         this.setState((prevState) => {
             return { editing: !prevState.editing };
         })
