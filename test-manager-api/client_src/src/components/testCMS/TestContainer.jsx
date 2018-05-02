@@ -8,7 +8,7 @@ class TestContainer extends React.Component {
         var arr = [1,2,3,4];
         return <div  className="z-depth-1 container" style={{ padding: "0px" }}>
             {arr.map((item,i)=>{
-                return  <EditableTest  id={i+1} editing={this.props.openedItem === i+1? true:false} {...this.props} />
+                return  <EditableTest key={i+1} id={i+1} editing={this.props.openedItem === i+1? true:false} {...this.props} />
             })}
         </div>
     }

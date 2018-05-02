@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Checkbox from 'material-ui/Checkbox';
-import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
+import Radio, { RadioGroup as RadioButtonGroup } from 'material-ui/Radio';
 
 const styles = {
     block: {
@@ -23,7 +23,7 @@ class Answer extends React.Component {
 
     getRadioButtons(answer) {
         return <RadioButtonGroup name="shipSpeed">
-            <RadioButton value={answer}
+            <Radio value={answer}
                 label={answer} style={{ ...styles.radioButton }} />
         </RadioButtonGroup>
     }

@@ -4,6 +4,7 @@ import LessonContainer from './LessonContainer';
 import TopicContainer from './TopicContainer';
 import { Switch, Route, BrowserRouter as Router } from 'react-router-dom'
 import TestContainer from './testCMS/TestContainer.jsx';
+import Checkbox from 'material-ui/Checkbox';
 class Main extends React.Component {
     render() {
         return (
@@ -13,7 +14,7 @@ class Main extends React.Component {
                     <Route exact path="/cources" component={CourseContainer} />
                     <Route path="/:courseId/lessons" component={LessonContainer} />
                     <Route path="/lesson/:lessonId/topic/:topicId" component={TopicContainer} />
-                    <Route path="/lesson/:lessonId/topics" component={TopicContainer} />
+                    <Route path="/lesson/:lessonId/topics" component={Checkbox} />
                 </Switch>
             </Router>)
     }

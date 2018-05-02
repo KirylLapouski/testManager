@@ -3,9 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@material-ui/icons": "^1.0.0-beta.43",
     "axios": "^0.18.0",
     "jquery": "^3.3.1",
-    "material-ui": "^0.20.0",
+    "material-ui": "^1.0.0-beta.44",
     "mdbootstrap": "^4.5.1",
     "mdbreact": "git+https://github.com/mdbootstrap/React-Bootstrap-with-Material-Design.git",
     "prop-types": "^15.6.1",

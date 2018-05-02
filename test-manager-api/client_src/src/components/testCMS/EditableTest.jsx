@@ -1,15 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { RadioButtonGroup } from 'material-ui/RadioButton';
+import { RadioGroup as RadioButtonGroup } from 'material-ui/Radio';
 import IconButton from 'material-ui/IconButton';
-import MuiDecorator from '../decorators/MaterialDesignReactDecorator';
-import Create from 'material-ui/svg-icons/content/create'
 import Answer from '../Answer';
 import TextField from 'material-ui/TextField';
 import EditableAnswer from './EditableAnswer';
 import Divider from 'material-ui/Divider';
-import Toggle from 'material-ui/Toggle';
-import RaisedButton from 'material-ui/RaisedButton';
+import Switch from 'material-ui/Switch';
+import Button from 'material-ui/Button';
+import { FormGroup, FormControlLabel } from "material-ui/Form";
 
 class Test extends React.Component {
     constructor(props) {
@@ -33,9 +32,9 @@ class Test extends React.Component {
         })
     }
 
-    getAnswersInputs(answersText){
-        return answersText.map(answer=>{
-            return <EditableAnswer text={answer}/>
+    getAnswersInputs(answersText) {
+        return answersText.map(answer => {
+            return <EditableAnswer text={answer} />
         })
     }
     begginEdit() {
@@ -46,22 +45,24 @@ class Test extends React.Component {
         if (editing) {
             var answers = this.getAnswersInputs(this.getAnswersText());
 
-            return <div className="mx-auto z-depth-1-half container" style={{borderLeft:"3px solid indigo",color: "#263238",display:'flex',flexDirection:'column',padding:"20px"}} >
-                <TextField hintText={this.props.question && 'Question'} />
+            return <div className="mx-auto z-depth-1-half container" style={{ borderLeft: "3px solid indigo", color: "#263238", display: 'flex', flexDirection: 'column', padding: "20px" }} >
+                <TextField label="Вопрос" />
                 {answers}
-                <RaisedButton label="Primary" primary={true}  />
-                <Divider inset={true} style={{position:"relative",left:"-5%",width:"100%"}}/>
-                <Toggle label={"Обязательный вопрос"} style={{width:"20%", alignSelf:"flex-end",marginRight:"30px"}}></Toggle>
+                <Button  color="primary">Primary</Button>
+                <Divider inset={true} style={{ position: "relative", left: "-5%", width: "100%" }} />
+                <FormGroup row>
+                    <FormControlLabel control={<Switch value="checkedC" color="primary" />} label="Обязательный вопрос" />
+                </FormGroup>
             </div>
-        
+
         }
 
         var answers = this.getAnswers(this.getAnswersText());
-        
-        return (<div className="mx-auto container"  onClick={this.begginEdit} style={{ color: "#263238" }} >
+
+        return (<div className="mx-auto container" onClick={this.begginEdit} style={{ color: "#263238" }} >
             <h3>{this.props.question}</h3>
             {answers}
-          
+
         </div>)
     }
 }
@@ -78,4 +79,4 @@ Test.propTypes = {
 }
 
 
-export default MuiDecorator(Test);
+export default Test;
