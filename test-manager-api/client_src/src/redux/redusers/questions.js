@@ -1,3 +1,4 @@
-export default const questions = (state={},action)=>{
+const questions = (state={},action)=>{
     return state
 } 
+export default questions;

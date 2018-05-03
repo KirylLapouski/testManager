@@ -20,5 +20,5 @@ const store = createStore(combineReducers({
   answers
 }));
 
-
+window.store = store;
 export default store;

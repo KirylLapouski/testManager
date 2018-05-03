@@ -1,3 +1,4 @@
-export default const lessons = (state={},action)=>{
+const lessons = (state={},action)=>{
     return state
 }
+export default lessons;

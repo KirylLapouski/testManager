@@ -1,12 +1,8 @@
 import React from 'react';
-import UserInfo from './UserInfo';
 import PropTypes from 'prop-types';
+import UserInfo from './UserInfo';
 import {Link} from 'react-router-dom';
 class Course extends React.Component {
-    static propTypes = {
-        title: PropTypes.string.isRequired,
-        id: PropTypes.number.isRequired
-    }
     render() {
         return (
             <div className="z-depth-2" style={{ height: '400px',width:'270px',color:"white", backgroundImage: 'url("https://lh4.googleusercontent.com/-64uhpsHBEZw/VMqrG_6wowI/AAAAAAAAAIE/_Pw_QoP0opU/w1005-h214-no/123_rainbowtriangle_teal.jpg")' }}>
@@ -17,6 +13,11 @@ class Course extends React.Component {
             </div>
         )
     }
+}
+
+Course.propTypes = {
+    title: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired
 }
 
 export default Course;

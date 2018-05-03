@@ -1,3 +1,4 @@
-export default console tests = (state={},action)=>{
+const tests = (state={},action)=>{
     return state;
 }
+export default tests;

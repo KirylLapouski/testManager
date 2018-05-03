@@ -1,4 +1,4 @@
-export default console constants = {
+const constants = {
     users:{
         CREATE_USER:'CREATE_USER',
         DELETE_USER:'DELETE_USER',
@@ -35,3 +35,4 @@ export default console constants = {
         DELETE_ANSWER:'DELETE_ANSWER'
     }
 }
+export default constants;

@@ -6,7 +6,7 @@ import '../node_modules/toastr/build/toastr.css';
 import NavBarCustom from './components/NavBarCustom';
 import Main from './components/Main'
 import './App.css';
-
+import store from './redux/store/index';
 class App extends Component {
   render() {
     return (
