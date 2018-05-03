@@ -38,10 +38,7 @@ class Test extends React.Component {
             collapse: !this.state.collapse
         })
     }
-    static propTypes = {
-        onTestSubmit: PropTypes.func.isRequired,
-        topicId: PropTypes.number.isRequired
-    }
+
 
     handleRightAnswer(weight) {
         return () => {
@@ -100,4 +97,8 @@ class Test extends React.Component {
     }
 }
 
+Test.propTypes = {
+    onTestSubmit: PropTypes.func.isRequired,
+    topicId: PropTypes.number.isRequired
+}
 export default Test;

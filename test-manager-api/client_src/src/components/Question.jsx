@@ -17,15 +17,7 @@ class Question extends React.Component {
         this.handleAnswerClick = this.handleAnswerClick.bind(this);
         this.checkCorrectAnswers = this.checkCorrectAnswers.bind(this);
     }
-    static propTypes = {
-        onRightAnswer: PropTypes.func.isRequired,
-        question: PropTypes.shape({
-            id: PropTypes.number.isRequired,
-            weight: PropTypes.number.isRequired,
-            title: PropTypes.string.isRequired,
-            description: PropTypes.string
-        }).isRequired
-    }
+
 
     componentWillMount() {
         axios.get("http://localhost:3000/api/Questions/" + this.props.question.id + "/answers")
@@ -80,4 +72,13 @@ class Question extends React.Component {
     }
 }
 
+Question.propTypes = {
+    onRightAnswer: PropTypes.func.isRequired,
+    question: PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        weight: PropTypes.number.isRequired,
+        title: PropTypes.string.isRequired,
+        description: PropTypes.string
+    }).isRequired
+}
 export default Question;

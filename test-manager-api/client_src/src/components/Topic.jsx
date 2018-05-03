@@ -10,11 +10,6 @@ class Topic extends React.Component {
            hasTests: false
        }
    }
-    static propTypes = {
-        handleTestSubmit: PropTypes.func.isRequired,
-        id: PropTypes.number.isRequired,
-        path: PropTypes.string.isRequired
-    }
 
     componentWillMount(){
         axios.get("http://localhost:3000/api/Topics/" + this.props.id + "/questions")
@@ -34,4 +29,9 @@ class Topic extends React.Component {
     }
 }
 
+Topic.propTypes = {
+    handleTestSubmit: PropTypes.func.isRequired,
+    id: PropTypes.number.isRequired,
+    path: PropTypes.string.isRequired
+}
 export default Topic;   

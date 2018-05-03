@@ -1,13 +1,15 @@
 import constants from '../constants';
 import UUID from 'uuid-js';
 
-const addCourse = (title)=>{
+const addAnswer = (text,typeOfAnswer)=>{
     return {
-        type: constants.courses.CREATE_COURSE,
+        type: constants.answers.ADD_ANSWER,
         payload: {
             id: UUID.create().toString(),
-            title:title
+            text,
+            typeOfAnswer
         }
     }
 }
-export {addCourse}
+
+export {addAnswer}
