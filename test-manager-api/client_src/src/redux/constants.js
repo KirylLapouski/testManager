@@ -1,0 +1,37 @@
+export default console constants = {
+    users:{
+        CREATE_USER:'CREATE_USER',
+        DELETE_USER:'DELETE_USER',
+        GET_USER:'GET_USER',
+        GET_ALL_USERS:'GET_ALL_USERS'
+    },
+    courses:{
+        CREATE_COURSE:'CREATE_COURSE',
+        DELETE_COURSE:'DELETE_COURSE',
+        ADD_LESSON_TO_COURSE:'ADD_LESSON_TO_COURSE'
+    },
+    lessons:{
+        CREATE_LESSON:'CREATE_LESSON',
+        DELETE_LESSON:'DELETE_LESSON',
+        ADD_TOPIC_TO_LESSON:'ADD_TOPIC_TO_LESSON'
+    },
+    topics:{
+        CREATE_TOPIC:'CREATE_TOPIC',
+        DELETE_TOPIC:'DELETE_TOPIC',
+        ADD_TEST_TO_TOPIC:'ADD_TEST_TO_TOPIC'
+    },
+    tests:{
+        CREATE_TEST:'CREATE_TEST',
+        DELETE_TEST:'DELETE_TEST',
+        ADD_QUESTION_TO_TEST:'ADD_QUESTION_TO_TEST'
+    },
+    questions:{
+        CREATE_QUESTION:'CREATE_QUESTION',
+        DELETE_QUESTION:'DELETE_QUESTION',
+        ADD_ANSWER_TO_QUESTION:'ADD_ANSWER_TO_QUESTION'
+    },
+    answers:{
+        ADD_ANSWER:'ADD_ANSWER',
+        DELETE_ANSWER:'DELETE_ANSWER'
+    }
+}
