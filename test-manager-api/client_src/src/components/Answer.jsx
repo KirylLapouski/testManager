@@ -1,15 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Checkbox from 'material-ui/Checkbox';
-import Radio, { RadioGroup as RadioButtonGroup } from 'material-ui/Radio';
-
+import Radio from 'material-ui/Radio';
+import { FormGroup, FormControlLabel } from 'material-ui/Form';
 const styles = {
     block: {
         maxWidth: 250,
-    },
-    radioButton: {
-        marginBottom: 16,
-    },
+    }
 };
 
 class Answer extends React.Component {
@@ -22,10 +19,13 @@ class Answer extends React.Component {
     }
 
     getRadioButtons(answer) {
-        return <RadioButtonGroup name="shipSpeed">
-            <Radio value={answer}
-                label={answer} style={{ ...styles.radioButton }} />
-        </RadioButtonGroup>
+        return <FormControlLabel
+            control={
+                <Radio value={answer} />
+            }
+            label={answer}
+        />
+
     }
 
     render() {

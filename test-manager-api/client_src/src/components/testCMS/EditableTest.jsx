@@ -14,11 +14,20 @@ class Test extends React.Component {
     constructor(props) {
         super(props);
 
+        this.state = {
+            selectedRadio: -1
+        }
         this.getAnswers = this.getAnswers.bind(this);
         this.getAnswersText = this.getAnswersText.bind(this);
-        this.begginEdit = this.begginEdit.bind(this)
+        this.begginEdit = this.begginEdit.bind(this);
+        this.handleClickRadio = this.handleClickRadio.bind(this);
     }
 
+    handleClickRadio(number){
+        this.setState({
+            selectedRadio:number
+        })
+    }
     getAnswersText() {
         return this.props.answers.map(answer => {
             return answer.text
@@ -33,12 +42,16 @@ class Test extends React.Component {
     }
 
     getAnswersInputs(answersText) {
-        return answersText.map(answer => {
-            return <EditableAnswer text={answer} />
+        return answersText.map((answer,i) => {
+            return <EditableAnswer text={answer} onClick={this.handleClickRadio.bind(this,i+1)} checked={this.state.selectedRadio===i+1?true:false} answerType={this.props.testType} serialNumber={i+1} />
         })
     }
     begginEdit() {
         this.props.toggleOpenItem(this.props.id);
+    }
+
+    addNewAnswer(){
+        //AC to add the answer
     }
     render() {
         var { editing } = this.props;
@@ -46,10 +59,11 @@ class Test extends React.Component {
             var answers = this.getAnswersInputs(this.getAnswersText());
 
             return <div className="mx-auto z-depth-1-half container" style={{ borderLeft: "3px solid indigo", color: "#263238", display: 'flex', flexDirection: 'column', padding: "20px" }} >
-                <TextField label="Вопрос" />
+                <TextField label="Вопрос" style={{alignSelf:"flex-start",marginLeft:"27px",width:"50%"}}/>
                 {answers}
-                <Button  color="primary">Primary</Button>
+                <EditableAnswer text="Добавить вариант" answerType={this.props.testType} onClick={this.addNewAnswer} serialNumber={answers.length+1} />
                 <Divider inset={true} style={{ position: "relative", left: "-5%", width: "100%" }} />
+                
                 <FormGroup row>
                     <FormControlLabel control={<Switch value="checkedC" color="primary" />} label="Обязательный вопрос" />
                 </FormGroup>
