@@ -9,6 +9,8 @@ import Divider from 'material-ui/Divider';
 import Switch from 'material-ui/Switch';
 import Button from 'material-ui/Button';
 import { FormGroup, FormControlLabel } from "material-ui/Form";
+import TypeOfAnswerSelect from './TypeOfAnswerSelect';
+
 
 class Test extends React.Component {
     constructor(props) {
@@ -34,7 +36,6 @@ class Test extends React.Component {
         });
     }
 
-    //NEEEEEED TO CORRECT
     getAnswers(ansersText) {
         return ansersText.map((answer, i) => {
             return <Answer key={i} typeOfAnswer={this.props.testType} text={answer} />;
@@ -59,7 +60,7 @@ class Test extends React.Component {
             var answers = this.getAnswersInputs(this.getAnswersText());
 
             return <div className="mx-auto z-depth-1-half container" style={{ borderLeft: "3px solid indigo", color: "#263238", display: 'flex', flexDirection: 'column', padding: "20px" }} >
-                <TextField label="Вопрос" style={{alignSelf:"flex-start",marginLeft:"27px",width:"50%"}}/>
+                <div style={{display:"flex",justifyContent:"space-between"}}><TextField label="Вопрос" style={{marginLeft:"27px",width:"50%"}}/><TypeOfAnswerSelect style={{width:"300px",marginRight:"25px"}}/></div>
                 {answers}
                 <EditableAnswer text="Добавить вариант" answerType={this.props.testType} onClick={this.addNewAnswer} serialNumber={answers.length+1} />
                 <Divider inset={true} style={{ position: "relative", left: "-5%", width: "100%" }} />
@@ -83,13 +84,14 @@ class Test extends React.Component {
 
 Test.propTypes = {
     question: PropTypes.string,
-    // answers: PropTypes.arrayOf(
-    //     PropTypes.object.shape({
-    //         text: PropTypes.string
-    //     })
-    // ),
+    answers: PropTypes.arrayOf(
+        PropTypes.shape({
+            text: PropTypes.string
+        })
+    ),
     testType: PropTypes.string,
-    editing: PropTypes.bool
+    editing: PropTypes.bool,
+    toggleOpenItem: PropTypes.func,
 }
 
 

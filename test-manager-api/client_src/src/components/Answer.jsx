@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Checkbox from 'material-ui/Checkbox';
 import Radio from 'material-ui/Radio';
-import { FormGroup, FormControlLabel } from 'material-ui/Form';
+import { FormControlLabel } from 'material-ui/Form';
 const styles = {
     block: {
         maxWidth: 250,
@@ -15,7 +15,7 @@ class Answer extends React.Component {
 
     }
     getCheckBox(answer) {
-        return <Checkbox label={answer} />
+        return  <FormControlLabel control={ <Checkbox label={answer} />} label={answer}/>
     }
 
     getRadioButtons(answer) {

@@ -10,7 +10,7 @@ class Main extends React.Component {
         return (
             <Router>
                 <Switch>
-                    <Route path="/testEditor" render={({ match }) => {return  <TestContainer question="Question1" answers={[{ text: "asdfa" },{ text: "qweq" },{ text: "qasda" }]} testType="radio" /> }} />
+                    <Route path="/testEditor" render={({ match }) => {return  <TestContainer question="Question1" answers={[{ text: "asdfa" },{ text: "qweq" },{ text: "qasda" }]}/> }} />
                     <Route exact path="/cources" component={CourseContainer} />
                     <Route path="/:courseId/lessons" component={LessonContainer} />
                     <Route path="/lesson/:lessonId/topic/:topicId" component={TopicContainer} />

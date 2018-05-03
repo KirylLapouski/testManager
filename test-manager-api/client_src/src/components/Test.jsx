@@ -3,8 +3,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import Question from './Question';
-import { Button, Collapse, TabPane, TabContent, Nav, NavItem, NavLink, Row, Col, Container } from 'mdbreact';
-import classnames from 'classnames';
+import { Button, Collapse, TabPane, TabContent, Nav, NavItem, NavLink, Container } from 'mdbreact';
 class Test extends React.Component {
     constructor(props) {
         super(props);
@@ -75,7 +74,6 @@ class Test extends React.Component {
             </TabPane>)
         })
         var navs = this.state.questions.map((value, index) => {
-            this.state.activeItemPills === index + 1
             return <NavItem key={value.id} >
                 <NavLink to="#" className={this.state.activeItemPills === index + 1 ? "cyan darken-4" : " "} onClick={() => { this.togglePills(index + 1); }}>
                     {index + 1}
