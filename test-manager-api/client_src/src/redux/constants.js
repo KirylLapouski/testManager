@@ -8,7 +8,8 @@ const constants = {
     courses:{
         CREATE_COURSE:'CREATE_COURSE',
         DELETE_COURSE:'DELETE_COURSE',
-        ADD_LESSON_TO_COURSE:'ADD_LESSON_TO_COURSE'
+        ADD_LESSON_TO_COURSE:'ADD_LESSON_TO_COURSE',
+        LOAD_COURSES:'LOAD_COURSES'
     },
     lessons:{
         CREATE_LESSON:'CREATE_LESSON',
