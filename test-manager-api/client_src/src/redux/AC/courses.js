@@ -19,16 +19,16 @@ const loadCourses = () => {
         return response.data
       })
       .then(response => {
-          var payload = response.map(course=>{
-              console.log(course)
-          })
-          dispatch({
-            type: constants.courses.LOAD_COURSES,
-            payload
-          })
+        dispatch({
+          type: constants.courses.LOAD_COURSES,
+          payload:response
+        })
       })
   }
 }
+
+window.loadCourses = loadCourses
 export {
-  addCourse
+  addCourse,
+  loadCourses
 }

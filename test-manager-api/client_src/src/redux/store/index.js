@@ -11,6 +11,7 @@ import tests from '../redusers/test'
 import questions from '../redusers/questions';
 import answers from '../redusers/answers';
 import thunk from 'redux-thunk';
+import {loadCourses} from '../AC/courses';
 
 const enhancer = applyMiddleware(thunk)
 

@@ -8,5 +8,5 @@
     "name": "db",
     "user": "website-admin",
     "connector": "mysql"
-  }
+        }
 }
