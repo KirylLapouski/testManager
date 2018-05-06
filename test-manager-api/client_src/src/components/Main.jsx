@@ -4,7 +4,6 @@ import LessonContainer from './LessonContainer';
 import TopicContainer from './TopicContainer';
 import { Switch, Route, BrowserRouter as Router } from 'react-router-dom'
 import TestContainer from './testCMS/TestContainer.jsx';
-import Checkbox from 'material-ui/Checkbox';
 class Main extends React.Component {
     render() {
         return (

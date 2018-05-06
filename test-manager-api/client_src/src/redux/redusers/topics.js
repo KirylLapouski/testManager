@@ -20,6 +20,15 @@ const topics = (state = {}, action) => {
         ...state,
         ...topics
       }
+    case constants.topics.LOAD_TOPIC_QUESTIONS:
+      var questionsId = action.payload.questions.map(question => {
+        return question.id
+      })
+      var res = {...state};
+      res[action.payload.topicId].questions = questionsId;
+      return {
+        ...res
+      }
     default:
       return state;
   }

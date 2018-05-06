@@ -2,29 +2,25 @@ import React from 'react';
 import Test from './Test'
 import PropTypes from 'prop-types';
 import axios from 'axios'
+import {connect} from 'react-redux';
+import {addQuestionIdToTopic} from '../redux/AC/topic';
 class Topic extends React.Component {
-   constructor(props){
-       super(props);
-
-       this.state = {
-           hasTests: false
-       }
-   }
 
     componentWillMount(){
-        axios.get("http://localhost:3000/api/Topics/" + this.props.id + "/questions")
-            .then(response=>{
-                if(response.data.length){
-                    this.setState({
-                        hasTests:true
-                    })
-                }
-            })
+        // axios.get("http://localhost:3000/api/Topics/" + this.props.id + "/questions")
+        //     .then(response=>{
+        //         if(response.data.length){
+        //             this.setState(()=>{
+        //                 hasTests:true
+        //             })
+        //         }
+        //     })
+            this.props.getTopicQuestion(this.props.id);
     }
     render() {
         return <div>Topic
             <span style={{color:"black"}}>{this.props.path}</span>
-            {this.state.hasTests && <Test key={this.props.id} onTestSubmit={this.props.handleTestSubmit} topicId={this.props.id}/>}
+            {this.props.hasTests && <Test key={this.props.id} onTestSubmit={this.props.handleTestSubmit} topicId={this.props.id}/>}
         </div> 
     }
 }
@@ -32,6 +28,22 @@ class Topic extends React.Component {
 Topic.propTypes = {
     handleTestSubmit: PropTypes.func.isRequired,
     id: PropTypes.number.isRequired,
-    path: PropTypes.string.isRequired
+    path: PropTypes.string.isRequired,
+    getTopicQuestion: PropTypes.func,
+    hasTests: PropTypes.bool
 }
-export default Topic;   
+
+const mapStateToProps = (state,ownProps)=>{
+    return {
+        hasTests: state.topics[ownProps.id].questions?true:false
+    }
+}
+
+const mapDispatchToProps = dispatch =>{
+    return {
+        getTopicQuestion(topicId){
+            dispatch(addQuestionIdToTopic(topicId))
+        }
+    }
+}
+ export default connect(mapStateToProps,mapDispatchToProps)(Topic);   
