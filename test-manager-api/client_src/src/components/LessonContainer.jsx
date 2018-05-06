@@ -1,37 +1,49 @@
 import React from 'react'
 import Lesson from './Lesson'
-import axios from 'axios';
-
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux'
+import { loadLessons } from '../redux/AC/lessons';
 class LessonContainer extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            lessons: []
-        }
-    }
     componentWillMount() {
-        axios.get("http://localhost:3000/api/Disciplines/" + this.props.match.params.courseId + '/lessons')
-            .then(response => {
-                this.setState({
-                    lessons: response.data
-                })
-            })
+        this.props.getLessons(this.props.match.params.courseId)
     }
     render() {
-        if(this.state.lessons){
-            var lessons = this.state.lessons.map((value,index,array)=>{
-                return ( <Lesson id={value.id} title={value.title}/>)
+        if (this.props.lessons) {
+            var lessons = this.props.lessons.map((value, index, array) => {
+                return (<Lesson id={value.id} title={value.title} />)
             })
         }
 
 
         return (
-            <div className="container" style={{marginTop:"20px",maxWidth:"800px"}}>
-               {lessons}
+            <div className="container" style={{ marginTop: "20px", maxWidth: "800px" }}>
+                {lessons}
             </div>
         )
     }
 }
 
-export default LessonContainer;
+LessonContainer.propTypes = {
+    lessons: PropTypes.arrayOf({
+        id: PropTypes.number,
+        title: PropTypes.string
+    }),
+    getLessons: PropTypes.func
+}
+
+const mapStateToProps = state => {
+    var res = [];
+    for (var key in state.lessons) {
+        res.push(state.lessons[key])
+    }
+    return { lessons: res }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        getLessons(disciplineID) {
+            dispatch(loadLessons(disciplineID))
+        }
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(LessonContainer);

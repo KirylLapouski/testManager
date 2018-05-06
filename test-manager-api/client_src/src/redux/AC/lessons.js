@@ -1,5 +1,6 @@
 import constants from '../constants';
 import UUID from 'uuid-js';
+import axios from 'axios';
 
 const addLesson = (title) => {
   return {
@@ -11,7 +12,23 @@ const addLesson = (title) => {
   }
 }
 
-window.addLesson = addLesson;
+const loadLessons = (courseId) => {
+  return (dispatch) => {
+    axios.get('http://localhost:3000/api/Disciplines/' +  courseId + '/lessons')
+      .then(response => {
+        return response.data
+      })
+      .then(response => {
+        dispatch({
+          type: constants.lessons.LOAD_LESSONS_FOR_DISCIPLINE,
+          payload: response
+        })
+      })
+  }
+}
+
+window.loadLessons = loadLessons
 export {
-  addLesson
+  addLesson,
+  loadLessons
 };

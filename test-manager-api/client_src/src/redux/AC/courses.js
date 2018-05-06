@@ -27,7 +27,7 @@ const loadCourses = () => {
   }
 }
 
-window.loadCourses = loadCourses
+
 export {
   addCourse,
   loadCourses
