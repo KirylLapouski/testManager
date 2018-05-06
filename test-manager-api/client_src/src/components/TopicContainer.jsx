@@ -3,13 +3,16 @@ import axios from 'axios';
 import Paginator from './Paginator';
 import Topic from './Topic';
 import toastr from 'toastr';
+import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
+import {loadTopics} from '../redux/AC/topic'
+
 class TopicContainer extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
             currenTopic: this.props.match.params.topicId?this.props.match.params.topicId:1,
-            topics: [],
             rightAnswersWeight: 0,
             allAnswersWeight: 0
         }
@@ -22,7 +25,7 @@ class TopicContainer extends React.Component {
         this.setState({
             currenTopic: i
         })
-        window.history.pushState(null, null, "/lesson/" + this.props.match.params.lessonId + "/topic/" + this.state.topics[i - 1].id);
+        window.history.pushState(null, null, "/lesson/" + this.props.match.params.lessonId + "/topic/" + this.props.topics[i - 1].id);
     }
 
     handleTestSubmit(rightAnswersWeight, allAnswersWeight) {
@@ -37,27 +40,46 @@ class TopicContainer extends React.Component {
         }
     }
     componentWillMount() {
-        axios.get("http://localhost:3000/api/Lessons/" + this.props.match.params.lessonId + '/topics')
-            .then(response => {
-                console.log(this.setState);
-                this.setState({
-                        topics: response.data
-                })
-            });
+        this.props.getTopics(this.props.match.params.lessonId)
+
     }
 
     render() {
-        if ((JSON.stringify(this.state.topics) !== "[]")) {
-            var topic = this.state.topics[this.state.currenTopic - 1]
+        if ((JSON.stringify(this.props.topics) !== "[]")) {
+            var topic = this.props.topics[this.state.currenTopic - 1]
             var elem = <Topic key={this.props.match.params.topicId} handleTestSubmit={this.handleTestSubmit} path={topic.path} id={topic.id} />
         }
 
         return (<div>
-            <Paginator initCurrentPos={Number(this.props.match.params.topicId)?Number(this.props.match.params.topicId):null} length={this.state.topics.length} onClick={this.handlePaginatorClick} />
+            <Paginator initCurrentPos={Number(this.props.match.params.topicId)?Number(this.props.match.params.topicId):null} length={this.props.topics.length} onClick={this.handlePaginatorClick} />
             {elem}
         </div>
         )
     }
 }
 
-export default TopicContainer;
+TopicContainer.propTypes = {
+    topics: PropTypes.arrayOf({
+        id: PropTypes.number,
+        path: PropTypes.string,
+        type: PropTypes.oneOf(['video','text','image'])
+    }),
+    getTopics: PropTypes.func
+}
+
+const mapStateToProps = state=>{
+    var res = [];
+    for (var key in state.topics) {
+        res.push(state.topics[key])
+    }
+    return { topics: res }
+}
+
+const mapDispatchToProps = dispatch =>{
+    return {
+        getTopics(lessonID) {
+            dispatch(loadTopics(lessonID))
+        }
+    }
+}
+export default connect(mapStateToProps,mapDispatchToProps)(TopicContainer);

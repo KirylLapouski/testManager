@@ -20,7 +20,8 @@ const constants = {
     topics:{
         CREATE_TOPIC:'CREATE_TOPIC',
         DELETE_TOPIC:'DELETE_TOPIC',
-        ADD_TEST_TO_TOPIC:'ADD_TEST_TO_TOPIC'
+        ADD_TEST_TO_TOPIC:'ADD_TEST_TO_TOPIC',
+        LOAD_TOPICS_FOR_LESSON:'LOAD_TOPICS_FOR_LESSON'
     },
     tests:{
         CREATE_TEST:'CREATE_TEST',

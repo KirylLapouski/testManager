@@ -1,18 +1,28 @@
 import constants from '../constants';
 
-const topics = (state={},action)=>{
+const topics = (state = {}, action) => {
 
-    switch(action.type){
-        case constants.topics.CREATE_TOPIC:
-        var id = action.payload.id;
-        return {
-            ...state,
-            [id]:{
-                id: action.payload.id,
-                path: action.payload.path
-            }
+  switch (action.type) {
+    case constants.topics.CREATE_TOPIC:
+      return {
+        ...state,
+        [action.payload.id]: {
+          id: action.payload.id,
+          path: action.payload.path
         }
-    }
-    return state;
-} 
+      }
+    case constants.topics.LOAD_TOPICS_FOR_LESSON:
+      var topics = action.payload.reduce((result, topic) => {
+        result[topic.id] = topic;
+        return result;
+      }, {});
+      return {
+        ...state,
+        ...topics
+      }
+    default:
+      return state;
+  }
+
+}
 export default topics;
