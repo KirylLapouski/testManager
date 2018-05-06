@@ -4,15 +4,15 @@ import Paginator from './Paginator';
 import Topic from './Topic';
 import toastr from 'toastr';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import {loadTopics} from '../redux/AC/topic'
+import { connect } from 'react-redux';
+import { loadTopics } from '../redux/AC/topic'
 
 class TopicContainer extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            currenTopic: this.props.match.params.topicId?this.props.match.params.topicId:1,
+            currenTopic: this.props.match.params.topicId ? this.props.match.params.topicId : 1,
             rightAnswersWeight: 0,
             allAnswersWeight: 0
         }
@@ -41,7 +41,6 @@ class TopicContainer extends React.Component {
     }
     componentWillMount() {
         this.props.getTopics(this.props.match.params.lessonId)
-
     }
 
     render() {
@@ -51,7 +50,7 @@ class TopicContainer extends React.Component {
         }
 
         return (<div>
-            <Paginator initCurrentPos={Number(this.props.match.params.topicId)?Number(this.props.match.params.topicId):null} length={this.props.topics.length} onClick={this.handlePaginatorClick} />
+            <Paginator initCurrentPos={Number(this.props.match.params.topicId) ? Number(this.props.match.params.topicId) : null} length={this.props.topics.length} onClick={this.handlePaginatorClick} />
             {elem}
         </div>
         )
@@ -62,24 +61,26 @@ TopicContainer.propTypes = {
     topics: PropTypes.arrayOf({
         id: PropTypes.number,
         path: PropTypes.string,
-        type: PropTypes.oneOf(['video','text','image'])
+        type: PropTypes.oneOf(['video', 'text', 'image'])
     }),
     getTopics: PropTypes.func
 }
 
-const mapStateToProps = state=>{
+const mapStateToProps = (state, ownProps) => {
     var res = [];
     for (var key in state.topics) {
-        res.push(state.topics[key])
+        if (Number(ownProps.match.params.lessonId)=== state.topics[key].lessonId) {
+            res.push(state.topics[key])
+        }
     }
     return { topics: res }
 }
 
-const mapDispatchToProps = dispatch =>{
+const mapDispatchToProps = dispatch => {
     return {
         getTopics(lessonID) {
             dispatch(loadTopics(lessonID))
         }
     }
 }
-export default connect(mapStateToProps,mapDispatchToProps)(TopicContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(TopicContainer);

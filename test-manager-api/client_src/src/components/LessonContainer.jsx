@@ -31,10 +31,11 @@ LessonContainer.propTypes = {
     getLessons: PropTypes.func
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state,ownProps) => {
     var res = [];
     for (var key in state.lessons) {
-        res.push(state.lessons[key])
+        if(Number(ownProps.match.params.courseId) === state.lessons[key].disciplineId)
+            res.push(state.lessons[key])
     }
     return { lessons: res }
 }
