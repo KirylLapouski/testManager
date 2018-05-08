@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import axios from 'axios'
 import {connect} from 'react-redux';
 import {addQuestionIdToTopic} from '../redux/AC/topic';
-import Video from './topicContent/Video';
+import Media from './topicContent/Media';
 class Topic extends React.Component {
 
     componentWillMount(){
@@ -19,10 +19,8 @@ class Topic extends React.Component {
             this.props.getTopicQuestion(this.props.id);
     }
     render() {
-        console.log(this.props)
         return <div>Topic
-                <Video videoSrc={this.props.path}/>
-                {/* <span style={{color:"black"}}>{this.props.path}</span> */}
+                {(this.props.type==='video' || this.props.type==='audio' ) && <Media src={this.props.path}/>}
             {this.props.hasTests && <Test key={this.props.id} onTestSubmit={this.props.handleTestSubmit} topicId={this.props.id}/>}
         </div> 
     }
@@ -31,7 +29,7 @@ class Topic extends React.Component {
 Topic.propTypes = {
     handleTestSubmit: PropTypes.func.isRequired,
     id: PropTypes.number.isRequired,
-    type: PropTypes.string,
+    type: PropTypes.oneOf(['video','audio','image','text']),
     path: PropTypes.string.isRequired,
     getTopicQuestion: PropTypes.func,
     hasTests: PropTypes.bool

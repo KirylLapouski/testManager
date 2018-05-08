@@ -46,7 +46,7 @@ class TopicContainer extends React.Component {
     render() {
         if ((JSON.stringify(this.props.topics) !== "[]")) {
             var topic = this.props.topics[this.state.currenTopic - 1]
-            var elem = <Topic key={this.props.match.params.topicId} handleTestSubmit={this.handleTestSubmit} path={topic.path} id={topic.id} />
+            var elem = <Topic key={this.props.match.params.topicId} handleTestSubmit={this.handleTestSubmit} path={topic.path} type={topic.type} id={topic.id} />
         }
 
         return (<div>
