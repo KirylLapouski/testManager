@@ -3,15 +3,16 @@ import '../node_modules/font-awesome/css/font-awesome.min.css';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../node_modules/mdbreact/dist/css/mdb.css';
 import '../node_modules/toastr/build/toastr.css';
-import NavBarCustom from './components/NavBarCustom';
-import Main from './components/Main'
+import Header from './components/routes/Header';
+import Main from './components/routes/Main'
 import './App.css';
+
 class App extends Component {
   render() {
     return (
       <div className="App">
-        <NavBarCustom />
-        <Main/>
+            <Header />
+            <Main/>
       </div>
     );
   }

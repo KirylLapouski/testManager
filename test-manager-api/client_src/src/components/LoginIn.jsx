@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactRouterDom from 'react-router-dom';
 import  {Link} from 'react-router-dom'
 import toastr from 'toastr';
 import 'font-awesome/css/font-awesome.min.css';
@@ -45,32 +44,33 @@ class LoginIn extends React.Component {
         if (!this.validate())
             return;
 
-        // var xhr = new XMLHttpRequest();
-        // xhr.open('POST', config.rootUrl + config.auth + '/local', true);
-        // xhr.setRequestHeader('Content-Type', 'application/json');
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST','http://localhost:3000/api/Users/login', true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
 
-        // xhr.onload = () => {
+        xhr.onload = () => {
 
-        //     if (xhr.status != 404) {
-        //         xhr.open('GET', config.rootUrl + config.dbApi + "/getEnteredUser", true);
-        //         xhr.send();
+            console.log(xhr.responseText);
+            // if (xhr.status != 404) {
+            //     xhr.open('GET', config.rootUrl + config.dbApi + "/getEnteredUser", true);
+            //     xhr.send();
 
-        //         xhr.onload = () => {
-        //             if (xhr.status == 500) {
-        //                 toastr.error("Can not login with this data");
-        //             } else {
-        //                 var currentUser = JSON.parse(xhr.responseText);
-        //                 localStorage.setItem("currentUser", JSON.stringify(currentUser));
-        //                 document.location.href = config.rootUrl + config.userCabinet + "/" + currentUser._id;
-        //             }
-        //         }
-        //     }
-        // }
+            //     xhr.onload = () => {
+            //         if (xhr.status == 500) {
+            //             toastr.error("Can not login with this data");
+            //         } else {
+            //             var currentUser = JSON.parse(xhr.responseText);
+            //             localStorage.setItem("currentUser", JSON.stringify(currentUser));
+            //             document.location.href = config.rootUrl + config.userCabinet + "/" + currentUser._id;
+            //         }
+            //     }
+            // }
+        }
 
-        // xhr.send(JSON.stringify({ mail: this.state.mail, password: this.state.password }));
+        xhr.send(JSON.stringify({ mail: this.state.mail, password: this.state.password }));
     }
     render() {
-        return (<div  style={{ backgroundImage: "url('https://mdbootstrap.com/img/Photos/Others/images/78.jpg')",height:"91vh",  backgroundRepeat: "no-repeat", backgroundSize: "cover" }}>
+        return (<div  style={{ backgroundImage: "url('https://mdbootstrap.com/img/Photos/Others/images/78.jpg')",height:"100vh",  backgroundRepeat: "no-repeat", backgroundSize: "cover" }}>
 
             <div className="w-100 h-100 mask rgba-black-light d-flex justify-content-center align-items-center">
 
@@ -99,7 +99,7 @@ class LoginIn extends React.Component {
 
                         </div>
                         <form method="POST" name="loginIn" className="form-signin" onSubmit={this.onSubmitHandler} style={{ borderRadius: "5px",padding:"20px",minHeight:"500px",display:"flex",flexDirection:"column",justifyContent:"center", backgroundColor: "#fff", color: "#4f4f4f" }}>
-                            <h1 className="h3 mb-3 font-weight-normal">Вход</h1>
+                            <h1 style={{marginBottom:"30px"}}>Вход</h1>
                             <label htmlFor="inputEmail" className="sr-only">Электронная почта</label>
                             <input onChange={this.onChangeHandler} type="text" name="mail" id="inputEmail" className="form-control" placeholder="Электронная почта" required autoFocus />
                             <label htmlFor="inputPassword" className="sr-only">Пароль</label>
