@@ -7,7 +7,7 @@ import TestContainer from '../testCMS/TestContainer.jsx';
 import LoginIn from '../LoginIn';
 import SignUp from '../SignUp';
 import Profile from '../Profile';
-
+import EditableCourse from '../course/EditableCourse';
 class Main extends React.Component {
     render() {
         return (
@@ -21,7 +21,8 @@ class Main extends React.Component {
                     <Route path="/" exact component={LoginIn}/>
                     <Route path="/signUp" component={SignUp} />
                     <Route path="/profile" component={Profile}/>
-                </Switch>
+                    <Route path="/editCourse" component={EditableCourse}/>
+                </Switch >
             </Router>)
     }
 }

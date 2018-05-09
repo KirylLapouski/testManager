@@ -13,15 +13,7 @@ class UserInfo extends React.Component {
         this.toggle = this.toggle.bind(this);
     }
 
-    static defaultProps = {
-        disabled: false,
-        style:{}
-    }
 
-    static propTypes = {
-        disabled: PropTypes.bool,
-        style: PropTypes.object
-    }
 
     toggle() {
         this.setState(prevState => ({
@@ -41,12 +33,24 @@ class UserInfo extends React.Component {
         return (
             <Dropdown style={this.props.style} isOpen={this.state.dropdownOpen} toggle={this.toggle}>
                 <DropdownToggle style={{ padding: "0px" }}>
-                    <img width="50px" height="50px" src="https://mdbootstrap.com/img/Photos/Avatars/avatar-2.jpg" />
+                    <img width="50px" height="50px" src={this.props.imageSrc} />
                 </DropdownToggle>
                 {dropdown}
             </Dropdown>
         )
     }
 }
+UserInfo.propTypes = {
+    disabled: PropTypes.bool,
+    style: PropTypes.object,
+    imageSrc: PropTypes.string
+}
+
+UserInfo.defaultProps = {
+    disabled: false,
+    style:{},
+    imageSrc:'https://mdbootstrap.com/img/Photos/Avatars/avatar-2.jpg'
+}
+
 
 export default UserInfo;
