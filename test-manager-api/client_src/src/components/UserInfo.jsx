@@ -31,7 +31,7 @@ class UserInfo extends React.Component {
 
     getDropdown() {
         return (<DropdownMenu>
-            <DropdownItem href="#">Profile</DropdownItem>
+            <DropdownItem href="/profile">Profile</DropdownItem>
             <DropdownItem href="/cources">My Courses</DropdownItem>
         </DropdownMenu>)
     }

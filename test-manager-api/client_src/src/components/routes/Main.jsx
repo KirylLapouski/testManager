@@ -6,6 +6,7 @@ import { Switch, Route,BrowserRouter as Router  } from 'react-router-dom'
 import TestContainer from '../testCMS/TestContainer.jsx';
 import LoginIn from '../LoginIn';
 import SignUp from '../SignUp';
+import Profile from '../Profile';
 
 class Main extends React.Component {
     render() {
@@ -19,6 +20,7 @@ class Main extends React.Component {
                     <Route path="/lesson/:lessonId/topics" component={TopicContainer} />
                     <Route path="/" exact component={LoginIn}/>
                     <Route path="/signUp" component={SignUp} />
+                    <Route path="/profile" component={Profile}/>
                 </Switch>
             </Router>)
     }
