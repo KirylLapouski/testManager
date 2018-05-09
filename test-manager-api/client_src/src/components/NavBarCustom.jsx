@@ -19,7 +19,6 @@ class NavBarCustom extends React.Component {
             open:false
         }
 
-        //this.onClick = this.onClick.bind(this);
         this.toggle = this.toggle.bind(this);
         this.handleMenuClick = this.handleMenuClick.bind(this);
         this.handleMenuClose = this.handleMenuClose.bind(this);

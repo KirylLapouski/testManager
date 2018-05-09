@@ -14,7 +14,7 @@ class SimpleModal extends React.Component {
                     <TextField id="name" label="Раздел" margin="normal" />
                     <TextField id="name" label="Предмет" margin="normal" />
                     <div style={{display:"flex",alignSelf:"flex-end",marginTop:"45px"}}>
-                        <Button >Отмена</Button>
+                        <Button onClick={this.props.handleClose}>Отмена</Button>
                         <Button variant="raised" color="primary">Создать</Button>
                     </div>
 
