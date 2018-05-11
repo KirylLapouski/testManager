@@ -1,26 +1,26 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import axios from 'axios';
-import Answer from './Answer';
-import { Button } from 'mdbreact';
+import React from 'react'
+import PropTypes from 'prop-types'
+import axios from 'axios'
+import Answer from './Answer'
+import { Button } from 'mdbreact'
 
 class Question extends React.Component {
     constructor(props) {
-        super(props);
+        super(props)
 
         this.state = {
             answers: [],
             choosen: []
         }
 
-        this.renderAnswers = this.renderAnswers.bind(this);
-        this.handleAnswerClick = this.handleAnswerClick.bind(this);
-        this.checkCorrectAnswers = this.checkCorrectAnswers.bind(this);
+        this.renderAnswers = this.renderAnswers.bind(this)
+        this.handleAnswerClick = this.handleAnswerClick.bind(this)
+        this.checkCorrectAnswers = this.checkCorrectAnswers.bind(this)
     }
 
 
     componentWillMount() {
-        axios.get("http://localhost:3000/api/Questions/" + this.props.question.id + "/answers")
+        axios.get('http://localhost:3000/api/Questions/' + this.props.question.id + '/answers')
             .then(response => {
                 this.setState({
                     answers: response.data,
@@ -30,8 +30,8 @@ class Question extends React.Component {
     }
 
     checkCorrectAnswers() {
-        var answers = this.state.answers;
-        var choosen = this.state.choosen;
+        var answers = this.state.answers
+        var choosen = this.state.choosen
         var res = answers.every((answer, i) => {
             if (answer.isRight) {
                 if (choosen[i] != true)
@@ -40,18 +40,18 @@ class Question extends React.Component {
                 if (choosen[i] == true)
                     return false
             }
-            return true;
-        });
+            return true
+        })
         if (res) {
-            this.props.onRightAnswer();
+            this.props.onRightAnswer()
         }
     }
 
     handleAnswerClick(i) {
         return () => {
             this.setState(prevState => {
-                var res = prevState.choosen;
-                res[i] = !res[i];
+                var res = prevState.choosen
+                res[i] = !res[i]
                 return { choosen: res }
             })
         }
@@ -60,13 +60,13 @@ class Question extends React.Component {
     renderAnswers() {
         return this.state.answers.map((value, i, array) => {
             return <Answer onClick={this.handleAnswerClick(i)} id={value.id} key={value.id} text={value.text} />
-        });
+        })
     }
     render() {
-        return <form action="" style={{ color: "black", display:"flex",flexDirection:"column", textAlign:"left" }}>
+        return <form action="" style={{ color: 'black', display:'flex',flexDirection:'column', textAlign:'left' }}>
             <h3>{this.props.question.title}</h3>
             <p>{this.props.question.description}</p>
-                {this.renderAnswers()}
+            {this.renderAnswers()}
             <Button className="align-self-end" onClick={this.checkCorrectAnswers}>Submit</Button>
         </form>
     }
@@ -81,4 +81,4 @@ Question.propTypes = {
         description: PropTypes.string
     }).isRequired
 }
-export default Question;
+export default Question

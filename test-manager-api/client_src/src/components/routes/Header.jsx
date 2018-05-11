@@ -1,6 +1,6 @@
-import React from 'react';
-import {Route,Switch,BrowserRouter as Router} from 'react-router-dom';
-import NavBarCustom from '../NavBarCustom';
+import React from 'react'
+import {Route,Switch,BrowserRouter as Router} from 'react-router-dom'
+import NavBarCustom from '../NavBarCustom'
 class Header extends React.Component{
     render(){
         return (

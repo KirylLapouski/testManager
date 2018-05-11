@@ -1,23 +1,23 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from 'react'
+import PropTypes from 'prop-types'
 
 class ProfileCard extends React.Component {
     render() {
-        var { email, firstName, lastName, imageSrc } = this.props;
+        var { email, firstName, lastName, imageSrc } = this.props
 
         return <div className="col-4">
             <div className="card card-cascade">
                 <div className="view overlay">
-                    {/* КОСТЫЛЬ ЗДЕСЬ */}
+                    {/*TODO: КОСТЫЛЬ ЗДЕСЬ */}
                     <img src={imageSrc?imageSrc:'https://mdbootstrap.com/img/Photos/Others/men.jpg'} className="img-fluid" alt="" />
                     <a>
                         <div className="mask rgba-white-slight"></div>
                     </a>
                 </div>
                 <div className="card-body text-center">
-                    <h4 className="card-title"><strong>{firstName + " " + lastName}</strong></h4>
+                    <h4 className="card-title"><strong>{firstName + ' ' + lastName}</strong></h4>
                     <p>
-                        {email ? "Email: " + email : ""} {email ? <br /> : null}
+                        {email ? 'Email: ' + email : ''} {email ? <br /> : null}
                     </p>
                 </div>
             </div>
@@ -36,5 +36,5 @@ ProfileCard.defaultProps = {
     firstName: 'User'
 }
 
-export default ProfileCard;
+export default ProfileCard
 

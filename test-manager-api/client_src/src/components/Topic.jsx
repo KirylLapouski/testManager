@@ -1,10 +1,10 @@
-import React from 'react';
+import React from 'react'
 import Test from './Test'
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'
 import axios from 'axios'
-import {connect} from 'react-redux';
-import {addQuestionIdToTopic} from '../redux/AC/topic';
-import Media from './topicContent/Media';
+import {connect} from 'react-redux'
+import {addQuestionIdToTopic} from '../redux/AC/topic'
+import Media from './topicContent/Media'
 class Topic extends React.Component {
 
     componentWillMount(){
@@ -16,11 +16,11 @@ class Topic extends React.Component {
         //             })
         //         }
         //     })
-            this.props.getTopicQuestion(this.props.id);
+        this.props.getTopicQuestion(this.props.id)
     }
     render() {
         return <div>Topic
-                {(this.props.type==='video' || this.props.type==='audio' ) && <Media src={this.props.path}/>}
+            {(this.props.type==='video' || this.props.type==='audio' ) && <Media src={this.props.path}/>}
             {this.props.hasTests && <Test key={this.props.id} onTestSubmit={this.props.handleTestSubmit} topicId={this.props.id}/>}
         </div> 
     }
@@ -48,4 +48,4 @@ const mapDispatchToProps = dispatch =>{
         }
     }
 }
- export default connect(mapStateToProps,mapDispatchToProps)(Topic);   
+export default connect(mapStateToProps,mapDispatchToProps)(Topic)   

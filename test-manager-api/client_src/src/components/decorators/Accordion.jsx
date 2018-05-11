@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const Accordion = (Component) => {
     return class AccordionClass extends React.Component {
@@ -8,7 +8,7 @@ const Accordion = (Component) => {
                 openitemId: -1
             }
 
-            this.toggleOpenItem = this.toggleOpenItem.bind(this);
+            this.toggleOpenItem = this.toggleOpenItem.bind(this)
         }
 
         toggleOpenItem(openItem) {
@@ -22,4 +22,4 @@ const Accordion = (Component) => {
     }
 }
 
-export default Accordion;
+export default Accordion

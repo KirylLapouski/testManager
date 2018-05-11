@@ -1,30 +1,30 @@
-import React from 'react';
-import toastr from 'toastr';
-import ProfileCard from './ProfileCard';
+import React from 'react'
+import toastr from 'toastr'
+import ProfileCard from './ProfileCard'
 
 class Profile extends React.Component {
 
     constructor(props) {
-        super(props);
+        super(props)
 
         this.state = {
-            _id: "",
-            firstName: "",
-            lastName: "",
-            email: "",
-            phoneNumber: "",
-            city: "",
-            fileName: ""
+            _id: '',
+            firstName: '',
+            lastName: '',
+            email: '',
+            phoneNumber: '',
+            city: '',
+            fileName: ''
         }
-        this.onChangeHandler = this.onChangeHandler.bind(this);
-        this.onSubmitHandler = this.onSubmitHandler.bind(this);
+        this.onChangeHandler = this.onChangeHandler.bind(this)
+        this.onSubmitHandler = this.onSubmitHandler.bind(this)
     }
 
     onChangeHandler(e) {
-        var { name, value } = e.target;
+        var { name, value } = e.target
         this.setState(prevState => ({
             [name]: value
-        }));
+        }))
     }
 
 
@@ -50,32 +50,32 @@ class Profile extends React.Component {
     }
     emailValidation(email) {
         //email validation
-        var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+        var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/
 
         if (reg.test(email) == false) {
-            toastr.error("Wrong email format");
-            return false;
+            toastr.error('Wrong email format')
+            return false
         }
-        return true;
+        return true
     }
     phoneValidation(phone) {
-        var reg = /^\d[\d\(\)\ -]{4,14}\d$/;
+        var reg = /^\d[\d\(\)\ -]{4,14}\d$/
         if (reg.test(phone) == false) {
-            toastr.error("Wrong phone number format");
-            return false;
+            toastr.error('Wrong phone number format')
+            return false
         }
-        return true;
+        return true
     }
     nameValidation(name, field) {
-        var reg = /^[а-яА-ЯёЁa-zA-Z0-9]+$/;
+        var reg = /^[а-яА-ЯёЁa-zA-Z0-9]+$/
         if (reg.test(name) == false) {
-            toastr.error("Wrong " + field ? field : "name" + "format");
-            return false;
+            toastr.error('Wrong ' + field ? field : 'name' + 'format')
+            return false
         }
-        return true;
+        return true
     }
     onSubmitHandler(e) {
-        e.preventDefault();
+        e.preventDefault()
 
         // var form = document.querySelector('form[name="userEdit"]');
         // var file = form.elements.imageFile.files[0];
@@ -169,11 +169,11 @@ class Profile extends React.Component {
     }
     render() {
 
-        return <div className="row" style={{ maxWidth: "1200px", margin:"0 auto", marginTop: "10vh",color:"#37474F" }}>
-           <ProfileCard email={this.state.email} firstName={this.state.firstName} lastName={this.state.lastName} imageSrc={this.state.fileName?this.state.fileName:null}/>
-            <div className="col-8" style={{ textAlign: "left" }}>
+        return <div className="row" style={{ maxWidth: '1200px', margin:'0 auto', marginTop: '10vh',color:'#37474F' }}>
+            <ProfileCard email={this.state.email} firstName={this.state.firstName} lastName={this.state.lastName} imageSrc={this.state.fileName?this.state.fileName:null}/>
+            <div className="col-8" style={{ textAlign: 'left' }}>
                 <div className="card" >
-                    <form name="userEdit" style={{ padding: "40px" }}>
+                    <form name="userEdit" style={{ padding: '40px' }}>
                         <p><b>Редактировать профиль</b></p>
                         <div className="form-row">
                             <div className="form-group col-md-6">
@@ -193,7 +193,7 @@ class Profile extends React.Component {
                             <label htmlFor="inputGroupFile01">Фото</label><br />
                             <div className="custom-file">
                                 <input name="imageFile" type="file" className="custom-file-input" id="inputGroupFile01" />
-                                <label className="custom-file-label" htmlFor="inputGroupFile01">{document.querySelector ? this.state.fileName : "Choose file"}</label>
+                                <label className="custom-file-label" htmlFor="inputGroupFile01">{document.querySelector ? this.state.fileName : 'Choose file'}</label>
                             </div>
                         </div>
                         <button type="button" onClick={this.onSubmitHandler} className="btn btn-primary btn-md">Принять изменения</button>
@@ -205,4 +205,4 @@ class Profile extends React.Component {
 }
 
 
-export default Profile;
+export default Profile

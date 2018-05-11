@@ -1,10 +1,10 @@
-import constants from "../constants";
+import constants from '../constants';
 
 
 const answers = (state={},action)=>{
     switch(action.type){
-        case constants.answers.ADD_ANSWER:
-        var id = action.payload.id;
+    case constants.answers.ADD_ANSWER:
+        var id = action.payload.id
          return {
             ...state,
             [id]:{
@@ -16,4 +16,4 @@ const answers = (state={},action)=>{
     }
     return state
 }
-export default answers;
+export default answers

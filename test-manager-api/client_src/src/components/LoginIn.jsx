@@ -1,56 +1,55 @@
-import React from 'react';
+import React from 'react'
 import  {Link} from 'react-router-dom'
-import toastr from 'toastr';
-import 'font-awesome/css/font-awesome.min.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'mdbreact/dist/css/mdb.css';
+import toastr from 'toastr'
+import 'font-awesome/css/font-awesome.min.css'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import 'mdbreact/dist/css/mdb.css'
 class LoginIn extends React.Component {
 
     constructor(props) {
-        super(props);
+        super(props)
         this.state = {
             mail: '',
             password: ''
-        };
+        }
 
-        this.onChangeHandler = this.onChangeHandler.bind(this);
-        this.onSubmitHandler = this.onSubmitHandler.bind(this);
+        this.onChangeHandler = this.onChangeHandler.bind(this)
+        this.onSubmitHandler = this.onSubmitHandler.bind(this)
         this.validate = this.validate.bind(this)
     }
 
     onChangeHandler(e) {
-        var { name, value } = e.target;
+        var { name, value } = e.target
         this.setState({
             [name]: value
-        });
+        })
     }
     validate() {
         //email validation
-        var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
-        var address = this.state.mail;
+        var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/
+        var address = this.state.mail
         if (reg.test(address) == false) {
-            toastr.error("Неправильный email");
-            return false;
+            toastr.error('Неправильный email')
+            return false
         }
         if (!document.forms.loginIn.elements.mail.value || !document.forms.loginIn.elements.password.value) {
-            toastr.error("Все поля должны быть заполнены");
-            return false;
+            toastr.error('Все поля должны быть заполнены')
+            return false
         }
-        return true;
+        return true
     }
     onSubmitHandler(e) {
-        e.preventDefault();
+        e.preventDefault()
 
         if (!this.validate())
-            return;
+            return
 
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST','http://localhost:3000/api/Users/login', true);
-        xhr.setRequestHeader('Content-Type', 'application/json');
+        var xhr = new XMLHttpRequest()
+        xhr.open('POST','http://localhost:3000/api/Users/login', true)
+        xhr.setRequestHeader('Content-Type', 'application/json')
 
         xhr.onload = () => {
 
-            console.log(xhr.responseText);
             // if (xhr.status != 404) {
             //     xhr.open('GET', config.rootUrl + config.dbApi + "/getEnteredUser", true);
             //     xhr.send();
@@ -67,16 +66,16 @@ class LoginIn extends React.Component {
             // }
         }
 
-        xhr.send(JSON.stringify({ mail: this.state.mail, password: this.state.password }));
+        xhr.send(JSON.stringify({ mail: this.state.mail, password: this.state.password }))
     }
     render() {
-        return (<div  style={{ backgroundImage: "url('https://mdbootstrap.com/img/Photos/Others/images/78.jpg')",height:"100vh",  backgroundRepeat: "no-repeat", backgroundSize: "cover" }}>
+        return (<div  style={{ backgroundImage: 'url(\'https://mdbootstrap.com/img/Photos/Others/images/78.jpg\')',height:'100vh',  backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }}>
 
             <div className="w-100 h-100 mask rgba-black-light d-flex justify-content-center align-items-center">
 
                 <div className="container">
 
-                    <div className="row wow fadeIn" style={{ visibility: "visible", animationName: "fadeIn" }}>
+                    <div className="row wow fadeIn" style={{ visibility: 'visible', animationName: 'fadeIn' }}>
 
                         <div className="col-md-6 mb-4 white-text text-center text-md-left">
 
@@ -98,8 +97,8 @@ class LoginIn extends React.Component {
                             </a>
 
                         </div>
-                        <form method="POST" name="loginIn" className="form-signin" onSubmit={this.onSubmitHandler} style={{ borderRadius: "5px",padding:"20px",minHeight:"500px",display:"flex",flexDirection:"column",justifyContent:"center", backgroundColor: "#fff", color: "#4f4f4f" }}>
-                            <h1 style={{marginBottom:"30px"}}>Вход</h1>
+                        <form method="POST" name="loginIn" className="form-signin" onSubmit={this.onSubmitHandler} style={{ borderRadius: '5px',padding:'20px',minHeight:'500px',display:'flex',flexDirection:'column',justifyContent:'center', backgroundColor: '#fff', color: '#4f4f4f' }}>
+                            <h1 style={{marginBottom:'30px'}}>Вход</h1>
                             <label htmlFor="inputEmail" className="sr-only">Электронная почта</label>
                             <input onChange={this.onChangeHandler} type="text" name="mail" id="inputEmail" className="form-control" placeholder="Электронная почта" required autoFocus />
                             <label htmlFor="inputPassword" className="sr-only">Пароль</label>
@@ -110,15 +109,15 @@ class LoginIn extends React.Component {
                             <a role="button" href="auth/linkedin" className="btn btn-light-blue btn-block btn-li waves-effect waves-light"><i className="fa fa-linkedin pr-1"></i> Linkedin</a>
                             <div className="modal-footer pr-0">
                                 <div className="options font-weight-light">
-                                    <p>Не зарегистрированы?  <Link style={{color:"blue"}} to="/signUp">Регистрация</Link></p>
+                                    <p>Не зарегистрированы?  <Link style={{color:'blue'}} to="/signUp">Регистрация</Link></p>
                                 </div>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
-        </div>);
+        </div>)
     }
 }
 
-export default LoginIn;
+export default LoginIn

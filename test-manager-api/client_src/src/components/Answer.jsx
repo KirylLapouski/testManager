@@ -1,17 +1,12 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Checkbox from 'material-ui/Checkbox';
-import Radio from 'material-ui/Radio';
-import { FormControlLabel } from 'material-ui/Form';
-const styles = {
-    block: {
-        maxWidth: 250,
-    }
-};
+import React from 'react'
+import PropTypes from 'prop-types'
+import Checkbox from 'material-ui/Checkbox'
+import Radio from 'material-ui/Radio'
+import { FormControlLabel } from 'material-ui/Form'
 
 class Answer extends React.Component {
     constructor(props) {
-        super(props);
+        super(props)
 
     }
     getCheckBox(answer) {
@@ -29,12 +24,12 @@ class Answer extends React.Component {
     }
 
     render() {
-        var { typeOfAnswer, text } = this.props;
+        var { typeOfAnswer, text } = this.props
         switch (typeOfAnswer) {
-            case 'checkbox': return this.getCheckBox(text);
-            case 'radio': return this.getRadioButtons(text);
+        case 'checkbox': return this.getCheckBox(text)
+        case 'radio': return this.getRadioButtons(text)
         }
-        return null;
+        return null
         // return <label><input style={{ display: "inline" }} onClick={this.props.onClick} type="checkbox" />{this.props.text}</label>
     }
 }
@@ -48,7 +43,7 @@ Answer.propTypes = {
 
 Answer.defaultProps = {
     onClick: f => f,
-    typeOfAnswer: "checkbox"
+    typeOfAnswer: 'checkbox'
 }
 
-export default Answer;
+export default Answer

@@ -1,16 +1,16 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
-import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'mdbreact';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
+import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'mdbreact'
 
 class UserInfo extends React.Component {
     constructor(props) {
-        super(props);
+        super(props)
         this.state = {
             dropdownOpen: false
         }
 
-        this.toggle = this.toggle.bind(this);
+        this.toggle = this.toggle.bind(this)
     }
 
 
@@ -18,7 +18,7 @@ class UserInfo extends React.Component {
     toggle() {
         this.setState(prevState => ({
             dropdownOpen: !prevState.dropdownOpen
-        }));
+        }))
     }
 
     getDropdown() {
@@ -28,11 +28,11 @@ class UserInfo extends React.Component {
         </DropdownMenu>)
     }
     render() {
-        var dropdown = this.props.disabled ? null : this.getDropdown();
+        var dropdown = this.props.disabled ? null : this.getDropdown()
 
         return (
             <Dropdown style={this.props.style} isOpen={this.state.dropdownOpen} toggle={this.toggle}>
-                <DropdownToggle style={{ padding: "0px" }}>
+                <DropdownToggle style={{ padding: '0px' }}>
                     <img width="50px" height="50px" src={this.props.imageSrc} />
                 </DropdownToggle>
                 {dropdown}
@@ -53,4 +53,4 @@ UserInfo.defaultProps = {
 }
 
 
-export default UserInfo;
+export default UserInfo

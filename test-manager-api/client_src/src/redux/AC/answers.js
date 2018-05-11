@@ -1,5 +1,5 @@
-import constants from '../constants';
-import UUID from 'uuid-js';
+import constants from '../constants'
+import UUID from 'uuid-js'
 
 const addAnswer = (text,typeOfAnswer)=>{
     return {

@@ -8,7 +8,7 @@ class Paginator extends React.Component {
         super(props);
 
         this.state = {
-            currenNumber:this.props.initCurrentPos?this.props.initCurrentPos: 1
+            currenNumber: this.props.initCurrentPos ? this.props.initCurrentPos : 1
         }
         this.handleLeftArrowClick = this.handleLeftArrowClick.bind(this);
         this.handleNumberClick = this.handleNumberClick.bind(this);
@@ -59,29 +59,29 @@ class Paginator extends React.Component {
             numbers.push(
                 //!!!!!!
                 <PageItem key={i} active={currenCircle} >
-                        <PageLink onClick={() => { this.handleNumberClick(i + 1) }} className="page-link">
-                            {i + 1}
-                        </PageLink>
+                    <PageLink onClick={() => { this.handleNumberClick(i + 1) }} className="page-link">
+                        {i + 1}
+                    </PageLink>
                 </PageItem>);
         }
 
         if (this.props.length) {
 
             return (
-            <Pagination style={{justifyContent:"center"}} className="pagination-circle">
-                <PageItem disabled = {this.state.currenNumber==1?true:false}>
-                    <PageLink onClick={this.handleLeftArrowClick} className="page-link" aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                        <span className="sr-only">Previous</span>
+                <Pagination style={{ justifyContent: "center" }} className="pagination-circle">
+                    <PageItem disabled={this.state.currenNumber == 1 ? true : false}>
+                        <PageLink onClick={this.handleLeftArrowClick} className="page-link" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                            <span className="sr-only">Previous</span>
+                        </PageLink>
+                    </PageItem>
+                    {numbers}
+                    <PageItem disabled={this.state.currenNumber == this.props.length ? true : false}>
+                        <PageLink onClick={this.handleRightArrowClick} className="page-link">
+                            &raquo;
                     </PageLink>
-                </PageItem>
-                {numbers}
-                <PageItem disabled = {this.state.currenNumber==this.props.length?true:false}>
-                    <PageLink  onClick={this.handleRightArrowClick} className="page-link">
-                        &raquo;
-                    </PageLink>
-                </PageItem>
-            </Pagination>)
+                    </PageItem>
+                </Pagination>)
         }
         return null
     }

@@ -1,10 +1,10 @@
-import constants from '../constants';
+import constants from '../constants'
 
 const tests = (state={},action)=>{
 
     switch(action.type){
-        case constants.tests.CREATE_TEST:
-        var id = action.payload.id;
+    case constants.tests.CREATE_TEST:
+        var id = action.payload.id
         return {
             ...state,
             [id]:{
@@ -12,6 +12,6 @@ const tests = (state={},action)=>{
             }
         }
     }
-    return state;
+    return state
 }
-export default tests;
+export default tests

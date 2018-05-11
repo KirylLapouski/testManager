@@ -1,4 +1,4 @@
 const users = (state={},action)=>{
-    return state;
+    return state
 }
-export default users;
+export default users

@@ -1,37 +1,37 @@
-import constants from '../constants';
+import constants from '../constants'
 
 const topics = (state = {}, action) => {
 
-  switch (action.type) {
+    switch (action.type) {
     case constants.topics.CREATE_TOPIC:
-      return {
-        ...state,
-        [action.payload.id]: {
-          id: action.payload.id,
-          path: action.payload.path
+        return {
+            ...state,
+            [action.payload.id]: {
+                id: action.payload.id,
+                path: action.payload.path
+            }
         }
-      }
     case constants.topics.LOAD_TOPICS_FOR_LESSON:
-      var topics = action.payload.reduce((result, topic) => {
-        result[topic.id] = topic;
-        return result;
-      }, {});
-      return {
-        ...state,
-        ...topics
-      }
+        var topics = action.payload.reduce((result, topic) => {
+            result[topic.id] = topic
+            return result
+        }, {})
+        return {
+            ...state,
+            ...topics
+        }
     case constants.topics.LOAD_TOPIC_QUESTIONS:
-      var questionsId = action.payload.questions.map(question => {
-        return question.id
-      })
-      var res = {...state};
-      res[action.payload.topicId].questions = questionsId;
-      return {
-        ...res
-      }
+        var questionsId = action.payload.questions.map(question => {
+            return question.id
+        })
+        var res = {...state}
+        res[action.payload.topicId].questions = questionsId
+        return {
+            ...res
+        }
     default:
-      return state;
-  }
+        return state
+    }
 
 }
-export default topics;
+export default topics
