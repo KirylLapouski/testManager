@@ -5,8 +5,8 @@ import Modal from "material-ui/Modal";
 import Button from "material-ui/Button";
 import TextField from 'material-ui/TextField';
 import { connect } from 'react-redux'
-import { addLesson } from '../../redux/AC/lessons';
-//TODO: LOOPBACK СОЗДАЁТ СВОЙ ID
+import { addLesson ,loadLessons} from '../../redux/AC/lessons';
+//TODO: LOOPBACK СОЗДАЁТ СВОЙ ID (неправильный тип данных?)
 class CourseModal extends React.Component {
     constructor(props) {
         super(props);
@@ -23,8 +23,7 @@ class CourseModal extends React.Component {
         });
     }
     handleClick= ()=>{
-        //TODO: КОСТЫЛЬ ВТОРОЙ ПАРАМЕТР - ЗАГЛУШКА, НАДО ПЕРЕДАТЬ ID КУРСА
-        this.props.addNewLesson(this.state.title,1);
+        this.props.addNewLesson(this.state.title,this.props.courseId);
         this.props.handleClose();
     }
     render() {
@@ -48,13 +47,17 @@ CourseModal.propTypes = {
     open: PropTypes.bool,
     courseId: PropTypes.number,
     handleClose: PropTypes.func,
-    addNewLesson: PropTypes.func
+    addNewLesson: PropTypes.func,
+    courseId: PropTypes.number
 }
 
 const mapDispatchToProps = dispatch => {
     return {
         addNewLesson(title,disciplineId) {
             dispatch(addLesson(title,disciplineId))
+        },
+        getLessons(){
+            dispatch(loadLessons())
         }
     }
 }

@@ -1,11 +1,11 @@
 import React from 'react'
 import Lesson from './Lesson'
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { loadLessons } from '../redux/AC/lessons';
+import { loadLessons } from '../redux/AC/lessons'
 class LessonContainer extends React.Component {
     componentWillMount() {
-        this.props.getLessons(this.props.match.params.courseId)
+        this.props.getLessons(this.props.courseId)
     }
     render() {
         if (this.props.lessons) {
@@ -16,7 +16,7 @@ class LessonContainer extends React.Component {
 
 
         return (
-            <div className="container" style={{ marginTop: "20px", maxWidth: "800px" }}>
+            <div className="container" style={{ marginTop: '20px', maxWidth: '800px' }}>
                 {lessons}
             </div>
         )
@@ -28,13 +28,14 @@ LessonContainer.propTypes = {
         id: PropTypes.number,
         title: PropTypes.string
     }),
-    getLessons: PropTypes.func
+    getLessons: PropTypes.func,
+    courseId: PropTypes.number
 }
 
-const mapStateToProps = (state,ownProps) => {
-    var res = [];
+const mapStateToProps = (state, ownProps) => {
+    var res = []
     for (var key in state.lessons) {
-        if(Number(ownProps.match.params.courseId) === state.lessons[key].disciplineId)
+        if (Number(ownProps.courseId) === state.lessons[key].disciplineId)
             res.push(state.lessons[key])
     }
     return { lessons: res }
@@ -47,4 +48,4 @@ const mapDispatchToProps = dispatch => {
         }
     }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(LessonContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(LessonContainer)

@@ -6,6 +6,7 @@ import classNames from 'classnames';
 import Button from 'material-ui/Button';
 import AddIcon from '@material-ui/icons/Add';
 import CourseModal from './CourseModal';
+import LessonContainer from '../LessonContainer';
 class EditableCourse extends React.Component {
     constructor(props) {
         super(props);
@@ -33,10 +34,13 @@ class EditableCourse extends React.Component {
             <CourseHeader backgroundSrc='https://lh6.googleusercontent.com/-691E4HHlPjM/VN0ohuHpXiI/AAAAAAAAASM/OsvrdNM5yZw/w984-h209-no/06_bubbles.jpg' name='test1' teacherName="Test" teacherLastName="Test">
                 <UserInfo />
             </CourseHeader>
+
             <Button onClick={this.toggleModal} variant="fab" color="primary" aria-label="add" style={{ position: 'fixed', bottom: '20px', right: '20px' }}>
                 <AddIcon />
             </Button>
-            <CourseModal open={this.state.modalOpened} handleClose={this.handleModalClose}/>
+            {/* TODO: How to deliver route to child? */}
+            <LessonContainer courseId={this.props.match.params.courseId}/>
+            <CourseModal open={this.state.modalOpened} courseId={this.props.match.params.courseId} handleClose={this.handleModalClose}/>
         </div>
     }
 }
