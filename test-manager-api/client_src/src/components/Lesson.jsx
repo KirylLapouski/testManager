@@ -16,16 +16,27 @@ import Button from 'material-ui/Button';
 import AddIcon from '@material-ui/icons/Add'
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
-
+import TopicModal from './topic/TopicModal';
 class Lesson extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            topicsOpened: false
+            topicsOpened: false,
+            modalOpened:false
         }
     }
 
+    handleModalClose = ()=>{
+        this.setState({
+            modalOpened:false
+        })
+    }
+    handleModalOpen = ()=>{
+        this.setState({
+            modalOpened:true
+        })
+    }
     handleTopicsClick = () => {
         this.setState({ topicsOpened: !this.state.topicsOpened });
     };
@@ -45,7 +56,7 @@ class Lesson extends React.Component {
                         <Button style={{ color: 'white', boxShadow: 'none', backgroundColor: 'rgba(0,0,0,0)' }} variant="fab"  >
                             <EditIcon />
                         </Button>
-                        <Button style={{ color: 'white', boxShadow: 'none', backgroundColor: 'rgba(0,0,0,0)' }} variant="fab"  >
+                        <Button style={{ color: 'white', boxShadow: 'none', backgroundColor: 'rgba(0,0,0,0)' }} variant="fab" onClick={this.handleModalOpen}  >
                             <AddIcon />
                         </Button>
                         <div style={{ clear: 'both' }} />
@@ -71,6 +82,7 @@ class Lesson extends React.Component {
                     </List>
                 </Collapse>
             </List>
+            <TopicModal open={this.state.modalOpened} handleClose={this.handleModalClose}/>
         </div>)
     }
 }

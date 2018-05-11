@@ -31,6 +31,4 @@ SimpleModal.propTypes = {
 
 }
 
-// We need an intermediary variable for handling the recursive nesting.
-
 export default SimpleModal
