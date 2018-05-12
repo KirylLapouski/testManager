@@ -14,7 +14,7 @@ class TopicContainer extends React.Component {
         super(props)
 
         this.state = {
-            currenTopic: this.props.match.params.topicId ? this.props.match.params.topicId : 1,
+            currenTopicId: this.props.match.params.topicId ? this.props.match.params.topicId : 1,
             rightAnswersWeight: 0,
             allAnswersWeight: 0
         }
@@ -25,8 +25,9 @@ class TopicContainer extends React.Component {
 
     handlePaginatorClick(i) {
         this.setState({
-            currenTopic: i
+            currenTopicId: i
         })
+        //TODO: right redirect?
         window.history.pushState(null, null, '/lesson/' + this.props.match.params.lessonId + '/topic/' + this.props.topics[i - 1].id)
     }
 
@@ -47,16 +48,19 @@ class TopicContainer extends React.Component {
 
     render() {
         if ((JSON.stringify(this.props.topics) !== '[]')) {
-            var topic = this.props.topics[this.state.currenTopic - 1]
+            for(var i=0;i<this.props.topics.length;i++){
+                if(Number(this.state.currenTopicId)===this.props.topics[i].id){
+                    var topic =  this.props.topics[i]
+                }
+            }
             var elem = <Topic key={this.props.match.params.topicId} handleTestSubmit={this.handleTestSubmit} path={topic.path} type={topic.type} id={topic.id} />
         }
 
+       
         return (<div>
-            {/* TODO: #1 сделать норм url для топиков */}
             <Paginator initCurrentPos={Number(this.props.match.params.topicId) ? Number(this.props.match.params.topicId) : null} length={this.props.topics.length} onClick={this.handlePaginatorClick} />
             {elem}
-            {/* TODO: КОСТЫЛЬ В ССЫЛКЕ */}
-            <Link to={this.props.match.params.topicId?`${this.props.location.pathname}/testEditor`:`/lesson/${this.props.match.params.lessonId}/topic/1/testEditor`}>
+            <Link to={`${this.props.location.pathname}/testEditor`}>
                 <Button onClick={this.toggleModal} variant="fab" color="primary" aria-label="add" style={{ position: 'fixed', bottom: '20px', right: '20px' }}>
                     <EditIcon />
                 </Button>
