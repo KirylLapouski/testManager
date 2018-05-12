@@ -15,6 +15,7 @@ class Main extends React.Component {
                     <Route path="/testEditor" render={({ match }) => {return  <TestContainer question="Question1" answers={[{ text: 'asdfa' },{ text: 'qweq' },{ text: 'qasda' }]}/> }} />
                     <Route exact path="/cources" component={CourseContainer} />
                     <Route path="/:courseId/lessons" component={EditableCourse} />
+                    <Route path="/lesson/:lessonId/topic/:topicId/testEditor" component={TestContainer} />                    
                     <Route path="/lesson/:lessonId/topic/:topicId" component={TopicContainer} />
                     <Route path="/lesson/:lessonId/topics" component={TopicContainer} />
                     <Route path="/" exact component={LoginIn}/>

@@ -37,7 +37,8 @@ const constants = {
     },
     answers:{
         ADD_ANSWER:'ADD_ANSWER',
-        DELETE_ANSWER:'DELETE_ANSWER'
+        DELETE_ANSWER:'DELETE_ANSWER',
+        LOAD_ANSWERS_FOR_QUESTION:'LOAD_ANSWERS_FOR_QUESTION'
     }
 }
-export default constants;
+export default constants
