@@ -29,7 +29,7 @@ class TopicModal extends React.Component {
                         <FileDrop onDrop={this.handleDrop}>
                             Перетащите файлы сюда<br/>
                             или<br/>
-                            <Button>Выберите файл на компьютере</Button>
+                            <Button style={{backgroundColor:'#CFD8DC'}}>Выберите файл на компьютере</Button>
                         </FileDrop>
                     </div>
                     <div style={{ display: 'flex', alignSelf: 'flex-end', marginTop: '45px',width:'100%',justifyContent:'flex-end' }}>

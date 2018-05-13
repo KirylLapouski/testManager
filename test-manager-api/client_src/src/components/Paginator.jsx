@@ -8,7 +8,7 @@ class Paginator extends React.Component {
         super(props)
 
         this.state = {
-            currenNumber: this.props.initCurrentPos ? this.props.initCurrentPos : 0
+            currenNumber: this.props.initCurrentPos ? this.props.initCurrentPos : 1
         }
         this.handleLeftArrowClick = this.handleLeftArrowClick.bind(this)
         this.handleNumberClick = this.handleNumberClick.bind(this)
@@ -48,7 +48,7 @@ class Paginator extends React.Component {
                 </PageItem>)
         }
 
-        if (this.props.length) {
+        if (this.props.length>1) {
 
             return (
                 <Pagination style={{ justifyContent: 'center' }} className="pagination-circle">
