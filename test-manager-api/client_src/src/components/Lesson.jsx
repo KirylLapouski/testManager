@@ -9,7 +9,6 @@ import ExpansionPanel, {
 import Typography from 'material-ui/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Collapse from 'material-ui/transitions/Collapse';
-import List, { ListItem, ListItemText } from 'material-ui/List';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import Button from 'material-ui/Button';
@@ -17,6 +16,7 @@ import AddIcon from '@material-ui/icons/Add'
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import TopicModal from './topic/TopicModal';
+import TopicList from './TopicList'
 class Lesson extends React.Component {
 
     constructor(props) {
@@ -70,18 +70,7 @@ class Lesson extends React.Component {
                     </Typography>
                 </ExpansionPanelDetails>
             </ExpansionPanel>
-            <List style={{ marginTop: "-6px", backgroundColor: '#ECEFF1', paddingTop: '0px', paddingBottom: '0px' }}>
-                <ListItem button onClick={this.handleTopicsClick} style={{ paddingTop: '0px', paddingBottom: '0px', height: '30px' }}>
-                    <ListItemText inset primary="Topics" />
-                </ListItem>
-                <Collapse in={this.state.topicsOpened} >
-                    <List component="div" disablePadding>
-                        <ListItem button>
-                            <ListItemText inset primary="Starred" />
-                        </ListItem>
-                    </List>
-                </Collapse>
-            </List>
+            <TopicList lessonId={this.props.id} topicsOpened={this.state.topicsOpened} handleTopicsClick={this.handleTopicsClick}/>
             <TopicModal open={this.state.modalOpened} handleClose={this.handleModalClose}/>
         </div>)
     }
