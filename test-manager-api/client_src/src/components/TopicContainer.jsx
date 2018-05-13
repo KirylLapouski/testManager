@@ -6,9 +6,8 @@ import toastr from 'toastr'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { loadTopics } from '../redux/AC/topic'
-import Button from 'material-ui/Button'
-import EditIcon from '@material-ui/icons/Edit'
 import {Link} from 'react-router-dom'
+import EditButton from './EditButton'
 class TopicContainer extends React.Component {
     constructor(props) {
         super(props)
@@ -25,7 +24,7 @@ class TopicContainer extends React.Component {
 
     handlePaginatorClick(i) {
         this.setState({
-            currenTopicId: i
+            currenTopicId: this.props.topics[i-1].id
         })
         //TODO: right redirect?
         window.history.pushState(null, null, '/lesson/' + this.props.match.params.lessonId + '/topic/' + this.props.topics[i - 1].id)
@@ -60,11 +59,9 @@ class TopicContainer extends React.Component {
         return (<div>
             <Paginator initCurrentPos={Number(this.props.match.params.topicId) ? Number(this.props.match.params.topicId) : null} length={this.props.topics.length} onClick={this.handlePaginatorClick} />
             {elem}
-            <Link to={`${this.props.location.pathname}/testEditor`}>
-                <Button onClick={this.toggleModal} variant="fab" color="primary" aria-label="add" style={{ position: 'fixed', bottom: '20px', right: '20px' }}>
-                    <EditIcon />
-                </Button>
-            </Link>
+            {/* <Link to={`${this.props.location.pathname}/testEditor`}> */}
+                <EditButton/>
+            {/* </Link> */}
         </div>
         )
     }

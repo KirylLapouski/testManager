@@ -23,9 +23,9 @@ class TopicList extends React.Component {
                 <ListItemText inset primary="Topics" />
             </ListItem>
             <Collapse in={this.props.topicsOpened} >
-                <List component="div" disablePadding>
-                    {topics}
-                </List>
+                {/* <List component="div" disablePadding> */}
+                {topics}
+                {/* </List> */}
             </Collapse>
         </List>
     }
