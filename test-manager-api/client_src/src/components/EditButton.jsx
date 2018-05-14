@@ -5,6 +5,7 @@ import MessageIcon from '@material-ui/icons/Message'
 import TestIcon from '@material-ui/icons/Assignment'
 import Tooltip from 'material-ui/Tooltip';
 import Collapse from 'material-ui/transitions/Collapse';
+import { withRouter } from 'react-router-dom';
 // TODO: scroll bar bag
 class EditButton extends React.Component {
     state = {
@@ -19,7 +20,9 @@ class EditButton extends React.Component {
         this.setState({ open: null });
     };
 
-
+    handleEditTestClick = ()=>{
+        this.props.history.push(`${this.props.location.pathname}/testEditor`)
+    }
     render() {
         const { open } = this.state;
         return <div style={{ position: 'fixed', bottom: '20px', right: '40px' }}>
@@ -31,7 +34,7 @@ class EditButton extends React.Component {
                         </Button>
                     </Tooltip >
                     <Tooltip id="tooltip-icon" title="Редактировать тест" placement='left'>
-                        <Button variant="fab" color="primary" aria-label="add" >
+                        <Button variant="fab" color="primary" aria-label="add" onClick={this.handleEditTestClick} >
                             <TestIcon />
                         </Button>
                     </Tooltip >
@@ -40,9 +43,8 @@ class EditButton extends React.Component {
             <Button onClick={this.toggleCollapse} variant="fab" color="primary" aria-label="add" >
                 <EditIcon />
             </Button>
-
         </div>
     }
 }
 
-export default EditButton
+export default withRouter(EditButton)

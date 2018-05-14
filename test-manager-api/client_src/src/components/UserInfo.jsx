@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
+import { Link, BrowserRouter as Router } from 'react-router-dom'
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'mdbreact'
 
 class UserInfo extends React.Component {
@@ -23,8 +23,9 @@ class UserInfo extends React.Component {
 
     getDropdown() {
         return (<DropdownMenu>
-            <DropdownItem href="/profile">Profile</DropdownItem>
-            <DropdownItem href="/cources">My Courses</DropdownItem>
+            {/* TODO: Link error */}
+            <DropdownItem ><Link to="/profile">Profile</Link></DropdownItem>
+            <DropdownItem ><Link to='/cources'>My Courses</Link></DropdownItem>
         </DropdownMenu>)
     }
     render() {

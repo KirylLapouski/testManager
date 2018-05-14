@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Accordion = (Component) => {
+const Accordion = Component => {
     return class AccordionClass extends React.Component {
         constructor(props) {
             super(props)

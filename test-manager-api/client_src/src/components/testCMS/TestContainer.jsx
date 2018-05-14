@@ -11,20 +11,21 @@ class TestContainer extends React.Component {
     render() {
         return <div className="z-depth-1 container" style={{ padding: '0px' }}>
             {this.props.questions.map((item, i) => {
-                //TODO: normal key and id
-                return <EditableTest key={i + 1} id={i + 1} testType="checkbox" editing={this.props.openedItem === i + 1 ? true : false} question={item} toggleOpenItem={this.props.toggleOpenItem} />
+                return <EditableTest key={item.id} editing={this.props.openedItem === i + 1 ? true : false} question={item} toggleOpenItem={this.props.toggleOpenItem} />
             })}
         </div>
     }
 }
 
 this.propTypes = {
-    questions: PropTypes.array,
-    answers: PropTypes.arrayOf(
-        PropTypes.shape({
-            text: PropTypes.string
-        })
-    ),
+    //redux
+    questions: PropTypes.arrayOf({
+        id: PropTypes.number,
+        title: PropTypes.string,
+        description: PropTypes.string,
+        weight: PropTypes.number,
+        topicId: PropTypes.number
+    }),
     getQuestions: PropTypes.func,
     //accordion
     toggleOpenItem: PropTypes.func,
