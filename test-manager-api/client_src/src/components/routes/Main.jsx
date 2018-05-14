@@ -17,7 +17,6 @@ class Main extends React.Component {
                     <Route path="/:courseId/lessons" component={EditableCourse} />
                     <Route path="/lesson/:lessonId/topic/:topicId/testEditor" component={TestContainer} />                    
                     <Route path="/lesson/:lessonId/topic/:topicId" component={TopicContainer} />
-                    <Route path="/lesson/:lessonId/topics" component={TopicContainer} />
                     <Route path="/" exact component={LoginIn}/>
                     <Route path="/signUp" component={SignUp} />
                     <Route path="/profile" component={Profile}/>

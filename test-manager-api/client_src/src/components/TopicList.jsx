@@ -2,13 +2,9 @@ import React from 'react'
 import List, { ListItem, ListItemText } from 'material-ui/List'
 import Collapse from 'material-ui/transitions/Collapse'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { loadTopics } from '../redux/AC/topic'
 import { Link  } from 'react-router-dom'
 class TopicList extends React.Component {
-    componentWillMount() {
-        this.props.getTopics(this.props.lessonId)
-    }
+
     render() {
         var topics = this.props.topics.map(value => {
             return <Link to={`/lesson/${this.props.lessonId}/topic/${value.id}`}>
@@ -34,26 +30,8 @@ class TopicList extends React.Component {
 TopicList.propTypes = {
     lessonId: PropTypes.lessonId,
     topicsOpened: PropTypes.bool,
-    //redux
     topics: PropTypes.arrayOf(PropTypes.object),
-    getTopics: PropTypes.func
 }
 
-const mapStateToProps = (state, ownProps) => {
-    var res = []
-    for (var key in state.topics) {
-        if (Number(ownProps.lessonId) === state.topics[key].lessonId) {
-            res.push(state.topics[key])
-        }
-    }
-    return { topics: res }
-}
 
-const mapDispatchToProps = dispatch => {
-    return {
-        getTopics(lessonID) {
-            dispatch(loadTopics(lessonID))
-        }
-    }
-}
-export default connect(mapStateToProps, mapDispatchToProps)(TopicList)
+export default TopicList

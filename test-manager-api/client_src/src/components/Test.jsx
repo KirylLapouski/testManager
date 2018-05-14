@@ -9,6 +9,7 @@ import AppBar from 'material-ui/AppBar';
 import Tabs, { Tab } from 'material-ui/Tabs';
 import Typography from 'material-ui/Typography';
 import { Button, Container, Collapse } from 'mdbreact'
+// TODO: test not always opening
 function TabContainer(props) {
     return (
         <Typography component="div" style={{ padding: 8 * 3,backgroundColor:"white"}}>

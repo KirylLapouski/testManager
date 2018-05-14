@@ -60,7 +60,7 @@ class TopicContainer extends React.Component {
             <Paginator initCurrentPos={Number(this.props.match.params.topicId) ? Number(this.props.match.params.topicId) : null} length={this.props.topics.length} onClick={this.handlePaginatorClick} />
             {elem}
             {/* <Link to={`${this.props.location.pathname}/testEditor`}> */}
-                <EditButton/>
+            <EditButton/>
             {/* </Link> */}
         </div>
         )
