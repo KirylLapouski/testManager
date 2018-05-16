@@ -5,6 +5,7 @@ import { isKeyHotkey } from 'is-hotkey'
 import React from 'react'
 import imageExtensions from 'image-extensions'
 import isUrl from 'is-url'
+import Media from '../topicContent/Media'
 import ImageIcon from '@material-ui/icons/InsertPhoto'
 import FormatBold from '@material-ui/icons/FormatBold'
 import FormatItalic from '@material-ui/icons/FormatItalic'
@@ -16,51 +17,61 @@ import FormatQuoteIcon from '@material-ui/icons/FormatQuote'
 import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered'
 import FormatListBulleted from '@material-ui/icons/FormatListBulleted'
 import FormatBulletedListIcon from '@material-ui/icons/FormatListBulleted'
+import VideoCalIcon from '@material-ui/icons/VideoCall'
 var initialValue = {
-    "document": {
-      "nodes": [
-        {
-          "object": "block",
-          "type": "paragraph",
-          "nodes": [
-            {
-              "object": "text",
-              "leaves": [
-                {
-                  "text":
-                    "In addition to nodes that contain editable text, you can also create other types of nodes, like images or videos."
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "object": "block",
-          "type": "image",
-          "isVoid": true,
-          "data": {
-            "src":
-              "https://img.washingtonpost.com/wp-apps/imrs.php?src=https://img.washingtonpost.com/news/speaking-of-science/wp-content/uploads/sites/36/2015/10/as12-49-7278-1024x1024.jpg&w=1484"
+  "document": {
+    "nodes": [
+      {
+        "object": "block",
+        "type": "paragraph",
+        "nodes": [
+          {
+            "object": "text",
+            "leaves": [
+              {
+                "text":
+                  "In addition to nodes that contain editable text, you can also create other types of nodes, like images or videos."
+              }
+            ]
           }
-        },
-        {
-          "object": "block",
-          "type": "paragraph",
-          "nodes": [
-            {
-              "object": "text",
-              "leaves": [
-                {
-                  "text":
-                    "This example shows images in action. It features two ways to add images. You can either add an image via the toolbar icon above, or if you want in on a little secret, copy an image URL to your keyboard and paste it anywhere in the editor!"
-                }
-              ]
-            }
-          ]
+        ]
+      },
+      {
+        "object": "block",
+        "type": "image",
+        "isVoid": true,
+        "data": {
+          "src":
+            "https://img.washingtonpost.com/wp-apps/imrs.php?src=https://img.washingtonpost.com/news/speaking-of-science/wp-content/uploads/sites/36/2015/10/as12-49-7278-1024x1024.jpg&w=1484"
         }
-      ]
-    }
+      },
+      {
+        "object": "block",
+        "type": "video",
+        "isVoid": true,
+        "data": {
+          "video": 
+            "https://www.youtube.com/embed/FaHEusBG20c"
+        }
+      },
+      {
+        "object": "block",
+        "type": "paragraph",
+        "nodes": [
+          {
+            "object": "text",
+            "leaves": [
+              {
+                "text":
+                  "This example shows images in action. It features two ways to add images. You can either add an image via the toolbar icon above, or if you want in on a little secret, copy an image URL to your keyboard and paste it anywhere in the editor!"
+              }
+            ]
+          }
+        ]
+      }
+    ]
   }
+}
 //ritch text editor
 
 const DEFAULT_NODE = 'paragraph'
@@ -102,6 +113,13 @@ function insertImage(change, src, target) {
   })
 }
 
+function insertVideo(change, src, target) {
+  if (target) {
+    change.select(target)
+  }
+
+  
+}
 /**
  * A schema to enforce that there's always a paragraph as the last block.
  *
@@ -140,34 +158,34 @@ class Images extends React.Component {
   }
   //ritch text editor
 
-     /**
-   * Check if the any of the currently selected blocks are of `type`.
-   *
-   * @param {String} type
-   * @return {Boolean}
-   */
+  /**
+* Check if the any of the currently selected blocks are of `type`.
+*
+* @param {String} type
+* @return {Boolean}
+*/
   hasBlock = type => {
     const { value } = this.state
     return value.blocks.some(node => node.type == type)
   }
- /**
-   * Check if the current selection has a mark with `type` in it.
-   *
-   * @param {String} type
-   * @return {Boolean}
-   */
+  /**
+    * Check if the current selection has a mark with `type` in it.
+    *
+    * @param {String} type
+    * @return {Boolean}
+    */
 
   hasMark = type => {
     const { value } = this.state
     return value.activeMarks.some(mark => mark.type == type)
   }
- /**
-   * On key down, if it's a formatting command toggle a mark.
-   *
-   * @param {Event} event
-   * @param {Change} change
-   * @return {Change}
-   */
+  /**
+    * On key down, if it's a formatting command toggle a mark.
+    *
+    * @param {Event} event
+    * @param {Change} change
+    * @return {Change}
+    */
 
   onKeyDown = (event, change) => {
     let mark
@@ -188,12 +206,12 @@ class Images extends React.Component {
     change.toggleMark(mark)
     return true
   }
-   /**
-   * When a mark button is clicked, toggle the current mark.
-   *
-   * @param {Event} event
-   * @param {String} type
-   */
+  /**
+  * When a mark button is clicked, toggle the current mark.
+  *
+  * @param {Event} event
+  * @param {String} type
+  */
 
   onClickMark = (event, type) => {
     event.preventDefault()
@@ -251,10 +269,20 @@ class Images extends React.Component {
       }
     }
 
+    if (type === 'video') {
+      const src = window.prompt('Enter the URL of the video:')
+      if (!src) return
+
+      change.insertBlock({
+        type: 'video',
+        isVoid: true,
+        data: { 'video': src },
+      })
+    }
     this.onChange(change)
   }
 
-//image extension
+  //image extension
   /**
    * Render the app.
    *
@@ -263,7 +291,7 @@ class Images extends React.Component {
 
   render() {
     return (
-      <div style={{boxShadow:' 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)'}}>
+      <div style={{ boxShadow: ' 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)' }}>
         {this.renderToolbar()}
         {this.renderEditor()}
       </div>
@@ -278,48 +306,49 @@ class Images extends React.Component {
 
   renderToolbar = () => {
     return (
-      <div className="menu toolbar-menu" style={{ color:'#B0BEC5', padding:'30px',paddingRight:'65%', display:'flex', justifyContent:'space-between',  borderBottom:'2px solid #B0BEC5'}}>
-        <span className="button" onMouseDown={this.onClickImage} style={{cursor:'pointer'}}>
-            <ImageIcon style={{width:'25px', height:'25px'}}/>
+      <div className="menu toolbar-menu" style={{ color: '#B0BEC5', padding: '30px', paddingRight: '65%', display: 'flex', justifyContent: 'space-between', borderBottom: '2px solid #B0BEC5' }}>
+        <span className="button" onMouseDown={this.onClickImage} style={{ cursor: 'pointer' }}>
+          <ImageIcon style={{ width: '25px', height: '25px' }} />
         </span>
-        {this.renderMarkButton('bold', <FormatBold style={{width:'25px', height:'25px'}}/>)}
-        {this.renderMarkButton('italic', <FormatItalic style={{width:'25px', height:'25px'}}/>)}
-        {this.renderMarkButton('underlined', <FormatUnderlined style={{width:'25px', height:'25px'}}/>)}
-        {this.renderMarkButton('code', <CodeIcon style={{width:'25px', height:'25px'}}/>)}
-        {this.renderBlockButton('heading-one', <LooksOneIcon style={{width:'25px', height:'25px'}}/>)}
-        {this.renderBlockButton('heading-two', <LooksTwoIcon style={{width:'25px', height:'25px'}} />)}
-        {this.renderBlockButton('block-quote', <FormatQuoteIcon style={{width:'25px', height:'25px'}} />)}
-        {this.renderBlockButton('numbered-list', <FormatListNumberedIcon style={{width:'25px', height:'25px'}} />)}
-        {this.renderBlockButton('bulleted-list', <FormatBulletedListIcon style={{width:'25px', height:'25px'}} />)}
+        {this.renderMarkButton('bold', <FormatBold style={{ width: '25px', height: '25px' }} />)}
+        {this.renderMarkButton('italic', <FormatItalic style={{ width: '25px', height: '25px' }} />)}
+        {this.renderMarkButton('underlined', <FormatUnderlined style={{ width: '25px', height: '25px' }} />)}
+        {this.renderMarkButton('code', <CodeIcon style={{ width: '25px', height: '25px' }} />)}
+        {this.renderBlockButton('heading-one', <LooksOneIcon style={{ width: '25px', height: '25px' }} />)}
+        {this.renderBlockButton('heading-two', <LooksTwoIcon style={{ width: '25px', height: '25px' }} />)}
+        {this.renderBlockButton('block-quote', <FormatQuoteIcon style={{ width: '25px', height: '25px' }} />)}
+        {this.renderBlockButton('numbered-list', <FormatListNumberedIcon style={{ width: '25px', height: '25px' }} />)}
+        {this.renderBlockButton('bulleted-list', <FormatBulletedListIcon style={{ width: '25px', height: '25px' }} />)}
+        {this.renderBlockButton('video', <VideoCalIcon style={{ width: '25px', height: '25px' }} />)}
       </div>
     )
   }
 
-   /**
-   * Render a mark-toggling toolbar button.
-   *
-   * @param {String} type
-   * @param {String} icon
-   * @return {Element}
-   */
+  /**
+  * Render a mark-toggling toolbar button.
+  *
+  * @param {String} type
+  * @param {String} icon
+  * @return {Element}
+  */
 
   renderMarkButton = (type, iconNode) => {
     const isActive = this.hasMark(type)
     const onMouseDown = event => this.onClickMark(event, type)
 
     return (
-      <span className="button" onMouseDown={onMouseDown} data-active={isActive} style={{cursor:'pointer'}}>
+      <span className="button" onMouseDown={onMouseDown} data-active={isActive} style={{ cursor: 'pointer' }}>
         {iconNode}
       </span>
     )
   }
-   /**
-   * Render a block-toggling toolbar button.
-   *
-   * @param {String} type
-   * @param {String} icon
-   * @return {Element}
-   */
+  /**
+  * Render a block-toggling toolbar button.
+  *
+  * @param {String} type
+  * @param {String} icon
+  * @return {Element}
+  */
 
   renderBlockButton = (type, iconNode) => {
     let isActive = this.hasBlock(type)
@@ -333,7 +362,7 @@ class Images extends React.Component {
 
     return (
       // eslint-disable-next-line react/jsx-no-bind
-      <span className="button" onMouseDown={onMouseDown} data-active={isActive} style={{cursor:'pointer'}}>
+      <span className="button" onMouseDown={onMouseDown} data-active={isActive} style={{ cursor: 'pointer' }}>
         {iconNode}
       </span>
     )
@@ -346,7 +375,7 @@ class Images extends React.Component {
 
   renderEditor = () => {
     return (
-      <div className="editor" style={{marginTop:'50px'}}>
+      <div className="editor" style={{ marginTop: '50px' }}>
         <Editor
           placeholder="Enter some text..."
           value={this.state.value}
@@ -369,15 +398,21 @@ class Images extends React.Component {
 
   renderNode = props => {
     const { attributes, node, isSelected } = props
+    console.log(node)
+    
     switch (node.type) {
       case 'image': {
+        
         const src = node.data.get('src')
         const className = isSelected ? 'active' : null
-        const style = { display: 'block', width:'60%', margin:'auto'}
+        const style = { display: 'block', width: '60%', margin: 'auto' }
         return (
           <img src={src} className={className} style={style} {...attributes} />
         )
       }
+      case 'video':{
+        const src = node.data.get('video')
+        return <Media src={src} {...props} />}
     }
   }
 
