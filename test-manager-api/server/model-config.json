@@ -18,7 +18,14 @@
   },
   "AccessToken": {
     "dataSource": "db",
-    "public": false
+    "public": false,
+    "relations": {
+      "user": {
+        "type": "belongsTo",
+        "model": "Participant",
+        "foreignKey": "userId"
+      }
+    }
   },
   "ACL": {
     "dataSource": "db",
@@ -26,14 +33,14 @@
   },
   "RoleMapping": {
     "dataSource": "db",
-    "public": false,
+    "public": true,
     "options": {
       "strictObjectIDCoercion": true
     }
   },
   "Role": {
     "dataSource": "db",
-    "public": false
+    "public": true
   },
   "Discipline": {
     "dataSource": "db",
@@ -52,6 +59,10 @@
     "public": true
   },
   "Answer": {
+    "dataSource": "db",
+    "public": true
+  },
+  "Participant": {
     "dataSource": "db",
     "public": true
   }

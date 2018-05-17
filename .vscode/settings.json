@@ -1,2 +1,15 @@
 {
+    "java.home": "C:\\Program Files\\Java\\jdk1.8.0_131",
+    "team.showWelcomeMessage": false,
+    "workbench.iconTheme": "material-icon-theme",
+    "window.zoomLevel": 0,
+    "git.enableSmartCommit": true,
+    "window.menuBarVisibility": "default",
+    "git.autofetch": true,
+    "files.autoSave": "afterDelay",
+    "editor.tabSize": 4,
+    "editor.insertSpaces": true,
+    "editor.renderWhitespace": "all",
+    "eslint.autoFixOnSave": true,
+    "todohighlight.isEnable": false
 }
