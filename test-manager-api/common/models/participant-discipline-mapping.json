@@ -1,0 +1,30 @@
+{
+  "name": "ParticipantDisciplineMapping",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "type": {
+      "type": "string",
+      "required": true,
+      "default": "student"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "participant": {
+      "type": "belongsTo",
+      "model": "Participant",
+      "foreignKey": ""
+    },
+    "discipline": {
+      "type": "belongsTo",
+      "model": "Discipline",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

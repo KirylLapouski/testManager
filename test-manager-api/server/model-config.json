@@ -65,5 +65,13 @@
   "Participant": {
     "dataSource": "db",
     "public": true
+  },
+  "ParticipantDisciplineMapping": {
+    "dataSource": "db",
+    "public": true
+  },
+  "check": {
+    "dataSource": "db",
+    "public": true
   }
 }
