@@ -1,0 +1,13 @@
+{
+    "yandex-login": {
+        "provider": "yandex",
+        "module": "passport-yandex",
+        "profileFields": ["gender", "link", "locale", "name", "timezone", "verified", "email", "updated_time"],
+        "clientID": "c48956d9f59442bab960f373a6ca5ba2",
+        "clientSecret": "9e46f2c8fefb4f55bf63b06066431c4d",
+        "callbackURL": "http://localhost:3000/auth/yandex/callback",
+        "authPath": "/auth/yandex",
+        "callbackPath": "/auth/yandex/callback",
+        "successRedirect": "/cources"
+      }
+  }

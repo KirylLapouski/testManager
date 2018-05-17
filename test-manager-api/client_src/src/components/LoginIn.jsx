@@ -106,7 +106,7 @@ class LoginIn extends React.Component {
                             <br />
 
                             <button className="btn btn-lg btn-primary btn-block" type="submit">Вход</button><br />
-                            <a role="button" href="auth/linkedin" className="btn btn-light-blue btn-block btn-li waves-effect waves-light"><i className="fa fa-linkedin pr-1"></i> Linkedin</a>
+                            <a role="button" href="auth/yandex" className="btn btn-light-blue btn-block btn-li waves-effect waves-light"><i className="fa fa-linkedin pr-1"></i> Linkedin</a>
                             <div className="modal-footer pr-0">
                                 <div className="options font-weight-light">
                                     <p>Не зарегистрированы?  <Link style={{color:'blue'}} to="/signUp">Регистрация</Link></p>

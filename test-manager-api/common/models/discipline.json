@@ -20,12 +20,6 @@
       "options": {
         "nestRemoting": true
       }
-    },
-    "participants": {
-      "type": "hasMany",
-      "model": "Participant",
-      "foreignKey": "",
-      "through": "ParticipantDisciplineMapping"
     }
   },
   "acls": [

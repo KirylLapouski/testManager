@@ -1,9 +1,81 @@
 'use strict';
 
 var loopback = require('loopback');
+var path = require('path');
 var boot = require('loopback-boot');
+var cookieParser = require('cookie-parser');
+var session = require('express-session');
 
 var app = module.exports = loopback();
+// Create an instance of PassportConfigurator with the app instance
+var PassportConfigurator = require('loopback-component-passport').PassportConfigurator;
+var passportConfigurator = new PassportConfigurator(app);
+
+/*
+ * body-parser is a piece of express middleware that
+ *   reads a form's input and stores it as a javascript
+ *   object accessible through `req.body`
+ *
+ */
+var bodyParser = require('body-parser');
+
+/**
+ * Flash messages for passport
+ *
+ * Setting the failureFlash option to true instructs Passport to flash an
+ * error message using the message given by the strategy's verify callback,
+ * if any. This is often the best approach, because the verify callback
+ * can make the most accurate determination of why authentication failed.
+ */
+var flash      = require('express-flash');
+
+// attempt to build the providers/passport config
+var config = {};
+try {
+  config = require('../providers.json');
+} catch (err) {
+  console.trace(err);
+  process.exit(1); // fatal
+}
+
+boot(app, __dirname);
+
+// to support JSON-encoded bodies
+app.middleware('parse', bodyParser.json());
+// to support URL-encoded bodies
+app.middleware('parse', bodyParser.urlencoded({
+  extended: true,
+}));
+
+// The access token is only available after boot
+app.middleware('auth', loopback.token({
+  model: app.models.accessToken,
+}));
+
+app.middleware('session:before', cookieParser(app.get('cookieSecret')));
+app.middleware('session', session({
+  secret: 'kitty',
+  saveUninitialized: true,
+  resave: true,
+}));
+
+// Initialize passport
+passportConfigurator.init();
+
+app.use(flash());
+
+// Set up related models
+passportConfigurator.setupModels({
+  userModel: app.models.user,
+  userIdentityModel: app.models.userIdentity,
+  userCredentialModel: app.models.userCredential,
+});
+// Configure passport strategies for third party auth providers
+for (var s in config) {
+  var c = config[s];
+  c.session = c.session !== false;
+  passportConfigurator.configureProvider(s, c);
+}
 
 app.start = function() {
   // start the web server
