@@ -26,12 +26,14 @@ class SignUp extends React.Component {
     }
     onSubmitHandler(e) {
         e.preventDefault()
-
+        var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/
         if (!this.state.email || !this.state.password || !this.state.passwordConfirm) {
             toastr.error('Все поля должны быть заполнены')
         } else if (this.state.password !== this.state.passwordConfirm) {
             toastr.error('Пароли не совпадают')
             //WRONG PASSWORD
+        } else if(reg.test(this.state.email) == false){
+            toastr.error('Неправильный формат для электронной почты')
         } else {
 
             var xhr = new XMLHttpRequest()
