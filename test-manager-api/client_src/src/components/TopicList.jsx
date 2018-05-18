@@ -18,10 +18,8 @@ class TopicList extends React.Component {
             <ListItem button onClick={this.props.handleTopicsClick} style={{ paddingTop: '0px', paddingBottom: '0px', height: '30px' }}>
                 <ListItemText inset primary="Topics" />
             </ListItem>
-            <Collapse in={this.props.topicsOpened} >
-                {/* <List component="div" disablePadding> */}
-                {topics}
-                {/* </List> */}
+            <Collapse in={this.props.topicsOpened} style={{color:'black'}} >
+                {topics.length?topics:'Данный урок не содержит топиков'}
             </Collapse>
         </List>
     }
