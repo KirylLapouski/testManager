@@ -1,14 +1,18 @@
+// Copyright IBM Corp. 2014,2016. All Rights Reserved.
+// Node module: loopback-example-passport
+// This file is licensed under the MIT License.
+// License text available at https://opensource.org/licenses/MIT
 'use strict';
 
 var loopback = require('loopback');
-var path = require('path');
 var boot = require('loopback-boot');
+var app = module.exports = loopback();
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
 
-var app = module.exports = loopback();
-// Create an instance of PassportConfigurator with the app instance
-var PassportConfigurator = require('loopback-component-passport').PassportConfigurator;
+// Passport configurators..
+var loopbackPassport = require('loopback-component-passport');
+var PassportConfigurator = loopbackPassport.PassportConfigurator;
 var passportConfigurator = new PassportConfigurator(app);
 
 /*
@@ -38,6 +42,14 @@ try {
   process.exit(1); // fatal
 }
 
+// -- Add your pre-processing middleware here --
+
+// Setup the view engine (jade)
+var path = require('path');
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'jade');
+
+// boot scripts mount components like REST API
 boot(app, __dirname);
 
 // to support JSON-encoded bodies
@@ -58,24 +70,26 @@ app.middleware('session', session({
   saveUninitialized: true,
   resave: true,
 }));
-
-// Initialize passport
 passportConfigurator.init();
 
+// We need flash messages to see passport errors
 app.use(flash());
 
-// Set up related models
 passportConfigurator.setupModels({
   userModel: app.models.user,
   userIdentityModel: app.models.userIdentity,
   userCredentialModel: app.models.userCredential,
 });
-// Configure passport strategies for third party auth providers
 for (var s in config) {
   var c = config[s];
   c.session = c.session !== false;
   passportConfigurator.configureProvider(s, c);
 }
+var ensureLoggedIn = require('connect-ensure-login').ensureLoggedIn;
+
+app.get('/auth/yandex/callback', function(req, res, next) {
+  console.log(req);
+});
 
 app.start = function() {
   // start the web server
@@ -90,12 +104,7 @@ app.start = function() {
   });
 };
 
-// Bootstrap the application, configure models, datasources and middleware.
-// Sub-apps like REST API are mounted via boot scripts.
-boot(app, __dirname, function(err) {
-  if (err) throw err;
-
-  // start the server if `$ node server.js`
-  if (require.main === module)
-    app.start();
-});
+// start the server if `$ node server.js`
+if (require.main === module) {
+  app.start();
+}

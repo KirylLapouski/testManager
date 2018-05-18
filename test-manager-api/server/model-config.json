@@ -83,6 +83,13 @@
   },
   "UserIdentity": {
     "dataSource": "db",
-    "public": true
+    "public": true,
+    "relations": {
+      "user": {
+        "type": "belongsTo",
+        "model": "Participant",
+        "foreignKey": "participantId"
+      }
+    }
   }
 }
