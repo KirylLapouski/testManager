@@ -40,6 +40,21 @@ class TopicModal extends React.Component {
         node.document.nodes[0].data.video = src
         //TODO: new reducer
         this.props.createTopic(this.props.lessonId,node,"titile")
+        this.props.handleClose()
+        //TODO: bag when see added topic at first
+    }
+
+    handleSoundCloudClick = ()=>{
+        //TODO: check that is youtube video and validate
+        const src = window.prompt('Введите URL с sound cloud:')
+        if (!src) return
+
+        var node = initVideo
+        node.document.nodes[0].data.video = src
+        //TODO: new reducer
+        this.props.createTopic(this.props.lessonId,node,"titile")
+        this.props.handleClose()
+        //TODO: bag when see added topic at first
     }
     render() {
         return (<div>
@@ -63,7 +78,7 @@ class TopicModal extends React.Component {
                         <div style={{margin:'auto',marginLeft:'0px'}}>
                         <Button ><ClipIcon/></Button>
                         <Button ><i className="fa fa-youtube-play" style={{fontSize:'2em'}} onClick={this.handleYouTubeClick} aria-hidden="true"></i></Button>
-                        <Button ><i className="fa fa-soundcloud"  style={{fontSize:'2em'}} aria-hidden="true"></i></Button>
+                        <Button ><i className="fa fa-soundcloud"  style={{fontSize:'2em'}} onClick={this.handleSoundCloudClick} aria-hidden="true"></i></Button>
                         </div>
                         <Button onClick={this.props.handleClose}>Отмена</Button>
                         <Button variant="raised" color="primary">Создать</Button>

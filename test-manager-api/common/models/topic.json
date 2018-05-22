@@ -11,11 +11,7 @@
       "required": true
     },
     "path": {
-      "type": "string",
-      "required": true
-    },
-    "type": {
-      "type": "string",
+      "type": "object",
       "required": true
     }
   },
@@ -44,12 +40,6 @@
       "principalType": "ROLE",
       "principalId": "admin",
       "permission": "ALLOW"
-    },
-    {
-      "accessType": "*",
-      "principalType": "ROLE",
-      "principalId": "$everyone",
-      "permission": "DENY"
     }
   ],
   "methods": {}

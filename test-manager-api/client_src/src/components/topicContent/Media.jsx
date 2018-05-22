@@ -1,5 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import ReactPlayer from 'react-player'
+import url from 'url'
 /**
  * An video embed component.
  *
@@ -51,45 +53,63 @@ class Media extends React.Component {
    * @return {Element}
    */
 
+  parseVideoForYouTube(url) {
+    const youtube = 'https://www.youtube.com/embed/'
+    var videoId = url.split("=")
+    var result = youtube.concat(videoId[1])
+    return result
+  }
+
+  checkIsYouTubeUrl(urlAdress) {
+    var parsedUrl = url.parse(urlAdress)
+    if (parsedUrl.host == 'www.youtube.com')
+      return true
+    return false
+  }
   renderVideo = () => {
     const { node, isSelected } = this.props
-    const video = node.data.get('video')
+    var video = node.data.get('video')
 
-    const wrapperStyle = {
-      position: 'relative',
-      outline: isSelected ? '2px solid blue' : 'none',
+    // const wrapperStyle = {
+    //   position: 'relative',
+    //   outline: isSelected ? '2px solid blue' : 'none',
+    // }
+    if( this.checkIsYouTubeUrl(video)){
+      video = this.parseVideoForYouTube(video)
+      console.log(video)
     }
+    // const maskStyle = {
+    //   display: isSelected ? 'none' : 'block',
+    //   position: 'absolute',
+    //   top: '0',
+    //   left: '0',
+    //   height: '100%',
+    //   width: '100%',
+    //   cursor: 'cell',
+    //   zIndex: 1,
+    // }
 
-    const maskStyle = {
-      display: isSelected ? 'none' : 'block',
-      position: 'absolute',
-      top: '0',
-      left: '0',
-      height: '100%',
-      width: '100%',
-      cursor: 'cell',
-      zIndex: 1,
-    }
-
-    const iframeStyle = {
-      display: 'block',
-      margin: '0 auto',
-      width: '60%'
-    }
+    // const iframeStyle = {
+    //   display: 'block',
+    //   margin: '0 auto',
+    //   width: '60%'
+    // }
 
     return (
-      <div style={wrapperStyle}>
-        <div style={maskStyle} />
-        <iframe
-          id="ytplayer"
-          type="text/html"
-          width="640"
-          height="476"
-          src={video}
-          frameBorder="0"
-          style={iframeStyle}
-        />
-      </div>
+      // <div style={wrapperStyle}>
+      //   <div style={maskStyle} />
+      <ReactPlayer style={{ margin: '0 auto' }} width="1000px" height="565px" controls={true} url={video} />
+      // <iframe
+      //   id="ytplayer"
+      //   type="text/html"
+      //   width="640"
+      //   height="476"
+      //   src={"https://www.youtube.com/embed/g_YpoxLeecs"}
+      //   frameBorder="0"
+      //   style={iframeStyle}
+      //   allowfullscreen
+      // />
+      // </div>
     )
   }
 
