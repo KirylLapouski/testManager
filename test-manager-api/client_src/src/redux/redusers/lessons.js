@@ -20,6 +20,19 @@ const lessons = (state = {}, action) => {
             ...state,
             ...lessons
         }
+    //TODO: check is it immutable?
+    case constants.lessons.DELETE_LESSON:
+        var lessons = {...state}
+        delete lessons[action.payload.id]
+        return {
+            ...lessons
+        }
+    case constants.lessons.EDIT_LESSON:
+        var lessons = {...state}
+        lessons[action.payload.id] = action.payload
+        return {
+            ...lessons
+        }
     }
     return state
 }

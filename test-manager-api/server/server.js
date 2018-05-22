@@ -9,7 +9,7 @@ var boot = require('loopback-boot');
 var app = module.exports = loopback();
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
-
+var request = require('request');
 // Passport configurators..
 var loopbackPassport = require('loopback-component-passport');
 var PassportConfigurator = loopbackPassport.PassportConfigurator;
@@ -31,7 +31,7 @@ var bodyParser = require('body-parser');
  * if any. This is often the best approach, because the verify callback
  * can make the most accurate determination of why authentication failed.
  */
-var flash      = require('express-flash');
+var flash = require('express-flash');
 
 // attempt to build the providers/passport config
 var config = {};
@@ -88,7 +88,72 @@ for (var s in config) {
 var ensureLoggedIn = require('connect-ensure-login').ensureLoggedIn;
 
 app.get('/auth/yandex/callback', function(req, res, next) {
-  console.log(req);
+  request.post('https://oauth.yandex.ru/token', {
+    form: {
+      'grant_type': 'authorization_code',
+      'code': req.query.code,
+      'client_id': 'c48956d9f59442bab960f373a6ca5ba2',
+      'client_secret': '9e46f2c8fefb4f55bf63b06066431c4d',
+    },
+  }, function(err, httpResponse, body) {
+    body = JSON.parse(body);
+    var accessToken = body.access_token;
+    request.get({
+      url: 'https://login.yandex.ru/info',
+      headers: {
+        'Authorization': `OAuth ${accessToken}`,
+      },
+    }, function(err, httpResponse, body) {
+      body = JSON.parse(body);
+      var userId = body.id;
+      var Participant = app.models.Participant;
+      Participant.findOne({
+        where: {
+          email: `${body.login}@yandex.by`,
+        },
+      }, function(err, account) {
+        console.log(account);
+        if (!account) {
+          Participant.create({
+            email: `${body.login}@yandex.by`,
+            password: '1111',
+          }, function(err, user) {
+            var UserIdentity = app.models.UserIdentity;
+            UserIdentity.findOne({
+              externalId: userId,
+            }, function(err, userIdentityModel) {
+              request.patch('http://localhost:3000/api/UserIdentities', {
+                form: {
+                  'participantId': user.id,
+                  'id': userIdentityModel.id,
+                },
+              }, function(err, updatedUserIdentity) {
+                request.post('http://localhost:3000/api/Participants/login', {
+                  form: {
+                    email: user.email,
+                    password: '1111',
+                  },
+                }, function(err, token) {
+              // TODO: response new user token from redirect
+                  console.log(token);
+                });
+              });
+            });
+          });
+        } else {
+          request.post('http://localhost:3000/api/Participants/login', {
+            form: {
+              email: account.email,
+              password: '1111',
+            },
+          }, function(err, token) {
+              // TODO: response new user token from redirect
+            console.log(token.body);
+          });
+        }
+      });
+    });
+  });
 });
 
 app.start = function() {

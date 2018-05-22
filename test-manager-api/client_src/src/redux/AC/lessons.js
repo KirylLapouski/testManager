@@ -32,6 +32,44 @@ const addLesson = (title, disciplineId, desc) => {
     }
 }
 
+const deleteLesson = lessonId =>{
+    return dispatch =>{
+        axios.delete(`http://localhost:3000/api/Lessons/${lessonId}`)
+            .then(response =>{
+                return response.data
+            })
+            .then(response=>{
+                dispatch({
+                    type: constants.lessons.DELETE_LESSON,
+                    payload:{
+                        id: lessonId
+                    }
+                })
+            })
+    }
+}
+
+const editLesson = (lessonId,title,desctiption) =>{
+    var resLesson = {id: String(lessonId)}
+
+    if(title)
+        resLesson.title = title
+    if(desctiption)
+        resLesson.description = desctiption
+    return dispatch=>{
+        axios.patch('http://localhost:3000/api/Lessons',resLesson)
+            .then(response=>{
+                return response.data
+            }).then(response=>{
+                dispatch({
+                    type: constants.lessons.EDIT_LESSON,
+                    payload:{
+                        ...response
+                    }
+                })
+            })
+    }
+}
 const loadLessons = (courseId) => {
     return dispatch => {
         axios.get('http://localhost:3000/api/Disciplines/' + courseId + '/lessons')
@@ -47,7 +85,10 @@ const loadLessons = (courseId) => {
     }
 }
 
+window.editLesson = editLesson
 export {
     addLesson,
-    loadLessons
+    loadLessons,
+    deleteLesson,
+    editLesson
 }

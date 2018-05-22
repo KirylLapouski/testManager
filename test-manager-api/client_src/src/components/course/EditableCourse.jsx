@@ -32,7 +32,7 @@ class EditableCourse extends React.Component {
     render() {
         return <div>
             <CourseHeader backgroundSrc='https://lh6.googleusercontent.com/-691E4HHlPjM/VN0ohuHpXiI/AAAAAAAAASM/OsvrdNM5yZw/w984-h209-no/06_bubbles.jpg' name='test1' teacherName="Test" teacherLastName="Test">
-                <UserInfo />
+                <UserInfo disabled={true}/>
             </CourseHeader>
 
             <Button onClick={this.toggleModal} variant="fab" color="primary" aria-label="add" style={{ position: 'fixed', bottom: '20px', right: '20px' }}>

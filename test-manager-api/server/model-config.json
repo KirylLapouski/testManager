@@ -71,8 +71,6 @@
     "dataSource": "db",
     "public": true
   },
-
-  
   "ApplicationCredential": {
     "dataSource": "db",
     "public": true
@@ -90,6 +88,26 @@
         "model": "Participant",
         "foreignKey": "participantId"
       }
-    }
+    },
+    "acls": [
+      {
+        "accessType": "*",
+        "principalType": "ROLE",
+        "principalId": "admin",
+        "permission": "ALLOW"
+      },
+      {
+        "accessType": "READ",
+        "principalType": "ROLE",
+        "principalId": "$everyone",
+        "permission": "ALLOW"
+      },
+      {
+        "accessType": "WRITE",
+        "principalType": "ROLE",
+        "principalId": "$everyone",
+        "permission": "ALLOW"
+      }
+    ]
   }
 }

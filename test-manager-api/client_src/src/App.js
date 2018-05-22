@@ -6,13 +6,18 @@ import '../node_modules/toastr/build/toastr.css'
 import Header from './components/routes/Header'
 import Main from './components/routes/Main'
 import './App.css'
+import {BrowserRouter as Router} from 'react-router-dom'
 
 class App extends Component {
     render() {
         return (
             <div className="App">
-                <Header />
-                <Main/>
+                <Router>
+                    <div>
+                        <Header />
+                        <Main/>
+                    </div>
+                </Router>
             </div>
         )
     }

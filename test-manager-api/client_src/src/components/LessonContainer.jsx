@@ -23,7 +23,7 @@ class LessonContainer extends React.Component {
         const LESSONS_IN_LIST = 10;
         if (this.props.lessons) {
             var lessons = this.props.lessons.slice((this.state.listNumber-1)*LESSONS_IN_LIST, this.state.listNumber*LESSONS_IN_LIST).map((value, index, array) => {
-                return (<Lesson id={value.id} title={value.title} />)
+                return (<Lesson id={value.id} title={value.title} description={value.description} />)
             })
         }
 
