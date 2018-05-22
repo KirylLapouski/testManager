@@ -8,11 +8,38 @@ import FileDrop from 'react-file-drop'
 import ClearIcon from '@material-ui/icons/Clear'
 import ClipIcon from '@material-ui/icons/AttachFile'
 import YouTubeIcon from '@material-ui/icons/YoutubeSearchedFor'
+import {addTopic} from '../../redux/AC/topic'
+import {connect} from 'react-redux'
+var initVideo = {
+    "document": {
+      "nodes": [
+        {
+          "object": "block",
+          "type": "video",
+          "isVoid": true,
+          "data": {
+            "video": ""
+          }
+        }
+      ]
+    }
+  }
 const modalStyles = {  width:'840px',height:'320px', color: 'black', padding: 20, boxShadow:'inset 0px 0px 5px rgba(154, 147, 140, 0.5)',display:'flex',justifyContent:'center', alignItems:'center', textAlign:'center' };
 
 class TopicModal extends React.Component {
     handleDrop = (files, event) => {
         console.log(files, event);
+    }
+
+    handleYouTubeClick = ()=>{
+        //TODO: check that is youtube video and validate
+        const src = window.prompt('Введите URL видео с youtube:')
+        if (!src) return
+
+        var node = initVideo
+        node.document.nodes[0].data.video = src
+        //TODO: new reducer
+        this.props.createTopic(this.props.lessonId,node,"titile")
     }
     render() {
         return (<div>
@@ -35,8 +62,8 @@ class TopicModal extends React.Component {
                     <div style={{ display: 'flex', alignSelf: 'flex-end', marginTop: '45px',width:'100%',justifyContent:'flex-end' }}>
                         <div style={{margin:'auto',marginLeft:'0px'}}>
                         <Button ><ClipIcon/></Button>
-                        <Button ><i class="fa fa-youtube-play" style={{fontSize:'2em'}} aria-hidden="true"></i></Button>
-                        <Button ><i class="fa fa-soundcloud"  style={{fontSize:'2em'}} aria-hidden="true"></i></Button>
+                        <Button ><i className="fa fa-youtube-play" style={{fontSize:'2em'}} onClick={this.handleYouTubeClick} aria-hidden="true"></i></Button>
+                        <Button ><i className="fa fa-soundcloud"  style={{fontSize:'2em'}} aria-hidden="true"></i></Button>
                         </div>
                         <Button onClick={this.props.handleClose}>Отмена</Button>
                         <Button variant="raised" color="primary">Создать</Button>
@@ -51,7 +78,17 @@ class TopicModal extends React.Component {
 
 TopicModal.propTypes = {
     open: PropTypes.bool,
-    handleClose: PropTypes.func
+    handleClose: PropTypes.func,
+    lessonId: PropTypes.number,
+    //redux
+    createTopic: PropTypes.func
 }
 
-export default TopicModal
+const mapDispatchToProps = dispatch =>{
+    return {
+        createTopic(lessonId, node, title){
+            dispatch(addTopic(lessonId, node, title))
+        }
+    }
+}
+export default connect(null, mapDispatchToProps)(TopicModal)

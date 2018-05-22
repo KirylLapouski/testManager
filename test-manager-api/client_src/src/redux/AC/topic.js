@@ -1,13 +1,27 @@
 import constants from '../constants'
 import UUID from 'uuid-js'
+import request from 'request'
 import axios from 'axios'
-const addTopic = path => {
-    return {
-        type: constants.topics.CREATE_TOPIC,
-        payload: {
-            id: UUID.create().toString(),
-            path
-        }
+const addTopic = (lessonId, node, title) => {
+    return dispatch => {
+        request.post('http://localhost:3000/api/Topics', {
+            form: {
+                path:node,
+                lessonId: lessonId,
+                title: title || ' '
+            }
+        }, (err, response,body) => {
+            body = JSON.parse(body)
+            dispatch({
+                type: constants.topics.CREATE_TOPIC,
+                payload: {
+                    title: body.title,
+                    id: body.id,
+                    path: body.path,
+                    lessonId: body.lessonId
+                }
+            })
+        })
     }
 }
 
@@ -44,8 +58,7 @@ const addQuestionIdToTopic = topicID => {
     }
 }
 
-window.addQuestionIdToTopic = addQuestionIdToTopic
-
+window.addTopic = addTopic
 export {
     addTopic,
     loadTopics,

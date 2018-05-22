@@ -7,8 +7,10 @@ const topics = (state = {}, action) => {
         return {
             ...state,
             [action.payload.id]: {
+                title: action.payload.title,
+                path: action.payload.path,                
                 id: action.payload.id,
-                path: action.payload.path
+                lessonId: action.payload.lessonId
             }
         }
     case constants.topics.LOAD_TOPICS_FOR_LESSON:
