@@ -52,7 +52,7 @@ class TopicContainer extends React.Component {
                     var topic =  this.props.topics[i]
                 }
             }
-            var elem = <Topic key={this.props.match.params.topicId} handleTestSubmit={this.handleTestSubmit} path={topic.path} type={topic.type} id={topic.id} />
+            var elem = <Topic key={this.props.match.params.topicId} handleTestSubmit={this.handleTestSubmit} path={topic.path} id={topic.id} />
         }
 
        
@@ -71,7 +71,6 @@ TopicContainer.propTypes = {
     topics: PropTypes.arrayOf({
         id: PropTypes.number,
         path: PropTypes.string,
-        type: PropTypes.oneOf(['video', 'text', 'image'])
     }),
     getTopics: PropTypes.func
 }

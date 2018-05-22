@@ -17,7 +17,7 @@ class CourseContainer extends React.Component {
         }
 
         return (
-            <div className="z-depth-1 container-fluid" style={{ maxWidth: '1300px' }}>
+            <div className="container-fluid" style={{ maxWidth: '1300px', marginTop:'30px' }}>
                 <div className="row">
                     {courses}
                 </div>

@@ -15,7 +15,6 @@ class LessonContainer extends React.Component {
         this.props.getLessons(this.props.courseId)
     }
     handlePaginatorClick = paginatorPos =>{
-        console.log(paginatorPos)
         this.setState({
             listNumber:paginatorPos
         })
@@ -44,7 +43,7 @@ LessonContainer.propTypes = {
         title: PropTypes.string
     }),
     getLessons: PropTypes.func,
-    courseId: PropTypes.number
+    courseId: PropTypes.string
 }
 
 const mapStateToProps = (state, ownProps) => {

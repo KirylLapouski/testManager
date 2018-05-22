@@ -48,7 +48,7 @@ CourseModal.propTypes = {
     courseId: PropTypes.number,
     handleClose: PropTypes.func,
     addNewLesson: PropTypes.func,
-    courseId: PropTypes.number
+    courseId: PropTypes.string
 }
 
 const mapDispatchToProps = dispatch => {
