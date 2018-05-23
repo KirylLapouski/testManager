@@ -30,11 +30,13 @@ class Lesson extends React.Component {
         this.state = {
             topicsOpened: false,
             modalOpened: false,
-            edditing: false
+            edditing: false,
+            title: '',
+            description: '' 
         }
     }
 
-    componentWillMount(){
+    componentWillMount() {
         this.props.getTopics(this.props.id)
     }
     handleModalClose = () => {
@@ -67,9 +69,16 @@ class Lesson extends React.Component {
         })
     }
 
-    handleEditLesson = () => {
-        this.props.editLesson(this.props.id)
-        //TODO:: #1 take info from textFields by refs
+    handleInputChange = (e)=>{
+        this.setState({
+            [e.target.name]: e.target.value
+        })
+    }
+    handleSubmitEditLesson = () => {
+        console.log(this.state)
+        this.props.editLesson(this.props.id,this.state.title, this.state.description)
+        //TODO:: rewrite on refs
+        //TODO: need new reducer that check that change 
         toastr.success('Урок изменён')
         this.toggleEdditing()
     }
@@ -94,10 +103,10 @@ class Lesson extends React.Component {
         </ExpansionPanelDetails>
 
         var edditingExpantionPanel = <ExpansionPanelDetails style={{ display: 'flex', justifyContent: 'flex-start', flexDirection: 'column', paddingBottom: '0px', textAlign: 'left' }}>
-            <TextField InputProps={{ disableUnderline: true }} multiline={true} placeholder='Описание урока' rows='5' style={{ marginLeft: '61px', backgroundColor: 'white', opacity: '0.9', borderRadius: '4px', width: '91%', padding: '10px' }} />
+            <TextField name='description' onChange={this.handleInputChange}  InputProps={{ disableUnderline: true }} multiline={true} placeholder='Описание урока' rows='5' style={{ marginLeft: '61px', backgroundColor: 'white', opacity: '0.9', borderRadius: '4px', width: '91%', padding: '10px' }} />
             <div style={{ alignSelf: 'flex-end', marginTop: '10px', marginRight: '3px' }}>
                 <Button onClick={this.toggleEdditing} style={{ marginRight: '5px' }}>Отмена</Button>
-                <Button onClick={this.handleEditLesson} variant="raised" color="primary">Создать</Button>
+                <Button onClick={this.handleSubmitEditLesson} variant="raised" color="primary">Создать</Button>
             </div>
         </ExpansionPanelDetails>
 
@@ -107,7 +116,7 @@ class Lesson extends React.Component {
                     <UserInfo disabled={true} style={{ float: "left" }} />
                     {/* TODO: спорное решение с Link */}
                     {/* TODO: click lesson click error */}
-                    {this.state.edditing ? <TextField InputProps={{ disableUnderline: true }} placeholder='Название урока' onClick={this.handleEditableHeaderClick} style={{ backgroundColor: 'white', padding: '10px', opacity: '0.9', borderRadius: '4px', width: '85%' }} /> : <Link to={`/lesson/${this.props.id}/topic/${this.props.topics[0] ? this.props.topics[0].id : null}`} style={{ height: "20px" }}>{this.props.title}</Link>}
+                    {this.state.edditing ? <TextField name='title' onChange={this.handleInputChange} InputProps={{ disableUnderline: true }} placeholder='Название урока' onClick={this.handleEditableHeaderClick} style={{ backgroundColor: 'white', padding: '10px', opacity: '0.9', borderRadius: '4px', width: '85%' }} /> : <Link to={`/lesson/${this.props.id}/topic/${this.props.topics[0] ? this.props.topics[0].id : null}`} style={{ height: "20px" }}>{this.props.title}</Link>}
                 </ExpansionPanelSummary>
                 {this.state.edditing ? edditingExpantionPanel : readOnlyexpantionPanel}
             </ExpansionPanel>
