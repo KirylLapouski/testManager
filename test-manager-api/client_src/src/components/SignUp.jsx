@@ -37,7 +37,7 @@ class SignUp extends React.Component {
         } else {
 
             var xhr = new XMLHttpRequest()
-            xhr.open('POST', 'http://localhost:3000/api/Users', true)
+            xhr.open('POST', 'http://localhost:3000/api/Participants', true)
             xhr.setRequestHeader('Content-Type', 'application/json')
             xhr.send(JSON.stringify({ email: this.state.email, password: this.state.password }))
 
@@ -45,7 +45,7 @@ class SignUp extends React.Component {
                 if (xhr.status == 200) {
                     toastr.success('Регистрация прошла успешно')
 
-                    xhr.open('POST', 'http://localhost:3000/api/Users/login', true)
+                    xhr.open('POST', 'http://localhost:3000/api/Participants/login', true)
                     xhr.setRequestHeader('Content-Type', 'application/json')
                     xhr.send(JSON.stringify({ email: this.state.email, password: this.state.password }))
 
@@ -62,8 +62,6 @@ class SignUp extends React.Component {
                 }
             }
         }
-
-
 
     }
     render() {

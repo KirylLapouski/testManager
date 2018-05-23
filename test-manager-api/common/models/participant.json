@@ -5,7 +5,20 @@
   "options": {
     "validateUpsert": true
   },
-  "properties": {},
+  "properties": {
+    "yandexToken": {
+      "type": "string",
+      "required": false
+    },
+    "refreshToken": {
+      "type": "string",
+      "required": false
+    },
+    "yandexTokenExpireIn": {
+      "type": "string",
+      "required": false
+    }
+  },
   "validations": [],
   "relations": {
     "disciplines": {
@@ -15,11 +28,22 @@
       "through": "ParticipantDisciplineMapping"
     }
   },
-  "acls": [
-    {
+  "acls": [{
       "accessType": "*",
       "principalType": "ROLE",
       "principalId": "admin",
+      "permission": "ALLOW"
+    },
+    {
+      "accessType": "READ",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW"
+    },
+    {
+      "accessType": "WRITE",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
       "permission": "ALLOW"
     }
   ],
