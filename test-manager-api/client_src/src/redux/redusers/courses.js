@@ -17,11 +17,12 @@ const courses = (state = {}, action) => {
         var courses = action.payload.reduce((result, course) => {
             result[course.id] = course
             return result
-        },{})
+        }, {})
         return {
             ...state,
             ...courses
         }
+
     }
     return state
 }
