@@ -38,7 +38,7 @@ class Paginator extends React.Component {
     render() {
         let numbers = []
         for (let i = 0; i < this.props.length; i++) {
-            var currenCircle = i + 1 == this.state.currenNumber ? true : false
+            var currenCircle = (i + 1) ==   this.state.currenNumber 
             numbers.push(
                 //!!!!!!
                 <PageItem key={i} active={currenCircle} >

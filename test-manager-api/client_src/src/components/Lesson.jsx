@@ -75,7 +75,6 @@ class Lesson extends React.Component {
         })
     }
     handleSubmitEditLesson = () => {
-        console.log(this.state)
         this.props.editLesson(this.props.id,this.state.title, this.state.description)
         //TODO:: rewrite on refs
         //TODO: need new reducer that check that change 

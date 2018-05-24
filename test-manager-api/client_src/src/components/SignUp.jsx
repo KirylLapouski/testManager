@@ -53,7 +53,7 @@ class SignUp extends React.Component {
                         if (xhr.status == 200) {
                             toastr.success(`Вы вошли как ${this.state.email}`)
                             localStorage.setItem('token',JSON.parse(xhr.responseText).id)
-                            document.location.href = '/cources'
+                            document.location.href = `/cources/${JSON.parse(xhr.response).userId}`
                         }
                     }
                 } else {

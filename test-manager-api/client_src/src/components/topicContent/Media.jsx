@@ -61,6 +61,7 @@ class Media extends React.Component {
   }
 
   checkIsYouTubeUrl(urlAdress) {
+    if(!urlAdress) return false
     var parsedUrl = url.parse(urlAdress)
     if (parsedUrl.host == 'www.youtube.com')
       return true
