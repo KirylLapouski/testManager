@@ -11,14 +11,10 @@ const addTopic = (lessonId, node, title) => {
                 title: title || ' '
             }
         }, (err, response,body) => {
-            body = JSON.parse(body)
             dispatch({
                 type: constants.topics.CREATE_TOPIC,
                 payload: {
-                    title: body.title,
-                    id: body.id,
-                    path: body.path,
-                    lessonId: body.lessonId
+                    ...JSON.parse(body)
                 }
             })
         })

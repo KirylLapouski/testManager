@@ -11,68 +11,64 @@ import YouTubeIcon from '@material-ui/icons/YoutubeSearchedFor'
 import { addTopic } from '../../redux/AC/topic'
 import { connect } from 'react-redux'
 import toastr from 'toastr'
-var initVideo = {
-    "document": {
-        "nodes": [
-            {
-                "object": "block",
-                "type": "video",
-                "isVoid": true,
-                "data": {
-                    "video": ""
-                }
-            },
-            {
-                "object": "block",
-                "type": "paragraph",
-                "isVoid": false,
-                "data": {},
-                "nodes": [
-                    {
-                        "object": "text",
-                        "leaves": [
-                            {
-                                "object": "leaf",
-                                "text": "",
-                                "marks": []
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                object: 'block',
-                type: 'paragraph',
-                nodes: [
-                  {
-                    object: 'text',
-                    leaves: [
-                      {
-                        text: 'A line of text in a paragraph.',
-                      },
-                    ],
-                  },
-                ],
-              }
-        ]
-    }
-}
+import isUrl from 'is-url'
+import url from 'url'   
+var initVideo = '<p style="text-align:center;">\n<iframe width=\"1100\" height=\"600\"  src=\"|https://www.youtube.com/embed/ioC2wj4CKss\|" frameBorder=\"0\"></iframe>\n</p>\n'
 const modalStyles = { width: '840px', height: '320px', color: 'black', padding: 20, boxShadow: 'inset 0px 0px 5px rgba(154, 147, 140, 0.5)', display: 'flex', justifyContent: 'center', alignItems: 'center', textAlign: 'center' };
 
 class TopicModal extends React.Component {
+
+    constructor(props) {
+        super(props)
+        this.state = {
+            title: ' '
+        }
+    }
+
+    handleChange = (e) => {
+        this.setState({
+            title: e.target.value
+        })
+    }
     handleDrop = (files, event) => {
         console.log(files, event);
     }
 
+    parseVideoForYouTube(url) {
+        const youtube = 'https://www.youtube.com/embed/'
+        var videoId = url.split("=")
+        var result = youtube.concat(videoId[1])
+        return result
+    }
+
+    checkIsHostUrl(urlAdress,domen) {
+        if(!urlAdress) return false
+        var parsedUrl = url.parse(urlAdress)
+        if (parsedUrl.host == domen)
+          return true
+        return false
+      }
     handleYouTubeClick = () => {
         //TODO: check that is youtube video and validate
         const src = window.prompt('Введите URL видео с youtube:')
-        if (!src) return
-
+        if (!src) 
+            return
+        if (!isUrl(src)) {
+            toastr.error('Введённая строка не является url')
+            return
+        }
+        if( this.checkIsHostUrl(src,'www.youtube.com')){
+            var parsedUrl = this.parseVideoForYouTube(src)
+            console.log(parsedUrl)
+        }else{
+            toastr.error('Это видео не принадлежит youtube.com')
+            return
+        }
         var node = initVideo
-        node.document.nodes[0].data.video = src
+        var node = node.split('|')
+        node[1] = parsedUrl
         //TODO: new reducer
-        this.props.createTopic(this.props.lessonId, node, "titile")
+        this.props.createTopic(this.props.lessonId, node.join(''), this.state.title)
         this.props.handleClose()
         toastr.success('Новый топик был успешно добавлен')
     }
@@ -81,13 +77,22 @@ class TopicModal extends React.Component {
         //TODO: check that is youtube video and validate
         const src = window.prompt('Введите URL с sound cloud:')
         if (!src) return
+        if (!isUrl(src)) {
+            toastr.error('Введённая строка не является url')
+            return
+        }
+        if( !this.checkIsHostUrl(src,'soundcloud.com')){
+            toastr.error('Это видео не принадлежит soundcloud.com')
+            return
+        }
 
         var node = initVideo
-        node.document.nodes[0].data.video = src
+        var node = node.split('|')
+        node[1] = src
         //TODO: new reducer
-        this.props.createTopic(this.props.lessonId, node, "titile")
+        this.props.createTopic(this.props.lessonId, node.join(''), this.state.title)
         this.props.handleClose()
-        toastr.success('Новый топик был успешно добавлен')        
+        toastr.success('Новый топик был успешно добавлен')
     }
     render() {
         return (<div>
@@ -100,6 +105,7 @@ class TopicModal extends React.Component {
                     </div>
                     <h3>Создать топик</h3>
 
+                    <TextField name='title' onChange={this.handleChange} InputProps={{ disableUnderline: true }} placeholder='Название урока' style={{ width: '840px', color: 'black', padding: '10px', paddingLeft: 20, marginBottom: '20px', boxShadow: 'inset 0px 0px 5px rgba(154, 147, 140, 0.5)' }} />
                     <div id="react-file-drop-demo" style={modalStyles}>
                         <FileDrop onDrop={this.handleDrop}>
                             Перетащите файлы сюда<br />

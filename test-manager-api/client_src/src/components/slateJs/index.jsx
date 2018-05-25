@@ -7,6 +7,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { updateTopic } from '../../redux/AC/topic'
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import TextField from '@material-ui/core/TextField';
 //TODO: maybe use props instead of state? Fetch data from db. Init complexities
 //TODO: parse youtube watch video to embed
 class EditorConvertToHTML extends Component {

@@ -4,6 +4,7 @@ const topics = (state = {}, action) => {
 
     switch (action.type) {
     case constants.topics.CREATE_TOPIC:
+        console.log(action.payload)
         return {
             ...state,
             [action.payload.id]: {
