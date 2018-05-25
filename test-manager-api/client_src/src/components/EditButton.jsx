@@ -6,6 +6,7 @@ import TestIcon from '@material-ui/icons/Assignment'
 import Tooltip from 'material-ui/Tooltip';
 import Collapse from 'material-ui/transitions/Collapse';
 import { withRouter } from 'react-router-dom';
+import PropTypes from 'prop-types'
 // TODO: scroll bar bag
 class EditButton extends React.Component {
     state = {
@@ -29,7 +30,7 @@ class EditButton extends React.Component {
             <Collapse in={this.state.open} timeout="auto" unmountOnExit>
                 <div style={{ display: 'flex', flexDirection: 'column', marginBottom: '30px', width: '70px',alignItems:'center' }} >
                     <Tooltip id="tooltip-icon" title="Редактировать топик" placement='left'>
-                        <Button variant="fab" color="primary" aria-label="add" style={{ marginBottom: '30px' }}>
+                        <Button variant="fab" color="primary" aria-label="add" onClick={this.props.onTopicEditClick} style={{ marginBottom: '30px' }}>
                             <MessageIcon />
                         </Button>
                     </Tooltip >
@@ -45,6 +46,10 @@ class EditButton extends React.Component {
             </Button>
         </div>
     }
+}
+
+EditButton.propTypes = {
+    onTopicEditClick: PropTypes.func
 }
 
 export default withRouter(EditButton)

@@ -15,11 +15,24 @@ class TopicContainer extends React.Component {
         this.state = {
             currenTopicId: this.props.match.params.topicId ? this.props.match.params.topicId : 1,
             rightAnswersWeight: 0,
-            allAnswersWeight: 0
+            allAnswersWeight: 0,
+            readOnly:true
         }
 
         this.handlePaginatorClick = this.handlePaginatorClick.bind(this)
         this.handleTestSubmit = this.handleTestSubmit.bind(this)
+    }
+
+    handleTopicBeginEditClick = () => {
+        this.setState({
+            readOnly: false
+        })
+    }
+
+    handleTopicEndEditClick = () => {
+        this.setState({
+            readOnly: true
+        })
     }
 
     handlePaginatorClick(i) {
@@ -54,13 +67,13 @@ class TopicContainer extends React.Component {
                     paginatorSerialNumber = i+1 
                 }
             }
-            var elem = <Topic key={this.props.match.params.topicId} handleTestSubmit={this.handleTestSubmit} path={topic.path} id={topic.id} />
+            var elem = <Topic key={this.props.match.params.topicId} readOnly={this.state.readOnly} handleTestSubmit={this.handleTestSubmit} path={topic.path} id={topic.id} />
         }
         return (<div>
             {this.props.topics.length && <Paginator initCurrentPos={paginatorSerialNumber || null} length={this.props.topics.length} onClick={this.handlePaginatorClick} />}
             {elem}
             {/* <Link to={`${this.props.location.pathname}/testEditor`}> */}
-            <EditButton/>
+            <EditButton onTopicEditClick={this.state.readOnly?this.handleTopicBeginEditClick:this.handleTopicEndEditClick}/>
             {/* </Link> */}
         </div>
         )

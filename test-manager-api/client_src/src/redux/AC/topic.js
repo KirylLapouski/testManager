@@ -58,9 +58,27 @@ const addQuestionIdToTopic = topicID => {
     }
 }
 
-window.addTopic = addTopic
+const updateTopic = (topicId, editorState) =>{
+    return dispatch =>{
+        axios.patch('http://localhost:3000/api/Topics',{ id: topicId, path:editorState }) 
+            .then(response => {
+                return response.data
+            })
+            .then(response => {
+                dispatch({
+                    type: constants.topics.UPDATE_TOPIC,
+                    payload: {
+                        ...response
+                    }
+                })
+            })
+    }
+}
+
+window.updateTopic = updateTopic
 export {
     addTopic,
     loadTopics,
-    addQuestionIdToTopic
+    addQuestionIdToTopic,
+    updateTopic
 }

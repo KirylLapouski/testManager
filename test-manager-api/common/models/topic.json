@@ -11,7 +11,7 @@
       "required": true
     },
     "path": {
-      "type": "object",
+      "type": "string",
       "required": true
     }
   },

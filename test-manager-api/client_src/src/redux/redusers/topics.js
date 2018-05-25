@@ -31,6 +31,12 @@ const topics = (state = {}, action) => {
         return {
             ...res
         }
+    case constants.topics.UPDATE_TOPIC:
+        var result = {...state}
+        result[action.payload.id]  = action.payload
+        return {
+            ...result
+        }
     default:
         return state
     }
