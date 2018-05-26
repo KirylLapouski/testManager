@@ -27,8 +27,25 @@ const loadCourses = () => {
     }
 }
 
+const loadCoursesForUser = userId => {
+    return (dispatch) => {
+        axios.get(`http://localhost:3000/api/Participants/${userId}/disciplines`)
+            .then(response => {
+                return response.data
+            })
+            .then(response => {
+                dispatch({
+                    type: constants.courses.LOAD_COURSES,
+                    payload:response
+                })
+            })
+    }
+}
+
+window.loadCoursesForUser = loadCoursesForUser
 
 export {
     addCourse,
-    loadCourses
+    loadCourses,
+    loadCoursesForUser
 }

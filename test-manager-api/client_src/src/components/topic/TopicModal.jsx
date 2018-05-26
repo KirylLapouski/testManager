@@ -8,30 +8,49 @@ import FileDrop from 'react-file-drop'
 import ClearIcon from '@material-ui/icons/Clear'
 import ClipIcon from '@material-ui/icons/AttachFile'
 import YouTubeIcon from '@material-ui/icons/YoutubeSearchedFor'
-import {addTopic} from '../../redux/AC/topic'
-import {connect} from 'react-redux'
+import { addTopic } from '../../redux/AC/topic'
+import { connect } from 'react-redux'
+import toastr from 'toastr'
 var initVideo = {
     "document": {
-      "nodes": [
-        {
-          "object": "block",
-          "type": "video",
-          "isVoid": true,
-          "data": {
-            "video": ""
-          }
-        }
-      ]
+        "nodes": [
+            {
+                "object": "block",
+                "type": "video",
+                "isVoid": true,
+                "data": {
+                    "video": ""
+                }
+            },
+            {
+                "object": "block",
+                "type": "paragraph",
+                "isVoid": false,
+                "data": {},
+                "nodes": [
+                    {
+                        "object": "text",
+                        "leaves": [
+                            {
+                                "object": "leaf",
+                                "text": "",
+                                "marks": []
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
     }
-  }
-const modalStyles = {  width:'840px',height:'320px', color: 'black', padding: 20, boxShadow:'inset 0px 0px 5px rgba(154, 147, 140, 0.5)',display:'flex',justifyContent:'center', alignItems:'center', textAlign:'center' };
+}
+const modalStyles = { width: '840px', height: '320px', color: 'black', padding: 20, boxShadow: 'inset 0px 0px 5px rgba(154, 147, 140, 0.5)', display: 'flex', justifyContent: 'center', alignItems: 'center', textAlign: 'center' };
 
 class TopicModal extends React.Component {
     handleDrop = (files, event) => {
         console.log(files, event);
     }
 
-    handleYouTubeClick = ()=>{
+    handleYouTubeClick = () => {
         //TODO: check that is youtube video and validate
         const src = window.prompt('Введите URL видео с youtube:')
         if (!src) return
@@ -39,12 +58,12 @@ class TopicModal extends React.Component {
         var node = initVideo
         node.document.nodes[0].data.video = src
         //TODO: new reducer
-        this.props.createTopic(this.props.lessonId,node,"titile")
+        this.props.createTopic(this.props.lessonId, node, "titile")
         this.props.handleClose()
-        //TODO: bag when see added topic at first
+        toastr.success('Новый топик был успешно добавлен')
     }
 
-    handleSoundCloudClick = ()=>{
+    handleSoundCloudClick = () => {
         //TODO: check that is youtube video and validate
         const src = window.prompt('Введите URL с sound cloud:')
         if (!src) return
@@ -52,16 +71,16 @@ class TopicModal extends React.Component {
         var node = initVideo
         node.document.nodes[0].data.video = src
         //TODO: new reducer
-        this.props.createTopic(this.props.lessonId,node,"titile")
+        this.props.createTopic(this.props.lessonId, node, "titile")
         this.props.handleClose()
-        //TODO: bag when see added topic at first
+        toastr.success('Новый топик был успешно добавлен')        
     }
     render() {
         return (<div>
             <Modal open={this.props.open} onClose={this.props.handleClose}>
                 <div style={{ display: 'flex', flexDirection: 'column', height: '400px', width: '900px', position: 'absolute', left: '50%', marginLeft: `-${900 / 2}px`, top: '50%', marginTop: `-${400 / 2}px`, background: 'white', paddingLeft: '30px', paddingBottom: '30px', paddingRight: '30px' }}>
-                    <div style={{ width: '900px', backgroundColor: '#757ce8', height: '40px',marginLeft:'-30px' }}>
-                        <Button style={{ float:'right'}} onClick={this.props.handleClose}>
+                    <div style={{ width: '900px', backgroundColor: '#757ce8', height: '40px', marginLeft: '-30px' }}>
+                        <Button style={{ float: 'right' }} onClick={this.props.handleClose}>
                             <ClearIcon style={{ color: 'white' }} />
                         </Button>
                     </div>
@@ -69,16 +88,16 @@ class TopicModal extends React.Component {
 
                     <div id="react-file-drop-demo" style={modalStyles}>
                         <FileDrop onDrop={this.handleDrop}>
-                            Перетащите файлы сюда<br/>
-                            или<br/>
-                            <Button style={{backgroundColor:'#CFD8DC'}}>Выберите файл на компьютере</Button>
+                            Перетащите файлы сюда<br />
+                            или<br />
+                            <Button style={{ backgroundColor: '#CFD8DC' }}>Выберите файл на компьютере</Button>
                         </FileDrop>
                     </div>
-                    <div style={{ display: 'flex', alignSelf: 'flex-end', marginTop: '45px',width:'100%',justifyContent:'flex-end' }}>
-                        <div style={{margin:'auto',marginLeft:'0px'}}>
-                        <Button ><ClipIcon/></Button>
-                        <Button ><i className="fa fa-youtube-play" style={{fontSize:'2em'}} onClick={this.handleYouTubeClick} aria-hidden="true"></i></Button>
-                        <Button ><i className="fa fa-soundcloud"  style={{fontSize:'2em'}} onClick={this.handleSoundCloudClick} aria-hidden="true"></i></Button>
+                    <div style={{ display: 'flex', alignSelf: 'flex-end', marginTop: '45px', width: '100%', justifyContent: 'flex-end' }}>
+                        <div style={{ margin: 'auto', marginLeft: '0px' }}>
+                            <Button ><ClipIcon /></Button>
+                            <Button ><i className="fa fa-youtube-play" style={{ fontSize: '2em' }} onClick={this.handleYouTubeClick} aria-hidden="true"></i></Button>
+                            <Button ><i className="fa fa-soundcloud" style={{ fontSize: '2em' }} onClick={this.handleSoundCloudClick} aria-hidden="true"></i></Button>
                         </div>
                         <Button onClick={this.props.handleClose}>Отмена</Button>
                         <Button variant="raised" color="primary">Создать</Button>
@@ -99,9 +118,9 @@ TopicModal.propTypes = {
     createTopic: PropTypes.func
 }
 
-const mapDispatchToProps = dispatch =>{
+const mapDispatchToProps = dispatch => {
     return {
-        createTopic(lessonId, node, title){
+        createTopic(lessonId, node, title) {
             dispatch(addTopic(lessonId, node, title))
         }
     }

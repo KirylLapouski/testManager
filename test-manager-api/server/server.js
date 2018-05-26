@@ -98,6 +98,7 @@ app.get('/auth/yandex/callback', function(req, res, next) {
   }, function(err, httpResponse, body) {
     body = JSON.parse(body);
     var accessToken = body.access_token;
+    var tokenResponseBody = body;
     request.get({
       url: 'https://login.yandex.ru/info',
       headers: {
@@ -107,17 +108,21 @@ app.get('/auth/yandex/callback', function(req, res, next) {
       body = JSON.parse(body);
       var userId = body.id;
       var Participant = app.models.Participant;
+      var accountParticipant;
       Participant.findOne({
         where: {
           email: `${body.login}@yandex.by`,
         },
       }, function(err, account) {
-        console.log(account);
         if (!account) {
-          Participant.create({
-            email: `${body.login}@yandex.by`,
-            password: '1111',
+          request.post('http://localhost:3000/api/Participants', {
+            form: {
+              email: `${body.login}@yandex.by`,
+              password: '1111',
+            },
           }, function(err, user) {
+            console.log(user);
+            accountParticipant = user;
             var UserIdentity = app.models.UserIdentity;
             UserIdentity.findOne({
               externalId: userId,
@@ -127,30 +132,35 @@ app.get('/auth/yandex/callback', function(req, res, next) {
                   'participantId': user.id,
                   'id': userIdentityModel.id,
                 },
-              }, function(err, updatedUserIdentity) {
-                request.post('http://localhost:3000/api/Participants/login', {
-                  form: {
-                    email: user.email,
-                    password: '1111',
-                  },
-                }, function(err, token) {
-              // TODO: response new user token from redirect
-                  console.log(token);
-                });
               });
             });
           });
         } else {
-          request.post('http://localhost:3000/api/Participants/login', {
-            form: {
-              email: account.email,
-              password: '1111',
-            },
-          }, function(err, token) {
-              // TODO: response new user token from redirect
-            console.log(token.body);
-          });
+          accountParticipant = account;
         }
+
+        console.log(accountParticipant);
+        // request.post('http://localhost:3000/api/Participants/login', {
+        //   form: {
+        //     email: user.email,
+        //     password: '1111',
+        //   },
+        // }, function(err, token) {
+        //   // TODO: response new user token from redirect
+        //   console.log(token);
+        // });
+        // TODO: response new user token from redirect
+        accountParticipant.updateAttributes({
+          yandexToken: accessToken,
+          yandexTokenExpireIn: tokenResponseBody.expires_in,
+          refreshToken: tokenResponseBody.refresh_token,
+        });
+        request.post('http://localhost:3000/api/Participants/login', {
+          form: {
+            email: accountParticipant.email,
+            password: '1111',
+          },
+        }, function(err, token) {});
       });
     });
   });

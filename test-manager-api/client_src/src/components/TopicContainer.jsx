@@ -46,18 +46,18 @@ class TopicContainer extends React.Component {
     }
 
     render() {
+        var paginatorSerialNumber
         if ((JSON.stringify(this.props.topics) !== '[]')) {
             for(var i=0;i<this.props.topics.length;i++){
                 if(Number(this.state.currenTopicId)===this.props.topics[i].id){
                     var topic =  this.props.topics[i]
+                    paginatorSerialNumber = i+1 
                 }
             }
             var elem = <Topic key={this.props.match.params.topicId} handleTestSubmit={this.handleTestSubmit} path={topic.path} id={topic.id} />
         }
-
-       
         return (<div>
-            <Paginator initCurrentPos={Number(this.props.match.params.topicId) ? Number(this.props.match.params.topicId) : null} length={this.props.topics.length} onClick={this.handlePaginatorClick} />
+            {this.props.topics.length && <Paginator initCurrentPos={paginatorSerialNumber || null} length={this.props.topics.length} onClick={this.handlePaginatorClick} />}
             {elem}
             {/* <Link to={`${this.props.location.pathname}/testEditor`}> */}
             <EditButton/>

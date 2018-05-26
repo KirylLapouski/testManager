@@ -1,9 +1,12 @@
 import React from 'react'
-import  {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import toastr from 'toastr'
 import 'font-awesome/css/font-awesome.min.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'mdbreact/dist/css/mdb.css'
+import LoadingIndicator from './decorators/LoadingIndicator'
+import PropTypes from 'prop-types'
+import { withRouter } from 'react-router-dom'
 class LoginIn extends React.Component {
 
     constructor(props) {
@@ -26,14 +29,10 @@ class LoginIn extends React.Component {
     }
     validate() {
         //email validation
-        var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/
+        var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,5})$/
         var address = this.state.mail
         if (reg.test(address) == false) {
-            toastr.error('Неправильный email')
-            return false
-        }
-        if (!document.forms.loginIn.elements.mail.value || !document.forms.loginIn.elements.password.value) {
-            toastr.error('Все поля должны быть заполнены')
+            toastr.error('Неправильный формат электронной почты')
             return false
         }
         return true
@@ -45,31 +44,41 @@ class LoginIn extends React.Component {
             return
 
         var xhr = new XMLHttpRequest()
-        xhr.open('POST','http://localhost:3000/api/Users/login', true)
+        xhr.open('POST', 'http://localhost:3000/api/Participants/login', true)
         xhr.setRequestHeader('Content-Type', 'application/json')
 
+        xhr.timeout = 10000
+
         xhr.onload = () => {
+            var userResponse = JSON.parse(xhr.response)
+            if (xhr.status == 401) {
+                this.props.toggleLoading()
+                toastr.error('Неправильный логин или пароль')
+            }
+            if (xhr.status == 200) {
+                xhr.open('GET', `http://localhost:3000/api/Participants/${userResponse.userId}`)
 
-            // if (xhr.status != 404) {
-            //     xhr.open('GET', config.rootUrl + config.dbApi + "/getEnteredUser", true);
-            //     xhr.send();
+                xhr.onload = () => {
+                    var userInfo = JSON.parse(xhr.response)
+                    this.props.toggleLoading()
+                    toastr.success(`Добро пожаловать, ${userInfo.username || 'User'}!`)
 
-            //     xhr.onload = () => {
-            //         if (xhr.status == 500) {
-            //             toastr.error("Can not login with this data");
-            //         } else {
-            //             var currentUser = JSON.parse(xhr.responseText);
-            //             localStorage.setItem("currentUser", JSON.stringify(currentUser));
-            //             document.location.href = config.rootUrl + config.userCabinet + "/" + currentUser._id;
-            //         }
-            //     }
-            // }
+                    this.props.history.push(`/cources/${userInfo.id}`)
+                }
+                xhr.send()
+            }
         }
 
-        xhr.send(JSON.stringify({ mail: this.state.mail, password: this.state.password }))
+        xhr.ontimeout = () => {
+            this.props.toggleLoading()
+            toastr.error('Время запроса истекло: сервер не отвечает')
+        }
+
+        xhr.send(JSON.stringify({ email: this.state.mail, password: this.state.password }))
+        this.props.toggleLoading()
     }
     render() {
-        return (<div  style={{ backgroundImage: 'url(\'https://mdbootstrap.com/img/Photos/Others/images/78.jpg\')',height:'100vh',  backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }}>
+        return (<div style={{ backgroundImage: 'url(\'https://mdbootstrap.com/img/Photos/Others/images/78.jpg\')', height: '100vh', backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }}>
 
             <div className="w-100 h-100 mask rgba-black-light d-flex justify-content-center align-items-center">
 
@@ -97,19 +106,19 @@ class LoginIn extends React.Component {
                             </a>
 
                         </div>
-                        <form method="POST" name="loginIn" className="form-signin" onSubmit={this.onSubmitHandler} style={{ borderRadius: '5px',padding:'20px',minHeight:'500px',display:'flex',flexDirection:'column',justifyContent:'center', backgroundColor: '#fff', color: '#4f4f4f' }}>
-                            <h1 style={{marginBottom:'30px'}}>Вход</h1>
+                        <form method="POST" name="loginIn" className="form-signin" onSubmit={this.onSubmitHandler} style={{ borderRadius: '5px', padding: '20px', minHeight: '500px', display: 'flex', flexDirection: 'column', justifyContent: 'center', backgroundColor: '#fff', color: '#4f4f4f' }}>
+                            <h1 style={{ marginBottom: '30px' }}>Вход</h1>
                             <label htmlFor="inputEmail" className="sr-only">Электронная почта</label>
                             <input onChange={this.onChangeHandler} type="text" name="mail" id="inputEmail" className="form-control" placeholder="Электронная почта" required autoFocus />
                             <label htmlFor="inputPassword" className="sr-only">Пароль</label>
-                            <input onChange={this.onChangeHandler} type="password" name="password" id="inputPassword" className="form-control" placeholder="Пароль" required />
+                            <input onChange={this.onChangeHandler} type="password" name="password" id="inputPassword" className="form-control" placeholder="Пароль" style={{ marginTop: '10px' }} required />
                             <br />
 
                             <button className="btn btn-lg btn-primary btn-block" type="submit">Вход</button><br />
-                            <a role="button" href="auth/yandex" className="btn btn-light-blue btn-block btn-li waves-effect waves-light"><i className="fa fa-linkedin pr-1"></i> Linkedin</a>
+                            <a role="button" href="auth/yandex" className="btn red btn-block btn-li waves-effect waves-light"><i className="fa fa-yahoo" aria-hidden="true"></i> yandex</a>
                             <div className="modal-footer pr-0">
                                 <div className="options font-weight-light">
-                                    <p>Не зарегистрированы?  <Link style={{color:'blue'}} to="/signUp">Регистрация</Link></p>
+                                    <p>Не зарегистрированы?  <Link style={{ color: 'blue' }} to="/signUp">Регистрация</Link></p>
                                 </div>
                             </div>
                         </form>
@@ -120,4 +129,10 @@ class LoginIn extends React.Component {
     }
 }
 
-export default LoginIn
+LoginIn.propTypes = {
+    //LoadingIndicator decorator
+    loading: PropTypes.bool,
+    toggleLoading: PropTypes.func
+}
+
+export default withRouter(LoadingIndicator(LoginIn))

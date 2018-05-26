@@ -404,7 +404,6 @@
       // Check to see if the document has changed before saving.
       if (value.document != this.state.value.document) {
         const content = value.toJSON()
-        console.log(content)
         axios.patch('http://localhost:3000/api/Topics',{ id: this.props.topicId, path:content }) 
       }
 

@@ -9,20 +9,12 @@ import MyEditor from './slateJs/index'
 class Topic extends React.Component {
 
     componentWillMount() {
-        // axios.get("http://localhost:3000/api/Topics/" + this.props.id + "/questions")
-        //     .then(response=>{
-        //         if(response.data.length){
-        //             this.setState(()=>{
-        //                 hasTests:true
-        //             })
-        //         }
-        //     })
         this.props.getTopicQuestion(this.props.id)
     }
     render() {
-        return <div style={{ color: 'black', width: '80%',margin:'30px auto' }}>
+        return <div style={{ color: 'black', width: '80%', margin: '30px auto' }}>
             {/* {(this.props.type === 'video' || this.props.type === 'audio') && <Media src={this.props.path} />} */}
-            <MyEditor topicId={this.props.id} readOnly={false}/>
+            <MyEditor topicId={this.props.id} readOnly={false} />
             {this.props.hasTests && <Test key={this.props.id} onTestSubmit={this.props.handleTestSubmit} topicId={this.props.id} />}
         </div>
     }

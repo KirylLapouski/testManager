@@ -2,7 +2,7 @@ import React from 'react'
 import Course from './Course'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import {loadCourses} from '../redux/AC/courses'
+import {loadCourses,loadCoursesForUser} from '../redux/AC/courses'
 class CourseContainer extends React.Component {
 
     componentWillMount(){
@@ -48,11 +48,10 @@ const mapStateToProps = state => {
     return {courses: res}
 }
 
-const mapDispatchToProps = dispatch =>{
-    return {
-        getCourses(){
-            dispatch(loadCourses())
-        }
-    }
+const mapDispatchToProps = (dispatch, ownProps) =>{
+    var result = {}
+
+    result.getCourses =  ownProps.match.params.userId? ()=>{dispatch(loadCoursesForUser(ownProps.match.params.userId))}:()=>{dispatch(loadCourses())}
+    return result
 }
 export default connect(mapStateToProps,mapDispatchToProps)(CourseContainer)
