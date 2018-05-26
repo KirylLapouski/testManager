@@ -14,7 +14,9 @@ var request = require('request');
 var loopbackPassport = require('loopback-component-passport');
 var PassportConfigurator = loopbackPassport.PassportConfigurator;
 var passportConfigurator = new PassportConfigurator(app);
-
+var axios = require('axios');
+var request = require('request');
+var rp = require('request-promise');
 /*
  * body-parser is a piece of express middleware that
  *   reads a form's input and stores it as a javascript
@@ -87,88 +89,106 @@ for (var s in config) {
 }
 var ensureLoggedIn = require('connect-ensure-login').ensureLoggedIn;
 
-app.get('/auth/yandex/callback', function(req, res, next) {
+app.get('/auth/yandex/callback', function (req, res, next) {
   request.post('https://oauth.yandex.ru/token', {
     form: {
-      'grant_type': 'authorization_code',
-      'code': req.query.code,
-      'client_id': 'c48956d9f59442bab960f373a6ca5ba2',
-      'client_secret': '9e46f2c8fefb4f55bf63b06066431c4d',
+      grant_type: 'authorization_code',
+      code: req.query.code,
+      client_id: 'c48956d9f59442bab960f373a6ca5ba2',
+      client_secret: '9e46f2c8fefb4f55bf63b06066431c4d',
     },
-  }, function(err, httpResponse, body) {
+  }, (err, response, body) => {
     body = JSON.parse(body);
-    var accessToken = body.access_token;
     var tokenResponseBody = body;
-    request.get({
-      url: 'https://login.yandex.ru/info',
-      headers: {
-        'Authorization': `OAuth ${accessToken}`,
-      },
-    }, function(err, httpResponse, body) {
-      body = JSON.parse(body);
-      var userId = body.id;
-      var Participant = app.models.Participant;
-      var accountParticipant;
-      Participant.findOne({
-        where: {
-          email: `${body.login}@yandex.by`,
+    axios.get('https://login.yandex.ru/info', {
+        headers: {
+          'Authorization': `OAuth ${body.access_token}`,
         },
-      }, function(err, account) {
-        if (!account) {
-          request.post('http://localhost:3000/api/Participants', {
-            form: {
-              email: `${body.login}@yandex.by`,
-              password: '1111',
-            },
-          }, function(err, user) {
-            console.log(user);
-            accountParticipant = user;
-            var UserIdentity = app.models.UserIdentity;
-            UserIdentity.findOne({
-              externalId: userId,
-            }, function(err, userIdentityModel) {
-              request.patch('http://localhost:3000/api/UserIdentities', {
-                form: {
-                  'participantId': user.id,
-                  'id': userIdentityModel.id,
-                },
-              });
-            });
-          });
-        } else {
-          accountParticipant = account;
-        }
-
-        console.log(accountParticipant);
-        // request.post('http://localhost:3000/api/Participants/login', {
-        //   form: {
-        //     email: user.email,
-        //     password: '1111',
-        //   },
-        // }, function(err, token) {
-        //   // TODO: response new user token from redirect
-        //   console.log(token);
-        // });
-        // TODO: response new user token from redirect
-        accountParticipant.updateAttributes({
-          yandexToken: accessToken,
-          yandexTokenExpireIn: tokenResponseBody.expires_in,
-          refreshToken: tokenResponseBody.refresh_token,
-        });
-        request.post('http://localhost:3000/api/Participants/login', {
-          form: {
-            email: accountParticipant.email,
-            password: '1111',
+      })
+      .then(({
+        data,
+      }) => {
+        var yandexProfile = data;
+        var Participant = app.models.Participant;
+        Participant.findOne({
+          where: {
+            email: `${data.login}@yandex.by`,
           },
-        }, function(err, token) {});
+        }, function (err, account) {
+          var promise = Promise.resolve(account);
+          promise.then((account) => {
+              if (!account) {
+                return axios.post('http://localhost:3000/api/Participants', {
+                  email: `${data.login}@yandex.by`,
+                  password: '1111',
+                });
+              }
+              return account;
+            })
+            .then((account) => {
+              if (!account.yandexToken) {
+                //yandex email exist in my db, but it doesnot has token
+                return axios.patch('http://localhost:3000/api/Participants', {
+                  id: account.id,
+                  yandexToken: tokenResponseBody.access_token,
+                  yandexRefreshToken: tokenResponseBody.refresh_token,
+                  yandexTokenExpireIn: (new Date(Date.now() + (+tokenResponseBody.expires_in * 1000))).toDateString(),
+                })
+              }
+              return account;
+            })
+            .then((account) => {
+              if ((+Date.now()) > Date.parse(account.yandexTokenExpireIn)) {
+                //yandex tokem expired
+                return rp({
+                    method: 'POST',
+                    uri: 'https://oauth.yandex.ru/token',
+                    formData: {
+                      grant_type: 'refresh_token',
+                      refresh_token: account.yandexRefreshToken,
+                      client_id: 'c48956d9f59442bab960f373a6ca5ba2',
+                      client_secret: '9e46f2c8fefb4f55bf63b06066431c4d',
+                    },
+                    json: true
+                  })
+                  .then(response => {
+                    return axios.patch(`http://localhost:3000/api/Participants/${account.id}`, {
+                      yandexToken: response.access_token,
+                      yandexRefreshToken: response.refresh_token,
+                      yandexTokenExpireIn: (new Date(Date.now() + (+response.expires_in * 1000))).toDateString(),
+                    });
+                  });
+              }
+            })
+            .then(({
+              data
+            }) => {
+              var account = data
+              return axios.post('http://localhost:3000/api/Participants/login', {
+                email: account.email,
+                password: '1111',
+              });
+            })
+            .then(({
+              data
+            }) => {
+              return axios.patch(`http://localhost:3000/api/Participants/${data.userId}`, {
+                id: data.userId,
+                loopbackToken: data.id,
+              });
+            })
+            //TODO: error handling
+            //TODO: can also check loopback token
+            //TODO: response
+            res.send()
+        });
       });
-    });
   });
 });
 
-app.start = function() {
+app.start = function () {
   // start the web server
-  return app.listen(function() {
+  return app.listen(function () {
     app.emit('started');
     var baseUrl = app.get('url').replace(/\/$/, '');
     console.log('Web server listening at: %s', baseUrl);

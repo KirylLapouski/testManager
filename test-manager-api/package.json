@@ -11,6 +11,7 @@
     "posttest": "npm run lint && nsp check"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "classnames": "^2.2.5",
     "compression": "^1.0.3",
     "connect-ensure-login": "^0.1.1",
@@ -32,6 +33,7 @@
     "pug": "^2.0.3",
     "react-draft-wysiwyg": "^1.12.13",
     "request": "^2.86.0",
+    "request-promise": "^4.2.2",
     "serve-favicon": "^2.0.1",
     "strong-error-handler": "^2.0.0"
   },

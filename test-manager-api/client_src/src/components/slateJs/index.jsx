@@ -10,6 +10,7 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import TextField from '@material-ui/core/TextField';
 //TODO: maybe use props instead of state? Fetch data from db. Init complexities
 //TODO: parse youtube watch video to embed
+//TODO: soundcloud doesnot work
 class EditorConvertToHTML extends Component {
   constructor(props) {
     super(props)

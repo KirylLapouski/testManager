@@ -10,11 +10,15 @@
       "type": "string",
       "required": false
     },
-    "refreshToken": {
+    "yandexRefreshToken": {
       "type": "string",
       "required": false
     },
     "yandexTokenExpireIn": {
+      "type": "string",
+      "required": false
+    },
+    "loopbackToken": {
       "type": "string",
       "required": false
     }

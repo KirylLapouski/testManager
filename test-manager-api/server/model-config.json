@@ -77,7 +77,21 @@
   },
   "UserCredential": {
     "dataSource": "db",
-    "public": true
+    "public": true,
+    "acls": [
+      {
+        "accessType": "READ",
+        "principalType": "ROLE",
+        "principalId": "$everyone",
+        "permission": "ALLOW"
+      },
+      {
+        "accessType": "WRITE",
+        "principalType": "ROLE",
+        "principalId": "$everyone",
+        "permission": "ALLOW"
+      }
+    ]
   },
   "UserIdentity": {
     "dataSource": "db",
