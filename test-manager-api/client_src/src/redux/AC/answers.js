@@ -12,9 +12,9 @@ const addAnswer = (text,typeOfAnswer)=>{
     }
 }
 
-const loadAnswers = topicId => {
+const loadAnswers = questionId => {
     return dispatch => {
-        axios.get(`http://localhost:3000/api/Questions/${topicId}/answers`)
+        axios.get(`http://localhost:3000/api/Questions/${questionId}/answers`)
             .then(response => {
                 return response.data
             })

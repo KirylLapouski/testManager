@@ -3,10 +3,12 @@ import Course from './Course'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import {loadCourses,loadCoursesForUser} from '../redux/AC/courses'
+import {getloggedInUser} from '../redux/AC/users'
 class CourseContainer extends React.Component {
 
     componentWillMount(){
         this.props.getCourses()
+        this.props.getloggedInUser()
     }
     render() {
         var { courses } = this.props
@@ -28,6 +30,7 @@ class CourseContainer extends React.Component {
 
 CourseContainer.propTypes = {
     recordsInRows: PropTypes.number,
+    //redux
     courses: PropTypes.arrayOf(
         PropTypes.shape({
             id: PropTypes.number.isRequired,
@@ -52,6 +55,7 @@ const mapDispatchToProps = (dispatch, ownProps) =>{
     var result = {}
 
     result.getCourses =  ownProps.match.params.userId? ()=>{dispatch(loadCoursesForUser(ownProps.match.params.userId))}:()=>{dispatch(loadCourses())}
+    result.getloggedInUser = ownProps.match.params.userId? ()=>{dispatch(getloggedInUser(ownProps.match.params.userId))}:()=>{}
     return result
 }
 export default connect(mapStateToProps,mapDispatchToProps)(CourseContainer)

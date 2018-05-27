@@ -42,7 +42,7 @@ class LoginIn extends React.Component {
 
         if (!this.validate())
             return
-
+        //TODO: need to refactor
         var xhr = new XMLHttpRequest()
         xhr.open('POST', 'http://localhost:3000/api/Participants/login', true)
         xhr.setRequestHeader('Content-Type', 'application/json')
@@ -115,7 +115,7 @@ class LoginIn extends React.Component {
                             <br />
 
                             <button className="btn btn-lg btn-primary btn-block" type="submit">Вход</button><br />
-                            <a role="button" href="auth/yandex" className="btn red btn-block btn-li waves-effect waves-light"><i className="fa fa-yahoo" aria-hidden="true"></i> yandex</a>
+                            <a role="button" href="http://localhost:3000/auth/yandex" className="btn red btn-block btn-li waves-effect waves-light"><i className="fa fa-yahoo" aria-hidden="true"></i> yandex</a>
                             <div className="modal-footer pr-0">
                                 <div className="options font-weight-light">
                                     <p>Не зарегистрированы?  <Link style={{ color: 'blue' }} to="/signUp">Регистрация</Link></p>

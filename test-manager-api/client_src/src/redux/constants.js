@@ -3,7 +3,8 @@ const constants = {
         CREATE_USER:'CREATE_USER',
         DELETE_USER:'DELETE_USER',
         GET_USER:'GET_USER',
-        GET_ALL_USERS:'GET_ALL_USERS'
+        GET_ALL_USERS:'GET_ALL_USERS',
+        LOGGED_IN_USER:'LOGGED_IN_USER'
     },
     courses:{
         CREATE_COURSE:'CREATE_COURSE',

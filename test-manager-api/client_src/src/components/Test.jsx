@@ -134,7 +134,6 @@ const mapStateToProps = (state, ownProps) => {
     for (var key in state.questions) {
         if (Number(ownProps.topicId) === state.questions[key].topicId) {
             res.push(state.questions[key])
-            console.log(res)
         }
     }
     return { questions: res }

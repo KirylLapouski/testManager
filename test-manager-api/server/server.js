@@ -98,6 +98,7 @@ app.get('/auth/yandex/callback', function (req, res, next) {
       client_secret: '9e46f2c8fefb4f55bf63b06066431c4d',
     },
   }, (err, response, body) => {
+
     body = JSON.parse(body);
     var tokenResponseBody = body;
     axios.get('https://login.yandex.ru/info', {
@@ -108,6 +109,7 @@ app.get('/auth/yandex/callback', function (req, res, next) {
       .then(({
         data,
       }) => {
+
         var yandexProfile = data;
         var Participant = app.models.Participant;
         Participant.findOne({
@@ -115,6 +117,7 @@ app.get('/auth/yandex/callback', function (req, res, next) {
             email: `${data.login}@yandex.by`,
           },
         }, function (err, account) {
+
           var promise = Promise.resolve(account);
           promise.then((account) => {
               if (!account) {
@@ -126,6 +129,7 @@ app.get('/auth/yandex/callback', function (req, res, next) {
               return account;
             })
             .then((account) => {
+
               if (!account.yandexToken) {
                 //yandex email exist in my db, but it doesnot has token
                 return axios.patch('http://localhost:3000/api/Participants', {
@@ -138,7 +142,9 @@ app.get('/auth/yandex/callback', function (req, res, next) {
               return account;
             })
             .then((account) => {
+
               if ((+Date.now()) > Date.parse(account.yandexTokenExpireIn)) {
+                
                 //yandex tokem expired
                 return rp({
                     method: 'POST',
@@ -159,6 +165,7 @@ app.get('/auth/yandex/callback', function (req, res, next) {
                     });
                   });
               }
+              return {data: account}
             })
             .then(({
               data
@@ -177,10 +184,12 @@ app.get('/auth/yandex/callback', function (req, res, next) {
                 loopbackToken: data.id,
               });
             })
-            //TODO: error handling
-            //TODO: can also check loopback token
-            //TODO: response
-            res.send()
+            .then(({data})=>{
+              res.redirect(`http://localhost:3001/cources/${data.id}`)
+            })
+          //TODO: error handling
+          //TODO: can also check loopback token
+          //TODO: response
         });
       });
   });
