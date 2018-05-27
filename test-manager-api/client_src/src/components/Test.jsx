@@ -13,6 +13,9 @@ import Button from '@material-ui/core/Button';
 import Collapse from '@material-ui/core/Collapse';
 import DoneAllIcon from "@material-ui/icons/DoneAll";
 import { withStyles } from '@material-ui/core/styles';
+import Chart from './Chart'
+import CloseIcon from '@material-ui/icons/Close'
+
 // TODO: test not always opening
 function TabContainer(props) {
     return (
@@ -35,7 +38,8 @@ class Test extends React.Component {
             //bootstrap state
             collapse: false,
             //tab
-            value: 0
+            value: 0,
+            displayChart: false
         }
         this.handleRightAnswer = this.handleRightAnswer.bind(this);
         this.toggle = this.toggle.bind(this);
@@ -69,6 +73,18 @@ class Test extends React.Component {
         })
     }
 
+    handleTestSubmit = (weight)=>() => {
+        this.setState({
+            collapse: false,
+            displayChart: true
+        }); 
+        this.props.onTestSubmit(this.state.rightAnswersWeight, weight)
+    }
+    handleChartClose= ()=>{
+        this.setState({
+            displayChart:false
+        })
+    }
     componentWillMount() {
         this.props.getQuestions(this.props.topicId)
     }
@@ -77,27 +93,32 @@ class Test extends React.Component {
         var weight = 0;
         var questionsRes = this.props.questions.map((value, index) => {
             weight += value.weight
-            return <TabContainer key={value.id} style={{ }} tabId={index + 1}>
+            return <TabContainer key={value.id} style={{}} tabId={index + 1}>
                 <Question onWrongAnswer={this.handleWrongAnswer} onRightAnswer={this.handleRightAnswer(value.weight)} question={value} />
             </TabContainer>
         })
-        questionsRes.push(<TabContainer><Button color="primary" className="float-right" onClick={this.props.onTestSubmit(this.state.rightAnswersWeight, weight)}>Submit Test</Button></TabContainer>)
+        questionsRes.push(<TabContainer><Button color="primary" className="float-right" onClick={this.handleTestSubmit(weight)}>Завершить</Button></TabContainer>)
         var navs = this.props.questions.map((value, index) => {
             return <Tab label={index + 1} />
         })
-        navs.push(<Tab label='Отправить текст' icon={<DoneAllIcon />} />)
+        navs.push(<Tab label='Завершить тест' icon={<DoneAllIcon />} />)
 
         return <div>
-            <Button onClick={this.toggle} variant="outlined" color="primary" style={{marginTop:'20px'}}>{this.state.collapse ? "Закрыть тест" : 'Открыть тест'}</Button>
+            <Button onClick={this.toggle} variant="outlined" color="primary" style={{ marginTop: '20px' }}>{this.state.collapse ? "Закрыть тест" : 'Открыть тест'}</Button>
             <Collapse in={this.state.collapse}>
                 <Router>
-                    <div style={{marginTop:'20px'}}>
-                        <AppBar position="static">
-                            <Tabs scrollable scrollButtons="on"  indicatorColor="secondary" value={this.state.value} onChange={this.handleChange}>
+                    <div style={{ marginTop: '20px' }}>
+                        <AppBar position="static" >
+                            <Tabs scrollable scrollButtons="on" indicatorColor="secondary" value={this.state.value} onChange={this.handleChange}>
                                 {navs}
                             </Tabs>
                             {questionsRes[this.state.value]}
                         </AppBar>
+                        {this.state.displayChart && <div style={{ color: 'white', position: 'fixed', display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.4)', top: '0', right: '0', bottom: '0', left: '0', zIndex: '2' }}>
+                            <Button onClick={this.handleChartClose} style={{position:'absolute', top:'50px', right:'50px',backgroundColor:'#3f51b5',boxShadow:'none'}} variant="fab"><CloseIcon style={{color:'white'}} /></Button>
+                            <Chart rightAnswersWeight={this.state.rightAnswersWeight} wrongAnswersWeight={weight - this.state.rightAnswersWeight} />
+                        </div>
+                        }
                     </div>
                 </Router>
             </Collapse>
