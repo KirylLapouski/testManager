@@ -6,13 +6,17 @@ import Question from './Question';
 import { connect } from 'react-redux';
 import { loadQuestion } from '../redux/AC/question';
 import AppBar from 'material-ui/AppBar';
-import Tabs, { Tab } from 'material-ui/Tabs';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
 import Typography from 'material-ui/Typography';
-import { Button, Container, Collapse } from 'mdbreact'
+import Button from '@material-ui/core/Button';
+import Collapse from '@material-ui/core/Collapse';
+import DoneAllIcon from "@material-ui/icons/DoneAll";
+import { withStyles } from '@material-ui/core/styles';
 // TODO: test not always opening
 function TabContainer(props) {
     return (
-        <Typography component="div" style={{ padding: 8 * 3,backgroundColor:"white"}}>
+        <Typography component="div" style={{ padding: 8 * 3, backgroundColor: "white" }}>
             {props.children}
         </Typography>
     );
@@ -33,22 +37,9 @@ class Test extends React.Component {
             //tab
             value: 0
         }
-
         this.handleRightAnswer = this.handleRightAnswer.bind(this);
         this.toggle = this.toggle.bind(this);
-
-        //Tab
-        //  this.togglePills = this.togglePills.bind(this);
-
     }
-
-    // togglePills(tab) {
-    //     if (this.state.activeItemPills !== tab) {
-    //         this.setState({
-    //             activeItemPills: tab
-    //         })
-    //     }
-    // }
 
     handleChange = (event, value) => {
         this.setState({ value });
@@ -61,24 +52,23 @@ class Test extends React.Component {
     }
 
 
-    handleRightAnswer(weight) {
-        return () => {
-            this.setState(prevState => {
-                return { rightAnswersWeight: prevState.rightAnswersWeight + weight }
-            })
-        }
+    handleRightAnswer = (weight) => () => {
+        this.setState(prevState => {
+            return {
+                rightAnswersWeight: prevState.rightAnswersWeight + weight,
+                value: prevState.value + 1
+            }
+        })
     }
 
-    // getQuestions(topicId) {
-    //     axios.get("http://localhost:3000/api/Topics/" + topicId + "/questions")
-    //         .then(response => {
-    //             this.setState({
-    //                 questions: response.data
-    //             })
+    handleWrongAnswer = () => {
+        this.setState(prevState => {
+            return {
+                value: prevState.value + 1
+            }
+        })
+    }
 
-    //             return response.data;
-    //         })
-    // }
     componentWillMount() {
         this.props.getQuestions(this.props.topicId)
     }
@@ -87,32 +77,28 @@ class Test extends React.Component {
         var weight = 0;
         var questionsRes = this.props.questions.map((value, index) => {
             weight += value.weight
-            return <TabContainer key={value.id} style={{backgroundColor:"white"}} tabId={index + 1}>
-                <Question onRightAnswer={this.handleRightAnswer(value.weight)} question={value} />
+            return <TabContainer key={value.id} style={{ }} tabId={index + 1}>
+                <Question onWrongAnswer={this.handleWrongAnswer} onRightAnswer={this.handleRightAnswer(value.weight)} question={value} />
             </TabContainer>
         })
+        questionsRes.push(<TabContainer><Button color="primary" className="float-right" onClick={this.props.onTestSubmit(this.state.rightAnswersWeight, weight)}>Submit Test</Button></TabContainer>)
         var navs = this.props.questions.map((value, index) => {
             return <Tab label={index + 1} />
         })
+        navs.push(<Tab label='Отправить текст' icon={<DoneAllIcon />} />)
 
         return <div>
-            <Button onClick={this.toggle}>{this.state.collapse ? "Close Test" : "Open Test"}</Button>
-            <Collapse isOpen={this.state.collapse}>
+            <Button onClick={this.toggle} variant="outlined" color="primary" style={{marginTop:'20px'}}>{this.state.collapse ? "Закрыть тест" : 'Открыть тест'}</Button>
+            <Collapse in={this.state.collapse}>
                 <Router>
-                    <Container >
+                    <div style={{marginTop:'20px'}}>
                         <AppBar position="static">
-                            {/* <Nav style={{ width: "95%", margin: "0 auto" }} tabs="true" className=" cyan darken-3 z-depth-2">
-                            {navs}
-                        </Nav> */}
-                            <Tabs value={this.state.value} onChange={this.handleChange}>
+                            <Tabs scrollable scrollButtons="on"  indicatorColor="secondary" value={this.state.value} onChange={this.handleChange}>
                                 {navs}
                             </Tabs>
-                            {/* <TabContent className="z-depth-1 clearfix" style={{ padding: "20px", position: "relative", top: "-10px" }} activeItem={this.state.activeItemPills}> */}
                             {questionsRes[this.state.value]}
-                            {this.state.activeItemPills === this.props.questions.length && <Button color="primary" className="float-right" onClick={this.props.onTestSubmit(this.state.rightAnswersWeight, weight)}>Submit Test</Button>}
-                            {/* </TabContent> */}
                         </AppBar>
-                    </Container>
+                    </div>
                 </Router>
             </Collapse>
         </div>

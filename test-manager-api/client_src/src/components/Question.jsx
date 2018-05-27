@@ -1,10 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Answer from './Answer'
-import { Button } from 'mdbreact'
+import Button from '@material-ui/core/Button';
 import { connect } from 'react-redux'
 import { loadAnswers } from '../redux/AC/answers'
 import RadioGroup from '@material-ui/core/RadioGroup'
+import toastr from 'toastr'
 class Question extends React.Component {
     constructor(props) {
         super(props)
@@ -42,8 +43,12 @@ class Question extends React.Component {
         }
     }
     checkCorrectAnswers() {
-        var answers = this.state.answers
+        var answers = this.props.answers
         var choosen = this.state.choosen
+        if(!choosen.length){
+            toastr.error('Выберите хотя бы один вариант ответа')
+            return
+        }
         var res = answers.every((answer, i) => {
             if (answer.isRight) {
                 if (choosen[i] != true)
@@ -56,6 +61,8 @@ class Question extends React.Component {
         })
         if (res) {
             this.props.onRightAnswer()
+        }else{
+            this.props.onWrongAnswer()
         }
     }
 
@@ -84,13 +91,14 @@ class Question extends React.Component {
             <h3>{this.props.question.title}</h3>
             <p>{this.props.question.description}</p>
             {this.renderAnswers()}
-            <Button className="align-self-end" onClick={this.checkCorrectAnswers}>Submit</Button>
+            <Button color="primary" variant="outlined" onClick={this.checkCorrectAnswers} >Ответить</Button>
         </form>
     }
 }
 
 Question.propTypes = {
     onRightAnswer: PropTypes.func.isRequired,
+    onWrongAnswer: PropTypes.func,
     question: PropTypes.shape({
         id: PropTypes.number.isRequired,
         weight: PropTypes.number.isRequired,
