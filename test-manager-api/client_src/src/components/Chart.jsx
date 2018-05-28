@@ -1,6 +1,7 @@
 import React from 'react'
 import { Doughnut } from 'react-chartjs-2'
 import PropTypes from 'prop-types'
+//TODO: write % when hover chart
 class Chart extends React.Component {
     render() {
         return <Doughnut
@@ -17,7 +18,7 @@ class Chart extends React.Component {
                 labels: ['Правильные ответы', 'Неправильные ответы'],
                 datasets: [{
                     label: '% of Votes',
-                    data: [this.props.rightAnswersWeight, this.props.wrongAnswersWeight],
+                    data: [this.props.rightAnswersWeight*100/(this.props.rightAnswersWeight+this.props.wrongAnswersWeight), this.props.wrongAnswersWeight*100/(this.props.rightAnswersWeight+this.props.wrongAnswersWeight)],
                     backgroundColor: [
                         '#3f51b5',
                         'white',

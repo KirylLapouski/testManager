@@ -20,7 +20,6 @@ class TopicContainer extends React.Component {
         }
 
         this.handlePaginatorClick = this.handlePaginatorClick.bind(this)
-        this.handleTestSubmit = this.handleTestSubmit.bind(this)
     }
 
     handleTopicBeginEditClick = () => {
@@ -43,17 +42,6 @@ class TopicContainer extends React.Component {
         window.history.pushState(null, null, '/lesson/' + this.props.match.params.lessonId + '/topic/' + this.props.topics[i - 1].id)
     }
 
-    handleTestSubmit(rightAnswersWeight, allAnswersWeight) {
-        return () => {
-            toastr.info('Test result: ' + rightAnswersWeight * 100 / allAnswersWeight + '%')
-            this.setState(prevState => {
-                return {
-                    rightAnswersWeight: prevState.rightAnswersWeight + rightAnswersWeight,
-                    allAnswersWeight: prevState.allAnswersWeight + allAnswersWeight
-                }
-            })
-        }
-    }
     componentWillMount() {
         this.props.getTopics(this.props.match.params.lessonId)
     }
@@ -67,7 +55,7 @@ class TopicContainer extends React.Component {
                     paginatorSerialNumber = i+1 
                 }
             }
-            var elem = <Topic key={this.props.match.params.topicId} readOnly={this.state.readOnly} handleTestSubmit={this.handleTestSubmit} path={topic.path} id={topic.id} />
+            var elem = <Topic key={this.props.match.params.topicId} readOnly={this.state.readOnly} path={topic.path} id={topic.id} />
         }
         return (<div>
             {this.props.topics.length && <Paginator initCurrentPos={paginatorSerialNumber || null} length={this.props.topics.length} onClick={this.handlePaginatorClick} />}

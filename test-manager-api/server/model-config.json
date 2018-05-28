@@ -123,5 +123,9 @@
         "permission": "ALLOW"
       }
     ]
+  },
+  "UserQuestion": {
+    "dataSource": "db",
+    "public": true
   }
 }

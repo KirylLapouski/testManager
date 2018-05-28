@@ -34,7 +34,7 @@ class Test extends React.Component {
         super(props);
 
         this.state = {
-            rightAnswersWeight: 0,
+            AnswersWeight: [],
             //bootstrap state
             collapse: false,
             //tab
@@ -56,29 +56,33 @@ class Test extends React.Component {
     }
 
 
-    handleRightAnswer = (weight) => () => {
+    handleRightAnswer = (numberInArray)=>(weight) => {
         this.setState(prevState => {
+            var newState = prevState.AnswersWeight.slice()
+            newState[numberInArray] = weight
             return {
-                rightAnswersWeight: prevState.rightAnswersWeight + weight,
+                AnswersWeight: newState,
                 value: prevState.value + 1
             }
         })
     }
 
-    handleWrongAnswer = () => {
+    handleWrongAnswer = (numberInArray)=>() => {
         this.setState(prevState => {
+            var newState = prevState.AnswersWeight.slice()
+            newState[numberInArray] = 0
             return {
+                AnswersWeight: newState,
                 value: prevState.value + 1
             }
         })
     }
 
-    handleTestSubmit = (weight)=>() => {
+    handleTestSubmit = () => {
         this.setState({
             collapse: false,
             displayChart: true
         }); 
-        this.props.onTestSubmit(this.state.rightAnswersWeight, weight)
     }
     handleChartClose= ()=>{
         this.setState({
@@ -88,16 +92,19 @@ class Test extends React.Component {
     componentWillMount() {
         this.props.getQuestions(this.props.topicId)
     }
+    getAnswersWeight=()=>{
+        return this.state.AnswersWeight.reduce((accumulator,value)=>{return accumulator+value},0)
+    }
     render() {
 
         var weight = 0;
         var questionsRes = this.props.questions.map((value, index) => {
             weight += value.weight
-            return <TabContainer key={value.id} style={{}} tabId={index + 1}>
-                <Question onWrongAnswer={this.handleWrongAnswer} onRightAnswer={this.handleRightAnswer(value.weight)} question={value} />
+            return <TabContainer key={value.id}  tabId={index + 1}>
+                <Question onWrongAnswer={this.handleWrongAnswer(index)} onRightAnswer={this.handleRightAnswer(index)} question={value} />
             </TabContainer>
         })
-        questionsRes.push(<TabContainer><Button color="primary" className="float-right" onClick={this.handleTestSubmit(weight)}>Завершить</Button></TabContainer>)
+        questionsRes.push(<TabContainer><Button color="primary" className="float-right" onClick={this.handleTestSubmit}>Завершить</Button></TabContainer>)
         var navs = this.props.questions.map((value, index) => {
             return <Tab label={index + 1} />
         })
@@ -116,7 +123,7 @@ class Test extends React.Component {
                         </AppBar>
                         {this.state.displayChart && <div style={{ color: 'white', position: 'fixed', display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.4)', top: '0', right: '0', bottom: '0', left: '0', zIndex: '2' }}>
                             <Button onClick={this.handleChartClose} style={{position:'absolute', top:'50px', right:'50px',backgroundColor:'#3f51b5',boxShadow:'none'}} variant="fab"><CloseIcon style={{color:'white'}} /></Button>
-                            <Chart rightAnswersWeight={this.state.rightAnswersWeight} wrongAnswersWeight={weight - this.state.rightAnswersWeight} />
+                            <Chart rightAnswersWeight={this.getAnswersWeight()} wrongAnswersWeight={weight - this.getAnswersWeight()} />
                         </div>
                         }
                     </div>
@@ -127,9 +134,10 @@ class Test extends React.Component {
 }
 
 Test.propTypes = {
-    onTestSubmit: PropTypes.func.isRequired,
     topicId: PropTypes.number.isRequired,
-    questions: PropTypes.arrayOf(PropTypes.object)
+    //redux
+    questions: PropTypes.arrayOf(PropTypes.object),
+    loggedInUser: PropTypes.object
 }
 
 Test.defaultProps = {
@@ -143,7 +151,7 @@ const mapStateToProps = (state, ownProps) => {
             res.push(state.questions[key])
         }
     }
-    return { questions: res }
+    return { questions: res, loggedInUser: state.users.loggedIn }
 }
 
 const mapDispatchToProps = dispatch => {

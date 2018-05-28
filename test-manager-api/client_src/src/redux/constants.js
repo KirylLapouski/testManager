@@ -4,7 +4,8 @@ const constants = {
         DELETE_USER:'DELETE_USER',
         GET_USER:'GET_USER',
         GET_ALL_USERS:'GET_ALL_USERS',
-        LOGGED_IN_USER:'LOGGED_IN_USER'
+        LOGGED_IN_USER:'LOGGED_IN_USER',
+        SUBMIT_RESULT_OF_QUESTION:'SUBMIT_RESULT_OF_QUESTION'        
     },
     courses:{
         CREATE_COURSE:'CREATE_COURSE',

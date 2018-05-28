@@ -1,0 +1,36 @@
+{
+  "name": "UserQuestion",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "isRightAnswered": {
+      "type": "boolean",
+      "required": true,
+      "default":false
+    }
+  },
+  "validations": [],
+  "relations": {
+    "participant": {
+      "type": "belongsTo",
+      "model": "Participant",
+      "foreignKey": "",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "question": {
+      "type": "belongsTo",
+      "model": "Question",
+      "foreignKey": "",
+      "options": {
+        "nestRemoting": true
+      }
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

@@ -15,13 +15,12 @@ class Topic extends React.Component {
         return <div style={{ color: 'black', width: '80%', margin: '30px auto' }}>
             {/* {(this.props.type === 'video' || this.props.type === 'audio') && <Media src={this.props.path} />} */}
             <MyEditor topicId={this.props.id} currentData={this.props.path} readOnly={this.props.readOnly} />
-            {this.props.hasTests && <Test key={this.props.id} onTestSubmit={this.props.handleTestSubmit} topicId={this.props.id} />}
+            {this.props.hasTests && <Test key={this.props.id}  topicId={this.props.id} />}
         </div>
     }
 }
 
 Topic.propTypes = {
-    handleTestSubmit: PropTypes.func.isRequired,
     id: PropTypes.number.isRequired,
     path: PropTypes.string.isRequired,
     readOnly: PropTypes.bool,

@@ -30,9 +30,19 @@
       "model": "Discipline",
       "foreignKey": "",
       "through": "ParticipantDisciplineMapping"
+    },
+    "questions": {
+      "type": "hasMany",
+      "model": "Question",
+      "foreignKey": "",
+      "options": {
+        "nestRemoting": true
+      },
+      "through": "UserQuestion"
     }
   },
-  "acls": [{
+  "acls": [
+    {
       "accessType": "*",
       "principalType": "ROLE",
       "principalId": "admin",

@@ -4,6 +4,7 @@ import Answer from './Answer'
 import Button from '@material-ui/core/Button';
 import { connect } from 'react-redux'
 import { loadAnswers } from '../redux/AC/answers'
+import {submitQuestionResult} from '../redux/AC/users'
 import RadioGroup from '@material-ui/core/RadioGroup'
 import toastr from 'toastr'
 class Question extends React.Component {
@@ -60,9 +61,11 @@ class Question extends React.Component {
             return true
         })
         if (res) {
-            this.props.onRightAnswer()
+            this.props.onRightAnswer(this.props.question.weight)
+            this.props.submitAnswer(this.props.loggedInUser.id,true)
         }else{
             this.props.onWrongAnswer()
+            this.props.submitAnswer(this.props.loggedInUser.id,false)            
         }
     }
 
@@ -107,7 +110,9 @@ Question.propTypes = {
     }).isRequired,
     //redux
     getAnswers: PropTypes.func,
-    answers: PropTypes.arrayOf(PropTypes.object)
+    submitAnswer: PropTypes.func,
+    answers: PropTypes.arrayOf(PropTypes.object),
+    loggedInUser: PropTypes.object
 }
 
 const mapStateToProps = (state, ownProps) => {
@@ -116,14 +121,16 @@ const mapStateToProps = (state, ownProps) => {
         if (Number(ownProps.question.id) === Number(state.answers[key].questionId))
             res.push(state.answers[key])
     }
-
-    return { answers: res }
+    return { answers: res,loggedInUser: state.users.loggedIn }
 }
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         getAnswers(questionId) {
             dispatch(loadAnswers(questionId))
+        },
+        submitAnswer(userId,isRightAnswered){
+            dispatch(submitQuestionResult(userId,ownProps.question.id,isRightAnswered))
         }
     }
 }
