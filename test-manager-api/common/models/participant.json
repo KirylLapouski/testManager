@@ -21,6 +21,10 @@
     "loopbackToken": {
       "type": "string",
       "required": false
+    },
+    "imageUrl": {
+      "type": "string",
+      "required": false
     }
   },
   "validations": [],

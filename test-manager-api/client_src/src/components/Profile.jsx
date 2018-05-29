@@ -1,7 +1,9 @@
 import React from 'react'
 import toastr from 'toastr'
 import ProfileCard from './ProfileCard'
-
+import {addImageToUser  } from '../redux/AC/users'
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types' 
 class Profile extends React.Component {
 
     constructor(props) {
@@ -29,24 +31,32 @@ class Profile extends React.Component {
 
 
 
-    upload(file) {
+    upload = file=> {
+        if(!file.type.match('image.*'))
+            return
+        
+        var {userId,addUserImage} = this.props
+        var reader = new FileReader()
+        reader.onload = function(e){
+            addUserImage(userId,e.target.result)
+        }
 
-        // var data = new FormData();
-        // data.append('file', file);
+        reader.readAsBinaryString(file)
+        // var data = new FormData()
+        // data.append('file', file)
 
-        // var xhr = new XMLHttpRequest();
-        // // обработчики можно объединить в один,
-        // // если status == 200, то это успех, иначе ошибка
+        // var xhr = new XMLHttpRequest()
+
         // xhr.onload = xhr.onerror = function () {
         //     if (this.status == 200) {
-        //         toastr.success("Image was loaded");
+        //         toastr.success('Новый аватар успешно загружен')
         //     } else {
-        //         toastr.error("Error when load image");
+        //         toastr.error('Ошибка при загрузке изображения')
         //     }
-        // };
+        // }
 
-        // xhr.open("POST", config.dbApi + "/" + this.state._id + "/image", true);
-        // xhr.send(data);
+        // xhr.open('POST', 'http://localhost:3000/16/image', true)
+        // xhr.send(data)
     }
     emailValidation(email) {
         //email validation
@@ -77,11 +87,12 @@ class Profile extends React.Component {
     onSubmitHandler(e) {
         e.preventDefault()
 
-        // var form = document.querySelector('form[name="userEdit"]');
-        // var file = form.elements.imageFile.files[0];
-        // if (file) {
-        //     this.upload(file);
-        // }
+        var form = document.querySelector('form[name="userEdit"]')
+        //TODO: rewrite on refs
+        var file = form.elements.imageFile.files[0]
+        if (file) {
+            this.upload(file)
+        }
 
         // var xhr = new XMLHttpRequest();
         // xhr.open('PUT', config.rootUrl + config.dbApi, true);
@@ -170,7 +181,7 @@ class Profile extends React.Component {
     render() {
 
         return <div className="row" style={{ maxWidth: '1200px', margin:'0 auto', marginTop: '10vh',color:'#37474F' }}>
-            <ProfileCard email={this.state.email} firstName={this.state.firstName} lastName={this.state.lastName} imageSrc={this.state.fileName?this.state.fileName:null}/>
+            <ProfileCard email={this.state.email} firstName={this.state.firstName} lastName={this.state.lastName} imageSrc={this.props.userImageSrc}/>
             <div className="col-8" style={{ textAlign: 'left' }}>
                 <div className="card" >
                     <form name="userEdit" style={{ padding: '40px' }}>
@@ -204,5 +215,24 @@ class Profile extends React.Component {
     }
 }
 
+Profile.propTypes = {
+    //redux
+    userId: PropTypes.number,
+    userImageSrc: PropTypes.string,
+    addUserImage: PropTypes.func
+}
+const mapStateToProps = (state)=>{
+    return {
+        userId: state.users.loggedIn && state.users.loggedIn.id,
+        userImageSrc: state.users.loggedIn?state.users.loggedIn.imageUrl:'https://mdbootstrap.com/img/Photos/Avatars/avatar-2.jpg'
+    }
+}
 
-export default Profile
+const mapDispatchToProps = dispatch =>{
+    return {
+        addUserImage(userId,image){
+            dispatch(addImageToUser(userId,image))
+        }
+    }
+}
+export default connect(mapStateToProps,mapDispatchToProps)(Profile)

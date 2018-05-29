@@ -9,12 +9,16 @@ const users = (state = {}, action) => {
         }
     case constants.users.SUBMIT_RESULT_OF_QUESTION:
         var newState = { ...state}
-        var loggedInUser = Object.assign({},newState.loggedIn)
+        var loggedInUser = Object.assign({}, newState.loggedIn)
         var questionsId = action.payload.questions.map((value) => {
             return value.id
         })
         loggedInUser.answeredQuestions = questionsId,
         newState.loggedIn = loggedInUser
+        return newState
+    case constants.users.ADD_IMAGE_TO_USER:
+        var newState = { ...state}
+        newState.loggedIn = action.payload
         return newState
     default:
         return state

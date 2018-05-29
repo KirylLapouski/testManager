@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Link, BrowserRouter as Router } from 'react-router-dom'
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'mdbreact'
-
+import { connect } from 'react-redux'
 class UserInfo extends React.Component {
     constructor(props) {
         super(props)
@@ -49,9 +49,13 @@ UserInfo.propTypes = {
 
 UserInfo.defaultProps = {
     disabled: false,
-    style:{},
-    imageSrc:'https://mdbootstrap.com/img/Photos/Avatars/avatar-2.jpg'
+    style:{}
 }
 
+const mapStateToProps = (state)=>{
+    return {
+        imageSrc: state.users.loggedIn?state.users.loggedIn.imageUrl:'https://mdbootstrap.com/img/Photos/Avatars/avatar-2.jpg'
+    }
+}
 
-export default UserInfo
+export default connect(mapStateToProps)(UserInfo)
