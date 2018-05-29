@@ -15,8 +15,15 @@ var loopbackPassport = require('loopback-component-passport');
 var PassportConfigurator = loopbackPassport.PassportConfigurator;
 var passportConfigurator = new PassportConfigurator(app);
 var axios = require('axios');
-var request = require('request');
 var rp = require('request-promise');
+var fileUpload = require('express-fileupload');
+
+var createReadStream = require('fs').createReadStream;
+var requestHttps = require('https').request;
+var parse = require('url').parse;
+
+var upload = require('ya-disk').upload;
+var meta = require('ya-disk').meta;
 /*
  * body-parser is a piece of express middleware that
  *   reads a form's input and stores it as a javascript
@@ -50,7 +57,6 @@ try {
 var path = require('path');
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
-
 // boot scripts mount components like REST API
 boot(app, __dirname);
 
@@ -76,6 +82,7 @@ passportConfigurator.init();
 
 // We need flash messages to see passport errors
 app.use(flash());
+app.use(fileUpload());
 
 passportConfigurator.setupModels({
   userModel: app.models.user,
@@ -87,7 +94,39 @@ for (var s in config) {
   c.session = c.session !== false;
   passportConfigurator.configureProvider(s, c);
 }
-var ensureLoggedIn = require('connect-ensure-login').ensureLoggedIn;
+
+app.post('/:id/save', function (req, resp) {
+  const API_TOKEN = 'AQAAAAAEyQZ1AAUBQNdGxaSB8EYSg32qncCS114'
+
+  var sampleFile = req.files.foo
+  sampleFile.mv(`./${sampleFile.name}`, function (err) {
+    if (err)
+      return res.status(500).send(err);
+
+    upload.link(API_TOKEN, `disk:/${sampleFile.name}`, true, ({
+      href,
+      method
+    }) => {
+      const fileStream = createReadStream(`./${sampleFile.name}`);
+
+      const uploadStream = requestHttps(Object.assign(parse(href), {
+        method
+      }),()=>{
+        meta.get(API_TOKEN, `/${sampleFile.name}`, {}, (res) => {
+          console.log(res)
+          //TODO: update participant
+          //TODO: delete local file
+        });
+      })
+
+      fileStream.pipe(uploadStream);
+
+      fileStream.on('end', () => uploadStream.end());
+    });
+
+  });
+})
+
 
 app.get('/auth/yandex/callback', function (req, res, next) {
   request.post('https://oauth.yandex.ru/token', {
@@ -144,7 +183,7 @@ app.get('/auth/yandex/callback', function (req, res, next) {
             .then((account) => {
 
               if ((+Date.now()) > Date.parse(account.yandexTokenExpireIn)) {
-                
+
                 //yandex tokem expired
                 return rp({
                     method: 'POST',
@@ -165,7 +204,9 @@ app.get('/auth/yandex/callback', function (req, res, next) {
                     });
                   });
               }
-              return {data: account}
+              return {
+                data: account
+              }
             })
             .then(({
               data
@@ -184,7 +225,9 @@ app.get('/auth/yandex/callback', function (req, res, next) {
                 loopbackToken: data.id,
               });
             })
-            .then(({data})=>{
+            .then(({
+              data
+            }) => {
               res.redirect(`http://localhost:3001/cources/${data.id}`)
             })
           //TODO: error handling
