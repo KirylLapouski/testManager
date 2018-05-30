@@ -24,6 +24,7 @@ var parse = require('url').parse;
 
 var upload = require('ya-disk').upload;
 var meta = require('ya-disk').meta;
+var fs = require('fs')
 /*
  * body-parser is a piece of express middleware that
  *   reads a form's input and stores it as a javascript
@@ -95,15 +96,15 @@ for (var s in config) {
   passportConfigurator.configureProvider(s, c);
 }
 
-app.post('/:id/save', function (req, resp) {
+app.post('/:id/setAvatar', function (req, resp) {
   const API_TOKEN = 'AQAAAAAEyQZ1AAUBQNdGxaSB8EYSg32qncCS114'
 
-  var sampleFile = req.files.foo
+  var sampleFile = req.files.imageFile
   sampleFile.mv(`./${sampleFile.name}`, function (err) {
     if (err)
       return res.status(500).send(err);
 
-    upload.link(API_TOKEN, `disk:/${sampleFile.name}`, true, ({
+    upload.link(API_TOKEN, `app:/${sampleFile.name}`, true, ({
       href,
       method
     }) => {
@@ -112,10 +113,12 @@ app.post('/:id/save', function (req, resp) {
       const uploadStream = requestHttps(Object.assign(parse(href), {
         method
       }),()=>{
-        meta.get(API_TOKEN, `/${sampleFile.name}`, {}, (res) => {
-          console.log(res)
-          //TODO: update participant
-          //TODO: delete local file
+        meta.get(API_TOKEN, `app:/${sampleFile.name}`, {}, (res) => {
+          fs.unlink(`./${sampleFile.name}`)
+          var Participant = app.models.Participant
+          Participant.update({id:req.params.id},{imageUrl:res.file},(err,info)=>{
+            resp.sendStatus(201)
+          })
         });
       })
 

@@ -29,34 +29,14 @@ class Profile extends React.Component {
         }))
     }
 
+    upload = filefield=> {
+        // if(!file.type.match('image.*'))
+        //     return
 
-
-    upload = file=> {
-        if(!file.type.match('image.*'))
-            return
-        
         var {userId,addUserImage} = this.props
-        var reader = new FileReader()
-        reader.onload = function(e){
-            addUserImage(userId,e.target.result)
-        }
-
-        reader.readAsBinaryString(file)
-        // var data = new FormData()
-        // data.append('file', file)
-
-        // var xhr = new XMLHttpRequest()
-
-        // xhr.onload = xhr.onerror = function () {
-        //     if (this.status == 200) {
-        //         toastr.success('Новый аватар успешно загружен')
-        //     } else {
-        //         toastr.error('Ошибка при загрузке изображения')
-        //     }
-        // }
-
-        // xhr.open('POST', 'http://localhost:3000/16/image', true)
-        // xhr.send(data)
+        var sendingForm  = new FormData()
+        sendingForm.append('imageFile',filefield.files[0])
+        addUserImage(userId,sendingForm)
     }
     emailValidation(email) {
         //email validation
@@ -91,7 +71,7 @@ class Profile extends React.Component {
         //TODO: rewrite on refs
         var file = form.elements.imageFile.files[0]
         if (file) {
-            this.upload(file)
+            this.upload(form.elements.imageFile)
         }
 
         // var xhr = new XMLHttpRequest();
@@ -184,7 +164,7 @@ class Profile extends React.Component {
             <ProfileCard email={this.state.email} firstName={this.state.firstName} lastName={this.state.lastName} imageSrc={this.props.userImageSrc}/>
             <div className="col-8" style={{ textAlign: 'left' }}>
                 <div className="card" >
-                    <form name="userEdit" style={{ padding: '40px' }}>
+                    <form encType='multipart/form-data' name="userEdit" method="POST" action="http://localhost:3000/16/setAvatar" style={{ padding: '40px' }}>
                         <p><b>Редактировать профиль</b></p>
                         <div className="form-row">
                             <div className="form-group col-md-6">
@@ -207,7 +187,7 @@ class Profile extends React.Component {
                                 <label className="custom-file-label" htmlFor="inputGroupFile01">{document.querySelector ? this.state.fileName : 'Choose file'}</label>
                             </div>
                         </div>
-                        <button type="button" onClick={this.onSubmitHandler} className="btn btn-primary btn-md">Принять изменения</button>
+                        <button type="submit" onClick={this.onSubmitHandler} className="btn btn-primary btn-md">Принять изменения</button>
                     </form>
                 </div>
             </div>

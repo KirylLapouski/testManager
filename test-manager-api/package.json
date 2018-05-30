@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "busboy": "^0.2.14",
     "classnames": "^2.2.5",
     "compression": "^1.0.3",
     "connect-ensure-login": "^0.1.1",
