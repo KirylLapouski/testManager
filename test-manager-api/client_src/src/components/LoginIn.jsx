@@ -7,6 +7,8 @@ import 'mdbreact/dist/css/mdb.css'
 import LoadingIndicator from './decorators/LoadingIndicator'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom'
+import Cookies from 'universal-cookie'
+//TODO: rewrite
 class LoginIn extends React.Component {
 
     constructor(props) {
@@ -56,16 +58,20 @@ class LoginIn extends React.Component {
                 toastr.error('Неправильный логин или пароль')
             }
             if (xhr.status == 200) {
-                xhr.open('GET', `http://localhost:3000/api/Participants/${userResponse.userId}`)
-
+                var loopbackToken = JSON.parse(xhr.response).id
+                var loopbackTokenExpireIn = (new Date(JSON.parse(xhr.response).ttl *1000 + Date.now())).toDateString()
+                xhr.open('PATCH', `http://localhost:3000/api/Participants/${userResponse.userId}`)
+                xhr.setRequestHeader('Content-Type','application/json')
                 xhr.onload = () => {
                     var userInfo = JSON.parse(xhr.response)
                     this.props.toggleLoading()
                     toastr.success(`Добро пожаловать, ${userInfo.username || 'User'}!`)
+                    const cookies = new Cookies()
 
+                    cookies.set('loopbackToken',userInfo.loopbackToken,{maxAge:(Date.parse(loopbackTokenExpireIn)-Date.now())/1000})
                     this.props.history.push(`/cources/${userInfo.id}`)
                 }
-                xhr.send()
+                xhr.send(JSON.stringify({loopbackToken,loopbackTokenExpireIn}))
             }
         }
 

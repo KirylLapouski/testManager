@@ -95,8 +95,12 @@ for (var s in config) {
   c.session = c.session !== false;
   passportConfigurator.configureProvider(s, c);
 }
+var checkLogged = (req, resp, next) => {
+  console.log(req.cookies)
+  console.log(req.headers.cookie)
+}
 
-app.post('/:id/setAvatar', function (req, resp) {
+app.post('/:id/setAvatar', checkLogged, function (req, resp) {
   const API_TOKEN = 'AQAAAAAEyQZ1AAUBQNdGxaSB8EYSg32qncCS114'
 
   var sampleFile = req.files.imageFile
@@ -112,11 +116,15 @@ app.post('/:id/setAvatar', function (req, resp) {
 
       const uploadStream = requestHttps(Object.assign(parse(href), {
         method
-      }),()=>{
+      }), () => {
         meta.get(API_TOKEN, `app:/${sampleFile.name}`, {}, (res) => {
           fs.unlink(`./${sampleFile.name}`)
           var Participant = app.models.Participant
-          Participant.update({id:req.params.id},{imageUrl:res.file},(err,info)=>{
+          Participant.update({
+            id: req.params.id
+          }, {
+            imageUrl: res.file
+          }, (err, info) => {
             resp.sendStatus(201)
           })
         });
@@ -215,6 +223,8 @@ app.get('/auth/yandex/callback', function (req, res, next) {
               data
             }) => {
               var account = data
+
+              res.cookie('yandexToken',account.yandexToken, {maxAge:Date.parse(account.yandexTokenExpireIn)-Date.now()})
               return axios.post('http://localhost:3000/api/Participants/login', {
                 email: account.email,
                 password: '1111',
@@ -223,9 +233,11 @@ app.get('/auth/yandex/callback', function (req, res, next) {
             .then(({
               data
             }) => {
+              res.cookie('loopbackToken',data.id, {maxAge:new Date(data.ttl*1000)})
               return axios.patch(`http://localhost:3000/api/Participants/${data.userId}`, {
                 id: data.userId,
                 loopbackToken: data.id,
+                loopbackTokenExpireIn: (new Date(data.ttl*1000  + Date.now())).toDateString()
               });
             })
             .then(({

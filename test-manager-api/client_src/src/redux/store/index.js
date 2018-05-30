@@ -1,7 +1,8 @@
 import {
     createStore,
     combineReducers,
-    applyMiddleware
+    applyMiddleware,
+    compose
 } from 'redux'
 import courses from '../redusers/courses'
 import users from '../redusers/users'
@@ -11,9 +12,9 @@ import tests from '../redusers/test'
 import questions from '../redusers/questions'
 import answers from '../redusers/answers'
 import thunk from 'redux-thunk'
-import {loadCourses} from '../AC/courses'
+import persistState from 'redux-localstorage'
 
-const enhancer = applyMiddleware(thunk)
+const enhancer = compose(applyMiddleware(thunk),persistState())
 
 const store = createStore(combineReducers({
     courses,

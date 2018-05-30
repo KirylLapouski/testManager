@@ -54,7 +54,7 @@ UserInfo.defaultProps = {
 
 const mapStateToProps = (state)=>{
     return {
-        imageSrc: state.users.loggedIn?state.users.loggedIn.imageUrl:'https://mdbootstrap.com/img/Photos/Avatars/avatar-2.jpg'
+        imageSrc: state.users.loggedIn?state.users.loggedIn.imageUrl:'https://globalblueproject.org/wp-content/uploads/2016/07/blank-profile-picture.png'
     }
 }
 

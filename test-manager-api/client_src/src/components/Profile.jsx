@@ -1,9 +1,9 @@
 import React from 'react'
 import toastr from 'toastr'
 import ProfileCard from './ProfileCard'
-import {addImageToUser  } from '../redux/AC/users'
+import { addImageToUser } from '../redux/AC/users'
 import { connect } from 'react-redux'
-import PropTypes from 'prop-types' 
+import PropTypes from 'prop-types'
 class Profile extends React.Component {
 
     constructor(props) {
@@ -29,14 +29,14 @@ class Profile extends React.Component {
         }))
     }
 
-    upload = filefield=> {
+    upload = filefield => {
         // if(!file.type.match('image.*'))
         //     return
 
-        var {userId,addUserImage} = this.props
-        var sendingForm  = new FormData()
-        sendingForm.append('imageFile',filefield.files[0])
-        addUserImage(userId,sendingForm)
+        var { userId, addUserImage } = this.props
+        var sendingForm = new FormData()
+        sendingForm.append('imageFile', filefield.files[0])
+        addUserImage(userId, sendingForm)
     }
     emailValidation(email) {
         //email validation
@@ -69,6 +69,7 @@ class Profile extends React.Component {
 
         var form = document.querySelector('form[name="userEdit"]')
         //TODO: rewrite on refs
+        //TODO: why images rotates?
         var file = form.elements.imageFile.files[0]
         if (file) {
             this.upload(form.elements.imageFile)
@@ -160,8 +161,8 @@ class Profile extends React.Component {
     }
     render() {
 
-        return <div className="row" style={{ maxWidth: '1200px', margin:'0 auto', marginTop: '10vh',color:'#37474F' }}>
-            <ProfileCard email={this.state.email} firstName={this.state.firstName} lastName={this.state.lastName} imageSrc={this.props.userImageSrc}/>
+        return <div className="row" style={{ maxWidth: '1200px', margin: '0 auto', marginTop: '10vh', color: '#37474F' }}>
+            <ProfileCard email={this.state.email} firstName={this.state.firstName} lastName={this.state.lastName} imageSrc={this.props.userImageSrc} />
             <div className="col-8" style={{ textAlign: 'left' }}>
                 <div className="card" >
                     <form encType='multipart/form-data' name="userEdit" method="POST" action="http://localhost:3000/16/setAvatar" style={{ padding: '40px' }}>
@@ -201,18 +202,18 @@ Profile.propTypes = {
     userImageSrc: PropTypes.string,
     addUserImage: PropTypes.func
 }
-const mapStateToProps = (state)=>{
+const mapStateToProps = (state) => {
     return {
         userId: state.users.loggedIn && state.users.loggedIn.id,
-        userImageSrc: state.users.loggedIn?state.users.loggedIn.imageUrl:'https://mdbootstrap.com/img/Photos/Avatars/avatar-2.jpg'
+        userImageSrc: state.users.loggedIn ? state.users.loggedIn.imageUrl : 'https://globalblueproject.org/wp-content/uploads/2016/07/blank-profile-picture.png'
     }
 }
 
-const mapDispatchToProps = dispatch =>{
+const mapDispatchToProps = dispatch => {
     return {
-        addUserImage(userId,image){
-            dispatch(addImageToUser(userId,image))
+        addUserImage(userId, image) {
+            dispatch(addImageToUser(userId, image))
         }
     }
 }
-export default connect(mapStateToProps,mapDispatchToProps)(Profile)
+export default connect(mapStateToProps, mapDispatchToProps)(Profile)

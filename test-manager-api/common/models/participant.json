@@ -22,6 +22,10 @@
       "type": "string",
       "required": false
     },
+    "loopbackTokenExpireIn": {
+      "type": "string",
+      "required": false
+    },
     "imageUrl": {
       "type": "string",
       "required": false
