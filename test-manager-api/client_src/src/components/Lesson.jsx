@@ -22,7 +22,7 @@ import { loadTopics } from '../redux/AC/topic'
 import { deleteLesson, editLesson } from '../redux/AC/lessons'
 import toastr from 'toastr'
 import TextField from '@material-ui/core/TextField';
-
+import Slide from '@material-ui/core/Slide';
 class Lesson extends React.Component {
 
     constructor(props) {
@@ -109,7 +109,8 @@ class Lesson extends React.Component {
             </div>
         </ExpansionPanelDetails>
 
-        return (<div>
+        return ( <Slide direction="up" in={true} timeout={600} mountOnEnter unmountOnExit>
+            <div>
             <ExpansionPanel style={{ marginTop: "20px", paddingBottom: '10px', backgroundColor: 'grey', backgroundImage: 'url("https://lh4.googleusercontent.com/-64uhpsHBEZw/VMqrG_6wowI/AAAAAAAAAIE/_Pw_QoP0opU/w1005-h214-no/123_rainbowtriangle_teal.jpg")' }}>
                 <ExpansionPanelSummary expandIcon={<ExpandMoreIcon style={{ color: "white" }} />}>
                     <UserInfo disabled={true} style={{ float: "left" }} />
@@ -121,7 +122,8 @@ class Lesson extends React.Component {
             </ExpansionPanel>
             <TopicList lessonId={this.props.id} topicsOpened={this.state.topicsOpened} handleTopicsClick={this.handleTopicsClick} topics={this.props.topics} />
             <TopicModal open={this.state.modalOpened} handleClose={this.handleModalClose} lessonId={this.props.id} />
-        </div>)
+            </div>
+        </Slide>)
     }
 }
 

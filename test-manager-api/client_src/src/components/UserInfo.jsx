@@ -67,7 +67,6 @@ const mapStateToProps = (state, ownProps)=>{
         imageSrc = 'https://globalblueproject.org/wp-content/uploads/2016/07/blank-profile-picture.png'
     if(!ownProps.userId)
         imageSrc = state.users.loggedIn?state.users.loggedIn.imageUrl || 'https://globalblueproject.org/wp-content/uploads/2016/07/blank-profile-picture.png':'https://globalblueproject.org/wp-content/uploads/2016/07/blank-profile-picture.png'
-    console.log(imageSrc)
     return {
         imageSrc
     }

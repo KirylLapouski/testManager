@@ -6,11 +6,13 @@ import Answer from '../Answer'
 import TextField from 'material-ui/TextField'
 import Divider from 'material-ui/Divider'
 import Switch from 'material-ui/Switch'
-import Button from 'material-ui/Button'
+import Button from '@material-ui/core/Button'
 import { FormGroup, FormControlLabel } from 'material-ui/Form'
 import TypeOfAnswerSelect from './TypeOfAnswerSelect'
 import { connect } from 'react-redux'
-import { loadAnswers } from '../../redux/AC/answers'
+import { loadAnswers, addAnswer } from '../../redux/AC/answers'
+import DeleteIcon from '@material-ui/icons/Delete'
+import { relative } from 'path'
 //TODO: refactor test cms
 class Test extends React.Component {
     constructor(props) {
@@ -41,7 +43,7 @@ class Test extends React.Component {
 
     getAnswers(ansersText) {
         return ansersText.map((answer, i) => {
-            return <Answer  key={i} typeOfAnswer={this.props.testType} text={answer} />
+            return <Answer key={i} typeOfAnswer={this.props.testType} text={answer} />
         })
     }
 
@@ -54,29 +56,31 @@ class Test extends React.Component {
         this.props.toggleOpenItem(this.props.question.id)
     }
 
-    addNewAnswer() {
-        //AC to add the answer
+    addNewAnswer = () => {
+        this.props.addAnswer()
     }
     render() {
         var { editing } = this.props
         var answersText = this.getAnswersText()
-        var answers = editing? this.getEditableAnswers(answersText): this.getAnswers(answersText)
+        var answers = editing ? this.getEditableAnswers(answersText) : this.getAnswers(answersText)
         if (editing) {
-            return <div className="mx-auto z-depth-1-half container" style={{ borderLeft: '3px solid indigo', color: '#263238', display: 'flex', flexDirection: 'column', padding: '20px' }} >
+            return <div className="mx-auto z-depth-1-half container" style={{ borderLeft: '3px solid indigo', color: '#263238', display: 'flex', flexDirection: 'column', paddingTop: '20px', paddingRight: '20px', paddingLeft: '20px' }} >
                 <div style={{ display: 'flex', justifyContent: 'space-between' }}><TextField label="Вопрос" style={{ marginLeft: '27px', width: '50%' }} />
                     <TypeOfAnswerSelect style={{ width: '300px', marginRight: '25px' }} />
                 </div>
                 {answers}
-                <Answer text="Добавить вариант" typeOfAnswer={this.props.testType} onClick={this.addNewAnswer} serialNumber={answers.length + 1} />
-                <Divider inset={true} style={{ position: 'relative', left: '-5%', width: '100%' }} />
-                <FormGroup row>
+                <Button onClick={this.addNewAnswer} >Добавить вариант</Button>
+                <Divider inset={true} style={{ position: 'relative', left: '-5%', width: '100%', marginTop: '30px' }} />
+                <FormGroup row style={{ position: 'relative', paddingTop: '10px' }}>
                     <FormControlLabel control={<Switch value="checkedC" color="primary" />} label="Обязательный вопрос" />
+                    <FormControlLabel style={{ position: 'absolute', right: '200px', paddingRight: '10px', borderRight: '1px solid grey' }} control={<Button> <DeleteIcon /></Button>} />
+                    <FormControlLabel style={{ position: 'absolute', right: '0' }} control={<Button> Принять изменения</Button>} />
                 </FormGroup>
             </div>
 
-        }else{
-            return (<div className="mx-auto container" onClick={this.begginEdit} style={{ color: '#263238',borderBottom:'1px  solid rgba(0,0,0,0.12)'}} >
-                <h3>{this.props.question.title}</h3>
+        } else {
+            return (<div className="mx-auto container" onClick={this.begginEdit} style={{ color: '#263238', borderBottom: '1px  solid rgba(0,0,0,0.12)' }} >
+                <div style={{ background: 'rgba(0,0,0,0.1)', overflow: 'hidden' }}><h3>{this.props.question.title}</h3></div>
                 {answers}
             </div>)
         }
@@ -114,10 +118,13 @@ const mapStateToProps = (state, ownProps) => {
     return { answers: res }
 }
 
-const mapDispatchtToProps = dispatch => {
+const mapDispatchtToProps = (dispatch, ownProps) => {
     return {
         getAnswers(questionId) {
             dispatch(loadAnswers(questionId))
+        },
+        addAnswer() {
+            dispatch(addAnswer(ownProps.question.id))
         }
     }
 }

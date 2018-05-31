@@ -6,11 +6,7 @@ const answers = (state={},action)=>{
     case constants.answers.ADD_ANSWER:
         return {
             ...state,
-            [action.payload.id]:{
-                id: action.payload.id,
-                text:action.payload.text,
-                typeOfAnswer: action.payload.typeOfAnswer
-            }
+            [action.payload.id]:{...action.payload}
         }
     case constants.answers.LOAD_ANSWERS_FOR_QUESTION:
         var answers = action.payload.reduce((result, answer) => {

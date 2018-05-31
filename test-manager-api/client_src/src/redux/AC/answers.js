@@ -1,14 +1,19 @@
 import constants from '../constants'
-import UUID from 'uuid-js'
 import axios from 'axios'
-const addAnswer = (text,typeOfAnswer)=>{
-    return {
-        type: constants.answers.ADD_ANSWER,
-        payload: {
-            id: UUID.create().toString(),
-            text,
-            typeOfAnswer
-        }
+const addAnswer = (questionId, text=' ') => {
+    return dispatch => {
+        axios.post(`http://localhost:3000/api/Questions/${questionId}/answers`, {
+            isRight: false,
+            text: text
+        })
+            .then(({
+                data
+            }) => {
+                dispatch({
+                    type: constants.answers.ADD_ANSWER,
+                    payload: { ...data}
+                })
+            })
     }
 }
 
@@ -26,5 +31,7 @@ const loadAnswers = questionId => {
             })
     }
 }
-
-export {addAnswer, loadAnswers}
+export {
+    addAnswer,
+    loadAnswers
+}

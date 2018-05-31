@@ -8,11 +8,11 @@ import TextField from 'material-ui/TextField'
 class Answer extends React.Component {
 
     getCheckBox(answer, editable,serialNumber) {
-        return editable ? <div style={{ display: 'flex', alignItems: 'center' }}>{serialNumber}.<Checkbox onClick={this.props.onClick} style={{ width: '5%' }} /> <TextField defaultValue={answer} style={{ width: '90%' }} /><CloseIcon /></div>: <div style={{ display: 'flex', alignItems: 'center' }}><FormControlLabel control={<Checkbox checked={this.props.checked} label={answer} onClick={this.props.onClick} />} label={answer} /></div>
+        return editable ? <div style={{ display: 'flex', alignItems: 'center' }}>{serialNumber<10?'0'+serialNumber:serialNumber}.<Checkbox onClick={this.props.onClick} style={{ width: '5%' }} /> <TextField defaultValue={answer} style={{ width: '90%' }} /><CloseIcon /></div>: <div style={{ display: 'flex', alignItems: 'center' }}><FormControlLabel control={<Checkbox checked={this.props.checked} label={answer} onClick={this.props.onClick} />} label={answer} /></div>
     }
 
     getRadioButtons(answer, editable,serialNumber) {
-        return editable ? <div style={{ display: 'flex', alignItems: 'center' }}>{serialNumber}.<Radio value="a" onClick={this.props.onClick} checked={this.props.checked} /><TextField defaultValue={answer} style={{ width: '90%' }} /><CloseIcon /></div> : <div style={{ display: 'flex', alignItems: 'center' }}><FormControlLabel control={<Radio checked={this.props.checked} value={answer} onClick={this.props.onClick}/>} label={answer} /></div>
+        return editable ? <div style={{ display: 'flex', alignItems: 'center' }}>{serialNumber<10?'0'+serialNumber:serialNumber}.<Radio value="a" onClick={this.props.onClick} checked={this.props.checked} /><TextField defaultValue={answer} style={{ width: '90%' }} /><CloseIcon /></div> : <div style={{ display: 'flex', alignItems: 'center' }}><FormControlLabel control={<Radio checked={this.props.checked} value={answer} onClick={this.props.onClick}/>} label={answer} /></div>
 
     }
     render() {
