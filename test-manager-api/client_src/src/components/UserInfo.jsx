@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { Link, BrowserRouter as Router } from 'react-router-dom'
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'mdbreact'
 import { connect } from 'react-redux'
+import {getUserById} from '../redux/AC/users'
 class UserInfo extends React.Component {
     constructor(props) {
         super(props)
@@ -13,7 +14,10 @@ class UserInfo extends React.Component {
         this.toggle = this.toggle.bind(this)
     }
 
-
+    componentWillMount(){
+        if(this.props.userId)
+            this.props.getUser(this.props.userId)
+    }
 
     toggle() {
         this.setState(prevState => ({
@@ -44,7 +48,10 @@ class UserInfo extends React.Component {
 UserInfo.propTypes = {
     disabled: PropTypes.bool,
     style: PropTypes.object,
-    imageSrc: PropTypes.string
+    userId: PropTypes.number,
+    //redux
+    imageSrc: PropTypes.string,
+    getUser: PropTypes.func
 }
 
 UserInfo.defaultProps = {
@@ -52,10 +59,26 @@ UserInfo.defaultProps = {
     style:{}
 }
 
-const mapStateToProps = (state)=>{
+const mapStateToProps = (state, ownProps)=>{
+    var imageSrc
+    if(ownProps.userId)
+        imageSrc = state.users[ownProps.userId] && state.users[ownProps.userId].imageUrl
+    if(!imageSrc)
+        imageSrc = 'https://globalblueproject.org/wp-content/uploads/2016/07/blank-profile-picture.png'
+    if(!ownProps.userId)
+        imageSrc = state.users.loggedIn?state.users.loggedIn.imageUrl || 'https://globalblueproject.org/wp-content/uploads/2016/07/blank-profile-picture.png':'https://globalblueproject.org/wp-content/uploads/2016/07/blank-profile-picture.png'
+    console.log(imageSrc)
     return {
-        imageSrc: state.users.loggedIn?state.users.loggedIn.imageUrl:'https://globalblueproject.org/wp-content/uploads/2016/07/blank-profile-picture.png'
+        imageSrc
     }
 }
 
-export default connect(mapStateToProps)(UserInfo)
+const mapDispatchToProps = dispatch=>{
+    return {
+        getUser(userId){
+            dispatch(getUserById(userId))
+        }
+    }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(UserInfo)

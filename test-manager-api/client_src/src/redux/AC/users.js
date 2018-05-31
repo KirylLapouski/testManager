@@ -61,9 +61,21 @@ const addImageToUser = (userId, form) => {
     }
 }
 
+const getUserById = userId =>{
+    return dispatch =>{
+        axios.get(`http://localhost:3000/api/Participants/${userId}`)
+            .then(({data})=>{
+                dispatch({
+                    type: constants.users.GET_USER,
+                    payload: {...data}
+                })
+            })
+    }
+}
 window.assignloggedInUser = assignloggedInUser
 export {
     assignloggedInUser,
     submitQuestionResult,
-    addImageToUser
+    addImageToUser,
+    getUserById
 }
