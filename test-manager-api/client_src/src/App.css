@@ -33,3 +33,7 @@ a{
 a:hover{
   color:rgba(255, 255, 255)
 }
+
+.files-dropzone-active{
+  background-color: '#C5CAE9'
+}

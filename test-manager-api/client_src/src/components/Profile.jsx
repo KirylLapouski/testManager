@@ -28,7 +28,7 @@ class Profile extends React.Component {
 
     upload = filefield => {
         if (!filefield.files[0].type.match('image.*'))
-            throw new Error('Фотография пользователя должна быть изображением');
+            throw new Error('Фотография пользователя должна быть изображением','Ошибка отправки формы');
 
         var { userId, addUserImage } = this.props
         var sendingForm = new FormData()
@@ -44,7 +44,7 @@ class Profile extends React.Component {
         }
         return true
     }
-    nameValidation(name, field) {
+    nameValidation(name) {
         var reg = /^[a-z]{4,}(?:[._-][a-z\d]+)*$/i
         if (reg.test(name) == false) {
             toastr.error('Неправильный логин', 'Ошибка отправки формы')
@@ -96,14 +96,14 @@ class Profile extends React.Component {
                 toastr.success('Пользователь успешно изменён');
                 this.props.updateLoggedUser(this.props.userId)
             } else {
-                toastr.error('Ошибка сервера', 'Пользователь не был изменён');
+                toastr.error('Пользователь не был изменён','Ошибка сервера');
             }
         }
 
         xhr.timeout = 3000
 
         xhr.ontimeout = () => {
-            toastr.error('Допустимое время выполнения запроса истекло')
+            toastr.error('Допустимое время выполнения запроса истекло','Ошибка сервера')
         }
         xhr.send(JSON.stringify(user))
     }

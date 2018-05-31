@@ -34,7 +34,7 @@ class LoginIn extends React.Component {
         var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,5})$/
         var address = this.state.mail
         if (reg.test(address) == false) {
-            toastr.error('Неправильный формат электронной почты')
+            toastr.error('Неправильный формат электронной почты','Ошибка входа')
             return false
         }
         return true
@@ -55,7 +55,7 @@ class LoginIn extends React.Component {
             var userResponse = JSON.parse(xhr.response)
             if (xhr.status == 401) {
                 this.props.toggleLoading()
-                toastr.error('Неправильный логин или пароль')
+                toastr.error('Неправильный логин или пароль','Ошибка входа')
             }
             if (xhr.status == 200) {
                 var loopbackToken = JSON.parse(xhr.response).id
@@ -77,7 +77,7 @@ class LoginIn extends React.Component {
 
         xhr.ontimeout = () => {
             this.props.toggleLoading()
-            toastr.error('Время запроса истекло: сервер не отвечает')
+            toastr.error('Время запроса истекло: сервер не отвечает','Ошибка входа')
         }
 
         xhr.send(JSON.stringify({ email: this.state.mail, password: this.state.password }))

@@ -1,10 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Typography from 'material-ui/Typography'
-import Modal from 'material-ui/Modal'
+import Modal from '@material-ui/core/Modal';
 import Button from 'material-ui/Button'
 import TextField from 'material-ui/TextField'
-import FileDrop from 'react-file-drop'
+import Files from 'react-files'
 import ClearIcon from '@material-ui/icons/Clear'
 import ClipIcon from '@material-ui/icons/AttachFile'
 import YouTubeIcon from '@material-ui/icons/YoutubeSearchedFor'
@@ -12,8 +12,7 @@ import { addTopic } from '../../redux/AC/topic'
 import { connect } from 'react-redux'
 import toastr from 'toastr'
 import isUrl from 'is-url'
-import url from 'url'   
-
+import url from 'url'
 var initVideo = '<p style="text-align:center;">\n<iframe width=\"1100\" height=\"600\"  src=\"|https://www.youtube.com/embed/ioC2wj4CKss\|" frameBorder=\"0\"></iframe>\n</p>\n'
 const modalStyles = { width: '840px', height: '320px', color: 'black', padding: 20, boxShadow: 'inset 0px 0px 5px rgba(154, 147, 140, 0.5)', display: 'flex', justifyContent: 'center', alignItems: 'center', textAlign: 'center' };
 
@@ -35,6 +34,25 @@ class TopicModal extends React.Component {
         console.log(files, event);
     }
 
+    onFilesError = (error, file) => {
+        switch (error.code) {
+            case 1:
+                toastr.error('Неправильный тип файла','Ошибка при выборе файла')
+                return
+            case 2:
+                toastr.error('Выбранный файл слишком большой','Ошибка при выборе файла')
+                return
+            case 3: 
+                toastr.error('Выбранный файл слишком маленький','Ошибка при выборе файла')
+                return
+            case 4:
+                toastr.error('Превышено максимально допустимое количество файлов','Ошибка при выборе файла')
+                return
+            default: 
+                toastr.error('Ошибка при загрузке файла')
+        }
+    }
+
     parseVideoForYouTube(url) {
         const youtube = 'https://www.youtube.com/embed/'
         var videoId = url.split("=")
@@ -42,26 +60,26 @@ class TopicModal extends React.Component {
         return result
     }
 
-    checkIsHostUrl(urlAdress,domen) {
-        if(!urlAdress) return false
+    checkIsHostUrl(urlAdress, domen) {
+        if (!urlAdress) return false
         var parsedUrl = url.parse(urlAdress)
         if (parsedUrl.host == domen)
-          return true
+            return true
         return false
-      }
+    }
     handleYouTubeClick = () => {
         //TODO: check that is youtube video and validate
         const src = window.prompt('Введите URL видео с youtube:')
-        if (!src) 
+        if (!src)
             return
         if (!isUrl(src)) {
             toastr.error('Введённая строка не является url')
             return
         }
-        if( this.checkIsHostUrl(src,'www.youtube.com')){
+        if (this.checkIsHostUrl(src, 'www.youtube.com')) {
             var parsedUrl = this.parseVideoForYouTube(src)
             console.log(parsedUrl)
-        }else{
+        } else {
             toastr.error('Это видео не принадлежит youtube.com')
             return
         }
@@ -82,7 +100,7 @@ class TopicModal extends React.Component {
             toastr.error('Введённая строка не является url')
             return
         }
-        if( !this.checkIsHostUrl(src,'soundcloud.com')){
+        if (!this.checkIsHostUrl(src, 'soundcloud.com')) {
             toastr.error('Это видео не принадлежит soundcloud.com')
             return
         }
@@ -107,12 +125,12 @@ class TopicModal extends React.Component {
                     <h3>Создать топик</h3>
 
                     <TextField name='title' onChange={this.handleChange} InputProps={{ disableUnderline: true }} placeholder='Название урока' style={{ width: '840px', color: 'black', padding: '10px', paddingLeft: 20, marginBottom: '20px', boxShadow: 'inset 0px 0px 5px rgba(154, 147, 140, 0.5)' }} />
-                    <div id="react-file-drop-demo" style={modalStyles}>
-                        <FileDrop onDrop={this.handleDrop}>
+                    <div id="react-file-drop-demo" style={{ border: '1px dashed grey', textAlign: 'center' }}>
+                        <Files onChange={this.handleDrop} onError={this.onFilesError} maxFiles={1} style={{ cursor: 'pointer', width: '840px', height: '168px', display: 'flex', justifyContent: 'center', alignItems: 'center' }} accepts={['image/*', 'audio/*', 'video/*', 'text/html']} clickable>
                             Перетащите файлы сюда<br />
                             или<br />
-                            <Button style={{ backgroundColor: '#CFD8DC' }}>Выберите файл на компьютере</Button>
-                        </FileDrop>
+                            Выберите файл на компьютере
+                        </Files>
                     </div>
                     <div style={{ display: 'flex', alignSelf: 'flex-end', marginTop: '45px', width: '100%', justifyContent: 'flex-end' }}>
                         <div style={{ margin: 'auto', marginLeft: '0px' }}>

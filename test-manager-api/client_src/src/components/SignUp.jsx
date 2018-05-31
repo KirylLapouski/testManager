@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Link  } from 'react-router'
+import { Link } from 'react-router'
 import toastr from 'toastr'
 import Flag from '@material-ui/icons/Flag'
 //CAN ADD REAL TIME VALIDATION
@@ -11,7 +11,8 @@ class SignUp extends React.Component {
         this.state = {
             email: '',
             password: '',
-            passwordConfirm: ''
+            passwordConfirm: '',
+            userName: ''
         }
 
         this.onChangeHandler = this.onChangeHandler.bind(this)
@@ -24,44 +25,61 @@ class SignUp extends React.Component {
             [name]: value
         }))
     }
+    nameValidation(name) {
+        var reg = /^[a-z]{4,}(?:[._-][a-z\d]+)*$/i
+        if (reg.test(name) == false) {
+            toastr.error('Неправильный логин', 'Ошибка отправки формы')
+            return false
+        }
+        return true
+    }
+
     onSubmitHandler(e) {
         e.preventDefault()
         var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/
         if (!this.state.email || !this.state.password || !this.state.passwordConfirm) {
-            toastr.error('Все поля должны быть заполнены')
-        } else if (this.state.password !== this.state.passwordConfirm) {
-            toastr.error('Пароли не совпадают')
+            toastr.error('Все обязательные поля должны быть заполнены', 'Ошибка отправки формы')
+            return
+        }
+        if (this.state.password !== this.state.passwordConfirm) {
+            toastr.error('Пароли не совпадают', 'Ошибка отправки формы')
+            return
             //WRONG PASSWORD
-        } else if(reg.test(this.state.email) == false){
-            toastr.error('Неправильный формат для электронной почты')
-        } else {
+        }
+        if (reg.test(this.state.email) == false) {
+            toastr.error('Неправильный формат для электронной почты', 'Ошибка отправки формы')
+            return
+        }
+        if (this.state.userName &&  !this.nameValidation(this.state.userName))
+            return
 
-            var xhr = new XMLHttpRequest()
-            xhr.open('POST', 'http://localhost:3000/api/Participants', true)
-            xhr.setRequestHeader('Content-Type', 'application/json')
-            xhr.send(JSON.stringify({ email: this.state.email, password: this.state.password }))
 
-            xhr.onload = () => {
-                if (xhr.status == 200) {
-                    toastr.success('Регистрация прошла успешно')
+        var xhr = new XMLHttpRequest()
+        xhr.open('POST', 'http://localhost:3000/api/Participants', true)
+        xhr.setRequestHeader('Content-Type', 'application/json')
+        xhr.send(JSON.stringify({ email: this.state.email, password: this.state.password, username:this.state.userName }))
 
-                    xhr.open('POST', 'http://localhost:3000/api/Participants/login', true)
-                    xhr.setRequestHeader('Content-Type', 'application/json')
-                    xhr.send(JSON.stringify({ email: this.state.email, password: this.state.password }))
+        xhr.onload = () => {
+            if (xhr.status == 200) {
+                toastr.success('Регистрация прошла успешно')
+                toastr.success(`Добро пожаловать, ${this.state.userName || 'User'}!`)
 
-                    xhr.onload = () => {
-                        if (xhr.status == 200) {
-                            toastr.success(`Вы вошли как ${this.state.email}`)
-                            localStorage.setItem('token',JSON.parse(xhr.responseText).id)
-                            document.location.href = `/cources/${JSON.parse(xhr.response).userId}`
-                        }
+                xhr.open('POST', 'http://localhost:3000/api/Participants/login', true)
+                xhr.setRequestHeader('Content-Type', 'application/json')
+                xhr.send(JSON.stringify({ email: this.state.email, password: this.state.password }))
+
+                xhr.onload = () => {
+                    if (xhr.status == 200) {
+                        localStorage.setItem('token', JSON.parse(xhr.responseText).id)
+                        document.location.href = `/cources/${JSON.parse(xhr.response).userId}`
                     }
-                } else {
-                    toastr.error('Ошибка во время регистрации')
-                    xhr.abort()
                 }
+            } else {
+                toastr.error('Ошибка во время регистрации', 'Ошибка отправки формы')
+                xhr.abort()
             }
         }
+
 
     }
     render() {
@@ -78,7 +96,12 @@ class SignUp extends React.Component {
 
 
                                 <label htmlFor="defaultFormRegisterEmailEx" className="grey-text">Электронная почта<Flag style={{ color: '#ff7961', width: '14px', height: '14px' }} /></label>
-                                <input onChange={this.onChangeHandler} type="email" id="defaultFormRegisterEmailEx" name="email" className="form-control" />
+                                <input onChange={this.onChangeHandler} type="email" id="defaultFormRegisterEmailEx" name="email" placeholder="lapkovskyk@mail.ru" className="form-control" />
+
+                                <br />
+
+                                <label htmlFor="defaultFormRegisterCheckLogin" className="grey-text">Логин</label>
+                                <input onChange={this.onChangeHandler} type="text" id="defaultFormRegisterCheckLogin" name="userName" placeholder="" className="form-control" />
 
                                 <br />
 
@@ -89,6 +112,7 @@ class SignUp extends React.Component {
 
                                 <label htmlFor="defaultFormRegisterCheckPassword" className="grey-text">Подвердите пароль<Flag style={{ color: '#ff7961', width: '14px', height: '14px' }} /></label>
                                 <input onChange={this.onChangeHandler} type="password" id="defaultFormRegisterCheckPassword" name="passwordConfirm" className="form-control" />
+
 
                                 <div className="text-center mt-4" style={{ alignSelf: 'center' }}>
                                     <button className="btn-primary btn" onClick={this.onSubmitHandler} type="submit" >Зарегистрироваться</button>

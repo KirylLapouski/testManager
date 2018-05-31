@@ -47,7 +47,7 @@ class Question extends React.Component {
         var answers = this.props.answers
         var choosen = this.state.choosen
         if(!choosen.length){
-            toastr.error('Выберите хотя бы один вариант ответа')
+            toastr.error('Выберите хотя бы один вариант ответа','Ошибка отправки формы')
             return
         }
         var res = answers.every((answer, i) => {

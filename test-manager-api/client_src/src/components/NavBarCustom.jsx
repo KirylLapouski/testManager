@@ -7,6 +7,7 @@ import Add from '@material-ui/icons/Add';
 import Button from 'material-ui/Button';
 import Menu, { MenuItem } from 'material-ui/Menu';
 import SimpleModal from './Modal.jsx'
+import AttachToCourseModal from './AttachToCourseModal'
 class NavBarCustom extends React.Component {
     constructor(props) {
         super(props);
@@ -16,7 +17,8 @@ class NavBarCustom extends React.Component {
             isWideEnough: false,
             dropdownOpen: false,
             menu: null,
-            open:false
+            open: false,
+            attachCourseModalOpened: false
         }
 
         this.toggle = this.toggle.bind(this);
@@ -24,15 +26,16 @@ class NavBarCustom extends React.Component {
         this.handleMenuClose = this.handleMenuClose.bind(this);
     };
 
-    handleModalOpen = () => {
-        this.setState({ open: true });
+    handleModalOpen = (modalName) => {
+        this.setState({ [modalName]: true });
         this.handleMenuClose()
-      };
-    
-      handleModalClose = () => {
-        this.setState({ open: false });          
+    };
+
+    handleModalClose = (modalName) => {
+        
+        this.setState({ [modalName]: false });
         this.handleMenuClose()
-      };
+    };
     handleClick() {
         this.setState({
             collapse: !this.state.collapse
@@ -51,41 +54,42 @@ class NavBarCustom extends React.Component {
         this.setState({ menu: null });
     };
 
-    handle = ()=>{
-        this.handleMenuClose()        
+    handle = () => {
+        this.handleMenuClose()
         this.handleModalOpen()
     }
+
     render() {
         var { menu } = this.state;
-        return ( <Router>
-                <Navbar color="indigo" dark expand="md" scrolling>
-                    <NavbarBrand>
-                        <strong>NavBar</strong>
-                    </NavbarBrand>
-                    <NavbarNav left>
-                        <NavItem>
-                            <NavLink to="/cources">Home</NavLink>
-                        </NavItem>
-                    </NavbarNav>
-                    <NavbarNav right>
-                        <NavItem style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-                            <Button color="primary" style={{ color: "white" }} aria-label="add" aria-owns={menu ? 'simple-menu' : null} aria-haspopup="true" onClick={this.handleMenuClick}>
-                                <Add style={{ width: "30px", height: "30px" }} />
-                            </Button>
-                            <Menu id="simple-menu" anchorEl={menu} open={Boolean(menu)} style={{ display: "relative", top: "40px" }} onClose={this.handleMenuClose}>
-                                <MenuItem onClick={this.handleMenuClose}>Присоединиться</MenuItem>
-                                <MenuItem onClick={this.state.open?this.handleModalClose:this.handleModalOpen}>Создать курс</MenuItem>
-                            </Menu>
-                        </NavItem>
-                        <NavItem>                            
-                            <UserInfo/>
-                        </NavItem >
-                    </NavbarNav>
-                    <SimpleModal open={this.state.open} handleClose={this.handleModalClose}/>
-                    
-                    {!this.state.isWideEnough && <NavbarToggler onClick={this.handleClick} />}
-                </Navbar>
-            </Router>);
+        return (<Router>
+            <Navbar color="indigo" dark expand="md" scrolling>
+                <NavbarBrand>
+                    <strong>NavBar</strong>
+                </NavbarBrand>
+                <NavbarNav left>
+                    <NavItem>
+                        <NavLink to="/cources">Home</NavLink>
+                    </NavItem>
+                </NavbarNav>
+                <NavbarNav right>
+                    <NavItem style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
+                        <Button color="primary" style={{ color: "white" }} aria-label="add" aria-owns={menu ? 'simple-menu' : null} aria-haspopup="true" onClick={this.handleMenuClick}>
+                            <Add style={{ width: "30px", height: "30px" }} />
+                        </Button>
+                        <Menu id="simple-menu" anchorEl={menu} open={Boolean(menu)} style={{ display: "relative", top: "40px" }} onClose={this.handleMenuClose}>
+                            <MenuItem onClick={this.handleModalOpen.bind(this,'attachCourseModalOpened')}>Присоединиться</MenuItem>
+                            <MenuItem onClick={this.state.open ? this.handleModalClose : this.handleModalOpen.bind(this,'open')}>Создать курс</MenuItem>
+                        </Menu>
+                    </NavItem>
+                    <NavItem>
+                        <UserInfo />
+                    </NavItem >
+                </NavbarNav>
+                <SimpleModal open={this.state.open} handleClose={this.handleModalClose.bind(this, 'open')} />
+                <AttachToCourseModal open={this.state.attachCourseModalOpened} handleClose={this.handleModalClose.bind(this, 'attachCourseModalOpened')} />
+                {!this.state.isWideEnough && <NavbarToggler onClick={this.handleClick} />}
+            </Navbar>
+        </Router>);
     }
 }
 
