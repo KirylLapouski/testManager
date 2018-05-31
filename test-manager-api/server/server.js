@@ -101,6 +101,7 @@ var checkLogged = (req, resp, next) => {
 }
 
 app.post('/:id/setAvatar', checkLogged, function (req, resp) {
+  //TODO: take token from req
   const API_TOKEN = 'AQAAAAAEyQZ1AAUBQNdGxaSB8EYSg32qncCS114'
 
   var sampleFile = req.files.imageFile

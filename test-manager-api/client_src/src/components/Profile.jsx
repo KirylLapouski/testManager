@@ -4,18 +4,15 @@ import ProfileCard from './ProfileCard'
 import { addImageToUser } from '../redux/AC/users'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import { assignloggedInUser } from '../redux/AC/users'
 class Profile extends React.Component {
 
     constructor(props) {
         super(props)
 
         this.state = {
-            _id: '',
-            firstName: '',
-            lastName: '',
+            userName: '',
             email: '',
-            phoneNumber: '',
-            city: '',
             fileName: ''
         }
         this.onChangeHandler = this.onChangeHandler.bind(this)
@@ -30,8 +27,8 @@ class Profile extends React.Component {
     }
 
     upload = filefield => {
-        // if(!file.type.match('image.*'))
-        //     return
+        if (!filefield.files[0].type.match('image.*'))
+            throw new Error('Фотография пользователя должна быть изображением');
 
         var { userId, addUserImage } = this.props
         var sendingForm = new FormData()
@@ -39,30 +36,27 @@ class Profile extends React.Component {
         addUserImage(userId, sendingForm)
     }
     emailValidation(email) {
-        //email validation
         var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/
 
         if (reg.test(email) == false) {
-            toastr.error('Wrong email format')
-            return false
-        }
-        return true
-    }
-    phoneValidation(phone) {
-        var reg = /^\d[\d\(\)\ -]{4,14}\d$/
-        if (reg.test(phone) == false) {
-            toastr.error('Wrong phone number format')
+            toastr.error('Неправильный формат электронной почты', 'Ошибка отправки формы')
             return false
         }
         return true
     }
     nameValidation(name, field) {
-        var reg = /^[а-яА-ЯёЁa-zA-Z0-9]+$/
+        var reg = /^[a-z]{4,}(?:[._-][a-z\d]+)*$/i
         if (reg.test(name) == false) {
-            toastr.error('Wrong ' + field ? field : 'name' + 'format')
+            toastr.error('Неправильный логин', 'Ошибка отправки формы')
             return false
         }
         return true
+    }
+    checkIsImage(e) {
+        //TODO: cancel choosen file
+        if (!e.target.files[0].type.match('image.*'))
+            toastr.warning('Фотография пользователя должна быть изображением')
+
     }
     onSubmitHandler(e) {
         e.preventDefault()
@@ -72,54 +66,46 @@ class Profile extends React.Component {
         //TODO: why images rotates?
         var file = form.elements.imageFile.files[0]
         if (file) {
-            this.upload(form.elements.imageFile)
+            try {
+                this.upload(form.elements.imageFile)
+            } catch (e) {
+                toastr.error(e.message, 'Ошибка отправки формы')
+                return
+            }
         }
 
-        // var xhr = new XMLHttpRequest();
-        // xhr.open('PUT', config.rootUrl + config.dbApi, true);
-        // xhr.setRequestHeader('Content-Type', 'application/json');
+        var xhr = new XMLHttpRequest();
+        xhr.open('PATCH', `http://localhost:3000/api/Participants/${this.props.userId}`, true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
 
-        // //create request body (user changes)
-        // var user = { _id: this.state._id };
-        // if (this.state.email) {
-        //     user.email = this.state.email;
-        //     if (!this.emailValidation(this.state.email))
-        //         return;
-        // }
-        // if (this.state.firstName) {
-        //     user.firstName = this.state.firstName;
-        //     if (this.nameValidation(this.state.fileName))
-        //         return;
-        // }
-        // if (this.state.lastName) {
-        //     user.lastName = this.state.lastName;
-        //     if (this.nameValidation(this.state.lastName))
-        //         return;
-        // }
-        // if (this.state.phoneNumber) {
-        //     user.phoneNumber = this.state.phoneNumber;
-        //     if (!this.phoneValidation(this.state.phoneNumber))
-        //         return;
-        // }
-        // if (this.state.city) {
+        //create request body (user changes)
+        var user = {};
+        if (this.state.email) {
+            user.email = this.state.email;
+            if (!this.emailValidation(this.state.email))
+                return;
+        }
+        if (this.state.userName) {
+            user.username = this.state.userName;
+            if (!this.nameValidation(this.state.userName))
+                return;
+        }
 
-        //     user.city = this.state.city;
-        //     if (this.nameValidation(this.state.city, "city"))
-        //         return;
-        // }
+        xhr.onload = () => {
+            if (xhr.status == 200) {
+                toastr.success('Пользователь успешно изменён');
+                this.props.updateLoggedUser(this.props.userId)
+            } else {
+                toastr.error('Ошибка сервера', 'Пользователь не был изменён');
+            }
+        }
 
+        xhr.timeout = 3000
 
-
-        // xhr.onload = () => {
-        //     if (xhr.status == 200) {
-
-        //         localStorage.setItem('currentUser', JSON.stringify(user));
-        //         toastr.success('User was edited successful');
-        //     } else {
-        //         toastr.error('Something goes wrong', 'User was not edited');
-
-        //     }
-        // }
+        xhr.ontimeout = () => {
+            toastr.error('Допустимое время выполнения запроса истекло')
+        }
+        xhr.send(JSON.stringify(user))
     }
     componentDidMount() {
         // setTimeout(() => {
@@ -162,29 +148,25 @@ class Profile extends React.Component {
     render() {
 
         return <div className="row" style={{ maxWidth: '1200px', margin: '0 auto', marginTop: '10vh', color: '#37474F' }}>
-            <ProfileCard email={this.state.email} firstName={this.state.firstName} lastName={this.state.lastName} imageSrc={this.props.userImageSrc} />
+            <ProfileCard />
             <div className="col-8" style={{ textAlign: 'left' }}>
                 <div className="card" >
                     <form encType='multipart/form-data' name="userEdit" method="POST" action="http://localhost:3000/16/setAvatar" style={{ padding: '40px' }}>
                         <p><b>Редактировать профиль</b></p>
                         <div className="form-row">
                             <div className="form-group col-md-6">
-                                <label htmlFor="inputEmail4">Имя</label>
-                                <input onChange={this.onChangeHandler} name="firstName" type="text" className="form-control" id="inputEmail4" placeholder="Кирилл" />
-                            </div>
-                            <div className="form-group col-md-6">
-                                <label htmlFor="inputPassword4">Фамилия</label>
-                                <input onChange={this.onChangeHandler} name="lastName" type="text" className="form-control" id="inputPassword4" placeholder="Лапковский" />
+                                <label htmlFor="inputEmail4">Логин</label>
+                                <input onChange={this.onChangeHandler} name="userName" type="text" className="form-control" id="inputEmail4" placeholder="User" />
                             </div>
                         </div>
-                        <div className="form-group">
+                        {this.props.hasYandexToken || <div className="form-group">
                             <label htmlFor="inputEmail">Электронная почта</label>
                             <input onChange={this.onChangeHandler} type="email" name="email" id="inputEmail" className="form-control" placeholder="lapkovskyk@mail.ru" />
-                        </div>
+                        </div>}
                         <div className="form-group">
                             <label htmlFor="inputGroupFile01">Фото</label><br />
                             <div className="custom-file">
-                                <input name="imageFile" type="file" className="custom-file-input" id="inputGroupFile01" />
+                                <input name="imageFile" onChange={this.checkIsImage} accept="image/*" type="file" className="custom-file-input" id="inputGroupFile01" />
                                 <label className="custom-file-label" htmlFor="inputGroupFile01">{document.querySelector ? this.state.fileName : 'Choose file'}</label>
                             </div>
                         </div>
@@ -200,11 +182,15 @@ Profile.propTypes = {
     //redux
     userId: PropTypes.number,
     userImageSrc: PropTypes.string,
-    addUserImage: PropTypes.func
+    hasYandexToken: PropTypes.bool,
+    addUserImage: PropTypes.func,
+    updateLoggedUser: PropTypes.func,
+
 }
 const mapStateToProps = (state) => {
     return {
         userId: state.users.loggedIn && state.users.loggedIn.id,
+        hasYandexToken: state.users.loggedIn && !!state.users.loggedIn.yandexToken,
         userImageSrc: state.users.loggedIn ? state.users.loggedIn.imageUrl : 'https://globalblueproject.org/wp-content/uploads/2016/07/blank-profile-picture.png'
     }
 }
@@ -213,6 +199,9 @@ const mapDispatchToProps = dispatch => {
     return {
         addUserImage(userId, image) {
             dispatch(addImageToUser(userId, image))
+        },
+        updateLoggedUser(userId) {
+            dispatch(assignloggedInUser(userId))
         }
     }
 }

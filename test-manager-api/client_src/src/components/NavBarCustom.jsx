@@ -78,7 +78,7 @@ class NavBarCustom extends React.Component {
                             </Menu>
                         </NavItem>
                         <NavItem>                            
-                            <UserInfo />
+                            <UserInfo/>
                         </NavItem >
                     </NavbarNav>
                     <SimpleModal open={this.state.open} handleClose={this.handleModalClose}/>
