@@ -21,9 +21,9 @@ class SignUp extends React.Component {
 
     onChangeHandler(e) {
         var { name, value } = e.target
-        this.setState(prevState => ({
+        this.setState({
             [name]: value
-        }))
+        })
     }
     nameValidation(name) {
         var reg = /^[a-z]{4,}(?:[._-][a-z\d]+)*$/i

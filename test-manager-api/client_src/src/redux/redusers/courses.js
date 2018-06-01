@@ -19,7 +19,6 @@ const courses = (state = {}, action) => {
             return result
         }, {})
         return {
-            ...state,
             ...courses
         }
 

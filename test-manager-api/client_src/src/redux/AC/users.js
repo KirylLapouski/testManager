@@ -43,11 +43,11 @@ const submitQuestionResult = (userId, questionId, isRightAnswered) => {
 const addImageToUser = (userId, form) => {
     return dispatch => {
         var xhr = new XMLHttpRequest()
-        xhr.open('POST',`http://localhost:3000/${userId}/setAvatar`,true)
+        xhr.open('POST', `http://localhost:3000/${userId}/setAvatar`, true)
 
-        xhr.onload = ()=>{
-            xhr.open('GET',`http://localhost:3000/api/Participants/${userId}`)
-            xhr.onload =(res)=>{
+        xhr.onload = () => {
+            xhr.open('GET', `http://localhost:3000/api/Participants/${userId}`)
+            xhr.onload = (res) => {
                 dispatch({
                     type: constants.users.ADD_IMAGE_TO_USER,
                     payload: {
@@ -61,21 +61,51 @@ const addImageToUser = (userId, form) => {
     }
 }
 
-const getUserById = userId =>{
-    return dispatch =>{
+const getUserById = userId => {
+    return dispatch => {
         axios.get(`http://localhost:3000/api/Participants/${userId}`)
-            .then(({data})=>{
+            .then(({
+                data
+            }) => {
                 dispatch({
                     type: constants.users.GET_USER,
-                    payload: {...data}
+                    payload: { ...data
+                    }
                 })
             })
     }
 }
+
+const attachUserToCource = (userId, secretWord) => {
+    //it is not AC it just query to back
+    return dispatch => {
+        axios.get(`http://localhost:3000/api/Disciplines?filter=%7B%22where%22%3A%7B%22secretWord%22%3A%22${secretWord}%22%7D%7D`)
+            .then(({
+                data
+            }) => {
+                //TODO: dispatch
+                dispatch({
+                    type:constants.courses.CREATE_COURSE,
+                    payload:{...data[0]}
+                })
+                return axios.post('http://localhost:3000/api/ParticipantDisciplineMappings',{
+                    type: 'student',
+                    participantId: userId,
+                    disciplineId: data[0].id
+                })
+            }).then(()=>{
+                dispatch({
+                    type: constants.users.ATTACH_USER_TO_COURSE
+                })
+            })
+    }
+}
+
 window.assignloggedInUser = assignloggedInUser
 export {
     assignloggedInUser,
     submitQuestionResult,
     addImageToUser,
-    getUserById
+    getUserById,
+    attachUserToCource
 }
