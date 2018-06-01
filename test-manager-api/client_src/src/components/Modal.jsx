@@ -4,20 +4,36 @@ import Typography from 'material-ui/Typography'
 import Modal from 'material-ui/Modal'
 import Button from 'material-ui/Button'
 import TextField from 'material-ui/TextField'
+import {connect} from 'react-redux'
+import {addCourse} from '../redux/AC/courses'
 class SimpleModal extends React.Component {
+    state = {
+        name:''
+    }
+
+    handleChange = (e)=>{
+        this.setState({
+            [e.target.name]:e.target.value
+        })
+    }
+
+    handleSubmit = (e)=>{
+        e.preventDefault()
+        this.props.addCource(this.props.userId,this.state.name)
+        this.props.handleClose()
+    }
     render() {
         return (<div>
             <Modal open={this.props.open} onClose={this.props.handleClose}>
-                <div style={{ display: 'flex', flexDirection: 'column', height: '400px', width: '300px', position: 'absolute', left: '50%', marginLeft: `-${300 / 2}px`, top: '50%', marginTop: `-${400 / 2}px`, background: 'white', padding: '30px' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', height: '300px', width: '250px', position: 'absolute', left: '50%', marginLeft: `-${250 / 2}px`, top: '50%', marginTop: `-${300 / 2}px`, background: 'white', padding: '30px' }}>
                     <h3>Создать курс</h3>
-                    <TextField id="name" label="Название курса" margin="normal" />
-                    <TextField id="name" label="Раздел" margin="normal" />
-                    <TextField id="name" label="Предмет" margin="normal" />
-                    <div style={{display:'flex',alignSelf:'flex-end',marginTop:'45px'}}>
-                        <Button onClick={this.props.handleClose}>Отмена</Button>
-                        <Button variant="raised" color="primary">Создать</Button>
-                    </div>
-
+                    <form onSubmit={this.handleSubmit}>
+                        <TextField id="name" name="name" onChange={this.handleChange} label="Название курса" margin="normal" />
+                        <div style={{ display: 'flex', alignSelf: 'flex-end', marginTop: '45px' }}>
+                            <Button onClick={this.props.handleClose}>Отмена</Button>
+                            <Button type="submit" variant="raised" color="primary">Создать</Button>
+                        </div>
+                    </form>
                 </div>
             </Modal>
         </div>
@@ -27,8 +43,24 @@ class SimpleModal extends React.Component {
 
 SimpleModal.propTypes = {
     open: PropTypes.bool,
-    handleClose: PropTypes.func
-
+    handleClose: PropTypes.func,
+    //redux
+    userId: PropTypes.number,
+    addCource: PropTypes.func
 }
 
-export default SimpleModal
+const mapStateToProps = (state) => {
+    return {
+        userId: state.users.loggedIn && state.users.loggedIn.id,
+    }
+}
+
+const mapDispatchToProps = (dispatch,ownProps)  =>{
+    return{
+        addCource(userId,title){
+            dispatch(addCourse(userId,title))
+        }
+    }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(SimpleModal)

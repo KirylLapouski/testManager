@@ -1,6 +1,5 @@
 import React from 'react';
 import { Navbar, NavbarBrand, NavbarNav, NavbarToggler, NavItem, NavLink } from 'mdbreact';
-import { BrowserRouter as Router } from 'react-router-dom';
 import UserInfo from './UserInfo';
 import { Link } from 'react-router-dom';
 import Add from '@material-ui/icons/Add';
@@ -61,14 +60,17 @@ class NavBarCustom extends React.Component {
 
     render() {
         var { menu } = this.state;
-        return (<Router>
+        return (
             <Navbar color="indigo" dark expand="md" scrolling>
                 <NavbarBrand>
                     <strong>NavBar</strong>
                 </NavbarBrand>
                 <NavbarNav left>
                     <NavItem>
-                        <NavLink to="/cources">Home</NavLink>
+                        <NavLink to="/cources">My cources</NavLink>
+                    </NavItem>
+                    <NavItem>
+                        <NavLink to="/profile">Profile</NavLink>
                     </NavItem>
                 </NavbarNav>
                 <NavbarNav right>
@@ -89,7 +91,7 @@ class NavBarCustom extends React.Component {
                 <AttachToCourseModal open={this.state.attachCourseModalOpened} handleClose={this.handleModalClose.bind(this, 'attachCourseModalOpened')} />
                 {!this.state.isWideEnough && <NavbarToggler onClick={this.handleClick} />}
             </Navbar>
-        </Router>);
+       );
     }
 }
 

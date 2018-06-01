@@ -1,14 +1,34 @@
 import constants from '../constants'
-import UUID from 'uuid-js'
 import axios from 'axios'
+const addCourse = (userId, title = ' ') => {
+    var id
+    return dispatch => {
 
-const addCourse = (title) => {
-    return {
-        type: constants.courses.CREATE_COURSE,
-        payload: {
-            id: UUID.create().toString(),
-            title: title
-        }
+        console.log(title)
+        axios.post('http://localhost:3000/api/Disciplines', {
+            title
+        })
+            .then(({
+                data
+            }) => {
+                id = data.id
+                //TODO: acn rewrite on remote hooks on back end
+                return axios.post('http://localhost:3000/api/ParticipantDisciplineMappings', {
+                    type: 'teacher',
+                    participantId: userId,
+                    disciplineId: data.id
+                })
+            })
+            .then(() => {
+                dispatch({
+                    type: constants.courses.CREATE_COURSE,
+                    payload: {
+                        id,
+                        title
+                    }
+                })
+            })
+
     }
 }
 
@@ -21,7 +41,7 @@ const loadCourses = () => {
             .then(response => {
                 dispatch({
                     type: constants.courses.LOAD_COURSES,
-                    payload:response
+                    payload: response
                 })
             })
     }
@@ -36,13 +56,11 @@ const loadCoursesForUser = userId => {
             .then(response => {
                 dispatch({
                     type: constants.courses.LOAD_COURSES,
-                    payload:response
+                    payload: response
                 })
             })
     }
 }
-
-window.loadCoursesForUser = loadCoursesForUser
 
 export {
     addCourse,

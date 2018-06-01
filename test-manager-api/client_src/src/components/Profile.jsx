@@ -185,7 +185,6 @@ Profile.propTypes = {
     hasYandexToken: PropTypes.bool,
     addUserImage: PropTypes.func,
     updateLoggedUser: PropTypes.func,
-
 }
 const mapStateToProps = (state) => {
     return {

@@ -3,81 +3,89 @@ import PropTypes from 'prop-types'
 import { Link, BrowserRouter as Router } from 'react-router-dom'
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'mdbreact'
 import { connect } from 'react-redux'
-import {getUserById} from '../redux/AC/users'
+import { getUserById } from '../redux/AC/users'
+import Menu, { MenuItem } from 'material-ui/Menu'
+import Button from 'material-ui/Button'
+import { withRouter } from 'react-router-dom'
+
 class UserInfo extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            dropdownOpen: false
+            menu: false
         }
 
         this.toggle = this.toggle.bind(this)
     }
 
-    componentWillMount(){
-        if(this.props.userId)
+    componentWillMount() {
+        if (this.props.userId)
             this.props.getUser(this.props.userId)
     }
 
     toggle() {
         this.setState(prevState => ({
-            dropdownOpen: !prevState.dropdownOpen
+            menu: !prevState.menu
         }))
     }
 
-    getDropdown() {
-        return (<DropdownMenu>
-            {/* TODO: Link error */}
-            <DropdownItem ><Link to="/profile">Profile</Link></DropdownItem>
-            <DropdownItem ><Link to='/cources'>My Courses</Link></DropdownItem>
-        </DropdownMenu>)
+    handleMenuClick = (event) => {
+        this.setState({ menu: event.currentTarget })
+    }
+    handleMenuClose = () => {
+        this.setState({ menu: null })
+    }
+    goToUrl = (url) => () => {
+        this.props.history.push(url)
     }
     render() {
-        var dropdown = this.props.disabled ? null : this.getDropdown()
-
-        return (
-            <Dropdown style={this.props.style} isOpen={this.state.dropdownOpen} toggle={this.toggle}>
-                <DropdownToggle style={{ padding: '0px' }}>
-                    <img width="50px" height="50px" src={this.props.imageSrc} />
-                </DropdownToggle>
-                {dropdown}
-            </Dropdown>
+        return (<div style={Object.assign({}, { display: 'inline-block' }, this.props.style)}>
+            <Button color="primary" aria-label="add" onClick={this.handleMenuClick}>
+                <img width="50px" height="50px" style={{ backgroundColor: 'white' }} src={this.props.imageSrc} />
+            </Button>
+            {this.props.disabled || <Menu open={Boolean(this.state.menu)} style={{ display: 'relative', top: '40px' }} onClose={this.handleMenuClose}>
+                <MenuItem onClick={this.goToUrl('/profile')}>Profile</MenuItem>
+                <MenuItem onClick={this.goToUrl(`/cources/${this.props.userId}`)}>My Courses</MenuItem>
+            </Menu>}
+        </div>
         )
     }
 }
 UserInfo.propTypes = {
     disabled: PropTypes.bool,
     style: PropTypes.object,
-    userId: PropTypes.number,
     //redux
+    userId: PropTypes.number,
     imageSrc: PropTypes.string,
     getUser: PropTypes.func
 }
 
 UserInfo.defaultProps = {
     disabled: false,
-    style:{}
+    style: {}
 }
 
-const mapStateToProps = (state, ownProps)=>{
-    var imageSrc
-    if(ownProps.userId)
+const mapStateToProps = (state, ownProps) => {
+    var imageSrc, userId
+    if (ownProps.userId)
         imageSrc = state.users[ownProps.userId] && state.users[ownProps.userId].imageUrl
-    if(!imageSrc)
+    if (!imageSrc)
         imageSrc = 'https://globalblueproject.org/wp-content/uploads/2016/07/blank-profile-picture.png'
-    if(!ownProps.userId)
-        imageSrc = state.users.loggedIn?state.users.loggedIn.imageUrl || 'https://globalblueproject.org/wp-content/uploads/2016/07/blank-profile-picture.png':'https://globalblueproject.org/wp-content/uploads/2016/07/blank-profile-picture.png'
+    if (!ownProps.userId){
+        userId = state.users.loggedIn && state.users.loggedIn.id
+    }
     return {
-        imageSrc
+        imageSrc,
+        userId
     }
 }
 
-const mapDispatchToProps = dispatch=>{
+const mapDispatchToProps = dispatch => {
     return {
-        getUser(userId){
+        getUser(userId) {
             dispatch(getUserById(userId))
         }
     }
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(UserInfo)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(UserInfo))
