@@ -83,7 +83,6 @@ const attachUserToCource = (userId, secretWord) => {
             .then(({
                 data
             }) => {
-                //TODO: dispatch
                 dispatch({
                     type:constants.courses.CREATE_COURSE,
                     payload:{...data[0]}
@@ -93,19 +92,31 @@ const attachUserToCource = (userId, secretWord) => {
                     participantId: userId,
                     disciplineId: data[0].id
                 })
-            }).then(()=>{
-                dispatch({
-                    type: constants.users.ATTACH_USER_TO_COURSE
-                })
             })
     }
 }
 
+const untieUserFromCourse = (userId,courseId)=>{
+
+    return dispatch=>{
+        axios.get(`http://localhost:3000/api/ParticipantDisciplineMappings?filter=%7B%22where%22%3A%7B%22participantId%22%3A%22${userId}%22%2C%22disciplineId%22%3A%22${courseId}%22%7D%7D`)
+            .then(({data})=>{
+                return axios.delete(`http://localhost:3000/api/ParticipantDisciplineMappings/${data[0].id}`)
+            })
+            .then(({data})=>{
+                dispatch({
+                    type: constants.courses.DELETE_COURSE,
+                    payload: {courseId}
+                })
+            })
+    }
+}
 window.assignloggedInUser = assignloggedInUser
 export {
     assignloggedInUser,
     submitQuestionResult,
     addImageToUser,
     getUserById,
-    attachUserToCource
+    attachUserToCource,
+    untieUserFromCourse
 }

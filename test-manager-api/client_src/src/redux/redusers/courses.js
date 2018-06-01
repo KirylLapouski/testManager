@@ -21,7 +21,12 @@ const courses = (state = {}, action) => {
         return {
             ...courses
         }
-
+    case constants.courses.DELETE_COURSE:
+        var newState = { ...state}
+        delete newState[action.payload.courseId]
+        return { 
+            ...newState
+        }
     }
     return state
 }

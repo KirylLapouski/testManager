@@ -27,10 +27,6 @@ const users = (state = {}, action) => {
             ...state,
             [action.payload.id]: action.payload
         }
-    case constants.users.ATTACH_USER_TO_COURSE:
-        return{
-            ...state
-        }
     default:
         return state
 
