@@ -33,6 +33,7 @@
     "redux-thunk": "^2.2.0",
     "toastr": "^2.1.4",
     "universal-cookie": "^2.1.5",
+    "uuid-js": "^0.7.5",
     "ya-disk": "^1.2.1"
   },
   "scripts": {

@@ -21,7 +21,8 @@ class TopicModal extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            title: ' '
+            title: ' ',
+            file: {}
         }
     }
 
@@ -30,25 +31,34 @@ class TopicModal extends React.Component {
             title: e.target.value
         })
     }
-    handleDrop = (files, event) => {
-        console.log(files, event);
+    handleDrop = (files) => {
+        this.setState({
+            file:files[0]
+        },()=>{
+            console.log(this.state.file )
+        })
+    }
+
+    filesRemoveAll = () => {
+        this.refs.files.removeFiles()
     }
 
     onFilesError = (error, file) => {
+        this.filesRemoveAll()
         switch (error.code) {
             case 1:
-                toastr.error('Неправильный тип файла','Ошибка при выборе файла')
+                toastr.error('Неправильный тип файла', 'Ошибка при выборе файла')
                 return
             case 2:
-                toastr.error('Выбранный файл слишком большой','Ошибка при выборе файла')
+                toastr.error('Выбранный файл слишком большой', 'Ошибка при выборе файла')
                 return
-            case 3: 
-                toastr.error('Выбранный файл слишком маленький','Ошибка при выборе файла')
+            case 3:
+                toastr.error('Выбранный файл слишком маленький', 'Ошибка при выборе файла')
                 return
             case 4:
-                toastr.error('Превышено максимально допустимое количество файлов','Ошибка при выборе файла')
+                toastr.error('Превышено максимально допустимое количество файлов', 'Ошибка при выборе файла')
                 return
-            default: 
+            default:
                 toastr.error('Ошибка при загрузке файла')
         }
     }
@@ -78,7 +88,6 @@ class TopicModal extends React.Component {
         }
         if (this.checkIsHostUrl(src, 'www.youtube.com')) {
             var parsedUrl = this.parseVideoForYouTube(src)
-            console.log(parsedUrl)
         } else {
             toastr.error('Это видео не принадлежит youtube.com')
             return
@@ -113,9 +122,28 @@ class TopicModal extends React.Component {
         this.props.handleClose()
         toastr.success('Новый топик был успешно добавлен')
     }
+
+    fileUpload = () => {
+        const formData = new FormData()
+        Object.keys(this.state.files).forEach((key) => {
+          const file = this.state.files[key]
+          formData.append(key, new Blob([file], { type: file.type }), file.name || 'file')
+        })
+    
+        // axios.post(`/files`, formData)
+        // .then(response => window.alert(`${this.state.files.length} files uploaded succesfully!`))
+        // .catch(err => window.alert('Error uploading files :('))
+      }
+    handleClose = ()=>{
+        this.setState({
+            title:'',
+            files:[]
+        })
+        this.props.handleClose()
+    }
     render() {
         return (<div>
-            <Modal open={this.props.open} onClose={this.props.handleClose}>
+            <Modal open={this.props.open} onClose={this.handleClose}>
                 <div style={{ display: 'flex', flexDirection: 'column', height: '400px', width: '900px', position: 'absolute', left: '50%', marginLeft: `-${900 / 2}px`, top: '50%', marginTop: `-${400 / 2}px`, background: 'white', paddingLeft: '30px', paddingBottom: '30px', paddingRight: '30px' }}>
                     <div style={{ width: '900px', backgroundColor: '#757ce8', height: '40px', marginLeft: '-30px' }}>
                         <Button style={{ float: 'right' }} onClick={this.props.handleClose}>
@@ -126,19 +154,37 @@ class TopicModal extends React.Component {
 
                     <TextField name='title' onChange={this.handleChange} InputProps={{ disableUnderline: true }} placeholder='Название урока' style={{ width: '840px', color: 'black', padding: '10px', paddingLeft: 20, marginBottom: '20px', boxShadow: 'inset 0px 0px 5px rgba(154, 147, 140, 0.5)' }} />
                     <div id="react-file-drop-demo" style={{ border: '1px dashed grey', textAlign: 'center' }}>
-                        <Files onChange={this.handleDrop} onError={this.onFilesError} maxFiles={1} style={{ cursor: 'pointer', width: '840px', height: '168px', display: 'flex', justifyContent: 'center', alignItems: 'center' }} accepts={['image/*', 'audio/*', 'video/*', 'text/html']} clickable>
-                            Перетащите файлы сюда<br />
-                            или<br />
-                            Выберите файл на компьютере
-                        </Files>
+
+                        {
+                            Object.keys(this.state.file).length !== 0
+                                ? <div className='files-list' style={{ width: '840px', display:'flex', justifyContent:'center', alignItems:'center', height: '168px'}}>
+                                    <ul style={{listStyle:'none'}}>{this.state.files.map((file) =>
+                                        <li className='files-list-item' key={file.id}>
+                                            <div className='files-list-item-preview'>
+                                                {file.preview.type === 'image'
+                                                    ? <img className='files-list-item-preview-image' src={file.preview.url} />
+                                                    : <div className='files-list-item-preview-extension'>{file.extension}</div>}
+                                            </div>
+                                            <div className='files-list-item-content'>
+                                                <div className='files-list-item-content-item files-list-item-content-item-1'>{file.name}</div>
+                                                <div className='files-list-item-content-item files-list-item-content-item-2'>{file.sizeReadable}</div>
+                                            </div>
+                                        </li>
+                                    )}</ul>
+                                </div>
+                                : <Files ref='files' onChange={this.handleDrop} onError={this.onFilesError} maxFiles={1} style={{ cursor: 'pointer', width: '840px', height: '168px', display: 'flex', justifyContent: 'center', alignItems: 'center' }} accepts={['image/*', 'audio/*', 'video/*', 'text/html']} clickable>
+                                    Перетащите файлы сюда<br />
+                                    или<br />
+                                    Выберите файл на компьютере
+                            </Files>
+                        }
                     </div>
                     <div style={{ display: 'flex', alignSelf: 'flex-end', marginTop: '45px', width: '100%', justifyContent: 'flex-end' }}>
                         <div style={{ margin: 'auto', marginLeft: '0px' }}>
-                            <Button ><ClipIcon /></Button>
                             <Button ><i className="fa fa-youtube-play" style={{ fontSize: '2em' }} onClick={this.handleYouTubeClick} aria-hidden="true"></i></Button>
                             <Button ><i className="fa fa-soundcloud" style={{ fontSize: '2em' }} onClick={this.handleSoundCloudClick} aria-hidden="true"></i></Button>
                         </div>
-                        <Button onClick={this.props.handleClose}>Отмена</Button>
+                        <Button onClick={this.handleClose}>Отмена</Button>
                         <Button variant="raised" color="primary">Создать</Button>
                     </div>
 

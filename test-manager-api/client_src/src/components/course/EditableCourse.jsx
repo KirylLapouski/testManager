@@ -37,7 +37,7 @@ class EditableCourse extends React.Component {
                 <UserInfo disabled={true} userId={this.props.userId}/>
             </CourseHeader>
 
-            <Button onClick={this.toggleModal} variant="fab" color="primary" aria-label="add" style={{ position: 'fixed', bottom: '20px', right: '20px' }}>
+            <Button onClick={this.toggleModal} variant="fab" color="primary" aria-label="add" style={{ position: 'fixed', bottom: '20px', right: '20px', zIndex:'2' }}>
                 <AddIcon />
             </Button>
             {/* TODO: How to deliver route to child? */}
