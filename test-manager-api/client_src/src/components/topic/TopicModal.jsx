@@ -43,6 +43,16 @@ class TopicModal extends React.Component {
         this.refs.files.removeFiles()
     }
 
+    upload = () => {
+        // if (!filefield.files[0].type.match('image.*'))
+        //     throw new Error('Фотография пользователя должна быть изображением','Ошибка отправки формы');
+
+        var { userId, addUserImage } = this.props
+        var sendingForm = new FormData()
+        sendingForm.append('file', this.state.file)
+        addUserImage(userId, sendingForm)
+    }
+
     onFilesError = (error, file) => {
         this.filesRemoveAll()
         switch (error.code) {

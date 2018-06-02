@@ -48,6 +48,7 @@ const addImageToUser = (userId, form) => {
         xhr.onload = () => {
             xhr.open('GET', `http://localhost:3000/api/Participants/${userId}`)
             xhr.onload = (res) => {
+                console.log(res)
                 dispatch({
                     type: constants.users.ADD_IMAGE_TO_USER,
                     payload: {
@@ -61,6 +62,26 @@ const addImageToUser = (userId, form) => {
     }
 }
 
+const addFileToUser = (userId, form) => {
+    return dispatch => {
+        var xhr = new XMLHttpRequest()
+        xhr.open('POST', `http://localhost:3000/${userId}/setAvatar`, true)
+
+        xhr.onload = () => {
+            xhr.open('GET', `http://localhost:3000/api/Participants/${userId}`)
+            xhr.onload = (res) => {
+                dispatch({
+                    type: constants.users.ADD_IMAGE_TO_USER,
+                    payload: {
+                        ...JSON.parse(res.currentTarget.response)
+                    }
+                })
+            }
+            xhr.send()
+        }
+        xhr.send(form)
+    }
+}
 const getUserById = userId => {
     return dispatch => {
         axios.get(`http://localhost:3000/api/Participants/${userId}`)
@@ -118,5 +139,6 @@ export {
     addImageToUser,
     getUserById,
     attachUserToCource,
-    untieUserFromCourse
+    untieUserFromCourse,
+    addFileToUser
 }

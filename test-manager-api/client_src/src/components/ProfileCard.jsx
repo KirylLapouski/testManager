@@ -9,7 +9,7 @@ class ProfileCard extends React.Component {
             <div className="card card-cascade">
                 <div className="view overlay">
                     {/*TODO: КОСТЫЛЬ ЗДЕСЬ */}
-                    <img src={imageSrc ? imageSrc : 'https://mdbootstrap.com/img/Photos/Others/men.jpg'} className="img-fluid" alt="" />
+                    <img src={imageSrc ? imageSrc : 'https://mdbootstrap.com/img/Photos/Others/men.jpg'} style={{width:'100%', height:'100%'}} className="img-fluid" alt="" />
                     <a>
                         <div className="mask rgba-white-slight"></div>
                     </a>

@@ -27,13 +27,18 @@ class Profile extends React.Component {
     }
 
     upload = filefield => {
+        if(!filefield.files[0])
+            throw new Error('Выберите изображение')
         if (!filefield.files[0].type.match('image.*'))
-            throw new Error('Фотография пользователя должна быть изображением','Ошибка отправки формы');
+            throw new Error('Фотография пользователя должна быть изображением');
+        if(filefield.files[0].name.length>15)
+            throw new Error('Название изображения должно быть не больше 15 символов включая расширение файла')
 
         var { userId, addUserImage } = this.props
         var sendingForm = new FormData()
         sendingForm.append('imageFile', filefield.files[0])
         addUserImage(userId, sendingForm)
+        toastr.info('Можете продолжать работу, изменения будут приняты в ближайшее время','Форма отправлена')
     }
     emailValidation(email) {
         var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/
@@ -52,10 +57,17 @@ class Profile extends React.Component {
         }
         return true
     }
-    checkIsImage(e) {
+    checkIsImage = (e)=> {
+        this.setState({
+            fileName:e.target.value
+        })
         //TODO: cancel choosen file
-        if (!e.target.files[0].type.match('image.*'))
+        if (!e.target.files[0].type.match('image.*')){
             toastr.warning('Фотография пользователя должна быть изображением')
+            this.setState({
+                fileName:''
+            })
+        }
 
     }
     onSubmitHandler(e) {
@@ -104,6 +116,10 @@ class Profile extends React.Component {
 
         xhr.ontimeout = () => {
             toastr.error('Допустимое время выполнения запроса истекло','Ошибка сервера')
+        }
+        if(Object.keys( user).length === 0){
+            toastr.error('Хотя бы одно поле должно быть заполнено','Ошибка отправки формы')
+            return
         }
         xhr.send(JSON.stringify(user))
     }
@@ -167,7 +183,7 @@ class Profile extends React.Component {
                             <label htmlFor="inputGroupFile01">Фото</label><br />
                             <div className="custom-file">
                                 <input name="imageFile" onChange={this.checkIsImage} accept="image/*" type="file" className="custom-file-input" id="inputGroupFile01" />
-                                <label className="custom-file-label" htmlFor="inputGroupFile01">{document.querySelector ? this.state.fileName : 'Choose file'}</label>
+                                <label className="custom-file-label" htmlFor="inputGroupFile01" style={{color:'#495057'}}> {this.state.fileName || 'Choose file'}</label>
                             </div>
                         </div>
                         <button type="submit" onClick={this.onSubmitHandler} className="btn btn-primary btn-md">Принять изменения</button>

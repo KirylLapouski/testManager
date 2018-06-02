@@ -69,7 +69,7 @@ class NavBarCustom extends React.Component {
                 </NavbarBrand>
                 <NavbarNav left>
                     <NavItem>
-                        <NavLink to="/cources">My cources</NavLink>
+                        <NavLink to={`/cources/${this.props.userId}`}>My cources</NavLink>
                     </NavItem>
                     <NavItem>
                         <NavLink to="/profile">Profile</NavLink>
@@ -98,7 +98,7 @@ class NavBarCustom extends React.Component {
 }
 
 NavBarCustom.propTypes = {
-    //reduz
+    //redux
     userId: PropTypes.number
 } 
 

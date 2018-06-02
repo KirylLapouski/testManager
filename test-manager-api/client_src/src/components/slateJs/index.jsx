@@ -8,6 +8,7 @@ import { connect } from "react-redux";
 import { updateTopic } from '../../redux/AC/topic'
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import TextField from '@material-ui/core/TextField';
+import toastr from 'toastr'
 //TODO: maybe use props instead of state? Fetch data from db. Init complexities
 //TODO: parse youtube watch video to embed
 //TODO: soundcloud doesnot work
@@ -25,8 +26,12 @@ class EditorConvertToHTML extends Component {
   }
 
   onEditorStateChange = (editorState) => {
-    if (this.state.editorState !== editorState)
-      this.props.saveEditorState(draftToHtml(convertToRaw(editorState.getCurrentContent())))
+    if(draftToHtml(convertToRaw(editorState.getCurrentContent())).length>510){
+      toastr.warning('Достигнуто максимальное количество символов')
+      return
+    }
+    if (this.state.editorState !== editorState){
+      this.props.saveEditorState(draftToHtml(convertToRaw(editorState.getCurrentContent())))}
 
     this.setState({
       editorState,

@@ -97,7 +97,7 @@ for (var s in config) {
 }
 var checkLogged = (req, resp, next) => {
   console.log(req.cookies)
-  console.log(req.headers.cookie)
+  next()
 }
 
 app.post('/:id/setAvatar', checkLogged, function (req, resp) {
@@ -118,17 +118,76 @@ app.post('/:id/setAvatar', checkLogged, function (req, resp) {
       const uploadStream = requestHttps(Object.assign(parse(href), {
         method
       }), () => {
+
         meta.get(API_TOKEN, `app:/${sampleFile.name}`, {}, (res) => {
+
           fs.unlink(`./${sampleFile.name}`)
+
           var Participant = app.models.Participant
-          Participant.update({
-            id: req.params.id
-          }, {
-            imageUrl: res.file
-          }, (err, info) => {
-            resp.sendStatus(201)
-          })
+
+          axios.patch('http://localhost:3000/api/Participants', {
+              id: req.params.id,
+              imageUrl: res.file
+            })
+            .then(() => {
+              resp.sendStatus(201)
+            },error=>{
+              console.log(error)
+            })
+//TODO: url name too long change max length of imgName
         });
+      })
+
+      fileStream.pipe(uploadStream);
+
+      fileStream.on('end', () => uploadStream.end());
+    });
+
+  });
+})
+
+
+app.post('/:id/saveFile', checkLogged, function (req, resp) {
+  //TODO: take token from req
+  const API_TOKEN = 'AQAAAAAEyQZ1AAUBQNdGxaSB8EYSg32qncCS114'
+
+  var sampleFile = req.files.file
+  sampleFile.mv(`./uploads/${sampleFile.name}`, function (err) {
+    if (err)
+      return res.status(500).send(err);
+
+    upload.link(API_TOKEN, `app:/${sampleFile.name}`, true, ({
+      href,
+      method
+    }) => {
+      const fileStream = createReadStream(`./uploads/${sampleFile.name}`);
+
+      const uploadStream = requestHttps(Object.assign(parse(href), {
+        method
+      }), () => {
+        meta.get(API_TOKEN, `app:/${sampleFile.name}`, {}, (res) => {
+          fs.unlink(`./uploads/${sampleFile.name}`)
+
+          axios.put(`https://cloud-api.yandex.net/v1/disk/resources/publish?path=app:/${sampleFile.name}`, null, {
+              headers: {
+                Authorization: `OAuth ${API_TOKEN}`
+              }
+            })
+            .then(({
+              data
+            }) => {
+              return axios.get(data.href, {
+                headers: {
+                  Authorization: `OAuth ${API_TOKEN}`
+                }
+              })
+            })
+            .then(({
+              data
+            }) => {
+              resp.status(201).send(data.public_url)
+            })
+        })
       })
 
       fileStream.pipe(uploadStream);
@@ -225,7 +284,9 @@ app.get('/auth/yandex/callback', function (req, res, next) {
             }) => {
               var account = data
 
-              res.cookie('yandexToken',account.yandexToken, {maxAge:Date.parse(account.yandexTokenExpireIn)-Date.now()})
+              res.cookie('yandexToken', account.yandexToken, {
+                maxAge: Date.parse(account.yandexTokenExpireIn) - Date.now()
+              })
               return axios.post('http://localhost:3000/api/Participants/login', {
                 email: account.email,
                 password: '1111',
@@ -234,11 +295,13 @@ app.get('/auth/yandex/callback', function (req, res, next) {
             .then(({
               data
             }) => {
-              res.cookie('loopbackToken',data.id, {maxAge:new Date(data.ttl*1000)})
+              res.cookie('loopbackToken', data.id, {
+                maxAge: new Date(data.ttl * 1000)
+              })
               return axios.patch(`http://localhost:3000/api/Participants/${data.userId}`, {
                 id: data.userId,
                 loopbackToken: data.id,
-                loopbackTokenExpireIn: (new Date(data.ttl*1000  + Date.now())).toDateString()
+                loopbackTokenExpireIn: (new Date(data.ttl * 1000 + Date.now())).toDateString()
               });
             })
             .then(({
