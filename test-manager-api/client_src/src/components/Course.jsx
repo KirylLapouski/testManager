@@ -9,6 +9,7 @@ import Button from '@material-ui/core/Button'
 import { withRouter } from 'react-router-dom'
 import {untieUserFromCourse} from '../redux/AC/users'
 import { connect } from "react-redux";
+import {getCourseOwner} from '../redux/AC/courses'
 class Course extends React.Component {
     handleOpenClick = ()=>{
         this.props.history.push(`/${this.props.id}/lessons`)
@@ -16,12 +17,17 @@ class Course extends React.Component {
     handleUntieClick = ()=>{
         this.props.untieFromCourse(this.props.loggedUserId)
     }
+
+    componentWillMount(){
+        console.log(this.props.id)
+        this.props.getCourseOwner(this.props.id)
+    }
     render() {
         return (
             <Grow timeout={800} in={true}>
                 <div className="z-depth-2" style={{ height: '400px', width: '270px', color: 'white',marginBottom:'20px', backgroundImage: 'url("https://lh4.googleusercontent.com/-64uhpsHBEZw/VMqrG_6wowI/AAAAAAAAAIE/_Pw_QoP0opU/w1005-h214-no/123_rainbowtriangle_teal.jpg")' }}>
                     <div style={{ background: 'rgba(0,0,0,0.1)', overflow: 'hidden' }}>
-                        <UserInfo disabled={true} style={{ float: 'right' }} />
+                        <UserInfo disabled={true} userId={this.props.ownerId} style={{ float: 'left' }} />
                         <Link to={'/' + this.props.id + '/lessons'}> {this.props.title}</Link>
                     </div>
                     <Divider inset={true} style={{ marginLeft:'0px',marginTop:'290px',backgroundColor:'rgba(0,0,0,0)',  width: '100%'}} />
@@ -38,18 +44,24 @@ Course.propTypes = {
     id: PropTypes.number.isRequired,
     //redux
     untieFromCourse: PropTypes.func,
-    loggedUserId: PropTypes.number
+    getCourseOwner: PropTypes.func,
+    loggedUserId: PropTypes.number,
+    ownerId: PropTypes.number
 }
 
-const mapStateToProps = state=>{
+const mapStateToProps = (state,ownProps)=>{
     return {
         loggedUserId: state.users.loggedIn && state.users.loggedIn.id,
+        ownerId: state.courses[ownProps.id] && state.courses[ownProps.id].ownerId
     }
 }
 const mapDispatchToProps = (dispatch,ownProps)=>{
     return{
         untieFromCourse(userId){
             dispatch(untieUserFromCourse(userId,ownProps.id))
+        },
+        getCourseOwner(courseId){
+            dispatch(getCourseOwner(courseId))
         }
     }
 }

@@ -41,7 +41,7 @@ class UserInfo extends React.Component {
     render() {
         return (<div style={Object.assign({}, { display: 'inline-block' }, this.props.style)}>
             <Button color="primary" aria-label="add" onClick={this.handleMenuClick}>
-                <img width="50px" height="50px" style={{ backgroundColor: 'white' }} src={this.props.imageSrc} />
+                <img width="50px" height="50px" style={{ backgroundColor: 'white' }} src={this.props.imageSrc || 'https://globalblueproject.org/wp-content/uploads/2016/07/blank-profile-picture.png'} />
             </Button>
             {this.props.disabled || <Menu open={Boolean(this.state.menu)} style={{ display: 'relative', top: '40px' }} onClose={this.handleMenuClose}>
                 <MenuItem onClick={this.goToUrl('/profile')}>Profile</MenuItem>
@@ -54,8 +54,8 @@ class UserInfo extends React.Component {
 UserInfo.propTypes = {
     disabled: PropTypes.bool,
     style: PropTypes.object,
+    userId: PropTypes.number,    
     //redux
-    userId: PropTypes.number,
     imageSrc: PropTypes.string,
     getUser: PropTypes.func
 }
@@ -66,17 +66,12 @@ UserInfo.defaultProps = {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    var imageSrc, userId
-    if (ownProps.userId)
+    var imageSrc
+    if (ownProps.userId){
         imageSrc = state.users[ownProps.userId] && state.users[ownProps.userId].imageUrl
-    if (!imageSrc)
-        imageSrc = 'https://globalblueproject.org/wp-content/uploads/2016/07/blank-profile-picture.png'
-    if (!ownProps.userId){
-        userId = state.users.loggedIn && state.users.loggedIn.id
     }
     return {
-        imageSrc,
-        userId
+        imageSrc
     }
 }
 

@@ -1,4 +1,7 @@
 import constants from '../constants'
+import {
+    stat
+} from 'fs'
 
 
 const courses = (state = {}, action) => {
@@ -9,24 +12,39 @@ const courses = (state = {}, action) => {
             ...state,
             [action.payload.id]: {
                 id: action.payload.id,
-                title: action.payload.title
+                title: action.payload.title,
+                ownerId: action.payload.ownerId
             }
         }
 
     case constants.courses.LOAD_COURSES:
+
+        var newState = {...state}
+
         var courses = action.payload.reduce((result, course) => {
-            result[course.id] = course
+            result[course.id] = Object.assign({},newState[course.id],course)
+            delete newState[course.id]
             return result
         }, {})
         return {
+            ...newState,
             ...courses
         }
     case constants.courses.DELETE_COURSE:
-        var newState = { ...state}
+        var newState = { ...state
+        }
         delete newState[action.payload.courseId]
-        return { 
+        return {
             ...newState
         }
+    case constants.courses.ADD_OWNER_TO_USER:
+        var newState = { ...state
+        }
+        var course = { ...newState[action.payload.courseId]
+        }
+        course.ownerId = action.payload.ownerId
+        newState[action.payload.courseId] = course
+        return newState
     }
     return state
 }

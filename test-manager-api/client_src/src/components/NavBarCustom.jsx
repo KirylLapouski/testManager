@@ -7,6 +7,8 @@ import Button from 'material-ui/Button';
 import Menu, { MenuItem } from 'material-ui/Menu';
 import SimpleModal from './Modal.jsx'
 import AttachToCourseModal from './AttachToCourseModal'
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
 class NavBarCustom extends React.Component {
     constructor(props) {
         super(props);
@@ -84,7 +86,7 @@ class NavBarCustom extends React.Component {
                         </Menu>
                     </NavItem>
                     <NavItem>
-                        <UserInfo />
+                        <UserInfo userId={this.props.userId} />
                     </NavItem >
                 </NavbarNav>
                 <SimpleModal open={this.state.open} handleClose={this.handleModalClose.bind(this, 'open')} />
@@ -95,4 +97,15 @@ class NavBarCustom extends React.Component {
     }
 }
 
-export default NavBarCustom; 
+NavBarCustom.propTypes = {
+    //reduz
+    userId: PropTypes.number
+} 
+
+const mapStateToProps = state =>{
+    return {
+        userId: state.users.loggedIn && state.users.loggedIn.id
+    }
+}
+
+export default connect(mapStateToProps)(NavBarCustom); 

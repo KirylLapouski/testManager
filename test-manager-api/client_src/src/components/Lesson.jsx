@@ -32,7 +32,7 @@ class Lesson extends React.Component {
             modalOpened: false,
             edditing: false,
             title: '',
-            description: '' 
+            description: ''
         }
     }
 
@@ -69,13 +69,13 @@ class Lesson extends React.Component {
         })
     }
 
-    handleInputChange = (e)=>{
+    handleInputChange = (e) => {
         this.setState({
             [e.target.name]: e.target.value
         })
     }
     handleSubmitEditLesson = () => {
-        this.props.editLesson(this.props.id,this.state.title, this.state.description)
+        this.props.editLesson(this.props.id, this.state.title, this.state.description)
         //TODO:: rewrite on refs
         //TODO: need new reducer that check that change 
         toastr.success('Урок изменён')
@@ -102,26 +102,26 @@ class Lesson extends React.Component {
         </ExpansionPanelDetails>
 
         var edditingExpantionPanel = <ExpansionPanelDetails style={{ display: 'flex', justifyContent: 'flex-start', flexDirection: 'column', paddingBottom: '0px', textAlign: 'left' }}>
-            <TextField name='description' onChange={this.handleInputChange}  InputProps={{ disableUnderline: true }} multiline={true} placeholder='Описание урока' rows='5' style={{ marginLeft: '61px', backgroundColor: 'white', opacity: '0.9', borderRadius: '4px', width: '91%', padding: '10px' }} />
+            <TextField name='description' onChange={this.handleInputChange} InputProps={{ disableUnderline: true }} multiline={true} placeholder='Описание урока' rows='5' style={{ marginLeft: '61px', backgroundColor: 'white', opacity: '0.9', borderRadius: '4px', width: '91%', padding: '10px' }} />
             <div style={{ alignSelf: 'flex-end', marginTop: '10px', marginRight: '3px' }}>
                 <Button onClick={this.toggleEdditing} style={{ marginRight: '5px' }}>Отмена</Button>
                 <Button onClick={this.handleSubmitEditLesson} variant="raised" color="primary">Создать</Button>
             </div>
         </ExpansionPanelDetails>
 
-        return ( <Slide direction="up" in={true} timeout={600} mountOnEnter unmountOnExit>
+        return (<Slide direction="up" in={true} timeout={600} mountOnEnter unmountOnExit>
             <div>
-            <ExpansionPanel style={{ marginTop: "20px", paddingBottom: '10px', backgroundColor: 'grey', backgroundImage: 'url("https://lh4.googleusercontent.com/-64uhpsHBEZw/VMqrG_6wowI/AAAAAAAAAIE/_Pw_QoP0opU/w1005-h214-no/123_rainbowtriangle_teal.jpg")' }}>
-                <ExpansionPanelSummary expandIcon={<ExpandMoreIcon style={{ color: "white" }} />}>
-                    <UserInfo disabled={true} style={{ float: "left" }} />
-                    {/* TODO: спорное решение с Link */}
-                    {/* TODO: click lesson click error */}
-                    {this.state.edditing ? <TextField name='title' onChange={this.handleInputChange} InputProps={{ disableUnderline: true }} placeholder='Название урока' onClick={this.handleEditableHeaderClick} style={{ backgroundColor: 'white', padding: '10px', opacity: '0.9', borderRadius: '4px', width: '85%' }} /> : <Link to={`/lesson/${this.props.id}/topic/${this.props.topics[0] ? this.props.topics[0].id : null}`} style={{ height: "20px" }}>{this.props.title}</Link>}
-                </ExpansionPanelSummary>
-                {this.state.edditing ? edditingExpantionPanel : readOnlyexpantionPanel}
-            </ExpansionPanel>
-            <TopicList lessonId={this.props.id} topicsOpened={this.state.topicsOpened} handleTopicsClick={this.handleTopicsClick} topics={this.props.topics} />
-            <TopicModal open={this.state.modalOpened} handleClose={this.handleModalClose} lessonId={this.props.id} />
+                <ExpansionPanel style={{ marginTop: "20px", paddingBottom: '10px', backgroundColor: 'grey', backgroundImage: 'url("https://lh4.googleusercontent.com/-64uhpsHBEZw/VMqrG_6wowI/AAAAAAAAAIE/_Pw_QoP0opU/w1005-h214-no/123_rainbowtriangle_teal.jpg")' }}>
+                    <ExpansionPanelSummary expandIcon={<ExpandMoreIcon style={{ color: "white" }} />}>
+                        <UserInfo disabled={true} userId={this.props.userId} style={{ float: "left" }} />
+                        {/* TODO: спорное решение с Link */}
+                        {/* TODO: click lesson click error */}
+                        {this.state.edditing ? <TextField name='title' onChange={this.handleInputChange} InputProps={{ disableUnderline: true }} placeholder='Название урока' onClick={this.handleEditableHeaderClick} style={{ backgroundColor: 'white', padding: '10px', opacity: '0.9', borderRadius: '4px', width: '85%' }} /> : <Link to={`/lesson/${this.props.id}/topic/${this.props.topics[0] ? this.props.topics[0].id : null}`} style={{ height: "20px" }}>{this.props.title}</Link>}
+                    </ExpansionPanelSummary>
+                    {this.state.edditing ? edditingExpantionPanel : readOnlyexpantionPanel}
+                </ExpansionPanel>
+                <TopicList lessonId={this.props.id} topicsOpened={this.state.topicsOpened} handleTopicsClick={this.handleTopicsClick} topics={this.props.topics} />
+                <TopicModal open={this.state.modalOpened} handleClose={this.handleModalClose} lessonId={this.props.id} />
             </div>
         </Slide>)
     }
@@ -133,6 +133,7 @@ Lesson.propTypes = {
     description: PropTypes.string,
     id: PropTypes.number.isRequired,
     //redux
+    userId: PropTypes.number,
     topics: PropTypes.arrayOf(PropTypes.object),
     getTopics: PropTypes.func,
     deleteLesson: PropTypes.func
@@ -145,7 +146,10 @@ const mapStateToProps = (state, ownProps) => {
             res.push(state.topics[key])
         }
     }
-    return { topics: res }
+    return {
+        topics: res,
+        userId: state.users.loggedIn && state.users.loggedIn.id
+    }
 }
 
 const mapDispatchToProps = dispatch => {

@@ -1,10 +1,10 @@
 import constants from '../constants'
 import axios from 'axios'
+import {getUserById} from './users'
 const addCourse = (userId, title = ' ') => {
     var id
     return dispatch => {
 
-        console.log(title)
         axios.post('http://localhost:3000/api/Disciplines', {
             title
         })
@@ -24,7 +24,8 @@ const addCourse = (userId, title = ' ') => {
                     type: constants.courses.CREATE_COURSE,
                     payload: {
                         id,
-                        title
+                        title,
+                        ownerId: userId
                     }
                 })
             })
@@ -50,14 +51,32 @@ const loadCourses = () => {
 const loadCoursesForUser = userId => {
     return (dispatch) => {
         axios.get(`http://localhost:3000/api/Participants/${userId}/disciplines`)
-            .then(response => {
-                return response.data
-            })
-            .then(response => {
+            .then(({data}) => {
+
                 dispatch({
                     type: constants.courses.LOAD_COURSES,
-                    payload: response
+                    payload: data
                 })
+            })
+    }
+}
+
+const getCourseOwner = courseId => {
+    return dispatch => {
+        axios.get(`http://localhost:3000/api/ParticipantDisciplineMappings?filter=%7B%22where%22%3A%7B%22type%22%3A%22teacher%22%2C%22disciplineId%22%3A${courseId}%7D%7D`)
+            .then(({
+                data
+            }) => {
+                if (data[0]) {
+                    dispatch({
+                        type: constants.courses.ADD_OWNER_TO_USER,
+                        payload: {
+                            courseId,
+                            ownerId: data[0].participantId
+                        }
+                    })
+                    dispatch(getUserById(data[0].participantId))
+                }
             })
     }
 }
@@ -65,5 +84,6 @@ const loadCoursesForUser = userId => {
 export {
     addCourse,
     loadCourses,
-    loadCoursesForUser
+    loadCoursesForUser,
+    getCourseOwner
 }

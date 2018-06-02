@@ -9,7 +9,7 @@
     "isRightAnswered": {
       "type": "boolean",
       "required": true,
-      "default":false
+      "default": false
     }
   },
   "validations": [],
