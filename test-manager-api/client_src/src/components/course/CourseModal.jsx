@@ -6,7 +6,6 @@ import Button from "material-ui/Button";
 import TextField from 'material-ui/TextField';
 import { connect } from 'react-redux'
 import { addLesson ,loadLessons} from '../../redux/AC/lessons';
-//TODO: LOOPBACK СОЗДАЁТ СВОЙ ID (неправильный тип данных?)
 class CourseModal extends React.Component {
     constructor(props) {
         super(props);

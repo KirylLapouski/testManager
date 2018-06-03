@@ -113,7 +113,7 @@ class Lesson extends React.Component {
             <div>
                 <ExpansionPanel style={{ marginTop: "20px", paddingBottom: '10px', backgroundColor: 'grey', backgroundImage: 'url("https://lh4.googleusercontent.com/-64uhpsHBEZw/VMqrG_6wowI/AAAAAAAAAIE/_Pw_QoP0opU/w1005-h214-no/123_rainbowtriangle_teal.jpg")' }}>
                     <ExpansionPanelSummary expandIcon={<ExpandMoreIcon style={{ color: "white" }} />}>
-                        <UserInfo disabled={true} userId={this.props.userId} style={{ float: "left" }} />
+                        <UserInfo disabled={true} userId={this.props.lessonOwner && this.props.lessonOwner.id} style={{ float: "left" }} />
                         {/* TODO: спорное решение с Link */}
                         {/* TODO: click lesson click error */}
                         {this.state.edditing ? <TextField name='title' onChange={this.handleInputChange} InputProps={{ disableUnderline: true }} placeholder='Название урока' onClick={this.handleEditableHeaderClick} style={{ backgroundColor: 'white', padding: '10px', opacity: '0.9', borderRadius: '4px', width: '85%' }} /> : <Link to={`/lesson/${this.props.id}/topic/${this.props.topics[0] ? this.props.topics[0].id : null}`} style={{ height: "20px" }}>{this.props.title}</Link>}
@@ -132,8 +132,10 @@ Lesson.propTypes = {
     title: PropTypes.string,
     description: PropTypes.string,
     id: PropTypes.number.isRequired,
+    lessonOwner: PropTypes.shape({
+        id: PropTypes.number
+    }),
     //redux
-    userId: PropTypes.number,
     topics: PropTypes.arrayOf(PropTypes.object),
     getTopics: PropTypes.func,
     deleteLesson: PropTypes.func
@@ -147,8 +149,7 @@ const mapStateToProps = (state, ownProps) => {
         }
     }
     return {
-        topics: res,
-        userId: state.users.loggedIn && state.users.loggedIn.id
+        topics: res
     }
 }
 

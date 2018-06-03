@@ -10,7 +10,7 @@ import LessonContainer from '../LessonContainer';
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 import {withRouter} from 'react-router-dom'
-import {getCourseOwner} from '../redux/AC/courses'
+import {getCourseOwner} from '../../redux/AC/courses'
 
 class EditableCourse extends React.Component {
     constructor(props) {
@@ -41,15 +41,15 @@ class EditableCourse extends React.Component {
     }
     render() {
         return <div>
-            <CourseHeader backgroundSrc='https://lh6.googleusercontent.com/-691E4HHlPjM/VN0ohuHpXiI/AAAAAAAAASM/OsvrdNM5yZw/w984-h209-no/06_bubbles.jpg' name={this.props.course.title} teacherName={this.props.course.firstName} teacherLastName={this.props.course.secondName}>
-                <UserInfo disabled={true} userId={this.props.userId}/>
+            <CourseHeader backgroundSrc='https://lh6.googleusercontent.com/-691E4HHlPjM/VN0ohuHpXiI/AAAAAAAAASM/OsvrdNM5yZw/w984-h209-no/06_bubbles.jpg' name={this.props.course.title} teacherName={this.props.ownerUser.firstName} teacherLastName={this.props.ownerUser.secondName}>
+                <UserInfo disabled={true} userId={this.props.ownerUser.id}/>
             </CourseHeader>
 
             <Button onClick={this.toggleModal} variant="fab" color="primary" aria-label="add" style={{ position: 'fixed', bottom: '20px', right: '20px', zIndex:'2' }}>
                 <AddIcon />
             </Button>
             {/* TODO: How to deliver route to child? */}
-            <LessonContainer courseId={this.props.match.params.courseId}/>
+            <LessonContainer lessonsOwner={this.props.ownerUser} courseId={this.props.match.params.courseId}/>
             <CourseModal open={this.state.modalOpened} courseId={this.props.match.params.courseId} handleClose={this.handleModalClose}/>
         </div>
     }
@@ -58,7 +58,9 @@ class EditableCourse extends React.Component {
 EditableCourse.propTypes = {
     //redux
     ownerUser: PropTypes.shape({
-        
+        id: PropTypes.string,
+        firstName: PropTypes.string,
+        secondName: PropTypes.string
     }),
     course: PropTypes.shape({
         title: PropTypes.string,
@@ -69,7 +71,7 @@ EditableCourse.propTypes = {
 }
 const mapStateToProps = (state, ownProps) =>{
     return {
-        ownerUser: state.courses[ownProps.id],
+        ownerUser: state.users[state.courses[ownProps.match.params.courseId].ownerId],
         course: state.courses[ownProps.match.params.courseId] 
     }
 }

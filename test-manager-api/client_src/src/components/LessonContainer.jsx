@@ -23,11 +23,9 @@ class LessonContainer extends React.Component {
         const LESSONS_IN_LIST = 10;
         if (this.props.lessons) {
             var lessons = this.props.lessons.slice((this.state.listNumber-1)*LESSONS_IN_LIST, this.state.listNumber*LESSONS_IN_LIST).map((value, index, array) => {
-                return (<Lesson id={value.id} title={value.title} description={value.description} />)
+                return (<Lesson id={value.id} lessonOwner={this.props.lessonsOwner} title={value.title} description={value.description} />)
             })
         }
-
-
         return (
             <div className="container" style={{ marginTop: '20px', maxWidth: '800px' }}>
                 {lessons}
@@ -38,12 +36,15 @@ class LessonContainer extends React.Component {
 }
 
 LessonContainer.propTypes = {
+    courseId: PropTypes.string,
+    lessonsOwner: PropTypes.object,
+    //redux
     lessons: PropTypes.arrayOf({
         id: PropTypes.number,
         title: PropTypes.string
     }),
-    getLessons: PropTypes.func,
-    courseId: PropTypes.string
+    getLessons: PropTypes.func
+  
 }
 
 const mapStateToProps = (state, ownProps) => {
