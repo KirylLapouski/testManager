@@ -1,6 +1,6 @@
 import constants from '../constants'
 import axios from 'axios'
-const addAnswer = (questionId, text=' ') => {
+const addAnswer = (questionId, text = ' ') => {
     return dispatch => {
         axios.post(`http://localhost:3000/api/Questions/${questionId}/answers`, {
             isRight: false,
@@ -11,7 +11,8 @@ const addAnswer = (questionId, text=' ') => {
             }) => {
                 dispatch({
                     type: constants.answers.ADD_ANSWER,
-                    payload: { ...data}
+                    payload: { ...data
+                    }
                 })
             })
     }
@@ -31,7 +32,23 @@ const loadAnswers = questionId => {
             })
     }
 }
+
+const deleteAnswer = answerId => {
+    return dispatch => {
+        axios.delete(`http://localhost:3000/api/Answers/${answerId}`)
+            .then(() => {
+                dispatch({
+                    type: constants.answers.DELETE_ANSWER,
+                    payload:{
+                        answerId
+                    }
+                })
+            })
+    }
+}
+window.deleteAnswer = deleteAnswer
 export {
     addAnswer,
-    loadAnswers
+    loadAnswers,
+    deleteAnswer
 }

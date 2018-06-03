@@ -22,7 +22,6 @@ class Test extends React.Component {
             selectedRadio: -1
         }
         this.getAnswers = this.getAnswers.bind(this)
-        this.getAnswersText = this.getAnswersText.bind(this)
         this.begginEdit = this.begginEdit.bind(this)
         this.handleClickRadio = this.handleClickRadio.bind(this)
     }
@@ -35,21 +34,15 @@ class Test extends React.Component {
             selectedRadio: number
         })
     }
-    getAnswersText() {
+    getAnswersNessecaryInfo = () =>{
         return this.props.answers.map(answer => {
-            return answer.text
+            return {text: answer.text, id: answer.id}
         })
     }
 
-    getAnswers(ansersText) {
+    getAnswers(ansersText, editable = false) {
         return ansersText.map((answer, i) => {
-            return <Answer key={i} typeOfAnswer={this.props.testType} text={answer} />
-        })
-    }
-
-    getEditableAnswers(answersText) {
-        return answersText.map((answer, i) => {
-            return <Answer editable={true} text={answer} onClick={this.handleClickRadio.bind(this, i + 1)} checked={this.state.selectedRadio === i + 1 ? true : false} typeOfAnswer={this.props.testType} serialNumber={i + 1} />
+            return <Answer key={i} editable={editable} typeOfAnswer={this.props.testType} onClick={editable && this.handleClickRadio.bind(this, i + 1)} checked={editable && (this.state.selectedRadio === i + 1 ? true : false)} text={answer.text} id={answer.id} serialNumber={editable && i + 1}  />
         })
     }
     begginEdit() {
@@ -61,8 +54,8 @@ class Test extends React.Component {
     }
     render() {
         var { editing } = this.props
-        var answersText = this.getAnswersText()
-        var answers = editing ? this.getEditableAnswers(answersText) : this.getAnswers(answersText)
+        var answersText = this.getAnswersNessecaryInfo()
+        var answers =  this.getAnswers(answersText,editing)
         if (editing) {
             return <div className="mx-auto z-depth-1-half container" style={{ borderLeft: '3px solid indigo', color: '#263238', display: 'flex', flexDirection: 'column', paddingTop: '20px', paddingRight: '20px', paddingLeft: '20px' }} >
                 <div style={{ display: 'flex', justifyContent: 'space-between' }}><TextField label="Вопрос" style={{ marginLeft: '27px', width: '50%' }} />
