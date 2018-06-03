@@ -11,21 +11,34 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import Typography from '@material-ui/core/Typography'
 import TextField from '@material-ui/core/TextField'
 import { Button } from 'material-ui';
+import Flag from '@material-ui/icons/Flag'
+import {withRouter} from 'react-router-dom'
+import {addQuestion} from '../../redux/AC/question'
+import toastr from 'toastr'
 class TestContainer extends React.Component {
     state = {
         title: '',
-        description: ''
+        description: '',
+        weight: 0
     }
     componentWillMount() {
         this.props.getQuestions(this.props.match.params.topicId)
     }
 
     handleChange = name => event => {
+        if(name=='weight' && (event.target.value==1000 || event.target.value==0))
+            toastr.warning('Вес вопроса должен находится в интервале от 0 до 1000')
         this.setState({
             [name]: event.target.value,
         });
     };
 
+    handleSubmitNewQuestionForm = (e)=>{
+        e.preventDefault()
+        
+        var {title, description, weight} = this.state
+        this.props.addQuestion(this.props.match.params.topicId,weight,title,description)
+    } 
     render() {
         return <div> <div className="z-depth-1 container" style={{ padding: '0px' }}>
             {this.props.questions.map((item, i) => {
@@ -37,25 +50,17 @@ class TestContainer extends React.Component {
                     <Typography style={{ color: 'black' }}>Добавить вопрос</Typography>
                 </ExpansionPanelSummary>
                 <ExpansionPanelDetails >
-                    <form>
-                        <TextField
-                            id="name"
-                            label="Name"
-                            value={this.state.name}
-                            margin="normal"
-                            value={this.state.name}
-                            onChange={this.handleChange('title')}
-                        />
-                        <TextField
-                            id="multiline-flexible"
-                            label="Multiline"
-                            multiline
-                            rowsMax="4"
-                            value={this.state.multiline}
-                            onChange={this.handleChange('description')}
-                            margin="normal"
-                        />
-                        <Button type='submit'>Создать вопрос</Button>
+                    <form onSubmit={this.handleSubmitNewQuestionForm} style={{display:'flex',flexDirection:'column',width:'100%', alignItems:'flex-start'}}>
+                        <div style={{width:'60%',display:'flex', alignItems:'center'}}>
+                            <TextField label="Вопрос" style={{width:'90%'}} value={this.state.name} onChange={this.handleChange('title')}/> 
+                            <Flag style={{ color: '#ff7961', width: '20px', height: '20px' }} />
+                        </div>
+                        <div style={{width:'60%',display:'flex', alignItems:'center', marginTop:'10px'}}>
+                            <TextField label="Вес вопроса" inputProps={{min:'0',max:'1000'}} style={{width:'90%'}} value={this.state.age} onChange={this.handleChange('weight')} type="number"/>
+                            <Flag style={{ color: '#ff7961', width: '20px', height: '20px' }} />
+                        </div>
+                        <TextField label="Пояснение к вопросу" multiline rowsMax="4" value={this.state.description} onChange={this.handleChange('description')} style={{width:'100%'}}/>
+                        <Button style={{alignSelf:'flex-end', marginTop:'10px'}} type='submit'>Создать вопрос</Button>
                     </form>
                 </ExpansionPanelDetails>
             </ExpansionPanel>
@@ -65,13 +70,14 @@ class TestContainer extends React.Component {
 
 this.propTypes = {
     //redux
-    questions: PropTypes.arrayOf({
+    questions: PropTypes.arrayOf(PropTypes.shape({
         id: PropTypes.number,
         title: PropTypes.string,
         description: PropTypes.string,
         weight: PropTypes.number,
         topicId: PropTypes.number
-    }),
+    })),
+    addQuestion: PropTypes.func,
     getQuestions: PropTypes.func,
     //accordion
     toggleOpenItem: PropTypes.func,
@@ -92,7 +98,10 @@ const mapDispatchToProps = dispatch => {
     return {
         getQuestions(topicId) {
             dispatch(loadQuestion(topicId))
+        },
+        addQuestion(topicId,weight,title,description){
+            dispatch(addQuestion(topicId,weight,title,description))
         }
     }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(Accordion(TestContainer))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Accordion(TestContainer)))

@@ -1,16 +1,22 @@
 import constants from '../constants'
-//TODO: uuid?
-import UUID from 'uuid-js'
 import axios from 'axios'
-const addQuestion = (weight,title,description) => {
-    return {
-        type: constants.questions.CREATE_QUESTION,
-        payload: {
-            id: UUID.create().toString(),
-            title: title,
-            weight:weight,
-            description:description
-        }
+const addQuestion = (topicId,weight,title,description=' ') => {
+    return dispatch=>{
+
+        axios.post('http://localhost:3000/api/Questions',{
+            title,
+            description,
+            weight,
+            topicId
+        })
+        .then(({data})=>{
+            dispatch({
+                type: constants.questions.CREATE_QUESTION,
+                payload: {
+                    ...data
+                }
+            })
+        })
     }
 }
 
@@ -28,7 +34,6 @@ const loadQuestion = topicId => {
             })
     }
 }
-
 
 export {
     addQuestion,

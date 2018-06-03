@@ -7,6 +7,7 @@ import { connect } from 'react-redux'
 import { loadTopics } from '../redux/AC/topic'
 import {Link} from 'react-router-dom'
 import EditButton from './EditButton'
+import {withRouter} from 'react-router-dom'
 class TopicContainer extends React.Component {
     constructor(props) {
         super(props)
@@ -38,7 +39,7 @@ class TopicContainer extends React.Component {
             currenTopicId: this.props.topics[i-1].id
         })
         //TODO: right redirect?
-        window.history.pushState(null, null, '/lesson/' + this.props.match.params.lessonId + '/topic/' + this.props.topics[i - 1].id)
+        this.props.history.push(`/lesson/${this.props.match.params.lessonId}/topic/${this.props.topics[i - 1].id}`)
     }
 
     componentWillMount() {
@@ -59,9 +60,7 @@ class TopicContainer extends React.Component {
         return (<div>
             {this.props.topics.length && <Paginator initCurrentPos={paginatorSerialNumber || null} length={this.props.topics.length} onClick={this.handlePaginatorClick} />}
             {elem}
-            {/* <Link to={`${this.props.location.pathname}/testEditor`}> */}
             <EditButton onTopicEditClick={this.state.readOnly?this.handleTopicBeginEditClick:this.handleTopicEndEditClick}/>
-            {/* </Link> */}
         </div>
         )
     }
@@ -92,4 +91,4 @@ const mapDispatchToProps = dispatch => {
         }
     }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(TopicContainer)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(TopicContainer))

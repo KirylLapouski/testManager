@@ -11,7 +11,7 @@ import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 import {withRouter} from 'react-router-dom'
 import {getCourseOwner} from '../../redux/AC/courses'
-
+//TODO: rewrite modals on childs
 class EditableCourse extends React.Component {
     constructor(props) {
         super(props);
@@ -41,8 +41,8 @@ class EditableCourse extends React.Component {
     }
     render() {
         return <div>
-            <CourseHeader backgroundSrc='https://lh6.googleusercontent.com/-691E4HHlPjM/VN0ohuHpXiI/AAAAAAAAASM/OsvrdNM5yZw/w984-h209-no/06_bubbles.jpg' name={this.props.course.title} teacherName={this.props.ownerUser.firstName} teacherLastName={this.props.ownerUser.secondName}>
-                <UserInfo disabled={true} userId={this.props.ownerUser.id}/>
+            <CourseHeader backgroundSrc='https://lh6.googleusercontent.com/-691E4HHlPjM/VN0ohuHpXiI/AAAAAAAAASM/OsvrdNM5yZw/w984-h209-no/06_bubbles.jpg' name={this.props.course.title} teacherName={this.props.ownerUser && this.props.ownerUser.firstName} teacherLastName={this.props.ownerUser && this.props.ownerUser.secondName}>
+                <UserInfo disabled={true} userId={this.props.ownerUser && this.props.ownerUser.id}/>
             </CourseHeader>
 
             <Button onClick={this.toggleModal} variant="fab" color="primary" aria-label="add" style={{ position: 'fixed', bottom: '20px', right: '20px', zIndex:'2' }}>

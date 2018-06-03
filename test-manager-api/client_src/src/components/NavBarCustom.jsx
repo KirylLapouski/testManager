@@ -65,14 +65,14 @@ class NavBarCustom extends React.Component {
         return (
             <Navbar color="indigo" dark expand="md" scrolling>
                 <NavbarBrand>
-                    <strong>NavBar</strong>
+                    <strong><Link to='/'>Home</Link></strong>
                 </NavbarBrand>
                 <NavbarNav left>
                     <NavItem>
-                        <NavLink to={`/cources/${this.props.userId}`}>My cources</NavLink>
+                        <NavLink to={`/cources/${this.props.userId}`}>Мои курсы</NavLink>
                     </NavItem>
                     <NavItem>
-                        <NavLink to="/profile">Profile</NavLink>
+                        <NavLink to="/profile">Профиль</NavLink>
                     </NavItem>
                 </NavbarNav>
                 <NavbarNav right>

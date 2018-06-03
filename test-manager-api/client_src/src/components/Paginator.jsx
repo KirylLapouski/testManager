@@ -16,21 +16,21 @@ class Paginator extends React.Component {
     }
 
     handleLeftArrowClick() {
-        this.setState((prevState, props) => {
+        this.setState((prevState) => {
             this.props.onClick(prevState.currenNumber - 1)
             return { currenNumber: prevState.currenNumber - 1 }
         })
     }
 
     handleRightArrowClick() {
-        this.setState((prevState, props) => {
+        this.setState((prevState) => {
             this.props.onClick(prevState.currenNumber + 1)
             return { currenNumber: prevState.currenNumber + 1 }
         })
     }
 
     handleNumberClick(current) {
-        this.setState((prevState, props) => {
+        this.setState((prevState) => {
             this.props.onClick(current)
             return { currenNumber: current }
         })

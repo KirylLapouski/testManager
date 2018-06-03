@@ -6,10 +6,7 @@ const questions = (state = {}, action) => {
         return {
             ...state,
             [action.payload.id]: {
-                id: action.payload.id,
-                title: action.payload.title,
-                weight: action.payload.weight,
-                description: action.payload.description
+                ...action.payload
             }
         }
     case constants.questions.LOAD_QUESTIONS_FOR_TOPIC:

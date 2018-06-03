@@ -36,8 +36,9 @@ class UserInfo extends React.Component {
                     </Button>
                 {this.props.disabled || 
                         <Menu open={Boolean(this.state.menu)} id="simple-menu2" anchorEl={this.state.menu} style={{position:'absolute', top:'40px'}} onClose={this.handleMenuClose}>
-                            <MenuItem onClick={this.goToUrl('/profile')}>Profile</MenuItem>
-                            <MenuItem onClick={this.goToUrl(`/cources/${this.props.userId}`)}>My Courses</MenuItem>
+                            <MenuItem onClick={this.goToUrl('/profile')}>Профиль</MenuItem>
+                            <MenuItem onClick={this.goToUrl(`/cources/${this.props.userId}`)}>Мои курсы</MenuItem>
+                            <MenuItem >Выйти</MenuItem>
                         </Menu>
                 }
         </div>
