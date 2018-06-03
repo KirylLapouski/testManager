@@ -11,6 +11,7 @@ import { FormGroup, FormControlLabel } from 'material-ui/Form'
 import TypeOfAnswerSelect from './TypeOfAnswerSelect'
 import { connect } from 'react-redux'
 import { loadAnswers, addAnswer } from '../../redux/AC/answers'
+import {deleteQuestion } from '../../redux/AC/question' 
 import DeleteIcon from '@material-ui/icons/Delete'
 import { relative } from 'path'
 //TODO: refactor test cms
@@ -42,8 +43,12 @@ class Test extends React.Component {
 
     getAnswers(ansersText, editable = false) {
         return ansersText.map((answer, i) => {
-            return <Answer key={i} editable={editable} typeOfAnswer={this.props.testType} onClick={editable && this.handleClickRadio.bind(this, i + 1)} checked={editable && (this.state.selectedRadio === i + 1 ? true : false)} text={answer.text} id={answer.id} serialNumber={editable && i + 1}  />
+            return <Answer key={i} editable={editable} typeOfAnswer={this.props.testType} onClick={editable ? this.handleClickRadio.bind(this, i + 1): null} checked={editable ? (this.state.selectedRadio === i + 1 ? true : false): null} text={answer.text} id={answer.id} serialNumber={editable && i + 1}  />
         })
+    }
+
+    deleteQuestionHandler = ()=>{
+        this.props.deleteQuestion(this.props.question.id)
     }
     begginEdit() {
         this.props.toggleOpenItem(this.props.question.id)
@@ -66,7 +71,7 @@ class Test extends React.Component {
                 <Divider inset={true} style={{ position: 'relative', left: '-5%', width: '100%', marginTop: '30px' }} />
                 <FormGroup row style={{ position: 'relative', paddingTop: '10px' }}>
                     <FormControlLabel control={<Switch value="checkedC" color="primary" />} label="Обязательный вопрос" />
-                    <FormControlLabel style={{ position: 'absolute', right: '200px', paddingRight: '10px', borderRight: '1px solid grey' }} control={<Button> <DeleteIcon /></Button>} />
+                    <FormControlLabel style={{ position: 'absolute', right: '200px', paddingRight: '10px', borderRight: '1px solid grey' }} control={<Button onClick={this.deleteQuestionHandler}> <DeleteIcon /></Button>} />
                     <FormControlLabel style={{ position: 'absolute', right: '0' }} control={<Button> Принять изменения</Button>} />
                 </FormGroup>
             </div>
@@ -92,6 +97,7 @@ Test.propTypes = {
     toggleOpenItem: PropTypes.func,
     //redux
     getAnswers: PropTypes.func,
+    deleteQuestion: PropTypes.func,
     answers: PropTypes.arrayOf(
         PropTypes.shape({
             text: PropTypes.string,
@@ -118,6 +124,9 @@ const mapDispatchtToProps = (dispatch, ownProps) => {
         },
         addAnswer() {
             dispatch(addAnswer(ownProps.question.id))
+        },
+        deleteQuestion(questionId){
+            dispatch(deleteQuestion(questionId))
         }
     }
 }

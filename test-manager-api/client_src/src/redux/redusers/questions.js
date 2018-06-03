@@ -18,6 +18,12 @@ const questions = (state = {}, action) => {
             ...state,
             ...questions
         }
+    case constants.questions.DELETE_QUESTION:
+        var newState = { ...state}
+        delete newState[action.payload.questionId]
+        return {
+            ...newState
+        }
     }
     return state
 }

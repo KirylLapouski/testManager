@@ -9,14 +9,14 @@ const addQuestion = (topicId,weight,title,description=' ') => {
             weight,
             topicId
         })
-        .then(({data})=>{
-            dispatch({
-                type: constants.questions.CREATE_QUESTION,
-                payload: {
-                    ...data
-                }
+            .then(({data})=>{
+                dispatch({
+                    type: constants.questions.CREATE_QUESTION,
+                    payload: {
+                        ...data
+                    }
+                })
             })
-        })
     }
 }
 
@@ -35,7 +35,21 @@ const loadQuestion = topicId => {
     }
 }
 
+const deleteQuestion = questionId =>{
+    return dispatch =>{
+        axios.delete(`http://localhost:3000/api/Questions/${questionId}`)
+            .then(()=>{
+                dispatch({
+                    type:constants.questions.DELETE_QUESTION,
+                    payload:{
+                        questionId
+                    }
+                })
+            })
+    }
+}
 export {
     addQuestion,
-    loadQuestion
+    loadQuestion,
+    deleteQuestion
 }
