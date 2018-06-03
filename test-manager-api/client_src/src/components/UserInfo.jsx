@@ -7,6 +7,7 @@ import { getUserById } from '../redux/AC/users'
 import Menu, { MenuItem } from 'material-ui/Menu'
 import Button from 'material-ui/Button'
 import { withRouter } from 'react-router-dom'
+import Cookies from 'universal-cookie'
 class UserInfo extends React.Component {
     constructor(props) {
         super(props)
@@ -18,6 +19,7 @@ class UserInfo extends React.Component {
     componentWillMount() {
         if (this.props.userId)
             this.props.getUser(this.props.userId)
+        
     }
 
     handleMenuClick = event => {
@@ -29,6 +31,15 @@ class UserInfo extends React.Component {
     goToUrl = (url) => () => {
         this.props.history.push(url)
     }
+    logOut = ()=>{
+        var cookies = new Cookies()
+        cookies.remove('loopbackToken',{path:'/'})
+        cookies.remove('yandexToken',{path:'/'})
+        
+        window.localStorage.setItem('redux','')
+
+        this.props.history.push(`/`)
+    }
     render() {
         return (<div style={Object.assign({}, { display: 'inline-block', position: 'relative' }, this.props.style)}>
                     <Button color="primary" aria-owns={this.state.menu ? 'simple-menu2' : null} aria-haspopup="true" onClick={this.handleMenuClick}>
@@ -38,7 +49,8 @@ class UserInfo extends React.Component {
                         <Menu open={Boolean(this.state.menu)} id="simple-menu2" anchorEl={this.state.menu} style={{position:'absolute', top:'40px'}} onClose={this.handleMenuClose}>
                             <MenuItem onClick={this.goToUrl('/profile')}>Профиль</MenuItem>
                             <MenuItem onClick={this.goToUrl(`/cources/${this.props.userId}`)}>Мои курсы</MenuItem>
-                            <MenuItem >Выйти</MenuItem>
+                            <hr/>
+                            <MenuItem onClick={this.logOut}>Выйти</MenuItem>
                         </Menu>
                 }
         </div>

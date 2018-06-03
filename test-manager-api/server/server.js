@@ -296,7 +296,7 @@ app.get('/auth/yandex/callback', function (req, res, next) {
               data
             }) => {
               res.cookie('loopbackToken', data.id, {
-                maxAge: new Date(data.ttl * 1000)
+                maxAge: +new Date(data.ttl * 1000)
               })
               return axios.patch(`http://localhost:3000/api/Participants/${data.userId}`, {
                 id: data.userId,
