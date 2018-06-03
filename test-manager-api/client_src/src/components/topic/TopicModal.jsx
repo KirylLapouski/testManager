@@ -9,6 +9,7 @@ import ClearIcon from '@material-ui/icons/Clear'
 import ClipIcon from '@material-ui/icons/AttachFile'
 import YouTubeIcon from '@material-ui/icons/YoutubeSearchedFor'
 import { addTopic } from '../../redux/AC/topic'
+import {addFileToUser} from '../../redux/AC/users'
 import { connect } from 'react-redux'
 import toastr from 'toastr'
 import isUrl from 'is-url'
@@ -133,17 +134,17 @@ class TopicModal extends React.Component {
         toastr.success('Новый топик был успешно добавлен')
     }
 
-    fileUpload = () => {
-        const formData = new FormData()
-        Object.keys(this.state.files).forEach((key) => {
-          const file = this.state.files[key]
-          formData.append(key, new Blob([file], { type: file.type }), file.name || 'file')
-        })
+    // fileUpload = () => {
+    //     const formData = new FormData()
+    //     Object.keys(this.state.files).forEach((key) => {
+    //       const file = this.state.files[key]
+    //       formData.append(key, new Blob([file], { type: file.type }), file.name || 'file')
+    //     })
     
-        // axios.post(`/files`, formData)
-        // .then(response => window.alert(`${this.state.files.length} files uploaded succesfully!`))
-        // .catch(err => window.alert('Error uploading files :('))
-      }
+    //     // axios.post(`/files`, formData)
+    //     // .then(response => window.alert(`${this.state.files.length} files uploaded succesfully!`))
+    //     // .catch(err => window.alert('Error uploading files :('))
+    //   }
     handleClose = ()=>{
         this.setState({
             title:'',
@@ -195,7 +196,7 @@ class TopicModal extends React.Component {
                             <Button ><i className="fa fa-soundcloud" style={{ fontSize: '2em' }} onClick={this.handleSoundCloudClick} aria-hidden="true"></i></Button>
                         </div>
                         <Button onClick={this.handleClose}>Отмена</Button>
-                        <Button variant="raised" color="primary">Создать</Button>
+                        <Button onClick={this.upload} variant="raised" color="primary">Создать</Button>
                     </div>
 
                 </div>
@@ -210,13 +211,17 @@ TopicModal.propTypes = {
     handleClose: PropTypes.func,
     lessonId: PropTypes.number,
     //redux
-    createTopic: PropTypes.func
+    createTopic: PropTypes.func,
+    addFileToUser: PropTypes.func
 }
 
 const mapDispatchToProps = dispatch => {
     return {
         createTopic(lessonId, node, title) {
             dispatch(addTopic(lessonId, node, title))
+        },
+        addFileToUser(userId, form){
+            dispatch(addFileToUser(userId, form))
         }
     }
 }

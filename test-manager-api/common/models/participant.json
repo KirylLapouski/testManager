@@ -29,6 +29,14 @@
     "imageUrl": {
       "type": "string",
       "required": false
+    },
+    "firstName":{
+      "type": "string",
+      "required": false
+    },
+    "secondName":{
+      "type": "string",
+      "required": false
     }
   },
   "validations": [],

@@ -13,7 +13,9 @@ class Profile extends React.Component {
         this.state = {
             userName: '',
             email: '',
-            fileName: ''
+            fileName: '',
+            firstName: '',
+            lastName: ''
         }
         this.onChangeHandler = this.onChangeHandler.bind(this)
         this.onSubmitHandler = this.onSubmitHandler.bind(this)
@@ -27,18 +29,18 @@ class Profile extends React.Component {
     }
 
     upload = filefield => {
-        if(!filefield.files[0])
+        if (!filefield.files[0])
             throw new Error('Выберите изображение')
         if (!filefield.files[0].type.match('image.*'))
             throw new Error('Фотография пользователя должна быть изображением');
-        if(filefield.files[0].name.length>15)
+        if (filefield.files[0].name.length > 15)
             throw new Error('Название изображения должно быть не больше 15 символов включая расширение файла')
 
         var { userId, addUserImage } = this.props
         var sendingForm = new FormData()
         sendingForm.append('imageFile', filefield.files[0])
         addUserImage(userId, sendingForm)
-        toastr.info('Можете продолжать работу, изменения будут приняты в ближайшее время','Форма отправлена')
+        toastr.info('Можете продолжать работу, изменения будут приняты в ближайшее время', 'Форма отправлена')
     }
     emailValidation(email) {
         var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/
@@ -49,7 +51,7 @@ class Profile extends React.Component {
         }
         return true
     }
-    nameValidation(name) {
+    loginValidation(name) {
         var reg = /^[a-z]{4,}(?:[._-][a-z\d]+)*$/i
         if (reg.test(name) == false) {
             toastr.error('Неправильный логин', 'Ошибка отправки формы')
@@ -57,15 +59,24 @@ class Profile extends React.Component {
         }
         return true
     }
-    checkIsImage = (e)=> {
+
+    nameValidation(name,field ) {
+        var reg = /^[а-яА-ЯёЁa-zA-Z]+$/
+        if (reg.test(name) == false) {
+            toastr.error(`Такой формат ${field} не поддерживается`, 'Ошибка отправки формы')
+            return false
+        }
+        return true
+    }
+    checkIsImage = (e) => {
         this.setState({
-            fileName:e.target.value
+            fileName: e.target.value
         })
         //TODO: cancel choosen file
-        if (!e.target.files[0].type.match('image.*')){
+        if (!e.target.files[0].type.match('image.*')) {
             toastr.warning('Фотография пользователя должна быть изображением')
             this.setState({
-                fileName:''
+                fileName: ''
             })
         }
 
@@ -99,26 +110,35 @@ class Profile extends React.Component {
         }
         if (this.state.userName) {
             user.username = this.state.userName;
-            if (!this.nameValidation(this.state.userName))
+            if (!this.loginValidation(this.state.userName))
                 return;
         }
-
+        if (this.state.firstName) {
+            user.firstName = this.state.firstName;
+            if (!this.nameValidation(this.state.firstName, 'имени'))
+                return;
+        }
+        if (this.state.lastName) {
+            user.lastName = this.state.lastName;
+            if (!this.nameValidation(this.state.lastName,'фамилии'))
+                return;
+        }
         xhr.onload = () => {
             if (xhr.status == 200) {
                 toastr.success('Пользователь успешно изменён');
                 this.props.updateLoggedUser(this.props.userId)
             } else {
-                toastr.error('Пользователь не был изменён','Ошибка сервера');
+                toastr.error('Пользователь не был изменён', 'Ошибка сервера');
             }
         }
 
         xhr.timeout = 3000
 
         xhr.ontimeout = () => {
-            toastr.error('Допустимое время выполнения запроса истекло','Ошибка сервера')
+            toastr.error('Допустимое время выполнения запроса истекло', 'Ошибка сервера')
         }
-        if(Object.keys( user).length === 0){
-            toastr.error('Хотя бы одно поле должно быть заполнено','Ошибка отправки формы')
+        if (Object.keys(user).length === 0) {
+            toastr.error('Хотя бы одно поле должно быть заполнено', 'Ошибка отправки формы')
             return
         }
         xhr.send(JSON.stringify(user))
@@ -171,6 +191,14 @@ class Profile extends React.Component {
                         <p><b>Редактировать профиль</b></p>
                         <div className="form-row">
                             <div className="form-group col-md-6">
+                                <label htmlFor="inputEmail4">Имя</label>
+                                <input onChange={this.onChangeHandler} name="firstName" type="text" className="form-control" id="inputEmail4" placeholder="Кирилл" />
+                            </div>
+                            <div className="form-group col-md-6">
+                                <label htmlFor="inputPassword4">Фамилия</label>
+                                <input onChange={this.onChangeHandler} name="lastName" type="text" className="form-control" id="inputPassword4" placeholder="Лапковский" />
+                            </div>
+                            <div className="form-group col-md-12">
                                 <label htmlFor="inputEmail4">Логин</label>
                                 <input onChange={this.onChangeHandler} name="userName" type="text" className="form-control" id="inputEmail4" placeholder="User" />
                             </div>
@@ -183,7 +211,7 @@ class Profile extends React.Component {
                             <label htmlFor="inputGroupFile01">Фото</label><br />
                             <div className="custom-file">
                                 <input name="imageFile" onChange={this.checkIsImage} accept="image/*" type="file" className="custom-file-input" id="inputGroupFile01" />
-                                <label className="custom-file-label" htmlFor="inputGroupFile01" style={{color:'#495057'}}> {this.state.fileName || 'Choose file'}</label>
+                                <label className="custom-file-label" htmlFor="inputGroupFile01" style={{ color: '#495057' }}> {this.state.fileName || 'Choose file'}</label>
                             </div>
                         </div>
                         <button type="submit" onClick={this.onSubmitHandler} className="btn btn-primary btn-md">Принять изменения</button>

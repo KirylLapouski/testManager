@@ -17,7 +17,7 @@ CourseHeader.propTypes = {
     name: PropTypes.string,
     backgroundSrc: PropTypes.string,
     teacherName: PropTypes.string,
-    teacherLastName: PropTypes.string
+    teacherLastName: PropTypes.string,
 }
 
 export default CourseHeader

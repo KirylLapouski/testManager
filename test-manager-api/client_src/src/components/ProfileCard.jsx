@@ -3,19 +3,22 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 class ProfileCard extends React.Component {
     render() {
-        var { email, userName, imageSrc } = this.props
+        var { email, username, imageUrl,firstName,secondName } = this.props.loggedInUser
 
         return <div className="col-4">
             <div className="card card-cascade">
                 <div className="view overlay">
                     {/*TODO: КОСТЫЛЬ ЗДЕСЬ */}
-                    <img src={imageSrc ? imageSrc : 'https://mdbootstrap.com/img/Photos/Others/men.jpg'} style={{width:'100%', height:'100%'}} className="img-fluid" alt="" />
+                    <img src={imageUrl ? imageUrl : 'https://mdbootstrap.com/img/Photos/Others/men.jpg'} style={{width:'100%', height:'100%'}} className="img-fluid" alt="" />
                     <a>
                         <div className="mask rgba-white-slight"></div>
                     </a>
                 </div>
                 <div className="card-body text-center">
-                    <h4 className="card-title"><strong>{userName}</strong></h4>
+                    <h4 className="card-title"><strong>{username}</strong></h4>
+                    <p>
+                        {firstName ? firstName : ''} {secondName ? secondName : ''}{firstName ||  secondName ? <br /> : null}
+                    </p>
                     <p>
                         {email ? 'Email: ' + email : ''} {email ? <br /> : null}
                     </p>
@@ -26,18 +29,20 @@ class ProfileCard extends React.Component {
 }
 
 ProfileCard.propTypes = {
-    //reduxs
-    email: PropTypes.string,
-    userName: PropTypes.string,
-    imageSrc: PropTypes.string
+    //redux
+    loggedInUser: PropTypes.shape({
+        email:PropTypes.string,
+        username:PropTypes.string,
+        imageUrl:PropTypes.string,
+        firstName:PropTypes.string,
+        secondName:PropTypes.string 
+    })
 }
 
 const mapStateToProps = state => {
 
     return {
-        email: state.users.loggedIn && state.users.loggedIn.email,
-        userName:state.users.loggedIn && state.users.loggedIn.username,
-        imageSrc: state.users.loggedIn && state.users.loggedIn.imageUrl
+        loggedInUser: state.users.loggedIn
     }
 }
 export default connect(mapStateToProps)(ProfileCard)

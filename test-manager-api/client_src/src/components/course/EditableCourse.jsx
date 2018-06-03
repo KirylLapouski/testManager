@@ -9,15 +9,22 @@ import CourseModal from './CourseModal';
 import LessonContainer from '../LessonContainer';
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
+import {withRouter} from 'react-router-dom'
+import {getCourseOwner} from '../redux/AC/courses'
+
 class EditableCourse extends React.Component {
     constructor(props) {
         super(props);
 
+        console.log(this.props)
         this.state = {
             modalOpened: false
         }
     }
 
+    componentDidMount(){
+        this.props.getCourseOwner(this.props.match.params.courseId)
+    }
     toggleModal = () => {
         this.setState((prevState)=>{
             return {
@@ -26,6 +33,7 @@ class EditableCourse extends React.Component {
         })
     }
 
+
     handleModalClose = ()=>{
         this.setState({
             modalOpened:false
@@ -33,7 +41,7 @@ class EditableCourse extends React.Component {
     }
     render() {
         return <div>
-            <CourseHeader backgroundSrc='https://lh6.googleusercontent.com/-691E4HHlPjM/VN0ohuHpXiI/AAAAAAAAASM/OsvrdNM5yZw/w984-h209-no/06_bubbles.jpg' name='test1' teacherName="Test" teacherLastName="Test">
+            <CourseHeader backgroundSrc='https://lh6.googleusercontent.com/-691E4HHlPjM/VN0ohuHpXiI/AAAAAAAAASM/OsvrdNM5yZw/w984-h209-no/06_bubbles.jpg' name={this.props.course.title} teacherName={this.props.course.firstName} teacherLastName={this.props.course.secondName}>
                 <UserInfo disabled={true} userId={this.props.userId}/>
             </CourseHeader>
 
@@ -49,11 +57,28 @@ class EditableCourse extends React.Component {
 
 EditableCourse.propTypes = {
     //redux
-    userId: PropTypes.number
+    ownerUser: PropTypes.shape({
+        
+    }),
+    course: PropTypes.shape({
+        title: PropTypes.string,
+        firstName: PropTypes.string,
+        secondName: PropTypes.string
+    }),
+    getCourseOwner: PropTypes.func
 }
-const mapStateToProps = state =>{
+const mapStateToProps = (state, ownProps) =>{
     return {
-        userId: state.users.loggedIn && state.users.loggedIn.id
+        ownerUser: state.courses[ownProps.id],
+        course: state.courses[ownProps.match.params.courseId] 
     }
 }
-export default connect(mapStateToProps)(EditableCourse)
+
+const mapDispatchToProps = (dispatch,ownProps)=>{
+    return{
+        getCourseOwner(courseId){
+            dispatch(getCourseOwner(courseId))
+        }
+    }
+}
+export default withRouter(connect(mapStateToProps,mapDispatchToProps)(EditableCourse))

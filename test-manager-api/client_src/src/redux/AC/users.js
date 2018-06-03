@@ -1,6 +1,5 @@
 import constants from '../constants'
 import axios from 'axios'
-import rp from 'request-promise'
 
 
 const assignloggedInUser = (userId) => {
@@ -48,7 +47,6 @@ const addImageToUser = (userId, form) => {
         xhr.onload = () => {
             xhr.open('GET', `http://localhost:3000/api/Participants/${userId}`)
             xhr.onload = (res) => {
-                console.log(res)
                 dispatch({
                     type: constants.users.ADD_IMAGE_TO_USER,
                     payload: {
@@ -65,19 +63,21 @@ const addImageToUser = (userId, form) => {
 const addFileToUser = (userId, form) => {
     return dispatch => {
         var xhr = new XMLHttpRequest()
-        xhr.open('POST', `http://localhost:3000/${userId}/setAvatar`, true)
+        xhr.open('POST', `http://localhost:3000/${userId}/saveFile`, true)
 
         xhr.onload = () => {
-            xhr.open('GET', `http://localhost:3000/api/Participants/${userId}`)
-            xhr.onload = (res) => {
-                dispatch({
-                    type: constants.users.ADD_IMAGE_TO_USER,
-                    payload: {
-                        ...JSON.parse(res.currentTarget.response)
-                    }
-                })
-            }
-            xhr.send()
+            console.log(xhr.status)
+            // if(xhr.status)
+            // xhr.open('GET', `http://localhost:3000/api/Participants/${userId}`)
+            // xhr.onload = (res) => {
+            //     dispatch({
+            //         type: constants.users.ADD_IMAGE_TO_USER,
+            //         payload: {
+            //             ...JSON.parse(res.currentTarget.response)
+            //         }
+            //     })
+            // }
+            // xhr.send()
         }
         xhr.send(form)
     }

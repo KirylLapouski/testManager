@@ -19,7 +19,6 @@ class Course extends React.Component {
     }
 
     componentWillMount(){
-        console.log(this.props.id)
         this.props.getCourseOwner(this.props.id)
     }
     render() {
