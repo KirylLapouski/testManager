@@ -23,7 +23,9 @@ class SimpleModal extends React.Component {
         this.props.handleClose()
     }
     render() {
-        return (<div>
+        return (
+
+            <div>
             <Modal open={this.props.open} onClose={this.props.handleClose}>
                 <div style={{ display: 'flex', flexDirection: 'column', height: '300px', width: '250px', position: 'absolute', left: '50%', marginLeft: `-${250 / 2}px`, top: '50%', marginTop: `-${300 / 2}px`, background: 'white', padding: '30px' }}>
                     <h3>Создать курс</h3>

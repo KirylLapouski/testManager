@@ -2,14 +2,29 @@ import React from 'react'
 import Course from './Course'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import {loadCourses,loadCoursesForUser} from '../redux/AC/courses'
-import {assignloggedInUser} from '../redux/AC/users'
+import { loadCourses, loadCoursesForUser } from '../redux/AC/courses'
+import { assignloggedInUser } from '../redux/AC/users'
+import Button from 'material-ui/Button'
+import AddIcon from '@material-ui/icons/Add'
+import SimpleModal from './Modal.jsx'
 class CourseContainer extends React.Component {
 
-    componentWillMount(){
+    state = {
+        modalOpened: false,
+    }
+    componentWillMount() {
         this.props.getCourses()
         this.props.assignloggedInUser()
     }
+
+    handleModalOpen = (modalName) => {
+        this.setState({ [modalName]: true });
+    };
+
+    handleModalClose = (modalName) => {
+        this.setState({ [modalName]: false });
+    };
+
     render() {
         var { courses } = this.props
         if (courses) {
@@ -19,9 +34,13 @@ class CourseContainer extends React.Component {
         }
 
         return (
-            <div className="container-fluid" style={{ maxWidth: '1300px', marginTop:'30px' }}>
+            <div className="container-fluid" style={{ maxWidth: '1300px', marginTop: '30px' }}>
                 <div className="row">
                     {courses}
+                    <Button onClick={this.handleModalOpen.bind(this, 'modalOpened')} variant="fab" color="primary" aria-label="add" style={{ position: 'fixed', bottom: '20px', right: '20px', zIndex: '2' }}>
+                        <AddIcon />
+                    </Button>
+                    <SimpleModal open={this.state.modalOpened} handleClose={this.handleModalClose.bind(this, 'modalOpened')} />
                 </div>
             </div>
         )
@@ -48,14 +67,14 @@ const mapStateToProps = state => {
     for (var key in state.courses) {
         res.push(state.courses[key])
     }
-    return {courses: res}
+    return { courses: res }
 }
 
-const mapDispatchToProps = (dispatch, ownProps) =>{
+const mapDispatchToProps = (dispatch, ownProps) => {
     var result = {}
 
-    result.getCourses =  ownProps.match.params.userId? ()=>{dispatch(loadCoursesForUser(ownProps.match.params.userId))}:()=>{dispatch(loadCourses())}
-    result.assignloggedInUser = ownProps.match.params.userId? ()=>{dispatch(assignloggedInUser(ownProps.match.params.userId))}:()=>{}
+    result.getCourses = ownProps.match.params.userId ? () => { dispatch(loadCoursesForUser(ownProps.match.params.userId)) } : () => { dispatch(loadCourses()) }
+    result.assignloggedInUser = ownProps.match.params.userId ? () => { dispatch(assignloggedInUser(ownProps.match.params.userId)) } : () => { }
     return result
 }
-export default connect(mapStateToProps,mapDispatchToProps)(CourseContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(CourseContainer)

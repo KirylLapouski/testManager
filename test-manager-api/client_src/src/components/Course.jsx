@@ -22,6 +22,7 @@ class Course extends React.Component {
         this.props.getCourseOwner(this.props.id)
     }
     render() {
+        var {loggedUserId,ownerId } = this.props
         return (
             <Grow timeout={800} in={true}>
                 <div className="z-depth-2" style={{ height: '400px', width: '270px', color: 'white',marginBottom:'20px', backgroundImage: 'url("https://lh4.googleusercontent.com/-64uhpsHBEZw/VMqrG_6wowI/AAAAAAAAAIE/_Pw_QoP0opU/w1005-h214-no/123_rainbowtriangle_teal.jpg")' }}>
@@ -30,7 +31,7 @@ class Course extends React.Component {
                         <Link to={'/' + this.props.id + '/lessons'}> {this.props.title}</Link>
                     </div>
                     <Divider inset={true} style={{ marginLeft:'0px',marginTop:'290px',backgroundColor:'rgba(0,0,0,0)',  width: '100%'}} />
-                    <Button onClick={this.handleUntieClick} style={{float:'left'}}><DeleteIcon style={{color:'white',marginTop:'5px'}}/></Button>
+                    {loggedUserId === ownerId && <Button onClick={this.handleUntieClick} style={{float:'left'}}><DeleteIcon style={{color:'white',marginTop:'5px'}}/></Button>}
                     <Button onClick={this.handleOpenClick} style={{color:'white',float:'right',marginTop:'5px'}}>Открыть</Button>
                 </div>
             </Grow>

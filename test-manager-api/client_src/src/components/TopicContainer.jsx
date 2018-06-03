@@ -5,9 +5,9 @@ import Topic from './Topic'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { loadTopics } from '../redux/AC/topic'
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import EditButton from './EditButton'
-import {withRouter} from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 class TopicContainer extends React.Component {
     constructor(props) {
         super(props)
@@ -16,7 +16,7 @@ class TopicContainer extends React.Component {
             currenTopicId: this.props.match.params.topicId ? this.props.match.params.topicId : 1,
             rightAnswersWeight: 0,
             allAnswersWeight: 0,
-            readOnly:true
+            readOnly: true
         }
 
         this.handlePaginatorClick = this.handlePaginatorClick.bind(this)
@@ -36,7 +36,7 @@ class TopicContainer extends React.Component {
 
     handlePaginatorClick(i) {
         this.setState({
-            currenTopicId: this.props.topics[i-1].id
+            currenTopicId: this.props.topics[i - 1].id
         })
         //TODO: right redirect?
         this.props.history.push(`/lesson/${this.props.match.params.lessonId}/topic/${this.props.topics[i - 1].id}`)
@@ -47,12 +47,13 @@ class TopicContainer extends React.Component {
     }
 
     render() {
+        var {loggedUserId,userOwnerId} =this.props
         var paginatorSerialNumber
         if ((JSON.stringify(this.props.topics) !== '[]')) {
-            for(var i=0;i<this.props.topics.length;i++){
-                if(Number(this.state.currenTopicId)===this.props.topics[i].id){
-                    var topic =  this.props.topics[i]
-                    paginatorSerialNumber = i+1 
+            for (var i = 0; i < this.props.topics.length; i++) {
+                if (Number(this.state.currenTopicId) === this.props.topics[i].id) {
+                    var topic = this.props.topics[i]
+                    paginatorSerialNumber = i + 1
                 }
             }
             var elem = <Topic key={this.props.match.params.topicId} readOnly={this.state.readOnly} path={topic.path} id={topic.id} />
@@ -60,18 +61,21 @@ class TopicContainer extends React.Component {
         return (<div>
             {this.props.topics.length && <Paginator initCurrentPos={paginatorSerialNumber || null} length={this.props.topics.length} onClick={this.handlePaginatorClick} />}
             {elem}
-            <EditButton onTopicEditClick={this.state.readOnly?this.handleTopicBeginEditClick:this.handleTopicEndEditClick}/>
+            {loggedUserId === userOwnerId && <EditButton onTopicEditClick={this.state.readOnly ? this.handleTopicBeginEditClick : this.handleTopicEndEditClick} />}
         </div>
         )
     }
 }
 
 TopicContainer.propTypes = {
+    //redux
     topics: PropTypes.arrayOf({
         id: PropTypes.number,
         path: PropTypes.string,
     }),
-    getTopics: PropTypes.func
+    getTopics: PropTypes.func,
+    loggedUserId: PropTypes.number,
+    userOwnerId: PropTypes.number
 }
 
 const mapStateToProps = (state, ownProps) => {
@@ -81,7 +85,11 @@ const mapStateToProps = (state, ownProps) => {
             res.push(state.topics[key])
         }
     }
-    return { topics: res }
+    return {
+        topics: res,
+        loggedUserId: state.users.loggedIn && state.users.loggedIn.id,
+        userOwnerId: state.courses[state.lessons[ownProps.match.params.lessonId].disciplineId].ownerId
+    }
 }
 
 const mapDispatchToProps = dispatch => {

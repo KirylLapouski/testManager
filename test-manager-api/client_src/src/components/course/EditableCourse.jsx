@@ -40,16 +40,17 @@ class EditableCourse extends React.Component {
         })
     }
     render() {
+        var {loggedUserId,ownerUser} = this.props
         return <div>
             <CourseHeader backgroundSrc='https://lh6.googleusercontent.com/-691E4HHlPjM/VN0ohuHpXiI/AAAAAAAAASM/OsvrdNM5yZw/w984-h209-no/06_bubbles.jpg' name={this.props.course.title} teacherName={this.props.ownerUser && this.props.ownerUser.firstName} teacherLastName={this.props.ownerUser && this.props.ownerUser.secondName}>
                 <UserInfo disabled={true} userId={this.props.ownerUser && this.props.ownerUser.id}/>
             </CourseHeader>
 
-            <Button onClick={this.toggleModal} variant="fab" color="primary" aria-label="add" style={{ position: 'fixed', bottom: '20px', right: '20px', zIndex:'2' }}>
+            {loggedUserId === ownerUser.id && <Button onClick={this.toggleModal} variant="fab" color="primary" aria-label="add" style={{ position: 'fixed', bottom: '20px', right: '20px', zIndex:'2' }}>
                 <AddIcon />
-            </Button>
+            </Button>}
             {/* TODO: How to deliver route to child? */}
-            <LessonContainer lessonsOwner={this.props.ownerUser} courseId={this.props.match.params.courseId}/>
+            <LessonContainer lessonsOwner={this.props.ownerUser} loggedUserId={this.props.loggedUserId} courseId={this.props.match.params.courseId}/>
             <CourseModal open={this.state.modalOpened} courseId={this.props.match.params.courseId} handleClose={this.handleModalClose}/>
         </div>
     }
@@ -67,10 +68,12 @@ EditableCourse.propTypes = {
         firstName: PropTypes.string,
         secondName: PropTypes.string
     }),
-    getCourseOwner: PropTypes.func
+    getCourseOwner: PropTypes.func,
+    loggedUserId: PropTypes.number,
 }
 const mapStateToProps = (state, ownProps) =>{
     return {
+        loggedUserId: state.users.loggedIn && state.users.loggedIn.id,
         ownerUser: state.users[state.courses[ownProps.match.params.courseId].ownerId],
         course: state.courses[ownProps.match.params.courseId] 
     }

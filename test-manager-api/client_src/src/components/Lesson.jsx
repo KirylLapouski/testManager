@@ -82,8 +82,9 @@ class Lesson extends React.Component {
         this.toggleEdditing()
     }
     render() {
+        var {loggedUserId,lessonOwner} = this.props
         var readOnlyexpantionPanel = <ExpansionPanelDetails style={{ display: 'flex', justifyContent: 'flex-start', paddingBottom: '0px', textAlign: 'left' }}>
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
+            {loggedUserId === lessonOwner.id && <div style={{ display: 'flex', flexDirection: 'column' }}>
                 <Button onClick={this.handleDeleteClick} style={{ color: 'white', boxShadow: 'none', backgroundColor: 'rgba(0,0,0,0)' }} variant="fab"  >
                     <DeleteIcon />
                 </Button>
@@ -95,7 +96,7 @@ class Lesson extends React.Component {
                     <AddIcon />
                 </Button>
                 <div style={{ clear: 'both' }} />
-            </div>
+            </div>}
             <Typography style={{ color: 'white', marginLeft: '5px' }}>
                 {this.props.description}
             </Typography>
@@ -135,6 +136,7 @@ Lesson.propTypes = {
     lessonOwner: PropTypes.shape({
         id: PropTypes.number
     }),
+    loggedUserId: PropTypes.number,
     //redux
     topics: PropTypes.arrayOf(PropTypes.object),
     getTopics: PropTypes.func,
