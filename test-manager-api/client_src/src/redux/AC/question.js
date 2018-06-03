@@ -1,15 +1,17 @@
 import constants from '../constants'
 import axios from 'axios'
-const addQuestion = (topicId,weight,title,description=' ') => {
-    return dispatch=>{
+const addQuestion = (topicId, weight, title, description = ' ') => {
+    return dispatch => {
 
-        axios.post('http://localhost:3000/api/Questions',{
+        axios.post('http://localhost:3000/api/Questions', {
             title,
             description,
             weight,
             topicId
         })
-            .then(({data})=>{
+            .then(({
+                data
+            }) => {
                 dispatch({
                     type: constants.questions.CREATE_QUESTION,
                     payload: {
@@ -35,21 +37,42 @@ const loadQuestion = topicId => {
     }
 }
 
-const deleteQuestion = questionId =>{
-    return dispatch =>{
+const deleteQuestion = questionId => {
+    return dispatch => {
         axios.delete(`http://localhost:3000/api/Questions/${questionId}`)
-            .then(()=>{
+            .then(() => {
                 dispatch({
-                    type:constants.questions.DELETE_QUESTION,
-                    payload:{
+                    type: constants.questions.DELETE_QUESTION,
+                    payload: {
                         questionId
                     }
                 })
             })
     }
 }
+
+const updateQuestion = (questionId, title) => {
+    return dispatch => {
+        axios.patch('http://localhost:3000/api/Questions', {
+            id: questionId,
+            title
+        })
+            .then(({
+                data
+            }) => {
+                dispatch({
+                    type: constants.questions.UPDATE_QUESTION,
+                    payload: {
+                        ...data
+                    }
+                })
+            })
+    }
+}
+
 export {
     addQuestion,
     loadQuestion,
-    deleteQuestion
+    deleteQuestion,
+    updateQuestion
 }

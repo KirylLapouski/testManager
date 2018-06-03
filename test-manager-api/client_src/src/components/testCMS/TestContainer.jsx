@@ -42,7 +42,7 @@ class TestContainer extends React.Component {
     render() {
         return <div> <div className="z-depth-1 container" style={{ padding: '0px' }}>
             {this.props.questions.map((item, i) => {
-                return <EditableTest key={item.id} editing={this.props.openedItem === i + 1 ? true : false} question={item} toggleOpenItem={this.props.toggleOpenItem} />
+                return <EditableTest key={item.id} editing={this.props.openedItem === item.id ? true : false} question={item} toggleOpenItem={this.props.toggleOpenItem} />
             })}
         </div>
             <ExpansionPanel className="z-depth-1 container" style={{margin:'0 auto'}}>

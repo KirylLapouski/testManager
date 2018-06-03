@@ -22,7 +22,7 @@ class TopicModal extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            title: ' ',
+            title: '',
             file: {}
         }
     }
@@ -47,11 +47,21 @@ class TopicModal extends React.Component {
     upload = () => {
         // if (!filefield.files[0].type.match('image.*'))
         //     throw new Error('Фотография пользователя должна быть изображением','Ошибка отправки формы');
+        if(!this.state.title){
+            toastr.error('Поле заголовка является обязательным','Ошибка отправки формы')
+            return
+        }
 
-        var { userId, addUserImage } = this.props
+        if(Object.keys( this.state.file).length === 0 ){
+            toastr.error('Выберите файл','Ошибка отправки формы')
+            return
+        }
+
+        
+        var { userId, addFileToUser } = this.props
         var sendingForm = new FormData()
         sendingForm.append('file', this.state.file)
-        addUserImage(userId, sendingForm)
+        addFileToUser(userId, sendingForm)
     }
 
     onFilesError = (error, file) => {
@@ -103,6 +113,10 @@ class TopicModal extends React.Component {
             toastr.error('Это видео не принадлежит youtube.com')
             return
         }
+        if(!this.state.title){
+            toastr.error('Поле заголовка является обязательным','Ошибка отправки формы')
+            return
+        }
         var node = initVideo
         var node = node.split('|')
         node[1] = parsedUrl
@@ -124,6 +138,10 @@ class TopicModal extends React.Component {
             toastr.error('Это видео не принадлежит soundcloud.com')
             return
         }
+        if(!this.state.title){
+            toastr.error('Поле заголовка является обязательным','Ошибка отправки формы')
+            return
+        }
 
         var node = initVideo
         var node = node.split('|')
@@ -134,17 +152,6 @@ class TopicModal extends React.Component {
         toastr.success('Новый топик был успешно добавлен')
     }
 
-    // fileUpload = () => {
-    //     const formData = new FormData()
-    //     Object.keys(this.state.files).forEach((key) => {
-    //       const file = this.state.files[key]
-    //       formData.append(key, new Blob([file], { type: file.type }), file.name || 'file')
-    //     })
-    
-    //     // axios.post(`/files`, formData)
-    //     // .then(response => window.alert(`${this.state.files.length} files uploaded succesfully!`))
-    //     // .catch(err => window.alert('Error uploading files :('))
-    //   }
     handleClose = ()=>{
         this.setState({
             title:'',
@@ -153,6 +160,7 @@ class TopicModal extends React.Component {
         this.props.handleClose()
     }
     render() {
+        var {file} = this.state
         return (<div>
             <Modal open={this.props.open} onClose={this.handleClose}>
                 <div style={{ display: 'flex', flexDirection: 'column', height: '400px', width: '900px', position: 'absolute', left: '50%', marginLeft: `-${900 / 2}px`, top: '50%', marginTop: `-${400 / 2}px`, background: 'white', paddingLeft: '30px', paddingBottom: '30px', paddingRight: '30px' }}>
@@ -169,7 +177,7 @@ class TopicModal extends React.Component {
                         {
                             Object.keys(this.state.file).length !== 0
                                 ? <div className='files-list' style={{ width: '840px', display:'flex', justifyContent:'center', alignItems:'center', height: '168px'}}>
-                                    <ul style={{listStyle:'none'}}>{this.state.files.map((file) =>
+                                    <ul style={{listStyle:'none'}}>{Object.keys(file).length !== 0 &&
                                         <li className='files-list-item' key={file.id}>
                                             <div className='files-list-item-preview'>
                                                 {file.preview.type === 'image'
@@ -181,7 +189,7 @@ class TopicModal extends React.Component {
                                                 <div className='files-list-item-content-item files-list-item-content-item-2'>{file.sizeReadable}</div>
                                             </div>
                                         </li>
-                                    )}</ul>
+                                    }</ul>
                                 </div>
                                 : <Files ref='files' onChange={this.handleDrop} onError={this.onFilesError} maxFiles={1} style={{ cursor: 'pointer', width: '840px', height: '168px', display: 'flex', justifyContent: 'center', alignItems: 'center' }} accepts={['image/*', 'audio/*', 'video/*', 'text/html']} clickable>
                                     Перетащите файлы сюда<br />
@@ -192,8 +200,8 @@ class TopicModal extends React.Component {
                     </div>
                     <div style={{ display: 'flex', alignSelf: 'flex-end', marginTop: '45px', width: '100%', justifyContent: 'flex-end' }}>
                         <div style={{ margin: 'auto', marginLeft: '0px' }}>
-                            <Button ><i className="fa fa-youtube-play" style={{ fontSize: '2em' }} onClick={this.handleYouTubeClick} aria-hidden="true"></i></Button>
-                            <Button ><i className="fa fa-soundcloud" style={{ fontSize: '2em' }} onClick={this.handleSoundCloudClick} aria-hidden="true"></i></Button>
+                            <Button onClick={this.handleYouTubeClick}><i className="fa fa-youtube-play" style={{ fontSize: '2em' }}  aria-hidden="true"></i></Button>
+                            <Button onClick={this.handleSoundCloudClick} ><i className="fa fa-soundcloud" style={{ fontSize: '2em' }}  aria-hidden="true"></i></Button>
                         </div>
                         <Button onClick={this.handleClose}>Отмена</Button>
                         <Button onClick={this.upload} variant="raised" color="primary">Создать</Button>
