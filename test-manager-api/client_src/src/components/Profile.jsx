@@ -19,7 +19,7 @@ class Profile extends React.Component {
             fileName: '',
             firstName: '',
             lastName: '',
-            tabsValue: 1
+            tabsValue: 0
         }
         this.onChangeHandler = this.onChangeHandler.bind(this)
         this.onSubmitHandler = this.onSubmitHandler.bind(this)
@@ -200,7 +200,7 @@ class Profile extends React.Component {
     render() {
 
         return <div className="row" style={{ maxWidth: '1200px', margin: '0 auto', marginTop: '10vh', color: '#37474F' }}>
-            <Tabs value={this.state.tabsValue} style={{width:'100%'}} indicatorColor="primary" textColor="primary" onChange={this.handleTabChange}>
+            <Tabs value={this.state.tabsValue} style={{width:'100%',marginBottom:'10px'}} indicatorColor="primary" textColor="primary" onChange={this.handleTabChange}>
                 <Tab label="Общая информация" />
                 <Tab label="Учёба" />
             </Tabs>
