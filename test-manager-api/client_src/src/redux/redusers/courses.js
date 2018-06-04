@@ -11,9 +11,7 @@ const courses = (state = {}, action) => {
         return {
             ...state,
             [action.payload.id]: {
-                id: action.payload.id,
-                title: action.payload.title,
-                ownerId: action.payload.ownerId
+                ...action.payload
             }
         }
 

@@ -40,9 +40,9 @@ class EditableCourse extends React.Component {
         })
     }
     render() {
-        var {loggedUserId,ownerUser} = this.props
+        var {loggedUserId,ownerUser,course} = this.props
         return <div>
-            <CourseHeader backgroundSrc='https://lh6.googleusercontent.com/-691E4HHlPjM/VN0ohuHpXiI/AAAAAAAAASM/OsvrdNM5yZw/w984-h209-no/06_bubbles.jpg' name={this.props.course.title} teacherName={this.props.ownerUser && this.props.ownerUser.firstName} teacherLastName={this.props.ownerUser && this.props.ownerUser.secondName}>
+            <CourseHeader secretWord={loggedUserId === ownerUser.id && course.secretWord} backgroundSrc='https://lh6.googleusercontent.com/-691E4HHlPjM/VN0ohuHpXiI/AAAAAAAAASM/OsvrdNM5yZw/w984-h209-no/06_bubbles.jpg' name={this.props.course.title} teacherName={this.props.ownerUser && this.props.ownerUser.firstName} teacherLastName={this.props.ownerUser && this.props.ownerUser.secondName}>
                 <UserInfo disabled={true} userId={this.props.ownerUser && this.props.ownerUser.id}/>
             </CourseHeader>
 
@@ -66,7 +66,8 @@ EditableCourse.propTypes = {
     course: PropTypes.shape({
         title: PropTypes.string,
         firstName: PropTypes.string,
-        secondName: PropTypes.string
+        secondName: PropTypes.string,
+        secretWord: PropTypes.string
     }),
     getCourseOwner: PropTypes.func,
     loggedUserId: PropTypes.number,

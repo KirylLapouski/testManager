@@ -2,7 +2,7 @@ import constants from '../constants'
 import axios from 'axios'
 import {getUserById} from './users'
 const addCourse = (userId, title = ' ') => {
-    var id
+    var id,secretWord;
     return dispatch => {
 
         axios.post('http://localhost:3000/api/Disciplines', {
@@ -12,6 +12,7 @@ const addCourse = (userId, title = ' ') => {
                 data
             }) => {
                 id = data.id
+                secretWord = data.secretWord
                 //TODO: acn rewrite on remote hooks on back end
                 return axios.post('http://localhost:3000/api/ParticipantDisciplineMappings', {
                     type: 'teacher',
@@ -25,7 +26,8 @@ const addCourse = (userId, title = ' ') => {
                     payload: {
                         id,
                         title,
-                        ownerId: userId
+                        ownerId: userId,
+                        secretWord
                     }
                 })
             })
