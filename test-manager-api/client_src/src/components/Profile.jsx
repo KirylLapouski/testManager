@@ -5,6 +5,9 @@ import { addImageToUser } from '../redux/AC/users'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { assignloggedInUser } from '../redux/AC/users'
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import SwipeableViews from 'react-swipeable-views';
 class Profile extends React.Component {
 
     constructor(props) {
@@ -15,7 +18,8 @@ class Profile extends React.Component {
             email: '',
             fileName: '',
             firstName: '',
-            lastName: ''
+            lastName: '',
+            tabsValue: 1
         }
         this.onChangeHandler = this.onChangeHandler.bind(this)
         this.onSubmitHandler = this.onSubmitHandler.bind(this)
@@ -60,7 +64,7 @@ class Profile extends React.Component {
         return true
     }
 
-    nameValidation(name,field ) {
+    nameValidation(name, field) {
         var reg = /^[а-яА-ЯёЁa-zA-Z]+$/
         if (reg.test(name) == false) {
             toastr.error(`Такой формат ${field} не поддерживается`, 'Ошибка отправки формы')
@@ -120,7 +124,7 @@ class Profile extends React.Component {
         }
         if (this.state.lastName) {
             user.lastName = this.state.lastName;
-            if (!this.nameValidation(this.state.lastName,'фамилии'))
+            if (!this.nameValidation(this.state.lastName, 'фамилии'))
                 return;
         }
         xhr.onload = () => {
@@ -181,43 +185,63 @@ class Profile extends React.Component {
         // }, 300);
 
     }
+    //TODO: rewrite on decorators
+    handleTabChange = (event, value) => {
+        this.setState({
+            tabsValue: value
+        });
+    };
+
+    handleChangeIndex = index => {
+        this.setState({ tabsValue: index });
+      };
+
+
     render() {
 
         return <div className="row" style={{ maxWidth: '1200px', margin: '0 auto', marginTop: '10vh', color: '#37474F' }}>
-            <ProfileCard />
-            <div className="col-8" style={{ textAlign: 'left' }}>
-                <div className="card" >
-                    <form encType='multipart/form-data' name="userEdit" method="POST" action="http://localhost:3000/16/setAvatar" style={{ padding: '40px' }}>
-                        <p><b>Редактировать профиль</b></p>
-                        <div className="form-row">
-                            <div className="form-group col-md-6">
-                                <label htmlFor="inputEmail4">Имя</label>
-                                <input onChange={this.onChangeHandler} name="firstName" type="text" className="form-control" id="inputEmail4" placeholder="Кирилл" />
-                            </div>
-                            <div className="form-group col-md-6">
-                                <label htmlFor="inputPassword4">Фамилия</label>
-                                <input onChange={this.onChangeHandler} name="lastName" type="text" className="form-control" id="inputPassword4" placeholder="Лапковский" />
-                            </div>
-                            <div className="form-group col-md-12">
-                                <label htmlFor="inputEmail4">Логин</label>
-                                <input onChange={this.onChangeHandler} name="userName" type="text" className="form-control" id="inputEmail4" placeholder="User" />
-                            </div>
+            <Tabs value={this.state.tabsValue} style={{width:'100%'}} indicatorColor="primary" textColor="primary" onChange={this.handleTabChange}>
+                <Tab label="Общая информация" />
+                <Tab label="Учёба" />
+            </Tabs>
+            <SwipeableViews index={this.state.tabsValue} onChangeIndex={this.handleChangeIndex} style={{width:'100%'}}>
+                <div style={{width:'100%', display:'flex',paddingBottom:'10px'}}>
+                    <ProfileCard />
+                    <div className="col-8" style={{ textAlign: 'left' }}>
+                        <div className="card" >
+                            <form encType='multipart/form-data' name="userEdit" method="POST" action="http://localhost:3000/16/setAvatar" style={{ padding: '40px' }}>
+                                <p><b>Редактировать профиль</b></p>
+                                <div className="form-row">
+                                    <div className="form-group col-md-6">
+                                        <label htmlFor="inputEmail4">Имя</label>
+                                        <input onChange={this.onChangeHandler} name="firstName" type="text" className="form-control" id="inputEmail4" placeholder="Кирилл" />
+                                    </div>
+                                    <div className="form-group col-md-6">
+                                        <label htmlFor="inputPassword4">Фамилия</label>
+                                        <input onChange={this.onChangeHandler} name="lastName" type="text" className="form-control" id="inputPassword4" placeholder="Лапковский" />
+                                    </div>
+                                    <div className="form-group col-md-12">
+                                        <label htmlFor="inputEmail4">Логин</label>
+                                        <input onChange={this.onChangeHandler} name="userName" type="text" className="form-control" id="inputEmail4" placeholder="User" />
+                                    </div>
+                                </div>
+                                {this.props.hasYandexToken || <div className="form-group">
+                                    <label htmlFor="inputEmail">Электронная почта</label>
+                                    <input onChange={this.onChangeHandler} type="email" name="email" id="inputEmail" className="form-control" placeholder="lapkovskyk@mail.ru" />
+                                </div>}
+                                <div className="form-group">
+                                    <label htmlFor="inputGroupFile01">Фото</label><br />
+                                    <div className="custom-file">
+                                        <input name="imageFile" onChange={this.checkIsImage} accept="image/*" type="file" className="custom-file-input" id="inputGroupFile01" />
+                                        <label className="custom-file-label" htmlFor="inputGroupFile01" style={{ color: '#495057' }}> {this.state.fileName || 'Choose file'}</label>
+                                    </div>
+                                </div>
+                                <button type="submit" onClick={this.onSubmitHandler} className="btn btn-primary btn-md">Принять изменения</button>
+                            </form>
                         </div>
-                        {this.props.hasYandexToken || <div className="form-group">
-                            <label htmlFor="inputEmail">Электронная почта</label>
-                            <input onChange={this.onChangeHandler} type="email" name="email" id="inputEmail" className="form-control" placeholder="lapkovskyk@mail.ru" />
-                        </div>}
-                        <div className="form-group">
-                            <label htmlFor="inputGroupFile01">Фото</label><br />
-                            <div className="custom-file">
-                                <input name="imageFile" onChange={this.checkIsImage} accept="image/*" type="file" className="custom-file-input" id="inputGroupFile01" />
-                                <label className="custom-file-label" htmlFor="inputGroupFile01" style={{ color: '#495057' }}> {this.state.fileName || 'Choose file'}</label>
-                            </div>
-                        </div>
-                        <button type="submit" onClick={this.onSubmitHandler} className="btn btn-primary btn-md">Принять изменения</button>
-                    </form>
+                    </div>
                 </div>
-            </div>
+            </SwipeableViews>
         </div>
     }
 }

@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 //TODO: write % when hover chart
 class Chart extends React.Component {
     render() {
+        var {unpassWeight} = this.props
         return <Doughnut
             options={{
                 legend: {
@@ -15,13 +16,14 @@ class Chart extends React.Component {
                 }
             }}
             data={{
-                labels: ['Правильные ответы', 'Неправильные ответы'],
+                labels: ['Правильные ответы', 'Неправильные ответы',unpassWeight? 'Не отвечено': null],
                 datasets: [{
                     label: '% of Votes',
-                    data: [this.props.rightAnswersWeight*100/(this.props.rightAnswersWeight+this.props.wrongAnswersWeight), this.props.wrongAnswersWeight*100/(this.props.rightAnswersWeight+this.props.wrongAnswersWeight)],
+                    data: [this.props.rightAnswersWeight*100/(this.props.rightAnswersWeight+this.props.wrongAnswersWeight+(unpassWeight?unpassWeight:0)), this.props.wrongAnswersWeight*100/(this.props.rightAnswersWeight+this.props.wrongAnswersWeight+(unpassWeight?unpassWeight:0)), unpassWeight? unpassWeight*100/(this.props.rightAnswersWeight+this.props.wrongAnswersWeight+unpassWeight): null],
                     backgroundColor: [
                         '#3f51b5',
                         'white',
+                        unpassWeight? '#FFEB3B':null
                     ],
                     borderColor: [
                         'white',
@@ -33,7 +35,8 @@ class Chart extends React.Component {
 }
 Chart.propTypes = {
     rightAnswersWeight: PropTypes.number,
-    wrongAnswersWeight: PropTypes.number
+    wrongAnswersWeight: PropTypes.number,
+    unpassWeight: PropTypes.number
 }
 
 export default Chart

@@ -25,6 +25,12 @@ const answers = (state = {}, action) => {
         return {
             ...newState
         }
+    case constants.answers.UPDATE_ANSWER:
+        var newState = {...state}
+        newState[action.payload.id] = action.payload
+        return{
+            ...newState
+        }
     }
     return state
 }

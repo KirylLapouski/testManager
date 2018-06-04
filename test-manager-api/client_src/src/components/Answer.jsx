@@ -15,12 +15,13 @@ class Answer extends React.Component {
     }
 
     getCheckBox(answer, editable, serialNumber) {
-        return editable ? <div style={{ display: 'flex', alignItems: 'center' }}>{serialNumber < 10 ? '0' + serialNumber : serialNumber}.<Checkbox onClick={this.props.onClick} style={{ width: '5%' }} /> <TextField defaultValue={answer} style={{ width: '90%' }} /><Button onClick={this.deleteAnswerHandler}><CloseIcon /></Button></div> : <div style={{ display: 'flex', alignItems: 'center' }}><FormControlLabel control={<Checkbox checked={this.props.checked} label={answer} onClick={this.props.onClick} />} label={answer} /></div>
+        //TODO: checked crutch
+        return editable ? <div style={{ display: 'flex', alignItems: 'center' }}>{serialNumber < 10 ? '0' + serialNumber : serialNumber}.<Checkbox checked={this.props.checked} onClick={this.props.onClick} style={{ width: '5%' }} /> <TextField defaultValue={answer} onChange={this.props.onChange} style={{ width: '90%' }} /><Button onClick={this.deleteAnswerHandler}><CloseIcon /></Button></div> : <div style={{ display: 'flex', alignItems: 'center' }}><FormControlLabel control={<Checkbox checked={this.props.checked!== undefined && this.props.checked} label={answer} onClick={this.props.onClick} />} label={answer} /></div>
     }
 
    
     getRadioButtons(answer, editable, serialNumber) {
-        return editable ? <div style={{ display: 'flex', alignItems: 'center' }}>{serialNumber < 10 ? '0' + serialNumber : serialNumber}.<Radio value="a" onClick={this.props.onClick} checked={this.props.checked} /><TextField defaultValue={answer} style={{ width: '90%' }} /><Button onClick={this.deleteAnswerHandler}><CloseIcon /></Button></div> : <div style={{ display: 'flex', alignItems: 'center' }}><FormControlLabel control={<Radio checked={this.props.checked} value={answer} onClick={this.props.onClick} />} label={answer} /></div>
+        return editable ? <div style={{ display: 'flex', alignItems: 'center' }}>{serialNumber < 10 ? '0' + serialNumber : serialNumber}.<Radio value="a" onClick={this.props.onClick} checked={this.props.checked} /><TextField defaultValue={answer} onChange={this.props.onChange} style={{ width: '90%' }} /><Button onClick={this.deleteAnswerHandler}><CloseIcon /></Button></div> : <div style={{ display: 'flex', alignItems: 'center' }}><FormControlLabel control={<Radio checked={this.props.checked!== undefined && this.props.checked} value={answer} onClick={this.props.onClick} />} label={answer} /></div>
 
     }
     render() {
@@ -38,6 +39,7 @@ Answer.propTypes = {
     text: PropTypes.string.isRequired,
     typeOfAnswer: PropTypes.string,
     onClick: PropTypes.func,
+    onChange: PropTypes.func,
     editable: PropTypes.bool,
     serialNumber: PropTypes.number,
     checked: PropTypes.bool,

@@ -46,9 +46,28 @@ const deleteAnswer = answerId => {
             })
     }
 }
-window.deleteAnswer = deleteAnswer
+
+const updateAnswer = (answerId,text,isRight)=>{
+    return dispatch =>{
+        axios.patch('http://localhost:3000/api/Answers',{
+            id: answerId,
+            text,
+            isRight
+        })
+            .then(({data})=>{
+                dispatch({
+                    type:constants.answers.UPDATE_ANSWER,
+                    payload:{
+                        ...data
+                    }
+                })
+            })
+    }
+}
+
 export {
     addAnswer,
     loadAnswers,
-    deleteAnswer
+    deleteAnswer,
+    updateAnswer
 }

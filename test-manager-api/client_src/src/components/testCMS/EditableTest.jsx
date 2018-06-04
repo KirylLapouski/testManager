@@ -10,7 +10,7 @@ import Button from '@material-ui/core/Button'
 import { FormGroup, FormControlLabel } from 'material-ui/Form'
 import TypeOfAnswerSelect from './TypeOfAnswerSelect'
 import { connect } from 'react-redux'
-import { loadAnswers, addAnswer } from '../../redux/AC/answers'
+import { loadAnswers, addAnswer,updateAnswer } from '../../redux/AC/answers'
 import { deleteQuestion,updateQuestion  } from '../../redux/AC/question'
 import DeleteIcon from '@material-ui/icons/Delete'
 import { relative } from 'path'
@@ -22,22 +22,34 @@ class Test extends React.Component {
 
         this.state = {
             selectedRadio: [],
+            answersTitle:[],
             questionTitle: ''
         }
         this.getAnswers = this.getAnswers.bind(this)
         this.begginEdit = this.begginEdit.bind(this)
-        this.handleClickRadio = this.handleClickRadio.bind(this)
     }
 
     componentWillMount() {
         this.props.getAnswers(this.props.question.id)
     }
-    handleClickRadio(number) {
+    handleClickRadio  = (number,e) =>{
+        var checked = e.target.checked
         this.setState((prevState) => {
-            var newState = [...prevState]
-            newState[number] = true
+            var newSelectedRadio = [...prevState.selectedRadio]
+            newSelectedRadio[number] = checked  
             return {
-                selectedRadio: newState
+                selectedRadio: newSelectedRadio
+            }
+        })
+    }
+
+    handleAnswerTitleChange = (number)=>(e)=>{
+        var value = e.target.value
+        this.setState((prevState) => {
+            var newAnswersTitle = [...prevState.answersTitle]
+            newAnswersTitle[number] = value  
+            return {
+                answersTitle: newAnswersTitle
             }
         })
     }
@@ -47,9 +59,19 @@ class Test extends React.Component {
         })
     }
 
+    componentWillReceiveProps(newProps){
+        if(!this.state.answersTitle.length)
+            this.setState({
+                answersTitle: newProps.answers.map(value=>value.text)
+            })
+        if(!this.state.selectedRadio.length)
+            this.setState({
+                selectedRadio: newProps.answers.map(value=> value.isRight)
+            })
+    }
     getAnswers(ansersText, editable = false) {
         return ansersText.map((answer, i) => {
-            return <Answer key={i} editable={editable} typeOfAnswer={this.props.testType} onClick={editable ? this.handleClickRadio.bind(this, i) : null} checked={editable ? this.state.selectedRadio[i] : null} text={answer.text} id={answer.id} serialNumber={editable && i + 1} />
+            return <Answer key={i} editable={editable} onChange={editable ?this.handleAnswerTitleChange(i):null} typeOfAnswer={this.props.testType} onClick={editable ? this.handleClickRadio.bind(this, i) : null} checked={this.state.selectedRadio[i]} text={this.state.answersTitle[i]} id={answer.id} serialNumber={editable && i + 1} />
         })
     }
 
@@ -71,11 +93,17 @@ class Test extends React.Component {
         if(this.state.questionTitle)  {  
             this.props.updateQuestion(this.props.question.id,this.state.questionTitle)
             toastr.success('Текст вопроса успешно обновлен','Вопрос обновлен')
-            }
+        }
+
+        if(this.state.selectedRadio.some(value=>value)){
+            this.state.selectedRadio.map((value,i)=>{
+                console.log(this.props.answers[i].id, this.state.answersTitle[i],this.state.selectedRadio[i])
+                this.props.updateAnswer(this.props.answers[i].id, this.state.answersTitle[i],this.state.selectedRadio[i])
+            })
+        }
     }
 
     onChange= (name)=> (e)=>{
-
         this.setState({
             [name]:e.target.value
         })
@@ -108,7 +136,7 @@ class Test extends React.Component {
         }
     }
 }
-
+//TODO: update right answer in test cms, display right answer
 Test.propTypes = {
     question: PropTypes.shape({
         id: PropTypes.number,
@@ -123,6 +151,7 @@ Test.propTypes = {
     getAnswers: PropTypes.func,
     deleteQuestion: PropTypes.func,
     updateQuestion: PropTypes.func,
+    updateAnswer: PropTypes.func,
     answers: PropTypes.arrayOf(
         PropTypes.shape({
             text: PropTypes.string,
@@ -155,6 +184,9 @@ const mapDispatchtToProps = (dispatch, ownProps) => {
         },
         updateQuestion(questionId,title){
             dispatch(updateQuestion(questionId,title))
+        },
+        updateAnswer(answerId,text,isRight){
+            dispatch(updateAnswer(answerId,text,isRight))
         }
     }
 }
