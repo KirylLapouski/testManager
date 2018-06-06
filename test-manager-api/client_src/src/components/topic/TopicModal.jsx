@@ -14,7 +14,7 @@ import { connect } from 'react-redux'
 import toastr from 'toastr'
 import isUrl from 'is-url'
 import url from 'url'
-var initVideo = '<p style="text-align:center;">\n<iframe width=\"1100\" height=\"600\"  src=\"|https://www.youtube.com/embed/ioC2wj4CKss\|" frameBorder=\"0\"></iframe>\n</p>\n'
+var initVideo = '<div style=\"text-align:center;margin: 0 auto\">\n<iframe width=\"1100\" height=\"600\"  src=\"|https://www.youtube.com/embed/ioC2wj4CKss\|" frameBorder=\"0\"></iframe>\n</div>\n'
 const modalStyles = { width: '840px', height: '320px', color: 'black', padding: 20, boxShadow: 'inset 0px 0px 5px rgba(154, 147, 140, 0.5)', display: 'flex', justifyContent: 'center', alignItems: 'center', textAlign: 'center' };
 
 class TopicModal extends React.Component {
@@ -35,8 +35,6 @@ class TopicModal extends React.Component {
     handleDrop = (files) => {
         this.setState({
             file:files[0]
-        },()=>{
-            console.log(this.state.file )
         })
     }
 
@@ -174,15 +172,16 @@ class TopicModal extends React.Component {
                     <TextField name='title' onChange={this.handleChange} InputProps={{ disableUnderline: true }} placeholder='Название урока' style={{ width: '840px', color: 'black', padding: '10px', paddingLeft: 20, marginBottom: '20px', boxShadow: 'inset 0px 0px 5px rgba(154, 147, 140, 0.5)' }} />
                     <div id="react-file-drop-demo" style={{ border: '1px dashed grey', textAlign: 'center' }}>
 
-                        {
-                            Object.keys(this.state.file).length !== 0
+                        {Object.keys(this.state.file).length !== 0
                                 ? <div className='files-list' style={{ width: '840px', display:'flex', justifyContent:'center', alignItems:'center', height: '168px'}}>
                                     <ul style={{listStyle:'none'}}>{Object.keys(file).length !== 0 &&
                                         <li className='files-list-item' key={file.id}>
                                             <div className='files-list-item-preview'>
-                                                {file.preview.type === 'image'
-                                                    ? <img className='files-list-item-preview-image' src={file.preview.url} />
-                                                    : <div className='files-list-item-preview-extension'>{file.extension}</div>}
+                                                {/* {file.preview.type === 'image'
+                                                    ? <img className='files-list-item-preview-image' src={file.preview.url} /> */}
+                                                    {/* : */}
+                                                     <div className='files-list-item-preview-extension'>{file.extension}</div>
+                                                    {/* } */}
                                             </div>
                                             <div className='files-list-item-content'>
                                                 <div className='files-list-item-content-item files-list-item-content-item-1'>{file.name}</div>

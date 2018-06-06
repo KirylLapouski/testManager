@@ -70,9 +70,32 @@ const updateQuestion = (questionId, title) => {
     }
 }
 
+const createTestFromFile = (topicId, file) => {
+    return dispatch => {
+        const formData = new FormData()
+        formData.append('file', file)
+
+        var xhr = new XMLHttpRequest()
+
+        xhr.open('POST', `http://localhost:3000/${topicId}/parseQuestion`, true)
+
+        xhr.onload = () => {
+            if(xhr.status===201)
+                dispatch(loadQuestion(topicId))
+            console.log(xhr.status)
+        }
+
+        // TODO: throw error?
+        xhr.onerror = (e) => {
+            throw new Error(e.message)
+        }
+        xhr.send(formData)
+    }
+}
 export {
     addQuestion,
     loadQuestion,
     deleteQuestion,
-    updateQuestion
+    updateQuestion,
+    createTestFromFile
 }

@@ -131,10 +131,10 @@ app.post('/:id/setAvatar', checkLogged, function (req, resp) {
             })
             .then(() => {
               resp.sendStatus(201)
-            },error=>{
+            }, error => {
               console.log(error)
             })
-//TODO: url name too long change max length of imgName
+          //TODO: url name too long change max length of imgName
         });
       })
 
@@ -146,8 +146,81 @@ app.post('/:id/setAvatar', checkLogged, function (req, resp) {
   });
 })
 
+function parseQuestion(question) {
+  if (question.indexOf('?') === -1)
+    throw new Error('Знак ? не найден')
+
+  var [questionTitle, answers, ...extradata] = question.split('?\r\n')
+  if (extradata.length)
+    throw new Error('Найдено несколько знаков ? в одном вопросе')
+
+  var answers = answers.split('\r\n')
+
+  return {
+    questionTitle,
+    answers
+  }
+}
+
+function saveQuestion(question, topicId, cb) {
+  var Question = app.models.Question
+
+  Question.create({
+    title: question,
+    weight: 1,
+    topicId
+  }, cb)
+}
+
+function saveAnswer(answer, questionId) {
+  var Answer = app.models.Answer
+  answer.replace(/\\r/g, '')
+  if (answer.indexOf('=') === 0) {
+    Answer.create({
+      text: answer.substring(1),
+      isRight: true,
+      questionId
+    })
+    return
+  }
+  if (answer.indexOf('~') === 0) {
+    Answer.create({
+      text: answer.substring(1),
+      isRight: false,
+      questionId
+    })
+    return
+  }
+  if (answer.length === 0)
+    return
+
+  //TODO: правописание
+  throw Error('Ни символ = ни символ ~ небыли найдены в ответе')
+}
+app.post('/:topicId/parseQuestion', function (req, resp) {
+  var dataStr = req.files.file.data.toString()
+  var questions = dataStr.split('\n\r\n')
+  questions.forEach(question => {
+
+    var {
+      questionTitle,
+      answers
+    } = parseQuestion(question)
+
+    try {
+      saveQuestion(questionTitle, req.params.topicId, (err, question) => {
+        answers.forEach((answer, i) => saveAnswer(answer, question.id))
+      })
+      //TODO: check that answers and questions saved
+    } catch (e) {
+      resp.status(400).send(e.message)
+    }
+  })
+  resp.sendStatus(201)
+})
 
 app.post('/:id/saveFile', checkLogged, function (req, resp) {
+
   //TODO: take token from req
   const API_TOKEN = 'AQAAAAAEyQZ1AAUBQNdGxaSB8EYSg32qncCS114'
 
@@ -198,6 +271,10 @@ app.post('/:id/saveFile', checkLogged, function (req, resp) {
   });
 })
 
+// app.post('/:topicId/testFromFile', (req, resp) => {
+//   console.log(req.files)
+//   resp.status(200).send()
+// })
 
 app.get('/auth/yandex/callback', function (req, res, next) {
   request.post('https://oauth.yandex.ru/token', {
