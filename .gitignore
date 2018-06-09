@@ -1,4 +1,8 @@
 
 test-manager-api/client_src/.eslintrc.yml
-.vscode/
-.vscode
+/.vscode
+npm-debug.log
+.vscode/launch.json
+.vscode/settings.json
+.vscode/settings.json
+.vscode/launch.json

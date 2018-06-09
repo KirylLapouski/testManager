@@ -95,14 +95,16 @@ for (var s in config) {
   c.session = c.session !== false;
   passportConfigurator.configureProvider(s, c);
 }
-var checkLogged = (req, resp, next) => {
-  console.log(req.cookies)
+var checkLoggedAsYandexUser = (req, resp, next) => {
+  //TODO: 
+  if(!req.cookies.yandexToken)
+    resp.status(400).send('It is not a yandex user')
   next()
 }
 
-app.post('/:id/setAvatar', checkLogged, function (req, resp) {
+app.post('/:id/setAvatar', checkLoggedAsYandexUser, function (req, resp) {
   //TODO: take token from req
-  const API_TOKEN = 'AQAAAAAEyQZ1AAUBQNdGxaSB8EYSg32qncCS114'
+  const API_TOKEN = req.cookies.yandexToken
 
   var sampleFile = req.files.imageFile
   sampleFile.mv(`./${sampleFile.name}`, function (err) {
@@ -219,7 +221,7 @@ app.post('/:topicId/parseQuestion', function (req, resp) {
   resp.sendStatus(201)
 })
 
-app.post('/:id/saveFile', checkLogged, function (req, resp) {
+app.post('/:id/saveFile', checkLoggedAsYandexUser, function (req, resp) {
 
   //TODO: take token from req
   const API_TOKEN = 'AQAAAAAEyQZ1AAUBQNdGxaSB8EYSg32qncCS114'

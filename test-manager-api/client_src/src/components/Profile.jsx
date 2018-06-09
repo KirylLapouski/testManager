@@ -19,7 +19,7 @@ class Profile extends React.Component {
             fileName: '',
             firstName: '',
             lastName: '',
-            tabsValue: 1
+            tabsValue: 0
         }
         this.onChangeHandler = this.onChangeHandler.bind(this)
         this.onSubmitHandler = this.onSubmitHandler.bind(this)
@@ -43,7 +43,11 @@ class Profile extends React.Component {
         var { userId, addUserImage } = this.props
         var sendingForm = new FormData()
         sendingForm.append('imageFile', filefield.files[0])
-        addUserImage(userId, sendingForm)
+        try {
+            addUserImage(userId, sendingForm)
+        }catch(e){
+            toastr.error(e.message)
+        }
         toastr.info('Можете продолжать работу, изменения будут приняты в ближайшее время', 'Форма отправлена')
     }
     emailValidation(email) {
@@ -142,7 +146,8 @@ class Profile extends React.Component {
             toastr.error('Допустимое время выполнения запроса истекло', 'Ошибка сервера')
         }
         if (Object.keys(user).length === 0) {
-            toastr.error('Хотя бы одно поле должно быть заполнено', 'Ошибка отправки формы')
+            if (!file)
+                toastr.error('Хотя бы одно поле должно быть заполнено', 'Ошибка отправки формы')
             return
         }
         xhr.send(JSON.stringify(user))
@@ -194,18 +199,18 @@ class Profile extends React.Component {
 
     handleChangeIndex = index => {
         this.setState({ tabsValue: index });
-      };
+    };
 
 
     render() {
 
         return <div className="row" style={{ maxWidth: '1200px', margin: '0 auto', marginTop: '10vh', color: '#37474F' }}>
-            <Tabs value={this.state.tabsValue} style={{width:'100%'}} indicatorColor="primary" textColor="primary" onChange={this.handleTabChange}>
+            <Tabs value={this.state.tabsValue} style={{ width: '100%' }} indicatorColor="primary" textColor="primary" onChange={this.handleTabChange}>
                 <Tab label="Общая информация" />
                 <Tab label="Учёба" />
             </Tabs>
-            <SwipeableViews index={this.state.tabsValue} onChangeIndex={this.handleChangeIndex} style={{width:'100%'}}>
-                <div style={{width:'100%', display:'flex',paddingBottom:'10px'}}>
+            <SwipeableViews index={this.state.tabsValue} onChangeIndex={this.handleChangeIndex} style={{ width: '100%' }}>
+                <div style={{ width: '100%', display: 'flex', paddingBottom: '10px' }}>
                     <ProfileCard />
                     <div className="col-8" style={{ textAlign: 'left' }}>
                         <div className="card" >
@@ -233,7 +238,7 @@ class Profile extends React.Component {
                                     <label htmlFor="inputGroupFile01">Фото</label><br />
                                     <div className="custom-file">
                                         <input name="imageFile" onChange={this.checkIsImage} accept="image/*" type="file" className="custom-file-input" id="inputGroupFile01" />
-                                        <label className="custom-file-label" htmlFor="inputGroupFile01" style={{ color: '#495057' }}> {this.state.fileName || 'Choose file'}</label>
+                                        <label className="custom-file-label" htmlFor="inputGroupFile01" style={{ color: '#495057' }}> {this.state.fileName.split('\\').reverse()[0] || 'Choose file'}</label>
                                     </div>
                                 </div>
                                 <button type="submit" onClick={this.onSubmitHandler} className="btn btn-primary btn-md">Принять изменения</button>

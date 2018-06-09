@@ -2,7 +2,7 @@ import constants from '../constants'
 import axios from 'axios'
 import {getUserById} from './users'
 const addCourse = (userId, title = ' ') => {
-    var id,secretWord;
+    var id,secretWord
     return dispatch => {
 
         axios.post('http://localhost:3000/api/Disciplines', {

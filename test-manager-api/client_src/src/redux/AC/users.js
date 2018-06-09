@@ -19,11 +19,23 @@ const assignloggedInUser = (userId) => {
 
 const submitQuestionResult = (userId, questionId, isRightAnswered) => {
     return dispatch => {
-        axios.post('http://localhost:3000/api/UserQuestions', {
-            isRightAnswered,
-            participantId: userId,
-            questionId
-        })
+        axios.get(`http://localhost:3000/api/UserQuestions?filter=%7B%22where%22%3A%7B%22participantId%22%3A${userId}%2C%22questionId%22%3A${questionId}%7D%7D`)
+            .then(({
+                data
+            }) => {
+                if (data.length === 0)
+                    return axios.post('http://localhost:3000/api/UserQuestions', {
+                        isRightAnswered,
+                        participantId: userId,
+                        questionId
+                    })
+                else
+                    return axios.patch(`http://localhost:3000/api/UserQuestions/${data[0].id}`, {
+                        isRightAnswered,
+                        participantId: userId,
+                        questionId
+                    })
+            })  
             .then(() => {
                 return axios.get(`http://localhost:3000/api/Participants/${userId}/questions`)
             })
@@ -43,8 +55,11 @@ const addImageToUser = (userId, form) => {
     return dispatch => {
         var xhr = new XMLHttpRequest()
         xhr.open('POST', `http://localhost:3000/${userId}/setAvatar`, true)
+        xhr.withCredentials = true
 
         xhr.onload = () => {
+            // if(xhr.status === 400)
+            //     throw new Error(xhr.response)
             xhr.open('GET', `http://localhost:3000/api/Participants/${userId}`)
             xhr.onload = (res) => {
                 dispatch({
@@ -56,6 +71,11 @@ const addImageToUser = (userId, form) => {
             }
             xhr.send()
         }
+
+        // xhr.onerror = ()=>{
+        //     console.log('1111')
+        //     throw new Error('check')
+        // }
         xhr.send(form)
     }
 }
@@ -105,10 +125,11 @@ const attachUserToCource = (userId, secretWord) => {
                 data
             }) => {
                 dispatch({
-                    type:constants.courses.CREATE_COURSE,
-                    payload:{...data[0]}
+                    type: constants.courses.CREATE_COURSE,
+                    payload: { ...data[0]
+                    }
                 })
-                return axios.post('http://localhost:3000/api/ParticipantDisciplineMappings',{
+                return axios.post('http://localhost:3000/api/ParticipantDisciplineMappings', {
                     type: 'student',
                     participantId: userId,
                     disciplineId: data[0].id
@@ -117,17 +138,23 @@ const attachUserToCource = (userId, secretWord) => {
     }
 }
 
-const untieUserFromCourse = (userId,courseId)=>{
+const untieUserFromCourse = (userId, courseId) => {
 
-    return dispatch=>{
+    return dispatch => {
         axios.get(`http://localhost:3000/api/ParticipantDisciplineMappings?filter=%7B%22where%22%3A%7B%22participantId%22%3A%22${userId}%22%2C%22disciplineId%22%3A%22${courseId}%22%7D%7D`)
-            .then(({data})=>{
+            .then(({
+                data
+            }) => {
                 return axios.delete(`http://localhost:3000/api/ParticipantDisciplineMappings/${data[0].id}`)
             })
-            .then(({data})=>{
+            .then(({
+                data
+            }) => {
                 dispatch({
                     type: constants.courses.DELETE_COURSE,
-                    payload: {courseId}
+                    payload: {
+                        courseId
+                    }
                 })
             })
     }
