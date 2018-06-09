@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 class Chart extends React.Component {
     render() {
         var {unpassWeight} = this.props
+        var labels = unpassWeight?['Правильные ответы', 'Неправильные ответы','Не отвечено']: ['Правильные ответы', 'Неправильные ответы'] 
         return <Doughnut
             options={{
                 legend: {
@@ -16,7 +17,7 @@ class Chart extends React.Component {
                 }
             }}
             data={{
-                labels: ['Правильные ответы', 'Неправильные ответы',unpassWeight? 'Не отвечено': null],
+                labels: labels,
                 datasets: [{
                     label: '% of Votes',
                     data: [this.props.rightAnswersWeight*100/(this.props.rightAnswersWeight+this.props.wrongAnswersWeight+(unpassWeight?unpassWeight:0)), this.props.wrongAnswersWeight*100/(this.props.rightAnswersWeight+this.props.wrongAnswersWeight+(unpassWeight?unpassWeight:0)), unpassWeight? unpassWeight*100/(this.props.rightAnswersWeight+this.props.wrongAnswersWeight+unpassWeight): null],
