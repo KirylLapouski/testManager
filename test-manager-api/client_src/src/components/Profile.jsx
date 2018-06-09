@@ -94,7 +94,6 @@ class Profile extends React.Component {
 
         var form = document.querySelector('form[name="userEdit"]')
         //TODO: rewrite on refs
-        //TODO: why images rotates?
         var file = form.elements.imageFile.files[0]
         if (file) {
             try {
@@ -109,7 +108,6 @@ class Profile extends React.Component {
         xhr.open('PATCH', `http://localhost:3000/api/Participants/${this.props.userId}`, true);
         xhr.setRequestHeader('Content-Type', 'application/json');
 
-        //create request body (user changes)
         var user = {};
         if (this.state.email) {
             user.email = this.state.email;
@@ -151,44 +149,6 @@ class Profile extends React.Component {
             return
         }
         xhr.send(JSON.stringify(user))
-    }
-    componentDidMount() {
-        // setTimeout(() => {
-        //     this.setState({
-        //         _id: JSON.parse(localStorage.getItem("currentUser"))._id ? JSON.parse(localStorage.getItem("currentUser"))._id : "",
-        //         firstName: JSON.parse(localStorage.getItem("currentUser")).firstName ? JSON.parse(localStorage.getItem("currentUser")).firstName : "User",
-        //         lastName: JSON.parse(localStorage.getItem("currentUser")).lastName ? JSON.parse(localStorage.getItem("currentUser")).lastName : "",
-        //         email: JSON.parse(localStorage.getItem("currentUser")).email ? JSON.parse(localStorage.getItem("currentUser")).email : "",
-        //         phoneNumber: JSON.parse(localStorage.getItem("currentUser")).phoneNumber ? JSON.parse(localStorage.getItem("currentUser")).phoneNumber : "",
-        //         city: JSON.parse(localStorage.getItem("currentUser")).city ? JSON.parse(localStorage.getItem("currentUser")).city : "",
-        //     })
-        // }, 0);
-
-        //load image there
-        // setTimeout(function () {
-        //     var xhr = new XMLHttpRequest();
-        //     xhr.open('GET', config.rootUrl + config.dbApi + '/' + JSON.parse(localStorage.getItem("currentUser"))._id + '/image', true);
-        //     xhr.responseType = "arraybuffer";
-
-        //     xhr.onload = function () {
-
-        //         if (xhr.status == 404) {
-        //             toastr.info("You do not have a photo");
-        //         } else {
-        //             var arrayBufferView = new Uint8Array(this.response);
-
-        //             var blob = new Blob([arrayBufferView], { type: this.responseType })
-        //             var urlCreator = window.URL || window.webkitURL;
-        //             var imageUrl = urlCreator.createObjectURL(blob);
-        //             var img = document.querySelector(".img-fluid");
-        //             img.src = imageUrl;
-        //         }
-
-        //     }
-
-        //     xhr.send();
-        // }, 300);
-
     }
     //TODO: rewrite on decorators
     handleTabChange = (event, value) => {
