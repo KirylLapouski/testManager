@@ -5,19 +5,24 @@ import { Link } from 'react-router-dom'
 import Grow from '@material-ui/core/Grow'
 import Divider from '@material-ui/core/Divider'
 import DeleteIcon from '@material-ui/icons/Delete'
+import OutIcon from '@material-ui/icons/PowerSettingsNew'
+import Tooltip from 'material-ui/Tooltip';
 import Button from '@material-ui/core/Button'
 import { withRouter } from 'react-router-dom'
-import {untieUserFromCourse} from '../redux/AC/users'
+import {untieUserFromCourseAndDeleteCourse,untieUserFromCourse} from '../redux/AC/users'
 import { connect } from "react-redux";
 import {getCourseOwner} from '../redux/AC/courses'
 class Course extends React.Component {
     handleOpenClick = ()=>{
         this.props.history.push(`/${this.props.id}/lessons`)
     }
-    handleUntieClick = ()=>{
-        this.props.untieFromCourse(this.props.loggedUserId)
+    handleDeleteClick = ()=>{
+        this.props.untieFromCourseOwner(this.props.loggedUserId)
     }
 
+    handleUntieClick =()=>{
+        this.props.untieFromCourse(this.props.loggedUserId)
+    }
     componentWillMount(){
         this.props.getCourseOwner(this.props.id)
     }
@@ -31,7 +36,8 @@ class Course extends React.Component {
                         <Link to={'/' + this.props.id + '/lessons'}> {this.props.title}</Link>
                     </div>
                     <Divider inset={true} style={{ marginLeft:'0px',marginTop:'290px',backgroundColor:'rgba(0,0,0,0)',  width: '100%'}} />
-                    {loggedUserId === ownerId && <Button onClick={this.handleUntieClick} style={{float:'left'}}><DeleteIcon style={{color:'white',marginTop:'5px'}}/></Button>}
+                    
+                    {loggedUserId === ownerId ? <Button onClick={this.handleDeleteClick} style={{float:'left'}}><DeleteIcon style={{color:'white',marginTop:'5px'}}/></Button>:<Button  onClick={this.handleUntieClick} style={{float:'left'}}><OutIcon style={{color:'white'}}/></Button>}
                     <Button onClick={this.handleOpenClick} style={{color:'white',float:'right',marginTop:'5px'}}>Открыть</Button>
                 </div>
             </Grow>
@@ -44,6 +50,7 @@ Course.propTypes = {
     id: PropTypes.number.isRequired,
     //redux
     untieFromCourse: PropTypes.func,
+    untieFromCourseOwner: PropTypes.func,
     getCourseOwner: PropTypes.func,
     loggedUserId: PropTypes.number,
     ownerId: PropTypes.number
@@ -57,11 +64,14 @@ const mapStateToProps = (state,ownProps)=>{
 }
 const mapDispatchToProps = (dispatch,ownProps)=>{
     return{
-        untieFromCourse(userId){
-            dispatch(untieUserFromCourse(userId,ownProps.id))
+        untieFromCourseOwner(userId){
+            dispatch(untieUserFromCourseAndDeleteCourse(userId,ownProps.id))
         },
         getCourseOwner(courseId){
             dispatch(getCourseOwner(courseId))
+        },
+        untieFromCourse(userId){
+            dispatch(untieUserFromCourse(userId,ownProps.id))
         }
     }
 }

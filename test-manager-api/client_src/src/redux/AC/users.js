@@ -35,7 +35,7 @@ const submitQuestionResult = (userId, questionId, isRightAnswered) => {
                         participantId: userId,
                         questionId
                     })
-            })  
+            })
             .then(() => {
                 return axios.get(`http://localhost:3000/api/Participants/${userId}/questions`)
             })
@@ -138,7 +138,7 @@ const attachUserToCource = (userId, secretWord) => {
     }
 }
 
-const untieUserFromCourse = (userId, courseId) => {
+const untieUserFromCourseAndDeleteCourse = (userId, courseId) => {
 
     return dispatch => {
         axios.get(`http://localhost:3000/api/ParticipantDisciplineMappings?filter=%7B%22where%22%3A%7B%22participantId%22%3A%22${userId}%22%2C%22disciplineId%22%3A%22${courseId}%22%7D%7D`)
@@ -159,13 +159,35 @@ const untieUserFromCourse = (userId, courseId) => {
             })
     }
 }
-window.assignloggedInUser = assignloggedInUser
+
+const untieUserFromCourse = (userId, courseId) => {
+
+    return dispatch => {
+        axios.get(`http://localhost:3000/api/ParticipantDisciplineMappings?filter=%7B%22where%22%3A%7B%22participantId%22%3A${userId}%2C%22disciplineId%22%3A${courseId}%7D%7D`)
+            .then(({
+                data
+            }) => {
+                if (data.length > 0) {
+                    axios.delete(`http://localhost:3000/api/ParticipantDisciplineMappings/${data[0].id}`)
+                        .then(() => {
+                            dispatch({
+                                type: constants.courses.DELETE_COURSE,
+                                payload: {
+                                    courseId
+                                }
+                            })
+                        })
+                }
+            })
+    }
+}
 export {
     assignloggedInUser,
     submitQuestionResult,
     addImageToUser,
     getUserById,
     attachUserToCource,
+    untieUserFromCourseAndDeleteCourse,
     untieUserFromCourse,
     addFileToUser
 }
