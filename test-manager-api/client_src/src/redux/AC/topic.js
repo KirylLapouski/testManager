@@ -12,7 +12,7 @@ const addTopic = (lessonId, node, title) => {
             }
         }, (err, response,body) => {
             dispatch({
-                type: constants.topics.CREATE_TOPIC,
+                type: constants.topics.ADD_TOPIC,
                 payload: {
                     ...JSON.parse(body)
                 }
@@ -29,7 +29,7 @@ const loadTopics = lessonId => {
             })
             .then(response => {
                 dispatch({
-                    type: constants.topics.LOAD_TOPICS_FOR_LESSON,
+                    type: constants.topics.ADD_TOPICS,
                     payload: response
                 })
             })
@@ -44,7 +44,7 @@ const addQuestionIdToTopic = topicID => {
             })
             .then(response => {
                 dispatch({
-                    type: constants.topics.LOAD_TOPIC_QUESTIONS,
+                    type: constants.topics.ADD_TOPIC_QUESTIONS,
                     payload: {
                         questions: response,
                         topicId: topicID

@@ -1,13 +1,9 @@
 import constants from '../constants'
-import {
-    stat
-} from 'fs'
-
 
 const courses = (state = {}, action) => {
     var constant = constants.courses
     switch (action.type) {
-    case constant.CREATE_COURSE:
+    case constant.ADD_COURSE:
         return {
             ...state,
             [action.payload.id]: {
@@ -15,7 +11,7 @@ const courses = (state = {}, action) => {
             }
         }
 
-    case constants.courses.LOAD_COURSES:
+    case constants.courses.ADD_COURSES:
 
         var newState = {...state}
 
@@ -35,7 +31,7 @@ const courses = (state = {}, action) => {
         return {
             ...newState
         }
-    case constants.courses.ADD_OWNER_TO_USER:
+    case constants.courses.ADD_OWNER_TO_COURSE:
         var newState = { ...state
         }
         var course = { ...newState[action.payload.courseId]

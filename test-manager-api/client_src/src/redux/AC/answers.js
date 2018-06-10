@@ -26,7 +26,7 @@ const loadAnswers = questionId => {
             })
             .then(response => {
                 dispatch({
-                    type: constants.answers.LOAD_ANSWERS_FOR_QUESTION,
+                    type: constants.answers.ADD_ANSWERS,
                     payload: response
                 })
             })

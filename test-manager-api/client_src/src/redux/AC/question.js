@@ -13,7 +13,7 @@ const addQuestion = (topicId, weight, title, description = ' ') => {
                 data
             }) => {
                 dispatch({
-                    type: constants.questions.CREATE_QUESTION,
+                    type: constants.questions.ADD_QUESTION,
                     payload: {
                         ...data
                     }
@@ -30,7 +30,7 @@ const loadQuestion = topicId => {
             })
             .then(response => {
                 dispatch({
-                    type: constants.questions.LOAD_QUESTIONS_FOR_TOPIC,
+                    type: constants.questions.ADD_QUESTIONS,
                     payload: response
                 })
             })

@@ -2,7 +2,7 @@ import constants from '../constants'
 
 const lessons = (state = {}, action) => {
     switch (action.type) {
-    case constants.lessons.CREATE_LESSON:
+    case constants.lessons.ADD_LESSON:
         return {
             ...state,
             [action.payload.id]: {
@@ -11,7 +11,7 @@ const lessons = (state = {}, action) => {
                 disciplineId: action.payload.disciplineId
             }
         }
-    case constants.lessons.LOAD_LESSONS_FOR_DISCIPLINE:
+    case constants.lessons.ADD_LESSONS:
         var lessons = action.payload.reduce((result, lesson) => {
             result[lesson.id] = lesson
             return result

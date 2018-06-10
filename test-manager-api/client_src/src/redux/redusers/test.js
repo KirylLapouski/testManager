@@ -3,7 +3,7 @@ import constants from '../constants'
 const tests = (state={},action)=>{
 
     switch(action.type){
-    case constants.tests.CREATE_TEST:
+    case constants.tests.ADD_TEST:
         var id = action.payload.id
         return {
             ...state,

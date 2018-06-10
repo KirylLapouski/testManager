@@ -3,7 +3,7 @@ import constants from '../constants'
 const topics = (state = {}, action) => {
 
     switch (action.type) {
-    case constants.topics.CREATE_TOPIC:
+    case constants.topics.ADD_TOPIC:
         return {
             ...state,
             [action.payload.id]: {
@@ -13,7 +13,7 @@ const topics = (state = {}, action) => {
                 lessonId: action.payload.lessonId
             }
         }
-    case constants.topics.LOAD_TOPICS_FOR_LESSON:
+    case constants.topics.ADD_TOPICS:
         var topics = action.payload.reduce((result, topic) => {
             result[topic.id] = topic
             return result
@@ -22,7 +22,7 @@ const topics = (state = {}, action) => {
             ...state,
             ...topics
         }
-    case constants.topics.LOAD_TOPIC_QUESTIONS:
+    case constants.topics.ADD_TOPIC_QUESTIONS:
         var questionsId = action.payload.questions.map(question => {
             return question.id
         })

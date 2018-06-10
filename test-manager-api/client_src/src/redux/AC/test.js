@@ -3,7 +3,7 @@ import UUID from 'uuid-js'
 
 const addTest = ()=>{
     return {
-        type: constants.tests.CREATE_TEST,
+        type: constants.tests.ADD_TEST,
         payload:{
             id: UUID.create().toString()
         }

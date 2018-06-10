@@ -9,7 +9,7 @@ const answers = (state = {}, action) => {
             [action.payload.id]: { ...action.payload
             }
         }
-    case constants.answers.LOAD_ANSWERS_FOR_QUESTION:
+    case constants.answers.ADD_ANSWERS:
         var answers = action.payload.reduce((result, answer) => {
             result[answer.id] = answer
             return result

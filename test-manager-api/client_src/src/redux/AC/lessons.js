@@ -17,7 +17,7 @@ const addLesson = (title, disciplineId, desc) => {
             })
             .then(response => {
                 dispatch({
-                    type: constants.lessons.CREATE_LESSON,
+                    type: constants.lessons.ADD_LESSON,
                     payload: {
                         id: UUID.create().toString(),
                         title: title,
@@ -72,13 +72,13 @@ const editLesson = (lessonId,title,desctiption) =>{
 }
 const loadLessons = (courseId) => {
     return dispatch => {
-        axios.get('http://localhost:3000/api/Disciplines/' + courseId + '/lessons')
+        axios.get(`http://localhost:3000/api/Disciplines/${courseId}/lessons`)
             .then(response => {
                 return response.data
             })
             .then(response => {
                 dispatch({
-                    type: constants.lessons.LOAD_LESSONS_FOR_DISCIPLINE,
+                    type: constants.lessons.ADD_LESSONS,
                     payload: response
                 })
             })
@@ -86,7 +86,6 @@ const loadLessons = (courseId) => {
 }
 
 
-window.editLesson = editLesson
 export {
     addLesson,
     loadLessons,

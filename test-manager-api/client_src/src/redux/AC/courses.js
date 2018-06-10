@@ -22,7 +22,7 @@ const addCourse = (userId, title = ' ') => {
             })
             .then(() => {
                 dispatch({
-                    type: constants.courses.CREATE_COURSE,
+                    type: constants.courses.ADD_COURSE,
                     payload: {
                         id,
                         title,
@@ -43,7 +43,7 @@ const loadCourses = () => {
             })
             .then(response => {
                 dispatch({
-                    type: constants.courses.LOAD_COURSES,
+                    type: constants.courses.ADD_COURSES,
                     payload: response
                 })
             })
@@ -56,7 +56,7 @@ const loadCoursesForUser = userId => {
             .then(({data}) => {
 
                 dispatch({
-                    type: constants.courses.LOAD_COURSES,
+                    type: constants.courses.ADD_COURSES,
                     payload: data
                 })
             })
@@ -71,7 +71,7 @@ const getCourseOwner = courseId => {
             }) => {
                 if (data[0]) {
                     dispatch({
-                        type: constants.courses.ADD_OWNER_TO_USER,
+                        type: constants.courses.ADD_OWNER_TO_COURSE,
                         payload: {
                             courseId,
                             ownerId: data[0].participantId

@@ -9,7 +9,7 @@ const assignloggedInUser = (userId) => {
                 data
             }) => {
                 dispatch({
-                    type: constants.users.LOGGED_IN_USER,
+                    type: constants.users.ADD_LOGGED_IN_USER,
                     payload: { ...data
                     }
                 })
@@ -63,7 +63,7 @@ const addImageToUser = (userId, form) => {
             xhr.open('GET', `http://localhost:3000/api/Participants/${userId}`)
             xhr.onload = (res) => {
                 dispatch({
-                    type: constants.users.ADD_IMAGE_TO_USER,
+                    type: constants.users.ADD_LOGGED_IN_USER,
                     payload: {
                         ...JSON.parse(res.currentTarget.response)
                     }
@@ -91,7 +91,7 @@ const addFileToUser = (userId, form) => {
             // xhr.open('GET', `http://localhost:3000/api/Participants/${userId}`)
             // xhr.onload = (res) => {
             //     dispatch({
-            //         type: constants.users.ADD_IMAGE_TO_USER,
+            //         type: constants.users.ADD_LOGGED_IN_USER,
             //         payload: {
             //             ...JSON.parse(res.currentTarget.response)
             //         }
@@ -109,7 +109,7 @@ const getUserById = userId => {
                 data
             }) => {
                 dispatch({
-                    type: constants.users.GET_USER,
+                    type: constants.users.ADD_USER,
                     payload: { ...data
                     }
                 })
@@ -125,7 +125,7 @@ const attachUserToCource = (userId, secretWord) => {
                 data
             }) => {
                 dispatch({
-                    type: constants.courses.CREATE_COURSE,
+                    type: constants.courses.ADD_COURSE,
                     payload: { ...data[0]
                     }
                 })
