@@ -101,7 +101,7 @@ class SignUp extends React.Component {
                                 <br />
 
                                 <label htmlFor="defaultFormRegisterCheckLogin" className="grey-text">Логин</label>
-                                <input onChange={this.onChangeHandler} type="text" id="defaultFormRegisterCheckLogin" name="userName" placeholder="" className="form-control" />
+                                <input onChange={this.onChangeHandler} type="text" id="defaultFormRegisterCheckLogin" name="userName" placeholder="User123" className="form-control" />
 
                                 <br />
 

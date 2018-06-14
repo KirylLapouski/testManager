@@ -1,102 +1,44 @@
 import React from 'react'
-import axios from 'axios'
 import Paginator from './Paginator'
 import Topic from './Topic'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { loadTopics } from '../redux/AC/topic'
-import { Link } from 'react-router-dom'
 import EditButton from './EditButton'
-import { withRouter } from 'react-router-dom'
+//TODO: can rewrite on function
 class TopicContainer extends React.Component {
-    constructor(props) {
-        super(props)
-
-        this.state = {
-            currenTopicId: this.props.match.params.topicId ? this.props.match.params.topicId : 1,
-            rightAnswersWeight: 0,
-            allAnswersWeight: 0,
-            readOnly: true
-        }
-
-        this.handlePaginatorClick = this.handlePaginatorClick.bind(this)
-    }
-
-    handleTopicBeginEditClick = () => {
-        this.setState({
-            readOnly: false
-        })
-    }
-
-    handleTopicEndEditClick = () => {
-        this.setState({
-            readOnly: true
-        })
-    }
-
-    handlePaginatorClick(i) {
-        this.setState({
-            currenTopicId: this.props.topics[i - 1].id
-        })
-        //TODO: right redirect?
-        this.props.history.push(`/lesson/${this.props.match.params.lessonId}/topic/${this.props.topics[i - 1].id}`)
-    }
-
-    componentWillMount() {
-        this.props.getTopics(this.props.match.params.lessonId)
-    }
-
     render() {
         var {loggedUserId,userOwnerId} =this.props
         var paginatorSerialNumber
         if ((JSON.stringify(this.props.topics) !== '[]')) {
             for (var i = 0; i < this.props.topics.length; i++) {
-                if (Number(this.state.currenTopicId) === this.props.topics[i].id) {
+                if (Number(this.props.currenTopicId) === this.props.topics[i].id) {
                     var topic = this.props.topics[i]
                     paginatorSerialNumber = i + 1
                 }
             }
-            var elem = <Topic key={this.props.match.params.topicId} readOnly={this.state.readOnly} path={topic.path} id={topic.id} />
+            var elem = <Topic key={this.props.match.params.topicId} readOnly={this.props.readOnly} path={topic.path} id={topic.id} />
         }
         return (<div>
-            {this.props.topics.length && <Paginator initCurrentPos={paginatorSerialNumber || null} length={this.props.topics.length} onClick={this.handlePaginatorClick} />}
+            {this.props.topics.length && <Paginator initCurrentPos={paginatorSerialNumber || null} length={this.props.topics.length} onClick={this.props.handlePaginatorClick} />}
             {elem}
-            {loggedUserId === userOwnerId && <EditButton onTopicEditClick={this.state.readOnly ? this.handleTopicBeginEditClick : this.handleTopicEndEditClick} />}
+            {loggedUserId === userOwnerId && <EditButton onTopicEditClick={this.props.readOnly ? this.props.handleTopicBeginEditClick : this.props.handleTopicEndEditClick} />}
         </div>
         )
     }
 }
 
 TopicContainer.propTypes = {
-    //redux
     topics: PropTypes.arrayOf({
         id: PropTypes.number,
         path: PropTypes.string,
     }),
-    getTopics: PropTypes.func,
     loggedUserId: PropTypes.number,
-    userOwnerId: PropTypes.number
+    userOwnerId: PropTypes.number,
+    currenTopicId: PropTypes.number,
+    rightAnswersWeight: PropTypes.number,
+    allAnswersWeight: PropTypes.number,
+    readOnly: PropTypes.bool,
+    handlePaginatorClick: PropTypes.func,
+    handleTopicEndEditClick: PropTypes.func,
+    handleTopicBeginEditClick: PropTypes.func
 }
-
-const mapStateToProps = (state, ownProps) => {
-    var res = []
-    for (var key in state.topics) {
-        if (Number(ownProps.match.params.lessonId) === state.topics[key].lessonId) {
-            res.push(state.topics[key])
-        }
-    }
-    return {
-        topics: res,
-        loggedUserId: state.users.loggedIn && state.users.loggedIn.id,
-        userOwnerId: state.courses[state.lessons[ownProps.match.params.lessonId].disciplineId].ownerId
-    }
-}
-
-const mapDispatchToProps = dispatch => {
-    return {
-        getTopics(lessonID) {
-            dispatch(loadTopics(lessonID))
-        }
-    }
-}
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(TopicContainer))
+export default TopicContainer

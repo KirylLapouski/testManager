@@ -92,13 +92,16 @@ class Test extends React.Component {
     handleSubmit = ()=>{
         if(this.state.questionTitle)  {  
             this.props.updateQuestion(this.props.question.id,this.state.questionTitle)
+            //TODO: check if updated
             toastr.success('Текст вопроса успешно обновлен','Вопрос обновлен')
+            this.endEdit()
         }
 
         if(this.state.selectedRadio.some(value=>value)){
             this.state.selectedRadio.map((value,i)=>{
-                console.log(this.props.answers[i].id, this.state.answersTitle[i],this.state.selectedRadio[i])
                 this.props.updateAnswer(this.props.answers[i].id, this.state.answersTitle[i],this.state.selectedRadio[i])
+                toastr.success('Текст вопроса успешно обновлен','Вопрос обновлен')
+                this.endEdit()
             })
         }
     }
