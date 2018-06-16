@@ -10,7 +10,8 @@ const constants = {
         ADD_COURSE:'ADD_COURSE',
         DELETE_COURSE:'DELETE_COURSE',
         ADD_COURSES:'ADD_COURSES',
-        ADD_OWNER_TO_COURSE: 'ADD_OWNER_TO_COURSE'
+        ADD_OWNER_TO_COURSE: 'ADD_OWNER_TO_COURSE',
+        UPDATE_COURSE:'UPDATE_COURSE'
     },
     lessons:{
         ADD_LESSON:'ADD_LESSON',

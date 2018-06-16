@@ -1,13 +1,15 @@
 import constants from '../constants'
 import axios from 'axios'
-import {getUserById} from './users'
+import {
+    getUserById
+} from './users'
 const addCourse = (userId, title = ' ') => {
-    var id,secretWord
+    var id, secretWord
     return dispatch => {
 
         axios.post('http://localhost:3000/api/Disciplines', {
-            title
-        })
+                title
+            })
             .then(({
                 data
             }) => {
@@ -53,7 +55,9 @@ const loadCourses = () => {
 const loadCoursesForUser = userId => {
     return (dispatch) => {
         axios.get(`http://localhost:3000/api/Participants/${userId}/disciplines`)
-            .then(({data}) => {
+            .then(({
+                data
+            }) => {
 
                 dispatch({
                     type: constants.courses.ADD_COURSES,
@@ -83,9 +87,26 @@ const getCourseOwner = courseId => {
     }
 }
 
+const updateCourse = (id, course) => {
+    //TODO: error handling
+    return dispatch => {
+        axios.patch(`http://localhost:3000/api/Disciplines/${id}`, course)
+            .then(({
+                data
+            }) => {
+                dispatch({
+                    type: constants.courses.UPDATE_COURSE,
+                    payload: {
+                        ...data
+                    }
+                })
+            })
+    }
+}
 export {
     addCourse,
     loadCourses,
     loadCoursesForUser,
-    getCourseOwner
+    getCourseOwner,
+    updateCourse
 }

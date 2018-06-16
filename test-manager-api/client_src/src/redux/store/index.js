@@ -13,8 +13,8 @@ import questions from '../redusers/questions'
 import answers from '../redusers/answers'
 import thunk from 'redux-thunk'
 import persistState from 'redux-localstorage'
-
-const enhancer = compose(applyMiddleware(thunk),persistState())
+import logger from 'redux-logger'
+const enhancer = compose(applyMiddleware(thunk,logger),persistState())
 
 const store = createStore(combineReducers({
     courses,
