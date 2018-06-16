@@ -4,8 +4,7 @@ const constants = {
         CREATE_USER:'CREATE_USER',
         ADD_USER:'ADD_USER',
         ADD_LOGGED_IN_USER:'ADD_LOGGED_IN_USER',
-        SUBMIT_RESULT_OF_QUESTION:'SUBMIT_RESULT_OF_QUESTION',
-        ADD_LOGGED_IN_USER:'ADD_LOGGED_IN_USER'
+        SUBMIT_RESULT_OF_QUESTION:'SUBMIT_RESULT_OF_QUESTION'
     },
     courses:{
         ADD_COURSE:'ADD_COURSE',
@@ -27,7 +26,6 @@ const constants = {
     },
     tests:{
         ADD_TEST:'ADD_TEST',
-        //TODO: delete test
         ADD_QUESTION_TO_TEST:'ADD_QUESTION_TO_TEST'
     },
     questions:{
