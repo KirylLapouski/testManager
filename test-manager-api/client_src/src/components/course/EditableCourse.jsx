@@ -12,7 +12,7 @@ class EditableCourse extends React.Component {
     render() {
         var {loggedUserId,ownerUser,course} = this.props
         return <div>
-            <CourseHeader secretWord={loggedUserId === ownerUser.id && course.secretWord} backgroundSrc='https://lh6.googleusercontent.com/-691E4HHlPjM/VN0ohuHpXiI/AAAAAAAAASM/OsvrdNM5yZw/w984-h209-no/06_bubbles.jpg' name={this.props.course.title} teacherName={this.props.ownerUser && this.props.ownerUser.firstName} teacherLastName={this.props.ownerUser && this.props.ownerUser.secondName}>
+            <CourseHeader secretWord={loggedUserId === ownerUser.id && course.secretWord} backgroundSrc='https://lh6.googleusercontent.com/-691E4HHlPjM/VN0ohuHpXiI/AAAAAAAAASM/OsvrdNM5yZw/w984-h209-no/06_bubbles.jpg' updateCourse={this.props.updateCourse.bind(null,this.props.course.id)} name={this.props.course.title} teacherName={this.props.ownerUser && this.props.ownerUser.firstName} teacherLastName={this.props.ownerUser && this.props.ownerUser.secondName}>
                 <UserInfo disabled={true} userId={this.props.ownerUser && this.props.ownerUser.id}/>
             </CourseHeader>
 
@@ -32,6 +32,7 @@ EditableCourse.propTypes = {
         secondName: PropTypes.string
     }),
     course: PropTypes.shape({
+        id: PropTypes.number,
         title: PropTypes.string,
         firstName: PropTypes.string,
         secondName: PropTypes.string,
@@ -40,6 +41,7 @@ EditableCourse.propTypes = {
     loggedUserId: PropTypes.number,
     modalOpened: PropTypes.bool,
     toggleModal: PropTypes.func,
-    handleModalClose: PropTypes.func
+    handleModalClose: PropTypes.func,
+    updateCourse: PropTypes.func
 }
 export default EditableCourse

@@ -13,6 +13,10 @@
     "secretWord": {
       "type": "string",
       "required": false
+    },
+    "backgroundUrl":{
+      "type":"string",
+      "required":false
     }
   },
   "validations": [],

@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import EditableCourse from './EditableCourse'
-import {getCourseOwner} from '../../redux/AC/courses'
+import {getCourseOwner, updateCourse} from '../../redux/AC/courses'
 import {withRouter} from 'react-router-dom'
 import PropTypes from "prop-types";
 class SingleCourseContainer extends React.Component{
@@ -50,6 +50,9 @@ const mapDispatchToProps = (dispatch,ownProps)=>{
     return{
         getCourseOwner(courseId){
             dispatch(getCourseOwner(courseId))
+        },
+        updateCourse(courseId, course){
+            dispatch(updateCourse(courseId, course))
         }
     }
 }
@@ -67,7 +70,8 @@ SingleCourseContainer.propTypes = {
         secretWord: PropTypes.string
     }),
     loggedUserId: PropTypes.number,
-    getCourseOwner: PropTypes.func
+    getCourseOwner: PropTypes.func,
+    updateCourse: PropTypes.func
 
 }
 export default withRouter(connect(mapStateToProps,mapDispatchToProps)(SingleCourseContainer))
