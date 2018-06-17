@@ -7,7 +7,7 @@ import Files from 'react-files'
 import toastr from "toastr";
 import { connect } from "react-redux";
 import { createTestFromFile } from '../../redux/AC/question'
-//TODO: add first lesson 
+//TODO: add first lesson
 class LoadTestModal extends React.Component {
     state = {
         files: []
@@ -69,7 +69,7 @@ class LoadTestModal extends React.Component {
                     или<br />
                     Выберите файл на компьютере
                     </Files>
-                <Button onClick={this.filesRemoveAll}>Remove All Files</Button>
+                <Button onClick={this.filesRemoveAll}>Удалить все файлы</Button>
                 {this.state.files.length > 0
                     ? <div style={{ minHeight: '215px', maxHeight: '215px', display: 'flex', overflow: 'scroll' }} className='files-list'>
                         <ul style={{ listStyle: 'none', width: '700px', display: 'flex', flexDirection: 'column', textAlign: 'center', minHeight: '215px', maxHeight: '215px' }}>{this.state.files.map((file) =>

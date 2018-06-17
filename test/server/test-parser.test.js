@@ -1,5 +1,5 @@
 var assert = require('assert')
-var parseTest = require('../test-parser')
+var parseTest = require('../../server/test-parser')
 describe('Test parser', function () {
     it('should return new question in JSON', function () {
 

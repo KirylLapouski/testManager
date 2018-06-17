@@ -42,7 +42,7 @@ class TestContainerStatefull extends React.Component {
     handleSubmitNewQuestionForm = (e) => {
         e.preventDefault()
 
-        var { title, description, weight } = this.props
+        var { title, description, weight } = this.state
         this.props.addQuestion(this.props.match.params.topicId, weight, title, description)
     }
 
@@ -51,12 +51,12 @@ class TestContainerStatefull extends React.Component {
     }
 
     render() {
-        return <TestContainer 
-                    handleChange={this.handleChange} 
-                    openModal={this.openModal} 
-                    closeModal={this.closeModal} 
-                    handleSubmitNewQuestionForm={this.handleSubmitNewQuestionForm} 
-                    {...this.props} 
+        return <TestContainer
+                    handleChange={this.handleChange}
+                    openModal={this.openModal}
+                    closeModal={this.closeModal}
+                    handleSubmitNewQuestionForm={this.handleSubmitNewQuestionForm}
+                    {...this.props}
                     {...this.state} />
     }
 }

@@ -1,5 +1,6 @@
 function parseTest(questions) {
-    return questions.split('\n\n').map(question => {
+    var q = questions.replace(/\r/g,'')
+    return q.split('\n\n').map(question => {
         var {
             questionTitle,
             answers

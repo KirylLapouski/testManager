@@ -2,6 +2,7 @@ import constants from '../constants'
 import axios from 'axios'
 import toastr from 'toastr'
 const addQuestion = (topicId, weight, title, description = ' ') => {
+    console.log(topicId, weight,title)
     return dispatch => {
 
         axios.post('http://localhost:3000/api/Questions', {
@@ -86,7 +87,7 @@ const createTestFromFile = (topicId, file) => {
             if (xhr.status === 400) {
                 return toastr.error('Ошибка при создании теста из файла',xhr.responseText)
             }
-            
+
         }
         xhr.send(formData)
     }
