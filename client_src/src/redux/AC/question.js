@@ -1,5 +1,6 @@
 import constants from '../constants'
 import axios from 'axios'
+import toastr from 'toastr'
 const addQuestion = (topicId, weight, title, description = ' ') => {
     return dispatch => {
 
@@ -80,14 +81,12 @@ const createTestFromFile = (topicId, file) => {
         xhr.open('POST', `http://localhost:3000/${topicId}/parseQuestion`, true)
 
         xhr.onload = () => {
-            if(xhr.status===201)
+            if (xhr.status === 201)
                 dispatch(loadQuestion(topicId))
-            console.log(xhr.status)
-        }
-
-        // TODO: throw error?
-        xhr.onerror = (e) => {
-            throw new Error(e.message)
+            if (xhr.status === 400) {
+                return toastr.error('Ошибка при создании теста из файла',xhr.responseText)
+            }
+            
         }
         xhr.send(formData)
     }

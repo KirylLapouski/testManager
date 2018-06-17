@@ -1,6 +1,5 @@
 import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
-import axios from 'axios';
 import PropTypes from 'prop-types';
 import Question from './Question';
 import { connect } from 'react-redux';
@@ -82,7 +81,7 @@ class Test extends React.Component {
         this.setState({
             collapse: false,
             displayChart: true
-        }); 
+        });
     }
     handleChartClose= ()=>{
         this.setState({

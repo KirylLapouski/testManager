@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
 import SwipeableViews from 'react-swipeable-views'
+//TODO: rewrite on function
 class Profile extends React.Component {
 
 

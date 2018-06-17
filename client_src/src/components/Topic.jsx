@@ -1,7 +1,6 @@
 import React from 'react'
 import Test from './Test'
 import PropTypes from 'prop-types'
-import axios from 'axios'
 import { connect } from 'react-redux'
 import { addQuestionIdToTopic } from '../redux/AC/topic'
 import MyEditor from './slateJs/index'
@@ -10,7 +9,7 @@ class Topic extends React.Component {
     componentWillMount() {
         this.props.getTopicQuestion(this.props.id)
     }
-  
+
     render() {
         return <div style={{ color: 'black', width: '80%', margin: '30px auto' }}>
             {/* {(this.props.type === 'video' || this.props.type === 'audio') && <Media src={this.props.path} />} */}
@@ -42,4 +41,4 @@ const mapDispatchToProps = dispatch => {
         }
     }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(Topic)   
+export default connect(mapStateToProps, mapDispatchToProps)(Topic)

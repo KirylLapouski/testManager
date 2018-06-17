@@ -8,7 +8,8 @@
   "scripts": {
     "lint": "eslint .",
     "start": "node .",
-    "posttest": "npm run lint && nsp check"
+    "posttest": "npm run lint && nsp check",
+    "test": "mocha *.test.js"
   },
   "dependencies": {
     "axios": "^0.18.0",
@@ -23,6 +24,7 @@
     "express-fileupload": "^0.4.0",
     "express-flash": "0.0.2",
     "express-session": "^1.15.6",
+    "form-data": "^2.3.2",
     "helmet": "^3.12.1",
     "jade": "^1.11.0",
     "loopback": "^3.19.2",
@@ -42,9 +44,12 @@
     "ya-disk": "^1.2.1"
   },
   "devDependencies": {
+    "@ljharb/eslint-config": "^12.2.1",
     "eslint": "^3.17.1",
     "eslint-config-loopback": "^8.0.0",
     "eslint-plugin-react": "^7.9.1",
+    "express-list-endpoints": "^3.0.1",
+    "mocha": "^5.2.0",
     "nsp": "^2.1.0"
   },
   "repository": {
