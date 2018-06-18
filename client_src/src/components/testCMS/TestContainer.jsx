@@ -33,7 +33,7 @@ class TestContainer extends React.Component {
                         <Flag style={{ color: '#ff7961', width: '20px', height: '20px' }} />
                     </div>
                     <div style={{ width: '60%', display: 'flex', alignItems: 'center', marginTop: '10px' }}>
-                        <TextField label="Вес вопроса" inputProps={{ min: '0', max: '1000' }} style={{ width: '90%' }} value={this.props.age} onChange={this.props.handleChange('weight')} type="number" />
+                        <TextField label="Вес вопроса" inputProps={{ min: '0', max: '1000' }} style={{ width: '90%' }} value={this.props.weight} onChange={this.props.handleChange('weight')} type="number" />
                         <Flag style={{ color: '#ff7961', width: '20px', height: '20px' }} />
                     </div>
                     <TextField label="Пояснение к вопросу" multiline rowsMax="4" value={this.props.description} onChange={this.props.handleChange('description')} style={{ width: '100%' }} />

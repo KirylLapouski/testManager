@@ -129,7 +129,8 @@ class Test extends React.Component {
         var answersText = this.getAnswersNessecaryInfo()
         var answers = this.getAnswers(answersText, editing)
         if (editing) {
-            return <div className="mx-auto z-depth-1-half container" style={{ borderLeft: '3px solid indigo', color: '#263238', display: 'flex', flexDirection: 'column', paddingTop: '20px', paddingRight: '20px', paddingLeft: '20px' }} >
+            return <div className="mx-auto z-depth-1-half container" style={{ borderLeft: '3px solid indigo', color: '#263238', display: 'flex', flexDirection: 'column', paddingRight: '20px', paddingLeft: '20px' }} >
+                <div style={{ background: 'rgba(0,0,0,0.1)', overflow: 'hidden' }}><h3>{this.props.question.title}</h3></div>
                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                     <TextField label="Вопрос" onChange={this.onChange('questionTitle')} style={{ marginLeft: '27px', width: '50%' }} />
                     <TypeOfAnswerSelect style={{ width: '300px', marginRight: '25px' }} />

@@ -20,8 +20,10 @@ class TestContainerStatefull extends React.Component {
     }
     handleChange = name => event => {
         //TODO: toastr there or in presented comp?
-        if (name == 'weight' && (event.target.value == 1000 || event.target.value == 0))
-            toastr.warning('Вес вопроса должен находится в интервале от 0 до 1000')
+        if (name == 'weight' && (event.target.value == 1000 || event.target.value == 0)){
+            toastr.warning('Вес вопроса должен находится в интервале от 1 до 1000')
+            return
+        }
         this.setState({
             [name]: event.target.value,
         });
@@ -43,6 +45,10 @@ class TestContainerStatefull extends React.Component {
         e.preventDefault()
 
         var { title, description, weight } = this.state
+        if(weight <1 || weight>1000){
+            toastr.error('Вес вопроса должен находится в интервале от 1 до 1000')
+            return
+        }
         this.props.addQuestion(this.props.match.params.topicId, weight, title, description)
     }
 
