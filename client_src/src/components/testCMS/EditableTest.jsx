@@ -1,19 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { RadioGroup as RadioButtonGroup } from 'material-ui/Radio'
-import IconButton from 'material-ui/IconButton'
 import Answer from '../Answer'
 import TextField from 'material-ui/TextField'
 import Divider from 'material-ui/Divider'
-import Switch from 'material-ui/Switch'
 import Button from '@material-ui/core/Button'
 import { FormGroup, FormControlLabel } from 'material-ui/Form'
 import TypeOfAnswerSelect from './TypeOfAnswerSelect'
 import { connect } from 'react-redux'
-import { loadAnswers, addAnswer,updateAnswer } from '../../redux/AC/answers'
-import { deleteQuestion,updateQuestion  } from '../../redux/AC/question'
+import { loadAnswers, addAnswer, updateAnswer } from '../../redux/AC/answers'
+import { deleteQuestion, updateQuestion } from '../../redux/AC/question'
 import DeleteIcon from '@material-ui/icons/Delete'
-import { relative } from 'path'
 import toastr from 'toastr'
 //TODO: refactor test cms
 class Test extends React.Component {
@@ -21,8 +17,8 @@ class Test extends React.Component {
         super(props)
 
         this.state = {
-            selectedRadio: [],
-            answersTitle:[],
+            isRadiosSelected: [],
+            answersTitle: [],
             questionTitle: ''
         }
         this.getAnswers = this.getAnswers.bind(this)
@@ -32,55 +28,60 @@ class Test extends React.Component {
     componentWillMount() {
         this.props.getAnswers(this.props.question.id)
     }
-    handleClickRadio  = (number,e) =>{
+
+    handleClickRadio = (number, e) => {
         var checked = e.target.checked
         this.setState((prevState) => {
-            var newSelectedRadio = [...prevState.selectedRadio]
-            newSelectedRadio[number] = checked  
+            var newisRadiosSelected = [...prevState.isRadiosSelected]
+            newisRadiosSelected[number] = checked
             return {
-                selectedRadio: newSelectedRadio
+                isRadiosSelected: newisRadiosSelected
             }
         })
     }
 
-    handleAnswerTitleChange = (number)=>(e)=>{
+    handleAnswerTitleChange = (number) => (e) => {
         var value = e.target.value
         this.setState((prevState) => {
             var newAnswersTitle = [...prevState.answersTitle]
-            newAnswersTitle[number] = value  
+            newAnswersTitle[number] = value
             return {
                 answersTitle: newAnswersTitle
             }
         })
     }
+
     getAnswersNessecaryInfo = () => {
         return this.props.answers.map(answer => {
             return { text: answer.text, id: answer.id }
         })
     }
 
-    componentWillReceiveProps(newProps){
-        if(!this.state.answersTitle.length)
+    componentWillReceiveProps(newProps) {
+        if (!this.state.answersTitle.length)
             this.setState({
-                answersTitle: newProps.answers.map(value=>value.text)
+                answersTitle: newProps.answers.map(value => value.text)
             })
-        if(!this.state.selectedRadio.length)
+        if (!this.state.isRadiosSelected.length)
             this.setState({
-                selectedRadio: newProps.answers.map(value=> value.isRight)
+                isRadiosSelected: newProps.answers.map(value => value.isRight)
             })
     }
+
     getAnswers(ansersText, editable = false) {
         return ansersText.map((answer, i) => {
-            return <Answer key={i} editable={editable} onChange={editable ?this.handleAnswerTitleChange(i):null} typeOfAnswer={this.props.testType} onClick={editable ? this.handleClickRadio.bind(this, i) : null} checked={this.state.selectedRadio[i]} text={this.state.answersTitle[i]} id={answer.id} serialNumber={editable && i + 1} />
+            return <Answer key={i} editable={editable} onChange={editable ? this.handleAnswerTitleChange(i) : null} typeOfAnswer={this.props.testType} onClick={editable ? this.handleClickRadio.bind(this, i) : null} checked={this.state.isRadiosSelected[i]} text={this.state.answersTitle[i]} id={answer.id} serialNumber={editable && i + 1} />
         })
     }
 
     deleteQuestionHandler = () => {
         this.props.deleteQuestion(this.props.question.id)
     }
+
     begginEdit = () => {
         this.props.toggleOpenItem(this.props.question.id)
     }
+
     endEdit = () => {
         this.props.toggleOpenItem(-1)
     }
@@ -89,26 +90,37 @@ class Test extends React.Component {
         this.props.addAnswer()
     }
 
-    handleSubmit = ()=>{
-        if(this.state.questionTitle)  {  
-            this.props.updateQuestion(this.props.question.id,this.state.questionTitle)
-            //TODO: check if updated
-            toastr.success('Текст вопроса успешно обновлен','Вопрос обновлен')
-            this.endEdit()
+    handleSubmit = () => {
+        if(!this.state.answersTitle.every(value => value.trim())){
+            toastr.error('Все варианты ответов должны быть заполнены')
+            return
         }
 
-        if(this.state.selectedRadio.some(value=>value)){
-            this.state.selectedRadio.map((value,i)=>{
-                this.props.updateAnswer(this.props.answers[i].id, this.state.answersTitle[i],this.state.selectedRadio[i])
-                toastr.success('Текст вопроса успешно обновлен','Вопрос обновлен')
-                this.endEdit()
+        if (!this.state.isRadiosSelected.some(value => value)) {
+            toastr.error('Надо отметить хотя бы один ответ как правильный')
+            return
+        }else {
+            toastr.success('Текст ответов сохранён', 'Вопрос обновлен')
+
+            this.state.isRadiosSelected.map((value, i) => {
+                this.props.updateAnswer(this.props.answers[i].id, this.state.answersTitle[i], this.state.isRadiosSelected[i])
             })
+
         }
+
+        if (this.state.questionTitle) {
+            this.props.updateQuestion(this.props.question.id, this.state.questionTitle)
+            //TODO: check if updated
+            toastr.success('Текст вопроса успешно обновлен', 'Вопрос обновлен')
+
+        }
+
+        this.endEdit()
     }
 
-    onChange= (name)=> (e)=>{
+    onChange = (name) => (e) => {
         this.setState({
-            [name]:e.target.value
+            [name]: e.target.value
         })
     }
 
@@ -185,11 +197,11 @@ const mapDispatchtToProps = (dispatch, ownProps) => {
         deleteQuestion(questionId) {
             dispatch(deleteQuestion(questionId))
         },
-        updateQuestion(questionId,title){
-            dispatch(updateQuestion(questionId,title))
+        updateQuestion(questionId, title) {
+            dispatch(updateQuestion(questionId, title))
         },
-        updateAnswer(answerId,text,isRight){
-            dispatch(updateAnswer(answerId,text,isRight))
+        updateAnswer(answerId, text, isRight) {
+            dispatch(updateAnswer(answerId, text, isRight))
         }
     }
 }
