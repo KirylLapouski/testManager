@@ -11,8 +11,10 @@ class CourseHeader extends React.Component {
             <div style={{ backgroundColor: 'rgba(0,0,0,0.3)', backgroundSize: '100%', height: '100%', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
                 <h1>{name}</h1>
                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '20px' }}>{children}{`${teacherName || ' '} ${teacherLastName || ' '}`}</div>
-                {secretWord && <p style={{marginTop:'20px'}}>Код курса: {secretWord}<Button onClick={this.handleBackgroundClickChange}>Изменить фон курса</Button></p>}
-                
+                {secretWord && <p style={{marginTop:'20px'}}>Код курса: {secretWord}
+                {/* <Button onClick={this.handleBackgroundClickChange}>Изменить фон курса</Button> */}
+                </p>}
+
             </div>
         </div>
     }

@@ -1,17 +1,20 @@
 import constants from '../constants'
-import UUID from 'uuid-js'
 import axios from 'axios'
 //TODO: ОБРАБОТКА ОШИБОК В REACT THUNK????
 const addLesson = (title, disciplineId, desc) => {
     return dispatch => {
+        var id
         axios.post('http://localhost:3000/api/Lessons/', {
             title,
             disciplineId,
             desc
         })
             .then(response => {
-                if (response.status === 200)
+                if (response.status === 200){
+                    console.log(response)
+                    id = response.data.id
                     return
+                }
                 else
                     throw new Error()
             })
@@ -19,7 +22,7 @@ const addLesson = (title, disciplineId, desc) => {
                 dispatch({
                     type: constants.lessons.ADD_LESSON,
                     payload: {
-                        id: UUID.create().toString(),
+                        id,
                         title: title,
                         disciplineId: Number(disciplineId)
                     }
