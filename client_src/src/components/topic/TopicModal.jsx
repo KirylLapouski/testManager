@@ -14,7 +14,7 @@ import { connect } from 'react-redux'
 import toastr from 'toastr'
 import isUrl from 'is-url'
 import url from 'url'
-var initVideo = '<div style=\"text-align:center;margin: 0 auto\">\n<iframe width=\"1100\" height=\"600\"  src=\"|https://www.youtube.com/embed/ioC2wj4CKss\|" frameBorder=\"0\"></iframe>\n</div>\n'
+var initVideo = '<div style=\"text-align:center;margin: 0 auto\">\n<iframe width=\"100%\" height=\"600\" style=\"margin: 0 auto\" src=\"|https://www.youtube.com/embed/ioC2wj4CKss\|" frameBorder=\"0\"></iframe>\n</div>\n'
 const modalStyles = { width: '840px', height: '320px', color: 'black', padding: 20, boxShadow: 'inset 0px 0px 5px rgba(154, 147, 140, 0.5)', display: 'flex', justifyContent: 'center', alignItems: 'center', textAlign: 'center' };
 
 class TopicModal extends React.Component {
@@ -55,7 +55,7 @@ class TopicModal extends React.Component {
             return
         }
 
-        
+
         var { userId, addFileToUser } = this.props
         var sendingForm = new FormData()
         sendingForm.append('file', this.state.file)
