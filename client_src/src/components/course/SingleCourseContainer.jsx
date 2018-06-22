@@ -9,13 +9,21 @@ class SingleCourseContainer extends React.Component{
         super(props)
 
         this.state = {
-            modalOpened: false
+            topicModalOpened: false,
+            backgroundModalOpened:false
         }
     }
 
     componentDidMount(){
         this.props.getCourseOwner(this.props.match.params.courseId)
     }
+
+    openModal = (name)=>()=>{
+        this.setState({
+            [name]:true
+        })
+    }
+    //TODO: just open modal not toggle
     toggleModal = () => {
         this.setState((prevState)=>{
             return {
@@ -23,15 +31,17 @@ class SingleCourseContainer extends React.Component{
             }
         })
     }
-    handleModalClose = ()=>{
+    handleModalClose =(name)=> ()=>{
         this.setState({
-            modalOpened:false
+            [name]:false
         })
     }
     render(){
         return <EditableCourse
                     toggleModal={this.toggleModal}
-                    handleModalClose={this.handleModalClose}
+                    handleTopicModalClose={this.handleModalClose('topicModalOpened')}
+                    handleBackgroundModalClose={this.handleModalClose('backgroundModalOpened')}
+                    handleBackgroundModalOpen={this.openModal('backgroundModalOpened')}
                     {...this.props}
                     {...this.state}/>
     }
@@ -42,7 +52,7 @@ const mapStateToProps = (state, ownProps) =>{
     return {
         loggedUserId: state.users.loggedIn && state.users.loggedIn.id,
         ownerUser: state.users[state.courses[ownProps.match.params.courseId].ownerId],
-        course: state.courses[ownProps.match.params.courseId] 
+        course: state.courses[ownProps.match.params.courseId]
     }
 }
 
@@ -67,7 +77,8 @@ SingleCourseContainer.propTypes = {
         title: PropTypes.string,
         firstName: PropTypes.string,
         secondName: PropTypes.string,
-        secretWord: PropTypes.string
+        secretWord: PropTypes.string,
+        backgroundUrl: PropTypes.string
     }),
     loggedUserId: PropTypes.number,
     getCourseOwner: PropTypes.func,

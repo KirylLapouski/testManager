@@ -3,13 +3,14 @@ import axios from 'axios'
 import {
     getUserById
 } from './users'
-const addCourse = (userId, title = ' ') => {
+const addCourse = (userId, title = ' ', backgroundUrl= 'http://clipart-library.com/images/8ixrj6j7T.jpg') => {
     var id, secretWord
     return dispatch => {
 
         axios.post('http://localhost:3000/api/Disciplines', {
-                title
-            })
+            title,
+            backgroundUrl
+        })
             .then(({
                 data
             }) => {
@@ -19,7 +20,7 @@ const addCourse = (userId, title = ' ') => {
                 return axios.post('http://localhost:3000/api/ParticipantDisciplineMappings', {
                     type: 'teacher',
                     participantId: userId,
-                    disciplineId: data.id
+                    disciplineId: data.id,
                 })
             })
             .then(() => {
@@ -29,7 +30,8 @@ const addCourse = (userId, title = ' ') => {
                         id,
                         title,
                         ownerId: userId,
-                        secretWord
+                        secretWord,
+                        backgroundUrl
                     }
                 })
             })

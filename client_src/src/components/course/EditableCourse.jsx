@@ -10,9 +10,16 @@ import PropTypes from 'prop-types'
 //TODO: can rewrite on function
 class EditableCourse extends React.Component {
     render() {
-        var {loggedUserId,ownerUser,course,toggleModal, modalOpened,handleModalClose} = this.props
+        var {loggedUserId,ownerUser,course,toggleModal, topicModalOpened,handleTopicModalClose,handleBackgroundModalClose,backgroundModalOpened,handleBackgroundModalOpen} = this.props
         return <div>
-            <CourseHeader secretWord={loggedUserId === ownerUser.id && course.secretWord} backgroundSrc='https://lh6.googleusercontent.com/-691E4HHlPjM/VN0ohuHpXiI/AAAAAAAAASM/OsvrdNM5yZw/w984-h209-no/06_bubbles.jpg' updateCourse={this.props.updateCourse.bind(null,this.props.course.id)} name={this.props.course.title} teacherName={this.props.ownerUser && this.props.ownerUser.firstName} teacherLastName={this.props.ownerUser && this.props.ownerUser.secondName}>
+            <CourseHeader backgroundModalOpened={backgroundModalOpened}
+                handleBackgroundModalOpen={handleBackgroundModalOpen}
+                handleBackgroundModalClose={handleBackgroundModalClose}
+                secretWord={loggedUserId === ownerUser.id && course.secretWord}
+                backgroundSrc={course.backgroundUrl}
+                updateCourse={this.props.updateCourse.bind(null,course.id)}
+                name={this.props.course.title} teacherName={this.props.ownerUser && this.props.ownerUser.firstName}
+                teacherLastName={this.props.ownerUser && this.props.ownerUser.secondName}>
                 <UserInfo disabled={true} userId={this.props.ownerUser && this.props.ownerUser.id}/>
             </CourseHeader>
 
@@ -20,7 +27,7 @@ class EditableCourse extends React.Component {
                 <AddIcon />
             </Button>}
             <LessonContainer lessonsOwner={ownerUser} loggedUserId={loggedUserId} courseId={this.props.match.params.courseId}/>
-            <CourseModal open={modalOpened} courseId={this.props.match.params.courseId} handleClose={handleModalClose}/>
+            <CourseModal open={topicModalOpened} courseId={this.props.match.params.courseId} handleClose={handleTopicModalClose}/>
         </div>
     }
 }
@@ -36,12 +43,16 @@ EditableCourse.propTypes = {
         title: PropTypes.string,
         firstName: PropTypes.string,
         secondName: PropTypes.string,
-        secretWord: PropTypes.string
+        secretWord: PropTypes.string,
+        backgroundUrl: PropTypes.string
     }),
     loggedUserId: PropTypes.number,
-    modalOpened: PropTypes.bool,
+    topicModalOpened: PropTypes.bool,
+    backgroundModalOpened: PropTypes.bool,
     toggleModal: PropTypes.func,
-    handleModalClose: PropTypes.func,
+    handleTopicModalClose: PropTypes.func,
+    handleBackgroundModalClose: PropTypes.func,
+    handleBackgroundModalOpen: PropTypes.func,
     updateCourse: PropTypes.func
 }
 export default EditableCourse
