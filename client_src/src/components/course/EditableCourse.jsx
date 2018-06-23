@@ -3,14 +3,14 @@ import CourseHeader from './CourseHeader'
 import UserInfo from '../UserInfo'
 import Button from 'material-ui/Button'
 import AddIcon from '@material-ui/icons/Add'
-import CourseModal from './CourseModal'
+import CourseModal from '../modal/total-modals/CourseModal'
 import LessonContainer from '../LessonContainer'
 import PropTypes from 'prop-types'
 //TODO: rewrite modals on childs
 //TODO: can rewrite on function
 class EditableCourse extends React.Component {
     render() {
-        var {loggedUserId,ownerUser,course,toggleModal, topicModalOpened,handleTopicModalClose,handleBackgroundModalClose,backgroundModalOpened,handleBackgroundModalOpen} = this.props
+        var {loggedUserId,ownerUser,course, topicModalOpened,backgroundModalOpened,handleTopicModalOpen,handleTopicModalClose,handleBackgroundModalClose,handleBackgroundModalOpen} = this.props
         return <div>
             <CourseHeader backgroundModalOpened={backgroundModalOpened}
                 handleBackgroundModalOpen={handleBackgroundModalOpen}
@@ -23,7 +23,7 @@ class EditableCourse extends React.Component {
                 <UserInfo disabled={true} userId={this.props.ownerUser && this.props.ownerUser.id}/>
             </CourseHeader>
 
-            {loggedUserId === ownerUser.id && <Button onClick={toggleModal} variant="fab" color="primary" aria-label="add" style={{ position: 'fixed', bottom: '20px', right: '20px', zIndex:'2' }}>
+            {loggedUserId === ownerUser.id && <Button onClick={handleTopicModalOpen} variant="fab" color="primary" aria-label="add" style={{ position: 'fixed', bottom: '20px', right: '20px', zIndex:'2' }}>
                 <AddIcon />
             </Button>}
             <LessonContainer lessonsOwner={ownerUser} loggedUserId={loggedUserId} courseId={this.props.match.params.courseId}/>
@@ -49,10 +49,10 @@ EditableCourse.propTypes = {
     loggedUserId: PropTypes.number,
     topicModalOpened: PropTypes.bool,
     backgroundModalOpened: PropTypes.bool,
-    toggleModal: PropTypes.func,
-    handleTopicModalClose: PropTypes.func,
-    handleBackgroundModalClose: PropTypes.func,
     handleBackgroundModalOpen: PropTypes.func,
+    handleBackgroundModalClose: PropTypes.func,
+    handleTopicModalOpen: PropTypes.func,
+    handleTopicModalClose: PropTypes.func,
     updateCourse: PropTypes.func
 }
 export default EditableCourse

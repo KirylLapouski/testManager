@@ -18,19 +18,12 @@ class SingleCourseContainer extends React.Component{
         this.props.getCourseOwner(this.props.match.params.courseId)
     }
 
-    openModal = (name)=>()=>{
+    hanleOpenModal = (name)=>()=>{
         this.setState({
             [name]:true
         })
     }
-    //TODO: just open modal not toggle
-    toggleModal = () => {
-        this.setState((prevState)=>{
-            return {
-                modalOpened:!prevState.modalOpened
-            }
-        })
-    }
+
     handleModalClose =(name)=> ()=>{
         this.setState({
             [name]:false
@@ -38,10 +31,10 @@ class SingleCourseContainer extends React.Component{
     }
     render(){
         return <EditableCourse
-                    toggleModal={this.toggleModal}
                     handleTopicModalClose={this.handleModalClose('topicModalOpened')}
+                    handleTopicModalOpen={this.hanleOpenModal('topicModalOpened')}
                     handleBackgroundModalClose={this.handleModalClose('backgroundModalOpened')}
-                    handleBackgroundModalOpen={this.openModal('backgroundModalOpened')}
+                    handleBackgroundModalOpen={this.hanleOpenModal('backgroundModalOpened')}
                     {...this.props}
                     {...this.state}/>
     }
