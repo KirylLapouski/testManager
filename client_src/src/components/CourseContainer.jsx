@@ -10,7 +10,7 @@ class CourseContainer extends React.Component {
         var { courses } = this.props
         if (courses) {
             var courses = courses.map((value) => {
-                return (<div key={value.id} className="col-xl-3 col-lg-4 col-md-6"><Course id={value.id} title={value.title} /></div>)
+                return (<div key={value.id} className="col-xl-3 col-lg-4 col-md-6"><Course {...value}/></div>)
             })
         }
 

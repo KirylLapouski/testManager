@@ -27,16 +27,16 @@ class Course extends React.Component {
         this.props.getCourseOwner(this.props.id)
     }
     render() {
-        var {loggedUserId,ownerId } = this.props
+        var {loggedUserId,ownerId,backgroundUrl } = this.props
         return (
             <Grow timeout={800} in={true}>
-                <div className="z-depth-2" style={{ height: '400px', width: '270px', color: 'white',marginBottom:'20px', backgroundImage: 'url("https://lh4.googleusercontent.com/-64uhpsHBEZw/VMqrG_6wowI/AAAAAAAAAIE/_Pw_QoP0opU/w1005-h214-no/123_rainbowtriangle_teal.jpg")' }}>
+                <div className="z-depth-2" style={{ height: '400px', width: '270px', color: 'white',marginBottom:'20px', backgroundImage: `url(${backgroundUrl})`, backgroundSize:'cover' }}>
                     <div style={{ background: 'rgba(0,0,0,0.1)', overflow: 'hidden' }}>
                         <UserInfo disabled={true} userId={this.props.ownerId} style={{ float: 'left' }} />
                         <Link to={'/' + this.props.id + '/lessons'}> {this.props.title}</Link>
                     </div>
                     <Divider inset={true} style={{ marginLeft:'0px',marginTop:'290px',backgroundColor:'rgba(0,0,0,0)',  width: '100%'}} />
-                    
+
                     {loggedUserId === ownerId ? <Button onClick={this.handleDeleteClick} style={{float:'left'}}><DeleteIcon style={{color:'white',marginTop:'5px'}}/></Button>:<Button  onClick={this.handleUntieClick} style={{float:'left'}}><OutIcon style={{color:'white'}}/></Button>}
                     <Button onClick={this.handleOpenClick} style={{color:'white',float:'right',marginTop:'5px'}}>Открыть</Button>
                 </div>
@@ -48,6 +48,7 @@ class Course extends React.Component {
 Course.propTypes = {
     title: PropTypes.string.isRequired,
     id: PropTypes.number.isRequired,
+    backgroundUrl: PropTypes.string,
     //redux
     untieFromCourse: PropTypes.func,
     untieFromCourseOwner: PropTypes.func,
