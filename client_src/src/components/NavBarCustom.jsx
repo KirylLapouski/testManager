@@ -6,7 +6,7 @@ import Add from '@material-ui/icons/Add';
 import Button from 'material-ui/Button';
 import Menu, { MenuItem } from 'material-ui/Menu';
 import NewCourseModal from './modal/modal-total/NewCourseModal'
-import AttachToCourseModal from './AttachToCourseModal'
+import AttachToCourseModal from './modal/modal-total/AttachToCourseModal'
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 class NavBarCustom extends React.Component {
