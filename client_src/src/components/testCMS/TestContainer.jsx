@@ -12,7 +12,7 @@ import Flag from '@material-ui/icons/Flag'
 import AttachFileIcon from '@material-ui/icons/AttachFile'
 import Button from '@material-ui/core/Button'
 import Tooltip from 'material-ui/Tooltip'
-import LoadTestModal from './LoadTestModal'
+import TestFromFileModal from '../modal/modal-total/TestFromFileModal'
 //TODO: can rewrite on function
 class TestContainer extends React.Component {
 
@@ -46,7 +46,7 @@ class TestContainer extends React.Component {
                 <AttachFileIcon />
             </Button>
         </Tooltip>
-        <LoadTestModal topicId={this.props.match.params.topicId} handleClose={this.props.closeModal} open={this.props.modalOpened} />
+        <TestFromFileModal topicId={this.props.match.params.topicId} handleClose={this.props.closeModal} open={this.props.modalOpened} />
         </div>
     }
 }

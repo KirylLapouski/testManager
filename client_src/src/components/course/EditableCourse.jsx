@@ -3,7 +3,7 @@ import CourseHeader from './CourseHeader'
 import UserInfo from '../UserInfo'
 import Button from 'material-ui/Button'
 import AddIcon from '@material-ui/icons/Add'
-import CourseModal from '../modal/total-modals/CourseModal'
+import NewLessonModal from '../modal/modal-total/NewLessonModal'
 import LessonContainer from '../LessonContainer'
 import PropTypes from 'prop-types'
 //TODO: rewrite modals on childs
@@ -27,7 +27,7 @@ class EditableCourse extends React.Component {
                 <AddIcon />
             </Button>}
             <LessonContainer lessonsOwner={ownerUser} loggedUserId={loggedUserId} courseId={this.props.match.params.courseId}/>
-            <CourseModal open={topicModalOpened} courseId={this.props.match.params.courseId} handleClose={handleTopicModalClose}/>
+            <NewLessonModal open={topicModalOpened} courseId={this.props.match.params.courseId} handleClose={handleTopicModalClose}/>
         </div>
     }
 }

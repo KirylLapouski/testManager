@@ -3,7 +3,7 @@ import Course from './Course'
 import PropTypes from 'prop-types'
 import Button from 'material-ui/Button'
 import AddIcon from '@material-ui/icons/Add'
-import SimpleModal from './Modal.jsx'
+import NewCourseModal from './modal/modal-total/NewCourseModal'
 //TODO: can rewrite on function
 class CourseContainer extends React.Component {
     render() {
@@ -22,7 +22,7 @@ class CourseContainer extends React.Component {
                         <AddIcon />
                     </Button>
                     {/* TODO: why bind works? */}
-                    <SimpleModal open={this.props.modalOpened} handleClose={this.props.handleModalClose.bind(null, 'modalOpened')} />
+                    <NewCourseModal open={this.props.modalOpened} handleClose={this.props.handleModalClose.bind(null, 'modalOpened')} />
                 </div>
             </div>
         )

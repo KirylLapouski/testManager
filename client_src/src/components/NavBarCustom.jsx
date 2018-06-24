@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import Add from '@material-ui/icons/Add';
 import Button from 'material-ui/Button';
 import Menu, { MenuItem } from 'material-ui/Menu';
-import SimpleModal from './Modal.jsx'
+import NewCourseModal from './modal/modal-total/NewCourseModal'
 import AttachToCourseModal from './AttachToCourseModal'
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
@@ -33,7 +33,7 @@ class NavBarCustom extends React.Component {
     };
 
     handleModalClose = (modalName) => {
-        
+
         this.setState({ [modalName]: false });
         this.handleMenuClose()
     };
@@ -89,7 +89,7 @@ class NavBarCustom extends React.Component {
                         <UserInfo userId={this.props.userId} />
                     </NavItem >
                 </NavbarNav>
-                <SimpleModal open={this.state.open} handleClose={this.handleModalClose.bind(this, 'open')} />
+                <NewCourseModal open={this.state.open} handleClose={this.handleModalClose.bind(this, 'open')} />
                 <AttachToCourseModal open={this.state.attachCourseModalOpened} handleClose={this.handleModalClose.bind(this, 'attachCourseModalOpened')} />
                 {!this.state.isWideEnough && <NavbarToggler onClick={this.handleClick} />}
             </Navbar>
@@ -100,7 +100,7 @@ class NavBarCustom extends React.Component {
 NavBarCustom.propTypes = {
     //redux
     userId: PropTypes.number
-} 
+}
 
 const mapStateToProps = state =>{
     return {
@@ -108,4 +108,4 @@ const mapStateToProps = state =>{
     }
 }
 
-export default connect(mapStateToProps)(NavBarCustom); 
+export default connect(mapStateToProps)(NavBarCustom);
