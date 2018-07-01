@@ -1,12 +1,12 @@
 import React from 'react'
-import CourseContainer from '../CourseContainerStatefull'
+import CourseContainer from '../course/CourseContainer'
 import { Switch, Route } from 'react-router-dom'
 import TestContainer from '../testCMS/TestContainerStatefull'
-import TopicContainer from '../TopicContainerStatefull'
-import LoginInContainer from '../LoginInContainer'
+import TopicContainer from '../topic/TopicContainer'
+import LoginInContainer from '../login/LoginInContainer'
 import SignUp from '../SignUp'
-import ProfileContainer from '../ProfileContainer'
-import SingleCourseContainer from '../course/SingleCourseContainer'
+import ProfileContainer from '../profile/ProfileContainer'
+import SingleCourseContainer from '../course/course-page/SingleCourseContainer'
 class Main extends React.Component {
     render() {
         return (

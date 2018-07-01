@@ -2,8 +2,8 @@ import React from 'react'
 import Lesson from './Lesson'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { loadLessons } from '../redux/AC/lessons'
-import Paginator from './Paginator'
+import { loadLessons } from '../../redux/AC/lessons'
+import Paginator from '../Paginator'
 class LessonContainer extends React.Component {
     constructor(props){
         super(props)
@@ -45,7 +45,7 @@ LessonContainer.propTypes = {
         title: PropTypes.string
     }),
     getLessons: PropTypes.func
-  
+
 }
 
 const mapStateToProps = (state, ownProps) => {

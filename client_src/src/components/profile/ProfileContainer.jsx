@@ -1,8 +1,8 @@
 import React from 'react'
 import { connect } from "react-redux";
 import toastr from 'toastr'
-import { addImageToUser } from '../redux/AC/users'
-import { assignloggedInUser } from '../redux/AC/users'
+import { addImageToUser } from '../../redux/AC/users'
+import { assignloggedInUser } from '../../redux/AC/users'
 import Profile from './Profile'
 import PropTypes from "prop-types";
 class ProfileContainer extends React.Component {

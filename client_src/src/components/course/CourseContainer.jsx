@@ -1,8 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import CourseContainer from './CourseContainer'
-import {  loadCoursesForUser } from '../redux/AC/courses'
-import { assignloggedInUser } from '../redux/AC/users'
+import CourseContainer from './CourseList'
+import {  loadCoursesForUser } from '../../redux/AC/courses'
+import { assignloggedInUser } from '../../redux/AC/users'
 
 class CourseContainerStatefull extends React.Component {
     constructor(props) {

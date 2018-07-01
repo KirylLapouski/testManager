@@ -1,8 +1,8 @@
 import React from 'react'
-import Paginator from './Paginator'
+import Paginator from '../Paginator'
 import Topic from './Topic'
 import PropTypes from 'prop-types'
-import EditButton from './EditButton'
+import EditButton from '../EditButton'
 //TODO: can rewrite on function
 class TopicContainer extends React.Component {
     render() {

@@ -3,7 +3,7 @@ import Course from './Course'
 import PropTypes from 'prop-types'
 import Button from 'material-ui/Button'
 import AddIcon from '@material-ui/icons/Add'
-import NewCourseModal from './modal/modal-total/NewCourseModal'
+import NewCourseModal from '../modal/modal-total/NewCourseModal'
 //TODO: can rewrite on function
 class CourseContainer extends React.Component {
     render() {

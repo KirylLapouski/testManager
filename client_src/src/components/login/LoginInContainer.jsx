@@ -3,7 +3,7 @@ import LoginIn from './LoginIn'
 import Cookies from 'universal-cookie'
 import toastr from 'toastr'
 import { withRouter } from 'react-router-dom'
-import LoadingIndicator from './decorators/LoadingIndicator'
+import LoadingIndicator from '../decorators/LoadingIndicator'
 toastr.options.closeButton = true
 class LoginInContainer extends React.Component {
 

@@ -1,10 +1,10 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import TopicContainer from './TopicContainer'
-import { loadTopics } from '../redux/AC/topic'
+import TopicContainer from './TopicList'
+import { loadTopics } from '../../redux/AC/topic'
 import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
-//TODO: write 
+//TODO: write
 class TopicContainerStateFull extends React.Component {
 
     constructor(props) {
@@ -42,11 +42,11 @@ class TopicContainerStateFull extends React.Component {
     }
 
     render() {
-        return <TopicContainer 
-                    handlePaginatorClick={this.handlePaginatorClick} 
-                    handleTopicEndEditClick={this.handleTopicEndEditClick} 
-                    handleTopicBeginEditClick={this.handleTopicBeginEditClick} 
-                    {...this.props} 
+        return <TopicContainer
+                    handlePaginatorClick={this.handlePaginatorClick}
+                    handleTopicEndEditClick={this.handleTopicEndEditClick}
+                    handleTopicBeginEditClick={this.handleTopicBeginEditClick}
+                    {...this.props}
                     {...this.state} />
     }
 }

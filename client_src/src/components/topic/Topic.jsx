@@ -1,9 +1,9 @@
 import React from 'react'
-import Test from './Test'
+import Test from '../Test'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { addQuestionIdToTopic } from '../redux/AC/topic'
-import MyEditor from './slateJs/index'
+import { addQuestionIdToTopic } from '../../redux/AC/topic'
+import MyEditor from '../editor/index'
 class Topic extends React.Component {
 
     componentWillMount() {

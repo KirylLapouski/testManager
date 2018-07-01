@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import UserInfo from './UserInfo'
+import UserInfo from '../UserInfo'
 import { Link } from 'react-router-dom'
 import Grow from '@material-ui/core/Grow'
 import Divider from '@material-ui/core/Divider'
@@ -9,9 +9,9 @@ import OutIcon from '@material-ui/icons/PowerSettingsNew'
 import Tooltip from 'material-ui/Tooltip';
 import Button from '@material-ui/core/Button'
 import { withRouter } from 'react-router-dom'
-import {untieUserFromCourseAndDeleteCourse,untieUserFromCourse} from '../redux/AC/users'
+import {untieUserFromCourseAndDeleteCourse,untieUserFromCourse} from '../../redux/AC/users'
 import { connect } from "react-redux";
-import {getCourseOwner} from '../redux/AC/courses'
+import {getCourseOwner} from '../../redux/AC/courses'
 class Course extends React.Component {
     handleOpenClick = ()=>{
         this.props.history.push(`/${this.props.id}/lessons`)

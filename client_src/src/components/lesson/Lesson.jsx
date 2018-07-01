@@ -1,5 +1,5 @@
 import React from 'react';
-import UserInfo from './UserInfo';
+import UserInfo from '../UserInfo';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import ExpansionPanel, {
@@ -8,18 +8,15 @@ import ExpansionPanel, {
 } from 'material-ui/ExpansionPanel';
 import Typography from 'material-ui/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import Collapse from 'material-ui/transitions/Collapse';
-import ExpandLess from '@material-ui/icons/ExpandLess';
-import ExpandMore from '@material-ui/icons/ExpandMore';
 import Button from 'material-ui/Button';
 import AddIcon from '@material-ui/icons/Add'
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
-import TopicModal from './modal/modal-total/TopicModal';
-import TopicList from './TopicList'
+import TopicModal from '../modal/modal-total/TopicModal';
+import TopicList from './TopicListInLesson'
 import { connect } from 'react-redux'
-import { loadTopics } from '../redux/AC/topic'
-import { deleteLesson, editLesson } from '../redux/AC/lessons'
+import { loadTopics } from '../../redux/AC/topic'
+import { deleteLesson, editLesson } from '../../redux/AC/lessons'
 import toastr from 'toastr'
 import TextField from '@material-ui/core/TextField';
 import Slide from '@material-ui/core/Slide';

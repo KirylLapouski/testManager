@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import EditableCourse from './EditableCourse'
-import {getCourseOwner, updateCourse} from '../../redux/AC/courses'
+import {getCourseOwner, updateCourse} from '../../../redux/AC/courses'
 import {withRouter} from 'react-router-dom'
 import PropTypes from "prop-types";
 class SingleCourseContainer extends React.Component{

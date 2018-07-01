@@ -1,10 +1,10 @@
 import React from 'react'
 import CourseHeader from './CourseHeader'
-import UserInfo from '../UserInfo'
+import UserInfo from '../../UserInfo'
 import Button from 'material-ui/Button'
 import AddIcon from '@material-ui/icons/Add'
-import NewLessonModal from '../modal/modal-total/NewLessonModal'
-import LessonContainer from '../LessonContainer'
+import NewLessonModal from '../../modal/modal-total/NewLessonModal'
+import LessonContainer from '../../lesson/LessonList'
 import PropTypes from 'prop-types'
 //TODO: rewrite modals on childs
 //TODO: can rewrite on function
