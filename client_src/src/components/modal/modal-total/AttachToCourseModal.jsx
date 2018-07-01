@@ -28,7 +28,7 @@ class AttachToCourseModal extends React.Component {
     render() {
         var {open,handleClose} = this.props
         return <ModalBase title={'Присоединится к курсу'}  width='350px' minHeight="250px" open={open} handleClose={handleClose}>
-            <SingleTextField handleClose={handleClose} onChangeHandler={this.onChangeHandler} handleSubmit={this.handleSubmit}/>
+            <SingleTextField textFieldTitle='Секретное слово' handleClose={handleClose} onChangeHandler={this.onChangeHandler} handleSubmit={this.handleSubmit}/>
         </ModalBase>
     }
 }

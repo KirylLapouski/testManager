@@ -14,7 +14,7 @@ class DrugnDropFile extends React.Component {
     }
 
     render() {
-        var { onFilesChange, handleFilesUpload, handleClose} = this.props
+        var { onFilesChange} = this.props
         return <div style={{width:'100%', display:'flex', flexDirection:'column'}}>
             <Files ref='files' onChange={onFilesChange} multiple onError={this.onFilesError} style={{ cursor: 'pointer', width: '100%', height: '168px', display: 'flex', justifyContent: 'center', alignItems: 'center', border: '1px dashed grey', textAlign: 'center' }} accepts={['text/plain']} clickable>
                 Перетащите файлы сюда<br />
@@ -33,7 +33,6 @@ class DrugnDropFile extends React.Component {
                                     <div className='files-list-item-content-item files-list-item-content-item-1'>{file.name}</div>
                                     <div className='files-list-item-content-item files-list-item-content-item-2'>{file.sizeReadable}</div>
                                 </div>
-
                             </li>
                         )}
                     </ul>
@@ -41,11 +40,6 @@ class DrugnDropFile extends React.Component {
                 : <div style={{ maxHeight: '215px' }}></div>
             }
             <Button onClick={this.filesRemoveAll}><DeleteIcon/>Удалить все файлы</Button>
-
-            <div style={{ display: 'flex',position:'relative', bottom:'-20px', alignSelf: 'flex-end', marginTop: '10px' }}>
-                <Button onClick={handleClose}>Отмена</Button>
-                <Button onClick={handleFilesUpload} type="submit" variant="raised" color="primary">Создать</Button>
-            </div>
         </div>
     }
 }
@@ -54,7 +48,5 @@ DrugnDropFile.propTypes = {
     files: PropTypes.array,
     onFilesChange: PropTypes.func,
     onFilesError: PropTypes.func,
-    handleFilesUpload: PropTypes.func,
-    handleClose: PropTypes.func
 }
 export default DrugnDropFile

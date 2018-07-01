@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import CourseContainer from './CourseContainer'
-import { loadCourses, loadCoursesForUser } from '../redux/AC/courses'
+import {  loadCoursesForUser } from '../redux/AC/courses'
 import { assignloggedInUser } from '../redux/AC/users'
 
 class CourseContainerStatefull extends React.Component {
@@ -13,8 +13,8 @@ class CourseContainerStatefull extends React.Component {
         }
     }
 
-    componentWillMount() {
-        this.props.getCourses()
+    componentDidMount() {
+        this.props.getCourses(this.props.match.params.userId)
         this.props.assignloggedInUser()
     }
 
@@ -42,7 +42,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = (dispatch, ownProps) => {
     var result = {}
 
-    result.getCourses = ownProps.match.params.userId ? () => { dispatch(loadCoursesForUser(ownProps.match.params.userId)) } : () => { dispatch(loadCourses()) }
+    result.getCourses = (userId) => { dispatch(loadCoursesForUser(userId)) }
     result.assignloggedInUser = ownProps.match.params.userId ? () => { dispatch(assignloggedInUser(ownProps.match.params.userId)) } : () => { }
     return result
 

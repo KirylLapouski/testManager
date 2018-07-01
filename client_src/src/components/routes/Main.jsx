@@ -11,10 +11,10 @@ class Main extends React.Component {
     render() {
         return (
             <Switch>
-                <Route exact path="/cources" component={CourseContainer} />
-                <Route path="/cources/:userId" component={CourseContainer}/> 
+                {/* <Route exact path="/cources" component={CourseContainer} /> */}
+                <Route path="/cources/:userId" component={CourseContainer}/>
                 <Route path="/:courseId/lessons" component={SingleCourseContainer} />
-                <Route path="/lesson/:lessonId/topic/:topicId/testEditor" component={TestContainer} />                    
+                <Route path="/lesson/:lessonId/topic/:topicId/testEditor" component={TestContainer} />
                 <Route path="/lesson/:lessonId/topic/:topicId" component={TopicContainer} />
                 <Route path="/" exact component={LoginInContainer}/>
                 <Route path="/signUp" component={SignUp} />

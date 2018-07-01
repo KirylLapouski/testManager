@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 class Chart extends React.Component {
     render() {
         var {unpassWeight} = this.props
-        var labels = unpassWeight?['Правильные ответы', 'Неправильные ответы','Не отвечено']: ['Правильные ответы', 'Неправильные ответы'] 
+        var labels = unpassWeight?['Правильные ответы', 'Неправильные ответы','Не отвечено']: ['Правильные ответы', 'Неправильные ответы']
         return <Doughnut
             options={{
                 legend: {
@@ -14,6 +14,9 @@ class Chart extends React.Component {
                         fontColor: 'white',
                         fontSize:20
                     }
+                },
+                animation: {
+                    duration: 2000
                 }
             }}
             data={{

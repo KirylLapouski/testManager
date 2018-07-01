@@ -60,7 +60,6 @@ const loadCoursesForUser = userId => {
             .then(({
                 data
             }) => {
-
                 dispatch({
                     type: constants.courses.ADD_COURSES,
                     payload: data

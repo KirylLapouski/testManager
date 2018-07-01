@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import DrugnDropFile from "../modal-content/DrugnDropFile";
 import PropTypes from 'prop-types';
 import { createTestFromFile } from '../../../redux/AC/question'
+import SubmitAndCancel from "../modal-content/SubmitAndCancel";
 import toastr from 'toastr'
 class TestFromFileModal extends React.Component {
     constructor(props) {
@@ -57,9 +58,9 @@ class TestFromFileModal extends React.Component {
         return <ModalBase title={'Создать курс'} open={open} width='800px' minHeight='400px' handleClose={handleClose}>
             <DrugnDropFile onFilesChange={this.onFilesChange}
             handleClose={handleClose}
-            handleFilesUpload={this.handleFilesUpload}
             onFilesError={this.onFilesError}
             files={this.state.files}/>
+            <SubmitAndCancel handleSubmit={ this.handleFilesUpload} handleClose={handleClose}/>
         </ModalBase>
     }
 }

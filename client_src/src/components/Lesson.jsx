@@ -15,7 +15,7 @@ import Button from 'material-ui/Button';
 import AddIcon from '@material-ui/icons/Add'
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
-import TopicModal from './topic/TopicModal';
+import TopicModal from './modal/modal-total/TopicModal';
 import TopicList from './TopicList'
 import { connect } from 'react-redux'
 import { loadTopics } from '../redux/AC/topic'
@@ -77,7 +77,7 @@ class Lesson extends React.Component {
     handleSubmitEditLesson = () => {
         this.props.editLesson(this.props.id, this.state.title, this.state.description)
         //TODO:: rewrite on refs
-        //TODO: need new reducer that check that change 
+        //TODO: need new reducer that check that change
         toastr.success('Урок изменён')
         this.toggleEdditing()
     }
