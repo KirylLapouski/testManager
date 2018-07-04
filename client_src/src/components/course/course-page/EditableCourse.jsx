@@ -10,17 +10,19 @@ import PropTypes from 'prop-types'
 //TODO: can rewrite on function
 class EditableCourse extends React.Component {
     render() {
-        var {loggedUserId,ownerUser,course, topicModalOpened,backgroundModalOpened,handleTopicModalOpen,handleTopicModalClose,handleBackgroundModalClose,handleBackgroundModalOpen} = this.props
+        var {loggedUserId,ownerUser,course, topicModalOpened,backgroundModalOpened,handleTopicModalOpen,handleTopicModalClose,handleBackgroundModalClose,handleBackgroundModalOpen,handleSubmitNewBackground,handleChange} = this.props
         return <div>
             <CourseHeader backgroundModalOpened={backgroundModalOpened}
                 handleBackgroundModalOpen={handleBackgroundModalOpen}
                 handleBackgroundModalClose={handleBackgroundModalClose}
                 secretWord={loggedUserId === ownerUser.id && course.secretWord}
                 backgroundSrc={course.backgroundUrl}
-                updateCourse={this.props.updateCourse.bind(null,course.id)}
-                name={this.props.course.title} teacherName={this.props.ownerUser && this.props.ownerUser.firstName}
-                teacherLastName={this.props.ownerUser && this.props.ownerUser.secondName}>
-                <UserInfo disabled={true} userId={this.props.ownerUser && this.props.ownerUser.id}/>
+                name={course.title} teacherName={ownerUser && ownerUser.firstName}
+                teacherLastName={ownerUser && ownerUser.secondName}
+                handleSubmitNewBackground={handleSubmitNewBackground}
+                handleChange={handleChange}
+                >
+                <UserInfo disabled={true} userId={ownerUser && ownerUser.id}/>
             </CourseHeader>
 
             {loggedUserId === ownerUser.id && <Button onClick={handleTopicModalOpen} variant="fab" color="primary" aria-label="add" style={{ position: 'fixed', bottom: '20px', right: '20px', zIndex:'2' }}>
@@ -53,6 +55,7 @@ EditableCourse.propTypes = {
     handleBackgroundModalClose: PropTypes.func,
     handleTopicModalOpen: PropTypes.func,
     handleTopicModalClose: PropTypes.func,
-    updateCourse: PropTypes.func
+    handleSubmitNewBackground: PropTypes.func,
+    handleChange: PropTypes.func
 }
 export default EditableCourse

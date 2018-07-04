@@ -9,32 +9,37 @@ class SingleCourseContainer extends React.Component{
         super(props)
 
         this.state = {
-            topicModalOpened: false,
-            backgroundModalOpened:false
+            lessonModalOpened: false,
+            backgroundModalOpened:false,
+            backgroundUrl: ''
         }
     }
+
+    handleSubmitNewBackground = (e)=>{
+        e.preventDefault()
+        this.props.updateCourse(this.props.match.params.courseId,{backgroundUrl:this.state.backgroundUrl})
+        this.handleChange('backgroundModalOpened')(false)(e)
+    }
+
 
     componentDidMount(){
         this.props.getCourseOwner(this.props.match.params.courseId)
     }
 
-    hanleOpenModal = (name)=>()=>{
+    handleChange = (name)=>(value)=>(e)=>{
         this.setState({
-            [name]:true
+            [name]:e.target.value || value
         })
     }
 
-    handleModalClose =(name)=> ()=>{
-        this.setState({
-            [name]:false
-        })
-    }
     render(){
         return <EditableCourse
-                    handleTopicModalClose={this.handleModalClose('topicModalOpened')}
-                    handleTopicModalOpen={this.hanleOpenModal('topicModalOpened')}
-                    handleBackgroundModalClose={this.handleModalClose('backgroundModalOpened')}
-                    handleBackgroundModalOpen={this.hanleOpenModal('backgroundModalOpened')}
+                    handleTopicModalClose={this.handleChange('lessonModalOpened')(false)}
+                    handleTopicModalOpen={this.handleChange('lessonModalOpened')(true)}
+                    handleBackgroundModalClose={this.handleChange('backgroundModalOpened')(false)}
+                    handleBackgroundModalOpen={this.handleChange('backgroundModalOpened')(true)}
+                    handleChange={this.handleChange('backgroundUrl')()}
+                    handleSubmitNewBackground={this.handleSubmitNewBackground}
                     {...this.props}
                     {...this.state}/>
     }
@@ -49,7 +54,7 @@ const mapStateToProps = (state, ownProps) =>{
     }
 }
 
-const mapDispatchToProps = (dispatch,ownProps)=>{
+const mapDispatchToProps = (dispatch)=>{
     return{
         getCourseOwner(courseId){
             dispatch(getCourseOwner(courseId))

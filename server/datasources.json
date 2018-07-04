@@ -6,7 +6,7 @@
     "database": "testmanager",
     "password": "1111",
     "name": "db",
-    "user": "website-admin",
+    "user": "root",
     "connector": "mysql"
   }
 }

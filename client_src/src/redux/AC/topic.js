@@ -1,5 +1,4 @@
 import constants from '../constants'
-import UUID from 'uuid-js'
 import request from 'request'
 import axios from 'axios'
 const addTopic = (lessonId, node, title) => {
@@ -56,7 +55,7 @@ const addQuestionIdToTopic = topicID => {
 
 const updateTopic = (topicId, editorState) =>{
     return dispatch =>{
-        axios.patch('http://localhost:3000/api/Topics',{ id: topicId, path:editorState }) 
+        axios.patch('http://localhost:3000/api/Topics',{ id: topicId, path:editorState })
             .then(response => {
                 return response.data
             })
