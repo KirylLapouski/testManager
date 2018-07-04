@@ -1,5 +1,5 @@
 import React from 'react'
-import Lesson from './Lesson'
+import Lesson from './LessonContainer'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { loadLessons } from '../../redux/AC/lessons'
@@ -45,7 +45,6 @@ LessonContainer.propTypes = {
         title: PropTypes.string
     }),
     getLessons: PropTypes.func
-
 }
 
 const mapStateToProps = (state, ownProps) => {

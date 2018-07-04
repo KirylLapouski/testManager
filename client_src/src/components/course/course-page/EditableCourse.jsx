@@ -10,7 +10,7 @@ import PropTypes from 'prop-types'
 //TODO: can rewrite on function
 class EditableCourse extends React.Component {
     render() {
-        var {loggedUserId,ownerUser,course, topicModalOpened,backgroundModalOpened,handleTopicModalOpen,handleTopicModalClose,handleBackgroundModalClose,handleBackgroundModalOpen,handleSubmitNewBackground,handleChange} = this.props
+        var {loggedUserId,ownerUser,course, lessonModalOpened,backgroundModalOpened,handleTopicModalOpen,handleTopicModalClose,handleBackgroundModalClose,handleBackgroundModalOpen,handleSubmitNewBackground,handleChange} = this.props
         return <div>
             <CourseHeader backgroundModalOpened={backgroundModalOpened}
                 handleBackgroundModalOpen={handleBackgroundModalOpen}
@@ -29,7 +29,7 @@ class EditableCourse extends React.Component {
                 <AddIcon />
             </Button>}
             <LessonContainer lessonsOwner={ownerUser} loggedUserId={loggedUserId} courseId={this.props.match.params.courseId}/>
-            <NewLessonModal open={topicModalOpened} courseId={this.props.match.params.courseId} handleClose={handleTopicModalClose}/>
+            <NewLessonModal open={lessonModalOpened} courseId={this.props.match.params.courseId} handleClose={handleTopicModalClose}/>
         </div>
     }
 }
@@ -49,7 +49,7 @@ EditableCourse.propTypes = {
         backgroundUrl: PropTypes.string
     }),
     loggedUserId: PropTypes.number,
-    topicModalOpened: PropTypes.bool,
+    lessonModalOpened: PropTypes.bool,
     backgroundModalOpened: PropTypes.bool,
     handleBackgroundModalOpen: PropTypes.func,
     handleBackgroundModalClose: PropTypes.func,

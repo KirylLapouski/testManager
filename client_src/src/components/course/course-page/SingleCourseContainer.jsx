@@ -1,52 +1,59 @@
 import React from 'react'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 import EditableCourse from './EditableCourse'
-import {getCourseOwner, updateCourse} from '../../../redux/AC/courses'
-import {withRouter} from 'react-router-dom'
+import { getCourseOwner, updateCourse } from '../../../redux/AC/courses'
+import { withRouter } from 'react-router-dom'
 import PropTypes from "prop-types";
-class SingleCourseContainer extends React.Component{
+class SingleCourseContainer extends React.Component {
     constructor(props) {
         super(props)
 
         this.state = {
             lessonModalOpened: false,
-            backgroundModalOpened:false,
+            backgroundModalOpened: false,
             backgroundUrl: ''
         }
     }
 
-    handleSubmitNewBackground = (e)=>{
+    handleSubmitNewBackground = (e) => {
         e.preventDefault()
-        this.props.updateCourse(this.props.match.params.courseId,{backgroundUrl:this.state.backgroundUrl})
+        this.props.updateCourse(this.props.match.params.courseId, { backgroundUrl: this.state.backgroundUrl })
         this.handleChange('backgroundModalOpened')(false)(e)
     }
 
 
-    componentDidMount(){
+    componentDidMount() {
         this.props.getCourseOwner(this.props.match.params.courseId)
     }
 
-    handleChange = (name)=>(value)=>(e)=>{
-        this.setState({
-            [name]:e.target.value || value
-        })
+    handleChange = (name) => (value) => (e) => {
+        console.log(name, value, e)
+        if (!e) {
+            this.setState({
+                [name]: value
+            })
+        } else {
+            this.setState({
+                [name]: e.target.value || value
+            })
+        }
     }
 
-    render(){
+    render() {
         return <EditableCourse
-                    handleTopicModalClose={this.handleChange('lessonModalOpened')(false)}
-                    handleTopicModalOpen={this.handleChange('lessonModalOpened')(true)}
-                    handleBackgroundModalClose={this.handleChange('backgroundModalOpened')(false)}
-                    handleBackgroundModalOpen={this.handleChange('backgroundModalOpened')(true)}
-                    handleChange={this.handleChange('backgroundUrl')()}
-                    handleSubmitNewBackground={this.handleSubmitNewBackground}
-                    {...this.props}
-                    {...this.state}/>
+            handleTopicModalClose={this.handleChange('lessonModalOpened')(false)}
+            handleTopicModalOpen={this.handleChange('lessonModalOpened')(true)}
+            handleBackgroundModalClose={this.handleChange('backgroundModalOpened')(false)}
+            handleBackgroundModalOpen={this.handleChange('backgroundModalOpened')(true)}
+            handleChange={this.handleChange('backgroundUrl')()}
+            handleSubmitNewBackground={this.handleSubmitNewBackground}
+            {...this.props}
+            {...this.state} />
     }
 }
 
 
-const mapStateToProps = (state, ownProps) =>{
+const mapStateToProps = (state, ownProps) => {
     return {
         loggedUserId: state.users.loggedIn && state.users.loggedIn.id,
         ownerUser: state.users[state.courses[ownProps.match.params.courseId].ownerId],
@@ -54,12 +61,12 @@ const mapStateToProps = (state, ownProps) =>{
     }
 }
 
-const mapDispatchToProps = (dispatch)=>{
-    return{
-        getCourseOwner(courseId){
+const mapDispatchToProps = (dispatch) => {
+    return {
+        getCourseOwner(courseId) {
             dispatch(getCourseOwner(courseId))
         },
-        updateCourse(courseId, course){
+        updateCourse(courseId, course) {
             dispatch(updateCourse(courseId, course))
         }
     }
@@ -83,4 +90,4 @@ SingleCourseContainer.propTypes = {
     updateCourse: PropTypes.func
 
 }
-export default withRouter(connect(mapStateToProps,mapDispatchToProps)(SingleCourseContainer))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SingleCourseContainer))

@@ -26,5 +26,6 @@ const store = createStore(combineReducers({
     answers
 }),{}, enhancer)
 
+//development only
 window.store = store
 export default store
