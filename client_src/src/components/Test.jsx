@@ -1,5 +1,4 @@
 import React from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Question from './Question';
 import { connect } from 'react-redux';
@@ -11,7 +10,6 @@ import Typography from 'material-ui/Typography';
 import Button from '@material-ui/core/Button';
 import Collapse from '@material-ui/core/Collapse';
 import DoneAllIcon from "@material-ui/icons/DoneAll";
-import { withStyles } from '@material-ui/core/styles';
 import Chart from './Chart'
 import CloseIcon from '@material-ui/icons/Close'
 
@@ -37,15 +35,15 @@ class Test extends React.Component {
             //bootstrap state
             collapse: false,
             //tab
-            value: 0,
+            currentNumberOfTab: 0,
             displayChart: false
         }
         this.handleRightAnswer = this.handleRightAnswer.bind(this);
         this.toggle = this.toggle.bind(this);
     }
 
-    handleChange = (event, value) => {
-        this.setState({ value });
+    handleChange = (event, currentNumberOfTab) => {
+        this.setState({ currentNumberOfTab });
     };
 
     toggle() {
@@ -55,56 +53,57 @@ class Test extends React.Component {
     }
 
 
-    handleRightAnswer = (numberInArray)=>(weight) => {
+    handleRightAnswer = (numberInArray) => (weight) => {
         this.setState(prevState => {
             var newState = prevState.AnswersWeight.slice()
             newState[numberInArray] = weight
             return {
                 AnswersWeight: newState,
-                value: prevState.value + 1
+                currentNumberOfTab: prevState.currentNumberOfTab + 1
             }
         })
     }
 
-    handleWrongAnswer = (numberInArray)=>() => {
+    handleWrongAnswer = (numberInArray) => () => {
         this.setState(prevState => {
             var newState = prevState.AnswersWeight.slice()
             newState[numberInArray] = 0
             return {
                 AnswersWeight: newState,
-                value: prevState.value + 1
+                currentNumberOfTab: prevState.currentNumberOfTab + 1
             }
         })
     }
 
     handleTestSubmit = () => {
         this.setState({
-            collapse: false,
             displayChart: true
         });
+
+        setTimeout(() => { this.setState({ collapse: false }) }, 2000)
     }
-    handleChartClose= ()=>{
+    handleChartClose = () => {
         this.setState({
-            displayChart:false
+            displayChart: false
         })
     }
     componentWillMount() {
         this.props.getQuestions(this.props.topicId)
     }
-    getAnswersWeight=()=>{
-        return this.state.AnswersWeight.reduce((accumulator,value)=>{return accumulator+value},0)
+    getAnswersWeight = () => {
+        return this.state.AnswersWeight.reduce((accumulator, value) => { return accumulator + value }, 0)
     }
     render() {
 
         var weight = 0;
         var questionsRes = this.props.questions.map((value, index) => {
             weight += value.weight
-            return <TabContainer key={value.id}  tabId={index + 1}>
+            return <TabContainer key={value.id} tabId={index + 1}>
                 <Question onWrongAnswer={this.handleWrongAnswer(index)} onRightAnswer={this.handleRightAnswer(index)} question={value} />
             </TabContainer>
         })
         questionsRes.push(<TabContainer><Button color="primary" className="float-right" onClick={this.handleTestSubmit}>Завершить</Button></TabContainer>)
-        var navs = this.props.questions.map((value, index) => {
+        var navs = this.props.questions.map((index) => {
             return <Tab label={index + 1} />
         })
         navs.push(<Tab label='Завершить тест' icon={<DoneAllIcon />} />)
@@ -112,21 +111,21 @@ class Test extends React.Component {
         return <div>
             <Button onClick={this.toggle} variant="outlined" color="primary" style={{ marginTop: '20px' }}>{this.state.collapse ? "Закрыть тест" : 'Открыть тест'}</Button>
             <Collapse in={this.state.collapse}>
-                <Router>
-                    <div style={{ marginTop: '20px' }}>
-                        <AppBar position="static" >
-                            <Tabs scrollable scrollButtons="on" indicatorColor="secondary" value={this.state.value} onChange={this.handleChange}>
-                                {navs}
-                            </Tabs>
-                            {questionsRes[this.state.value]}
-                        </AppBar>
-                        {this.state.displayChart && <div style={{ color: 'white', position: 'fixed', display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.4)', top: '0', right: '0', bottom: '0', left: '0', zIndex: '2' }}>
-                            <Button onClick={this.handleChartClose} style={{position:'absolute', top:'50px', right:'50px',backgroundColor:'#3f51b5',boxShadow:'none'}} variant="fab"><CloseIcon style={{color:'white'}} /></Button>
-                            <Chart rightAnswersWeight={this.getAnswersWeight()} wrongAnswersWeight={weight - this.getAnswersWeight()} />
-                        </div>
-                        }
+                <div style={{ marginTop: '20px' }}>
+                    <AppBar position="static" >
+                        <Tabs scrollable scrollButtons="on" indicatorColor="secondary" value={this.state.currentNumberOfTab} onChange={this.handleChange}>
+                            {navs}
+                        </Tabs>
+                        {questionsRes[this.state.currentNumberOfTab]}
+                    </AppBar>
+                    {this.state.displayChart && <div style={{ color: 'white', position: 'fixed', display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.4)', top: '0', right: '0', bottom: '0', left: '0', zIndex: '2' }}>
+                        <Button onClick={this.handleChartClose} style={{ position: 'absolute', top: '50px', right: '50px', backgroundColor: '#3f51b5', boxShadow: 'none' }} variant="fab">
+                            <CloseIcon style={{ color: 'white' }} />
+                        </Button>
+                        <Chart rightAnswersWeight={this.getAnswersWeight()} wrongAnswersWeight={weight - this.getAnswersWeight()} />
                     </div>
-                </Router>
+                    }
+                </div>
             </Collapse>
         </div>
     }

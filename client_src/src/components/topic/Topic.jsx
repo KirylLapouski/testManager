@@ -14,7 +14,7 @@ class Topic extends React.Component {
         return <div style={{ color: 'black', width: '80%', margin: '30px auto' }}>
             {/* {(this.props.type === 'video' || this.props.type === 'audio') && <Media src={this.props.path} />} */}
             <MyEditor topicId={this.props.id} currentData={this.props.path} readOnly={this.props.readOnly} />
-            {this.props.hasTests && <Test key={this.props.id}  topicId={this.props.id} />}
+            {this.props.hasTests && <Test key={this.props.id} topicId={this.props.id} />}
         </div>
     }
 }

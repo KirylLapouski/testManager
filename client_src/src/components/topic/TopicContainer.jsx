@@ -1,11 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import TopicContainer from './TopicList'
+import TopicList from './TopicList'
 import { loadTopics } from '../../redux/AC/topic'
 import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 //TODO: write
-class TopicContainerStateFull extends React.Component {
+class TopicContainer extends React.Component {
 
     constructor(props) {
         super(props)
@@ -42,12 +42,12 @@ class TopicContainerStateFull extends React.Component {
     }
 
     render() {
-        return <TopicContainer
-                    handlePaginatorClick={this.handlePaginatorClick}
-                    handleTopicEndEditClick={this.handleTopicEndEditClick}
-                    handleTopicBeginEditClick={this.handleTopicBeginEditClick}
-                    {...this.props}
-                    {...this.state} />
+        return <TopicList
+            handlePaginatorClick={this.handlePaginatorClick}
+            handleTopicEndEditClick={this.handleTopicEndEditClick}
+            handleTopicBeginEditClick={this.handleTopicBeginEditClick}
+            {...this.props}
+            {...this.state} />
     }
 }
 
@@ -73,7 +73,7 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-TopicContainerStateFull.propTypes = {
+TopicContainer.propTypes = {
     topics: PropTypes.arrayOf({
         id: PropTypes.number,
         path: PropTypes.string,
@@ -82,4 +82,4 @@ TopicContainerStateFull.propTypes = {
     userOwnerId: PropTypes.number,
     getTopics: PropTypes.func
 }
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(TopicContainerStateFull))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(TopicContainer))
