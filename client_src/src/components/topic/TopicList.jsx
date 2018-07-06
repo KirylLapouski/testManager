@@ -3,22 +3,31 @@ import Paginator from '../Paginator'
 import Topic from './Topic'
 import PropTypes from 'prop-types'
 import EditButton from '../EditButton'
+import LessonResult from "../topic/LessonResult";
 //TODO: can rewrite on function
-class TopicContainer extends React.Component {
+class TopicList extends React.Component {
     render() {
-        var {loggedUserId,userOwnerId} =this.props
+        var { loggedUserId, userOwnerId, currenTopicId, topics } = this.props
         var paginatorSerialNumber
-        if ((JSON.stringify(this.props.topics) !== '[]')) {
-            for (var i = 0; i < this.props.topics.length; i++) {
-                if (Number(this.props.currenTopicId) === this.props.topics[i].id) {
-                    var topic = this.props.topics[i]
+        if ((JSON.stringify(topics) !== '[]')) {
+            //TODO:instead of receive currentTopicId just take current paginator position
+            for (var i = 0; i < topics.length; i++) {
+                if (Number(currenTopicId) === topics[i].id) {
+                    var topic = topics[i]
                     paginatorSerialNumber = i + 1
                 }
             }
-            var elem = <Topic key={this.props.match.params.topicId} readOnly={this.props.readOnly} path={topic.path} id={topic.id} />
+
+            var elem
+            if (currenTopicId === 0) {
+                elem = <LessonResult />
+            } else {
+                elem = <Topic key={this.props.match.params.topicId} readOnly={this.props.readOnly} path={topic.path} id={topic.id} />
+            }
         }
+
         return (<div>
-            {this.props.topics.length && <Paginator initCurrentPos={paginatorSerialNumber || null} length={this.props.topics.length} onClick={this.props.handlePaginatorClick} />}
+            {topics.length + 1 && <Paginator initCurrentPos={paginatorSerialNumber || null} length={topics.length + 1} onClick={this.props.handlePaginatorClick} />}
             {elem}
             {loggedUserId === userOwnerId && <EditButton onTopicEditClick={this.props.readOnly ? this.props.handleTopicBeginEditClick : this.props.handleTopicEndEditClick} />}
         </div>
@@ -26,7 +35,7 @@ class TopicContainer extends React.Component {
     }
 }
 
-TopicContainer.propTypes = {
+TopicList.propTypes = {
     topics: PropTypes.arrayOf({
         id: PropTypes.number,
         path: PropTypes.string,
@@ -41,4 +50,4 @@ TopicContainer.propTypes = {
     handleTopicEndEditClick: PropTypes.func,
     handleTopicBeginEditClick: PropTypes.func
 }
-export default TopicContainer
+export default TopicList

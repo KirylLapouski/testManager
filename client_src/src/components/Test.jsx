@@ -10,7 +10,7 @@ import Typography from 'material-ui/Typography';
 import Button from '@material-ui/core/Button';
 import Collapse from '@material-ui/core/Collapse';
 import DoneAllIcon from "@material-ui/icons/DoneAll";
-import Chart from './Chart'
+import Chart from './chart/Chart'
 import CloseIcon from '@material-ui/icons/Close'
 
 // TODO: test not always opening
@@ -80,7 +80,7 @@ class Test extends React.Component {
             displayChart: true
         });
 
-        setTimeout(() => { this.setState({ collapse: false }) }, 2000)
+        setTimeout(() => { this.setState({ collapse: false }) }, 1000)
     }
     handleChartClose = () => {
         this.setState({

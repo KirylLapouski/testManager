@@ -31,6 +31,14 @@ class TopicContainer extends React.Component {
     }
 
     handlePaginatorClick = (i) => {
+        if (i - 1 === this.props.topics.length) {
+            this.setState({
+                currenTopicId: 0 //special value for result topic (need to fix) by send current paginator position instead of currentTopicId
+            })
+            // this.props.history.push(`/lesson/${this.props.match.params.lessonId}/topic/result`)
+            return
+        }
+
         this.setState({
             currenTopicId: this.props.topics[i - 1].id
         })

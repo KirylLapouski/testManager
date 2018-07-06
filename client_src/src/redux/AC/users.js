@@ -10,7 +10,8 @@ const assignloggedInUser = (userId) => {
             }) => {
                 dispatch({
                     type: constants.users.ADD_LOGGED_IN_USER,
-                    payload: { ...data
+                    payload: {
+                        ...data
                     }
                 })
             })
@@ -110,7 +111,8 @@ const getUserById = userId => {
             }) => {
                 dispatch({
                     type: constants.users.ADD_USER,
-                    payload: { ...data
+                    payload: {
+                        ...data
                     }
                 })
             })
@@ -126,7 +128,8 @@ const attachUserToCource = (userId, secretWord) => {
             }) => {
                 dispatch({
                     type: constants.courses.ADD_COURSE,
-                    payload: { ...data[0]
+                    payload: {
+                        ...data[0]
                     }
                 })
                 return axios.post('http://localhost:3000/api/ParticipantDisciplineMappings', {
@@ -181,6 +184,24 @@ const untieUserFromCourse = (userId, courseId) => {
             })
     }
 }
+
+const getUserTestsResultsForLesson = (userId, lessonId) => {
+    //TODO:
+    return async dispatch => {
+        var { data: topics } = await axios.get(`http://localhost:3000/api/Lessons/${lessonId}/topics/`)
+        var questionsOfTopicsInlessonRaw = await Promise.all(topics.map(value => {
+            return axios.get(`http://localhost:3000/api/Topics/${value.id}/questions`)
+        }))
+        var questionsOfTopicsInlesson = questionsOfTopicsInlessonRaw.reduce((accumulator, { data: value }) => accumulator.concat(value), [])
+
+        var userAnswers = await Promise.all(questionsOfTopicsInlesson.map(value => {
+            return axios.get(`http://localhost:3000/api/UserQuestions?filter=%7B%22where%22%3A%7B%22participantId%22%3A${userId}%2C%20%22questionId%22%3A${value.id}%7D%7D`)
+        }))
+        console.log(userAnswers.reduce((accumulator, { data }) => accumulator.concat(data), []))
+    }
+}
+
+window.getUserTestsResultsForLesson = getUserTestsResultsForLesson
 export {
     assignloggedInUser,
     submitQuestionResult,
@@ -189,5 +210,6 @@ export {
     attachUserToCource,
     untieUserFromCourseAndDeleteCourse,
     untieUserFromCourse,
-    addFileToUser
+    addFileToUser,
+    getUserTestsResultsForLesson
 }
