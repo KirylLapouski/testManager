@@ -3,7 +3,7 @@ import Paginator from '../Paginator'
 import Topic from './Topic'
 import PropTypes from 'prop-types'
 import EditButton from '../EditButton'
-import LessonResult from "../topic/LessonResult";
+import LessonResultContainer from "../topic/LessonResultContainer";
 //TODO: can rewrite on function
 class TopicList extends React.Component {
     render() {
@@ -20,7 +20,7 @@ class TopicList extends React.Component {
 
             var elem
             if (currenTopicId === 0) {
-                elem = <LessonResult />
+                elem = <LessonResultContainer />
             } else {
                 elem = <Topic key={this.props.match.params.topicId} readOnly={this.props.readOnly} path={topic.path} id={topic.id} />
             }
