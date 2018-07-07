@@ -44,7 +44,7 @@ const submitQuestionResult = (userId, questionId, isRightAnswered) => {
                 data
             }) => {
                 dispatch({
-                    type: constants.users.SUBMIT_RESULT_OF_QUESTION,
+                    type: constants.users.SUBMIT_RESULT_OF_QUESTIONS_FOR_LOGGEDIN_USER,
                     payload: {
                         questions: data
                     }
@@ -186,7 +186,7 @@ const untieUserFromCourse = (userId, courseId) => {
 }
 
 const getUserTestsResultsForLesson = (userId, lessonId) => {
-    //TODO:
+    //TODO: now only for logged in
     return async dispatch => {
         var { data: topics } = await axios.get(`http://localhost:3000/api/Lessons/${lessonId}/topics/`)
         var questionsOfTopicsInlessonRaw = await Promise.all(topics.map(value => {
@@ -194,10 +194,16 @@ const getUserTestsResultsForLesson = (userId, lessonId) => {
         }))
         var questionsOfTopicsInlesson = questionsOfTopicsInlessonRaw.reduce((accumulator, { data: value }) => accumulator.concat(value), [])
 
-        var userAnswers = await Promise.all(questionsOfTopicsInlesson.map(value => {
-            return axios.get(`http://localhost:3000/api/UserQuestions?filter=%7B%22where%22%3A%7B%22participantId%22%3A${userId}%2C%20%22questionId%22%3A${value.id}%7D%7D`)
-        }))
-        console.log(userAnswers.reduce((accumulator, { data }) => accumulator.concat(data), []))
+        dispatch({
+            type: constants.users.SUBMIT_RESULT_OF_QUESTIONS_FOR_LOGGEDIN_USER,
+            payload: {
+                questions: questionsOfTopicsInlesson
+            }
+        })
+        // var userAnswers = await Promise.all(questionsOfTopicsInlesson.map(value => {
+        //     return axios.get(`http://localhost:3000/api/UserQuestions?filter=%7B%22where%22%3A%7B%22participantId%22%3A${userId}%2C%20%22questionId%22%3A${value.id}%7D%7D`)
+        // }))
+        // console.log(userAnswers.reduce((accumulator, { data }) => accumulator.concat(data), []))
     }
 }
 

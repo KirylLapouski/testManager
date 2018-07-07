@@ -10,7 +10,7 @@ const addLesson = (title, disciplineId, desc) => {
             desc
         })
             .then(response => {
-                if (response.status === 200){
+                if (response.status === 200) {
                     console.log(response)
                     id = response.data.id
                     return
@@ -35,16 +35,16 @@ const addLesson = (title, disciplineId, desc) => {
     }
 }
 
-const deleteLesson = lessonId =>{
-    return dispatch =>{
+const deleteLesson = lessonId => {
+    return dispatch => {
         axios.delete(`http://localhost:3000/api/Lessons/${lessonId}`)
-            .then(response =>{
+            .then(response => {
                 return response.data
             })
-            .then(response=>{
+            .then(response => {
                 dispatch({
                     type: constants.lessons.DELETE_LESSON,
-                    payload:{
+                    payload: {
                         id: lessonId
                     }
                 })
@@ -52,21 +52,21 @@ const deleteLesson = lessonId =>{
     }
 }
 
-const editLesson = (lessonId,title,desctiption) =>{
-    var resLesson = {id: String(lessonId)}
+const editLesson = (lessonId, title, desctiption) => {
+    var resLesson = { id: String(lessonId) }
 
-    if(title)
+    if (title)
         resLesson.title = title
-    if(desctiption)
+    if (desctiption)
         resLesson.description = desctiption
-    return dispatch=>{
-        axios.patch('http://localhost:3000/api/Lessons',resLesson)
-            .then(response=>{
+    return dispatch => {
+        axios.patch('http://localhost:3000/api/Lessons', resLesson)
+            .then(response => {
                 return response.data
-            }).then(response=>{
+            }).then(response => {
                 dispatch({
-                    type: constants.lessons.EDIT_LESSON,
-                    payload:{
+                    type: constants.lessons.UPDATE_LESSON,
+                    payload: {
                         ...response
                     }
                 })

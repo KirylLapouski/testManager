@@ -5,11 +5,11 @@ const addTopic = (lessonId, node, title) => {
     return dispatch => {
         request.post('http://localhost:3000/api/Topics', {
             form: {
-                path:node,
+                path: node,
                 lessonId: lessonId,
                 title: title || ' '
             }
-        }, (err, response,body) => {
+        }, (err, response, body) => {
             dispatch({
                 type: constants.topics.ADD_TOPIC,
                 payload: {
@@ -53,9 +53,9 @@ const addQuestionIdToTopic = topicID => {
     }
 }
 
-const updateTopic = (topicId, editorState) =>{
-    return dispatch =>{
-        axios.patch('http://localhost:3000/api/Topics',{ id: topicId, path:editorState })
+const updateTopic = (topicId, editorState) => {
+    return dispatch => {
+        axios.patch('http://localhost:3000/api/Topics', { id: topicId, path: editorState })
             .then(response => {
                 return response.data
             })
@@ -70,7 +70,6 @@ const updateTopic = (topicId, editorState) =>{
     }
 }
 
-window.updateTopic = updateTopic
 export {
     addTopic,
     loadTopics,
