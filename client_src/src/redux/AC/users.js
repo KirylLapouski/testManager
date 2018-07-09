@@ -37,6 +37,14 @@ const submitQuestionResult = (userId, questionId, isRightAnswered) => {
                         questionId
                     })
             })
+            .then(({ data }) => {
+                if (data.isRightAnswered) {
+                    dispatch({
+                        type: constants.users.ADD_RIGHT_ANSWERED_QUESTION_FOR_LOGGED_IN,
+                        payload: data
+                    })
+                }
+            })
             .then(() => {
                 return axios.get(`http://localhost:3000/api/Participants/${userId}/questions`)
             })
@@ -52,6 +60,10 @@ const submitQuestionResult = (userId, questionId, isRightAnswered) => {
             })
     }
 }
+
+// const returnRightAnsweredQuestions = (userId, lessonId) => {
+
+// }
 const addImageToUser = (userId, form) => {
     return dispatch => {
         var xhr = new XMLHttpRequest()
@@ -194,6 +206,15 @@ const getUserTestsResultsForLesson = (lessonId, userId) => {
         }))
         var questionsInlesson = questionsInlessonRaw.reduce((accumulator, { data: value }) => accumulator.concat(value), [])
 
+        var questionsInlessonWithResults = await Promise.all(questionsInlesson.map(value => axios.get(`http://localhost:3000/api/UserQuestions?filter=%7B%22where%22%3A%7B%20%22participantId%22%3A${userId}%2C%20%22questionId%22%3A${value.id}%7D%7D`)))
+        questionsInlessonWithResults = questionsInlessonWithResults.map(value => value.data[0])
+        // questionsInlesson.map(value => {
+        //     value.rightAnswered
+        //     var question = questionsInlesson.filter(question => question.id === value.id)[0]
+        //     question.rightAnswered = value.rightAnswered
+        //     console.log(question)
+        //     return value
+        // })
         dispatch({
             type: constants.users.SUBMIT_RESULT_OF_QUESTIONS_FOR_LOGGEDIN_USER,
             payload: {

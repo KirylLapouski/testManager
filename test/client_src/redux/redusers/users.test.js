@@ -60,10 +60,9 @@ describe('user reducer', function () {
             reducerTest(store, action, expectedResult)
         })
 
-        it('add logged in user twice (should merge)')
     })
     describe('SUBMIT_RESULT_OF_QUESTIONS_FOR_LOGGEDIN_USER', function () {
-        it('submit result of 3 question for logged in user', function () {
+        it('submit result of 3 question for logged in user with empty results of question prop array', function () {
             const store = initStore
             const action = {
                 type: constants.users.SUBMIT_RESULT_OF_QUESTIONS_FOR_LOGGEDIN_USER,
@@ -97,7 +96,56 @@ describe('user reducer', function () {
 
             const expectedResult = {
                 loggedIn: {
-                    answeredQuestions: [1, 4, 3],
+                    answeredQuestions: [1, 3, 4],
+                    email: "lapkovskyk@mail.ru",
+                    emailVerified: null,
+                    firstName: null,
+                    id: 1,
+                    imageUrl: null,
+                    loopbackToken: "KQFjsYyHw4bQekuCWFmWDWy6uvpmBwOGwlb330Yt0ud62o6SksCggWPGJ6mFCzxX",
+                    loopbackTokenExpireIn: "Sat Jul 21 2018",
+                    realm: null,
+                    secondName: null,
+                    username: "kirill",
+                    yandexRefreshToken: null,
+                    yandexToken: null,
+                    yandexTokenExpireIn: null,
+                }
+            }
+            reducerTest(store, action, expectedResult)
+        })
+
+        it('submit result of 3 question for logged in user with NOT empty results of question prop array  (should merge)', function () {
+            const store = {
+                loggedIn: {
+                    ...initStore.loggedIn,
+                    ... {
+                        answeredQuestions: Object.assign([], initStore.loggedIn.answeredQuestions, [1, 3])
+                    }
+                }
+            }
+            // const store = Object.assign({}, initStore, {
+            //     loggedIn: {
+            //         answeredQuestions: Object.assign([], initStore.loggedIn.answeredQuestions, [1, 3])
+            //     }
+            // })
+            const action = {
+                type: constants.users.SUBMIT_RESULT_OF_QUESTIONS_FOR_LOGGEDIN_USER,
+                payload: {
+                    questions: [
+                        {
+                            description: "",
+                            id: 2,
+                            title: "Question 2",
+                            topicId: 2,
+                            weight: 1,
+                        }
+                    ]
+                }
+            }
+            const expectedResult = {
+                loggedIn: {
+                    answeredQuestions: [1, 2, 3],
                     email: "lapkovskyk@mail.ru",
                     emailVerified: null,
                     firstName: null,
@@ -157,5 +205,8 @@ describe('user reducer', function () {
 
             reducerTest(store, action, expextedResult)
         })
+    })
+    describe('ADD_RIGHT_ANSWERED_QUESTION_FOR_LOGGED_IN', function () {
+        it('TODO')
     })
 })
