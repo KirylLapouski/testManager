@@ -209,4 +209,7 @@ describe('user reducer', function () {
     describe('ADD_RIGHT_ANSWERED_QUESTION_FOR_LOGGED_IN', function () {
         it('TODO')
     })
+    describe('ADD_WRONG_ANSWERED_QUESTION_FOR_LOGGED_IN', function () {
+        it('TODO')
+    })
 })

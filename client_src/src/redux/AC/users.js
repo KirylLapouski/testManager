@@ -37,10 +37,17 @@ const submitQuestionResult = (userId, questionId, isRightAnswered) => {
                         questionId
                     })
             })
-            .then(({ data }) => {
+            .then(({
+                data
+            }) => {
                 if (data.isRightAnswered) {
                     dispatch({
                         type: constants.users.ADD_RIGHT_ANSWERED_QUESTION_FOR_LOGGED_IN,
+                        payload: data
+                    })
+                }else{
+                    dispatch({
+                        type: constants.users.ADD_WRONG_ANSWERED_QUESTION_FOR_LOGGED_IN,
                         payload: data
                     })
                 }
@@ -198,27 +205,33 @@ const untieUserFromCourse = (userId, courseId) => {
 }
 
 const getUserTestsResultsForLesson = (lessonId, userId) => {
-    //TODO: now only for logged in
+    //TODO: now only for logged in. Is it true ?
     return async dispatch => {
-        var { data: topics } = await axios.get(`http://localhost:3000/api/Lessons/${lessonId}/topics/`)
+        var {
+            data: topics
+        } = await axios.get(`http://localhost:3000/api/Lessons/${lessonId}/topics/`)
         var questionsInlessonRaw = await Promise.all(topics.map(value => {
             return axios.get(`http://localhost:3000/api/Topics/${value.id}/questions`)
         }))
-        var questionsInlesson = questionsInlessonRaw.reduce((accumulator, { data: value }) => accumulator.concat(value), [])
+        var questionsInlesson = questionsInlessonRaw.reduce((accumulator, {
+            data: value
+        }) => accumulator.concat(value), [])
 
         var questionsInlessonWithResults = await Promise.all(questionsInlesson.map(value => axios.get(`http://localhost:3000/api/UserQuestions?filter=%7B%22where%22%3A%7B%20%22participantId%22%3A${userId}%2C%20%22questionId%22%3A${value.id}%7D%7D`)))
         questionsInlessonWithResults = questionsInlessonWithResults.map(value => value.data[0])
-        // questionsInlesson.map(value => {
-        //     value.rightAnswered
-        //     var question = questionsInlesson.filter(question => question.id === value.id)[0]
-        //     question.rightAnswered = value.rightAnswered
-        //     console.log(question)
-        //     return value
-        // })
+        var questionResults = questionsInlesson.map(question => {
+            var position = questionsInlessonWithResults.map(value => value.questionId).indexOf(question.id)
+            if (position >= 0) {
+                return { ...question,
+                    isRightAnswered: questionsInlessonWithResults[position].isRightAnswered
+                }
+            }
+        })
+
         dispatch({
             type: constants.users.SUBMIT_RESULT_OF_QUESTIONS_FOR_LOGGEDIN_USER,
             payload: {
-                questions: questionsInlesson
+                questions: questionResults
             }
         })
         return questionsInlesson

@@ -4,7 +4,7 @@
     "port": 3306,
     "url": "",
     "database": "testmanager",
-    "password": "1111",
+    "password": "1331",
     "name": "db",
     "user": "root",
     "connector": "mysql"
