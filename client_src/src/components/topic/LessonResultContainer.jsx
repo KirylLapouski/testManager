@@ -3,14 +3,17 @@ import LessonResult from "./LessonResult";
 import { withRouter } from "react-router-dom";
 import { connect } from 'react-redux'
 import PropTypes from "prop-types"
-import { getUserTestsResultsForLesson } from "../../redux/AC/users";
+import { getUserTestsResultsForLesson } from '../../redux/AC/users';
+import { loadQuestionsForLesson } from '../../redux/AC/question'
 class LessonResultContainer extends React.Component {
 
     componentDidMount() {
         this.props.getLessonQuestionsResult(this.props.match.params.lessonId, this.props.loggedUserId)
+        this.props.getAllQuestionsForLesson(this.props.match.params.lessonId)
     }
     render() {
-        return <LessonResult />
+        var { rightAnswersWeight, wrongAnswersWeight, questions } = this.props
+        return <LessonResult wrongAnswerWeight={wrongAnswersWeight} rightAnswersWeight={rightAnswersWeight} questions={questions} />
     }
 }
 
@@ -31,13 +34,26 @@ const getQuestionsInLesson = (state, lessonId) => {
     return questions
 }
 const mapStateToProps = (state, ownProps) => {
-    var userQuestionsResult = [...(state.users.loggedIn.answeredQuestions || [])]
+    var idRightAnsweredQuestions = [...(state.users.loggedIn.rightAnswered || [])]
     var questionsInLesson = getQuestionsInLesson(state, ownProps.match.params.lessonId)
-    var answeredQuestionsInThisLesson = questionsInLesson.filter(value => userQuestionsResult.includes(value.id))
+    var weightOfQuestionsInLesson = questionsInLesson.reduce((acc, value) => acc + value.weight, 0)
+    var rightAnsweredQuestionsInThisLesson = questionsInLesson.filter(value => idRightAnsweredQuestions.includes(value.id))
+    var weightOfRightAnsweredQuestionsInThisLesson = rightAnsweredQuestionsInThisLesson.reduce((acc, value) => acc + value.weight, 0)
 
+    var questions = questionsInLesson.map(value => {
+        if (idRightAnsweredQuestions.includes(value.id)) {
+            value.rightAnswered = true
+        } else {
+            value.rightAnswered = false
+        }
+        return value
+    })
 
     return {
-        loggedUserId: state.users.loggedIn && state.users.loggedIn.id
+        loggedUserId: state.users.loggedIn && state.users.loggedIn.id,
+        wrongAnswersWeight: 100 - (weightOfRightAnsweredQuestionsInThisLesson * 100 / weightOfQuestionsInLesson),
+        rightAnswersWeight: weightOfRightAnsweredQuestionsInThisLesson * 100 / weightOfQuestionsInLesson,
+        questions
     }
     //  ((value) => value)
     //     .then(questions => {
@@ -53,15 +69,20 @@ const mapDispatchToProps = (dispatch) => {
     return {
         getLessonQuestionsResult(lessonId, userId) {
             dispatch(getUserTestsResultsForLesson(lessonId, userId))
+        },
+        getAllQuestionsForLesson(lessonId) {
+            dispatch(loadQuestionsForLesson(lessonId))
         }
     }
 }
 LessonResultContainer.propTypes = {
     //redux
+    questions: PropTypes.array,
     loggedUserId: PropTypes.number,
     rightAnswersWeight: PropTypes.number,
     wrongAnswersWeight: PropTypes.number,
     passedQuestions: PropTypes.array,
-    getLessonQuestionsResult: PropTypes.func
+    getLessonQuestionsResult: PropTypes.func,
+    getAllQuestionsForLesson: PropTypes.func
 }
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(LessonResultContainer))

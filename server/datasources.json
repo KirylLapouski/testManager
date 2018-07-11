@@ -1,12 +1,12 @@
 {
-  "db": {
-    "host": "127.0.0.1",
-    "port": 3306,
-    "url": "",
-    "database": "testmanager",
-    "password": "1331",
-    "name": "db",
-    "user": "root",
-    "connector": "mysql"
-  }
+    "db": {
+        "host": "127.0.0.1",
+        "port": 3306,
+        "url": "",
+        "database": "testmanager",
+        "password": "1111",
+        "name": "db",
+        "user": "root",
+        "connector": "mysql"
+    }
 }

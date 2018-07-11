@@ -7,12 +7,12 @@ const users = (state = {}, action) => {
         case constants.users.ADD_LOGGED_IN_USER:
             return {
                 ...state,
-                loggedIn: { ...state.loggedIn,
+                loggedIn: {
+                    ...state.loggedIn,
                     ...action.payload
                 }
             }
         case constants.users.SUBMIT_RESULT_OF_QUESTIONS_FOR_LOGGEDIN_USER:
-            console.log(action.payload.questions)
             var newState = {
                 ...state
             }
@@ -23,8 +23,8 @@ const users = (state = {}, action) => {
             loggedInUser.answeredQuestions = uniqueArray([...(state.loggedIn.answeredQuestions || []), ...questionsId]).map(value => +value)
 
             var rightAnsweredId = action.payload.questions.filter(value => {
-                    return value.isRightAnswered
-                })
+                return value.isRightAnswered
+            })
                 .map(value => value.id)
             loggedInUser.rightAnswered = uniqueArray([...(state.loggedIn.rightAnswered || []), ...rightAnsweredId]).map(value => +value)
 

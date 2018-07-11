@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 //TODO: write % when hover chart
 class Chart extends React.Component {
     render() {
-        var { unpassWeight, width, height, style = {} } = this.props
+        var { unpassWeight, width, height, style = {}, duration } = this.props
         var labels = unpassWeight ? ['Правильные ответы', 'Неправильные ответы', 'Не отвечено'] : ['Правильные ответы', 'Неправильные ответы']
         return <Doughnut width={width} height={height}
             options={{
@@ -16,7 +16,7 @@ class Chart extends React.Component {
                     }
                 },
                 animation: {
-                    duration: 1000
+                    duration: duration || 1000
                 }
             }}
             data={{
@@ -42,6 +42,7 @@ Chart.propTypes = {
     wrongAnswersWeight: PropTypes.number,
     width: PropTypes.number,
     height: PropTypes.number,
+    duration: PropTypes.number,
     style: PropTypes.shape({
         fontColor: PropTypes.string,
         firstParamColor: PropTypes.string,
