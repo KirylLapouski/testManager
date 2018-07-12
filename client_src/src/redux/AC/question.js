@@ -24,6 +24,16 @@ const addQuestion = (topicId, weight, title, description = ' ') => {
     }
 }
 
+const loadQuestionsForLesson = lessonId => {
+    return dispatch => {
+        axios.get(`http://localhost:3000/api/Lessons/${lessonId}/topics`)
+            .then(values => {
+                values.data.map(value => value.id).forEach(topicsId => {
+                    loadQuestion(topicsId)(dispatch)
+                })
+            })
+    }
+}
 const loadQuestion = topicId => {
     return dispatch => {
         axios.get('http://localhost:3000/api/Topics/' + topicId + '/questions')
@@ -97,5 +107,6 @@ export {
     loadQuestion,
     deleteQuestion,
     updateQuestion,
-    createTestFromFile
+    createTestFromFile,
+    loadQuestionsForLesson
 }

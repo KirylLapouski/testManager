@@ -4,14 +4,15 @@ import UserInfo from '../../UserInfo'
 import Button from 'material-ui/Button'
 import AddIcon from '@material-ui/icons/Add'
 import NewLessonModal from '../../modal/modal-total/NewLessonModal'
-import LessonContainer from '../../lesson/LessonList'
+import CourseMain from './CourseMain'
+
 import PropTypes from 'prop-types'
 //TODO: rewrite modals on childs
 //TODO: can rewrite on function
 class EditableCourse extends React.Component {
     render() {
-        var {loggedUserId,ownerUser,course, lessonModalOpened,backgroundModalOpened,handleTopicModalOpen,handleTopicModalClose,handleBackgroundModalClose,handleBackgroundModalOpen,handleSubmitNewBackground,handleChange} = this.props
-        return <div>
+        var { loggedUserId, ownerUser, course, lessonModalOpened, backgroundModalOpened, handleTopicModalOpen, handleTopicModalClose, handleBackgroundModalClose, handleBackgroundModalOpen, handleSubmitNewBackground, handleChange } = this.props
+        return <div style={{ position: 'relative' }}>
             <CourseHeader backgroundModalOpened={backgroundModalOpened}
                 handleBackgroundModalOpen={handleBackgroundModalOpen}
                 handleBackgroundModalClose={handleBackgroundModalClose}
@@ -21,15 +22,15 @@ class EditableCourse extends React.Component {
                 teacherLastName={ownerUser && ownerUser.secondName}
                 handleSubmitNewBackground={handleSubmitNewBackground}
                 handleChange={handleChange}
-                >
-                <UserInfo disabled={true} userId={ownerUser && ownerUser.id}/>
+            >
+                <UserInfo disabled={true} userId={ownerUser && ownerUser.id} />
             </CourseHeader>
 
-            {loggedUserId === ownerUser.id && <Button onClick={handleTopicModalOpen} variant="fab" color="primary" aria-label="add" style={{ position: 'fixed', bottom: '20px', right: '20px', zIndex:'2' }}>
+            {loggedUserId === ownerUser.id && <Button onClick={handleTopicModalOpen} variant="fab" color="primary" aria-label="add" style={{ position: 'fixed', bottom: '20px', right: '20px', zIndex: '2' }}>
                 <AddIcon />
             </Button>}
-            <LessonContainer lessonsOwner={ownerUser} loggedUserId={loggedUserId} courseId={this.props.match.params.courseId}/>
-            <NewLessonModal open={lessonModalOpened} courseId={this.props.match.params.courseId} handleClose={handleTopicModalClose}/>
+            <CourseMain ownerUser={ownerUser} loggedUserId={loggedUserId} courseId={+this.props.match.params.courseId} />
+            <NewLessonModal open={lessonModalOpened} courseId={this.props.match.params.courseId} handleClose={handleTopicModalClose} />
         </div>
     }
 }
