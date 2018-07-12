@@ -34,7 +34,7 @@ const mapStateToProps = (state, ownProps) => {
     var userQuestionsResult = [...(state.users.loggedIn.answeredQuestions || [])]
     var questionsInLesson = getQuestionsInLesson(state, ownProps.match.params.lessonId)
     var answeredQuestionsInThisLesson = questionsInLesson.filter(value => userQuestionsResult.includes(value.id))
-
+    //TODO:
 
     return {
         loggedUserId: state.users.loggedIn && state.users.loggedIn.id
