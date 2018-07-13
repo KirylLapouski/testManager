@@ -27,7 +27,6 @@ class SingleCourseContainer extends React.Component {
     }
 
     handleChange = (name) => (value) => (e) => {
-        console.log(name, value, e)
         if (!e) {
             this.setState({
                 [name]: value

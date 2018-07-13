@@ -1,4 +1,4 @@
-function uniqueArray(arr) {
+function uniqueArrayOfPrimitives(arr) {
     var obj = {};
 
     for (var i = 0; i < arr.length; i++) {
@@ -8,4 +8,4 @@ function uniqueArray(arr) {
     return Object.keys(obj)
 }
 
-export { uniqueArray }
+export { uniqueArrayOfPrimitives }

@@ -55,15 +55,6 @@ const mapStateToProps = (state, ownProps) => {
         rightAnswersWeight: weightOfRightAnsweredQuestionsInThisLesson * 100 / weightOfQuestionsInLesson,
         questions
     }
-    //  ((value) => value)
-    //     .then(questions => {
-    //         return questions.filter(value => {
-    //             return passedQuestions.indexOf(value.id) !== -1 ? true : false
-    //         })
-    //     }).then(value => { return { passedQuestions: value } })
-
-
-
 }
 const mapDispatchToProps = (dispatch) => {
     return {

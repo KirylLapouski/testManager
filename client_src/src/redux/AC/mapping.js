@@ -14,7 +14,6 @@ const addDisciplineUserMapping = (disciplineId) => {
             })
     }
 }
-window.addDisciplineUserMapping = addDisciplineUserMapping
 export {
     addDisciplineUserMapping
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import UserInfo from '../UserInfo';
+import UserInfo from '../user/UserInfo';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import ExpansionPanel, {

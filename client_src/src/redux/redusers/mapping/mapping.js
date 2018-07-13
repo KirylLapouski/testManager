@@ -3,9 +3,9 @@ import disciplineUser from "./disciplineUser";
 const mapping = function (state = {}, action) {
     return {
         ...state,
-        userDiscipline: [
+        userDiscipline: {
             ...disciplineUser(state.userDiscipline, action)
-        ]
+        }
     }
 
 }

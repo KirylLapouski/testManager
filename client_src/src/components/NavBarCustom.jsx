@@ -1,6 +1,6 @@
 import React from 'react';
 import { Navbar, NavbarBrand, NavbarNav, NavbarToggler, NavItem, NavLink } from 'mdbreact';
-import UserInfo from './UserInfo';
+import UserInfo from './user/UserInfo';
 import { Link } from 'react-router-dom';
 import Add from '@material-ui/icons/Add';
 import Button from 'material-ui/Button';
@@ -81,8 +81,8 @@ class NavBarCustom extends React.Component {
                             <Add style={{ width: "30px", height: "30px" }} />
                         </Button>
                         <Menu id="simple-menu" anchorEl={menu} open={Boolean(menu)} style={{ display: "relative", top: "40px" }} onClose={this.handleMenuClose}>
-                            <MenuItem onClick={this.handleModalOpen.bind(this,'attachCourseModalOpened')}>Присоединиться</MenuItem>
-                            <MenuItem onClick={this.state.open ? this.handleModalClose : this.handleModalOpen.bind(this,'open')}>Создать курс</MenuItem>
+                            <MenuItem onClick={this.handleModalOpen.bind(this, 'attachCourseModalOpened')}>Присоединиться</MenuItem>
+                            <MenuItem onClick={this.state.open ? this.handleModalClose : this.handleModalOpen.bind(this, 'open')}>Создать курс</MenuItem>
                         </Menu>
                     </NavItem>
                     <NavItem>
@@ -93,7 +93,7 @@ class NavBarCustom extends React.Component {
                 <AttachToCourseModal open={this.state.attachCourseModalOpened} handleClose={this.handleModalClose.bind(this, 'attachCourseModalOpened')} />
                 {!this.state.isWideEnough && <NavbarToggler onClick={this.handleClick} />}
             </Navbar>
-       );
+        );
     }
 }
 
@@ -102,7 +102,7 @@ NavBarCustom.propTypes = {
     userId: PropTypes.number
 }
 
-const mapStateToProps = state =>{
+const mapStateToProps = state => {
     return {
         userId: state.users.loggedIn && state.users.loggedIn.id
     }

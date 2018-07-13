@@ -1,6 +1,6 @@
 import constants from '../constants'
 import {
-    uniqueArray
+    uniqueArrayOfPrimitives
 } from "../../utils";
 const users = (state = {}, action) => {
     switch (action.type) {
@@ -20,13 +20,13 @@ const users = (state = {}, action) => {
             var questionsId = action.payload.questions.map(value => {
                 return value.id
             })
-            loggedInUser.answeredQuestions = uniqueArray([...(state.loggedIn.answeredQuestions || []), ...questionsId]).map(value => +value)
+            loggedInUser.answeredQuestions = uniqueArrayOfPrimitives([...(state.loggedIn.answeredQuestions || []), ...questionsId]).map(value => +value)
 
             var rightAnsweredId = action.payload.questions.filter(value => {
                 return value.isRightAnswered
             })
                 .map(value => value.id)
-            loggedInUser.rightAnswered = uniqueArray([...(state.loggedIn.rightAnswered || []), ...rightAnsweredId]).map(value => +value)
+            loggedInUser.rightAnswered = uniqueArrayOfPrimitives([...(state.loggedIn.rightAnswered || []), ...rightAnsweredId]).map(value => +value)
 
             newState.loggedIn = loggedInUser
             return newState
@@ -48,7 +48,7 @@ const users = (state = {}, action) => {
             var loggedIn = {
                 ...state.loggedIn
             }
-            loggedIn.rightAnswered = uniqueArray([...(loggedIn.rightAnswered || []), action.payload.questionId]).map(value => +value)
+            loggedIn.rightAnswered = uniqueArrayOfPrimitives([...(loggedIn.rightAnswered || []), action.payload.questionId]).map(value => +value)
             return {
                 ...state,
                 loggedIn: loggedIn
