@@ -45,7 +45,7 @@ const submitQuestionResult = (userId, questionId, isRightAnswered) => {
                         type: constants.users.ADD_RIGHT_ANSWERED_QUESTION_FOR_LOGGED_IN,
                         payload: data
                     })
-                }else{
+                } else {
                     dispatch({
                         type: constants.users.ADD_WRONG_ANSWERED_QUESTION_FOR_LOGGED_IN,
                         payload: data
@@ -106,7 +106,6 @@ const addFileToUser = (userId, form) => {
         xhr.open('POST', `http://localhost:3000/${userId}/saveFile`, true)
 
         xhr.onload = () => {
-            console.log(xhr.status)
             // if(xhr.status)
             // xhr.open('GET', `http://localhost:3000/api/Participants/${userId}`)
             // xhr.onload = (res) => {
@@ -222,7 +221,8 @@ const getUserTestsResultsForLesson = (lessonId, userId) => {
         var questionResults = questionsInlesson.map(question => {
             var position = questionsInlessonWithResults.map(value => value.questionId).indexOf(question.id)
             if (position >= 0) {
-                return { ...question,
+                return {
+                    ...question,
                     isRightAnswered: questionsInlessonWithResults[position].isRightAnswered
                 }
             }
@@ -242,7 +242,24 @@ const getUserTestsResultsForLesson = (lessonId, userId) => {
     }
 }
 
-window.getUserTestsResultsForLesson = getUserTestsResultsForLesson
+const getUsersInDiscipline = (disciplineId) => {
+    return dispatch => {
+        axios.get(`http://localhost:3000/api/ParticipantDisciplineMappings?filter=%7B%22where%22%3A%7B%22disciplineId%22%3A${disciplineId}%7D%7D`)
+            .then(({ data }) => {
+                return Promise.all(data.map(value => {
+                    return axios.get(`http://localhost:3000/api/Participants/${value.participantId}`)
+                }))
+            })
+            .then((values) => {
+                dispatch({
+                    type: constants.users.ADD_USERS,
+                    payload: {
+                        users: values.map(value => value.data).filter(value => value.type !== 'teacher')
+                    }
+                })
+            })
+    }
+}
 export {
     assignloggedInUser,
     submitQuestionResult,
@@ -252,5 +269,6 @@ export {
     untieUserFromCourseAndDeleteCourse,
     untieUserFromCourse,
     addFileToUser,
-    getUserTestsResultsForLesson
+    getUserTestsResultsForLesson,
+    getUsersInDiscipline
 }

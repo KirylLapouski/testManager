@@ -35,6 +35,15 @@ const users = (state = {}, action) => {
                 ...state,
                 [action.payload.id]: action.payload
             }
+        case constants.users.ADD_USERS:
+            var usersToAdd = action.payload.users.reduce((acc, value) => {
+                acc[value.id] = value
+                return acc
+            }, {})
+            return {
+                ...state,
+                ...usersToAdd
+            }
         case constants.users.ADD_RIGHT_ANSWERED_QUESTION_FOR_LOGGED_IN:
             var loggedIn = {
                 ...state.loggedIn
