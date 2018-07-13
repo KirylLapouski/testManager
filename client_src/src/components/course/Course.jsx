@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import UserInfo from '../user/UserInfo'
+import UserInfoContainer from '../user/UserInfoContainer'
 import { Link } from 'react-router-dom'
 import Grow from '@material-ui/core/Grow'
 import Divider from '@material-ui/core/Divider'
@@ -32,7 +32,7 @@ class Course extends React.Component {
             <Grow timeout={800} in={true}>
                 <div className="z-depth-2" style={{ height: '400px', width: '270px', color: 'white', marginBottom: '20px', backgroundImage: `url(${backgroundUrl})`, backgroundSize: 'cover' }}>
                     <div style={{ background: 'rgba(0,0,0,0.1)', overflow: 'hidden' }}>
-                        <UserInfo disabled={true} userId={this.props.ownerId} style={{ float: 'left' }} />
+                        <UserInfoContainer disabled={true} userId={this.props.ownerId} style={{ float: 'left' }} />
                         <Link to={'/' + this.props.id + '/lessons'}> {this.props.title}</Link>
                     </div>
                     <Divider inset={true} style={{ marginLeft: '0px', marginTop: '290px', backgroundColor: 'rgba(0,0,0,0)', width: '100%' }} />

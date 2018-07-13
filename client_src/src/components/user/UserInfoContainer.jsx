@@ -39,8 +39,8 @@ class UserInfoContainer extends React.Component {
         this.props.history.push(`/`)
     }
     render() {
-        return this.props.extended ? <UserInfoExtended handleMenuClick={this.handleMenuClick} handleMenuClose={this.handleMenuClose} goToUrl={this.goToUrl} logOut={this.logOut} {...this.props} {...this.state} />
-            : <UserInfo handleMenuClick={this.handleMenuClick} handleMenuClose={this.handleMenuClose} goToUrl={this.goToUrl} logOut={this.logOut} {...this.props} {...this.state} />
+        return this.props.extended ? <UserInfoExtended handleMenuClick={this.handleMenuClick} handleMenuClose={this.handleMenuClose} goToUrl={this.goToUrl} logOut={this.logOut} imageSrc={this.props.imageSrc} {...this.props} {...this.state} />
+            : <UserInfo handleMenuClick={this.handleMenuClick} handleMenuClose={this.handleMenuClose} goToUrl={this.goToUrl} logOut={this.logOut} imageSrc={this.props.imageSrc} {...this.props} {...this.state} />
     }
 }
 
@@ -49,8 +49,9 @@ const mapStateToProps = (state, ownProps) => {
     if (ownProps.userId) {
         imageSrc = state.users[ownProps.userId] && state.users[ownProps.userId].imageUrl
     }
+
     return {
-        imageSrc
+        imageSrc: imageSrc || 'https://globalblueproject.org/wp-content/uploads/2016/07/blank-profile-picture.png'
     }
 }
 
@@ -67,6 +68,7 @@ UserInfoContainer.propTypes = {
     style: PropTypes.object,
     userId: PropTypes.number,
     extended: PropTypes.bool,
+    user: PropTypes.object,
     //redux
     imageSrc: PropTypes.string,
     getUser: PropTypes.func

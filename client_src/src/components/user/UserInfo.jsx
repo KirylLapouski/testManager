@@ -10,7 +10,7 @@ class UserInfo extends React.Component {
         var { style, menu, imageSrc, goToUrl, userId, handleMenuClose, handleMenuClick, logOut } = this.props
         return (<div style={Object.assign({}, { display: 'inline-block', position: 'relative' }, style)}>
             <Button color="primary" aria-owns={menu ? 'simple-menu2' : null} aria-haspopup="true" onClick={handleMenuClick}>
-                <img width="50px" height="50px" style={{ backgroundColor: 'white' }} src={imageSrc || 'https://globalblueproject.org/wp-content/uploads/2016/07/blank-profile-picture.png'} />
+                <img width='50px' height='50px' style={{ backgroundColor: 'white' }} src={imageSrc} />
             </Button>
             {this.props.disabled ||
                 <Menu open={Boolean(menu)} id="simple-menu2" anchorEl={menu} style={{ position: 'absolute', top: '40px' }} onClose={handleMenuClose}>
@@ -29,11 +29,13 @@ UserInfo.propTypes = {
     style: PropTypes.object,
     userId: PropTypes.number,
     menu: PropTypes.bool,
+    imageSrc: PropTypes.string,
     goToUrl: PropTypes.func,
     handleMenuClose: PropTypes.func,
     handleMenuClick: PropTypes.func,
     logOut: PropTypes.func
 }
+
 
 
 export default UserInfo

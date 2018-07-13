@@ -1,17 +1,19 @@
 import React from 'react'
-import UserInfo from "./UserInfo";
+import UserInfoContainer from "./UserInfoContainer";
 import PropTypes from "prop-types";
 class UserList extends React.Component {
     render() {
         var { users } = this.props
-        return <React.Fragment>
-            {users.map(() => <UserInfo />)}
-        </React.Fragment>
+        return <div className="container" style={{ display: 'flex', marginTop: '20px', justifyContent: 'space-between', flexWrap: 'wrap', maxWidth: '800px' }}>
+            {users.map((value) => <UserInfoContainer extended={true} user={value} userId={value.id} />)}
+        </div>
     }
 }
 
 UserList.propTypes = {
-    users: PropTypes.array
+    users: PropTypes.arrayOf({
+        id: PropTypes.number
+    })
 }
 
 export default UserList

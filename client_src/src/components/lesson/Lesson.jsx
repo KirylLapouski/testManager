@@ -1,5 +1,5 @@
 import React from 'react';
-import UserInfo from '../user/UserInfo';
+import UserInfoContainer from '../user/UserInfoContainer';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import ExpansionPanel, {
@@ -55,7 +55,7 @@ class Lesson extends React.Component {
                 {/* TODO: expand when edditing */}
                 <ExpansionPanel style={{ marginTop: "20px", paddingBottom: '10px', backgroundColor: 'grey', backgroundImage: 'url("https://lh4.googleusercontent.com/-64uhpsHBEZw/VMqrG_6wowI/AAAAAAAAAIE/_Pw_QoP0opU/w1005-h214-no/123_rainbowtriangle_teal.jpg")' }}>
                     <ExpansionPanelSummary expandIcon={<ExpandMoreIcon style={{ color: "white" }} />}>
-                        <UserInfo disabled={true} userId={lessonOwner && lessonOwner.id} style={{ float: "left" }} />
+                        <UserInfoContainer disabled={true} userId={lessonOwner && lessonOwner.id} style={{ float: "left" }} />
                         {/* TODO: спорное решение с Link */}
                         {/* TODO: click lesson click error */}
                         {edditing ? <TextField name='title' onChange={handleInputChange} InputProps={{ disableUnderline: true }} placeholder='Название урока' onClick={this.handleEditableHeaderClick} style={{ backgroundColor: 'white', padding: '10px', opacity: '0.9', borderRadius: '4px', width: '85%' }} /> : <Link to={`/lesson/${id}/topic/${topics[0] ? topics[0].id : null}`} style={{ height: "20px" }}>{title}</Link>}

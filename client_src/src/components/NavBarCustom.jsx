@@ -1,6 +1,6 @@
 import React from 'react';
 import { Navbar, NavbarBrand, NavbarNav, NavbarToggler, NavItem, NavLink } from 'mdbreact';
-import UserInfo from './user/UserInfo';
+import UserInfoContainer from './user/UserInfoContainer';
 import { Link } from 'react-router-dom';
 import Add from '@material-ui/icons/Add';
 import Button from 'material-ui/Button';
@@ -86,7 +86,7 @@ class NavBarCustom extends React.Component {
                         </Menu>
                     </NavItem>
                     <NavItem>
-                        <UserInfo userId={this.props.userId} />
+                        <UserInfoContainer userId={this.props.userId} />
                     </NavItem >
                 </NavbarNav>
                 <NewCourseModal open={this.state.open} handleClose={this.handleModalClose.bind(this, 'open')} />

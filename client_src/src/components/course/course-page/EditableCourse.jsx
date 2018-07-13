@@ -1,6 +1,6 @@
 import React from 'react'
 import CourseHeader from './CourseHeader'
-import UserInfo from '../../user/UserInfo'
+import UserInfoContainer from '../../user/UserInfoContainer'
 import Button from 'material-ui/Button'
 import AddIcon from '@material-ui/icons/Add'
 import NewLessonModal from '../../modal/modal-total/NewLessonModal'
@@ -23,7 +23,7 @@ class EditableCourse extends React.Component {
                 handleSubmitNewBackground={handleSubmitNewBackground}
                 handleChange={handleChange}
             >
-                <UserInfo disabled={true} userId={ownerUser && ownerUser.id} />
+                <UserInfoContainer disabled={true} userId={ownerUser && ownerUser.id} />
             </CourseHeader>
 
             {loggedUserId === ownerUser.id && <Button onClick={handleTopicModalOpen} variant="fab" color="primary" aria-label="add" style={{ position: 'fixed', bottom: '20px', right: '20px', zIndex: '2' }}>
