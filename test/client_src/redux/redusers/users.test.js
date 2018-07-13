@@ -62,7 +62,7 @@ describe('user reducer', function () {
 
     })
     describe('SUBMIT_RESULT_OF_QUESTIONS_FOR_LOGGEDIN_USER', function () {
-        it('submit result of 3 question for logged in user with empty results of question prop array', function () {
+        it('submit result of 3 question for logged in user with empty results of question prop', function () {
             const store = initStore
             const action = {
                 type: constants.users.SUBMIT_RESULT_OF_QUESTIONS_FOR_LOGGEDIN_USER,
@@ -105,6 +105,7 @@ describe('user reducer', function () {
                     loopbackToken: "KQFjsYyHw4bQekuCWFmWDWy6uvpmBwOGwlb330Yt0ud62o6SksCggWPGJ6mFCzxX",
                     loopbackTokenExpireIn: "Sat Jul 21 2018",
                     realm: null,
+                    rightAnswered: [],
                     secondName: null,
                     username: "kirill",
                     yandexRefreshToken: null,
@@ -115,7 +116,7 @@ describe('user reducer', function () {
             reducerTest(store, action, expectedResult)
         })
 
-        it('submit result of 3 question for logged in user with NOT empty results of question prop array  (should merge)', function () {
+        it('submit result of 3 question for logged in user with NOT empty results of question prop (should merge)', function () {
             const store = {
                 loggedIn: {
                     ...initStore.loggedIn,
@@ -154,6 +155,7 @@ describe('user reducer', function () {
                     loopbackToken: "KQFjsYyHw4bQekuCWFmWDWy6uvpmBwOGwlb330Yt0ud62o6SksCggWPGJ6mFCzxX",
                     loopbackTokenExpireIn: "Sat Jul 21 2018",
                     realm: null,
+                    rightAnswered: [],
                     secondName: null,
                     username: "kirill",
                     yandexRefreshToken: null,
@@ -210,6 +212,9 @@ describe('user reducer', function () {
         it('TODO')
     })
     describe('ADD_WRONG_ANSWERED_QUESTION_FOR_LOGGED_IN', function () {
+        it('TODO')
+    })
+    describe('ADD USERS', function () {
         it('TODO')
     })
 })
