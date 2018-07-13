@@ -11,10 +11,11 @@ import topics from '../redusers/topics'
 import tests from '../redusers/test'
 import questions from '../redusers/questions'
 import answers from '../redusers/answers'
+import mapping from '../redusers/mapping/mapping'
 import thunk from 'redux-thunk'
 import persistState from 'redux-localstorage'
 import logger from 'redux-logger'
-const enhancer = compose(applyMiddleware(thunk,logger),persistState())
+const enhancer = compose(applyMiddleware(thunk, logger), persistState())
 
 const store = createStore(combineReducers({
     courses,
@@ -23,8 +24,9 @@ const store = createStore(combineReducers({
     topics,
     tests,
     questions,
-    answers
-}),{}, enhancer)
+    answers,
+    mapping
+}), {}, enhancer)
 
 //development only
 window.store = store

@@ -43,6 +43,11 @@ const constants = {
         DELETE_ANSWER: 'DELETE_ANSWER',
         UPDATE_ANSWER: 'UPDATE_ANSWER',
         ADD_ANSWERS: 'ADD_ANSWERS'
+    },
+    mapping: {
+        disciplineUser: {
+            ADD_USERS_FOR_COURSE: 'ADD_USERS_FOR_COURSE'
+        }
     }
 }
 export default constants
