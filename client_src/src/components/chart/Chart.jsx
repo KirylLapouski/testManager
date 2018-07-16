@@ -4,8 +4,9 @@ import PropTypes from 'prop-types'
 //TODO: write % when hover chart
 class Chart extends React.Component {
     render() {
-        var { unpassWeight, width, height, style = {}, duration } = this.props
-        var labels = unpassWeight ? ['Правильные ответы', 'Неправильные ответы', 'Не отвечено'] : ['Правильные ответы', 'Неправильные ответы']
+        var { unpassWeight, width, height, style = {}, duration, weights, titles } = this.props
+        var summWeight = weights.reduce((acc, value) => acc + value, 0)
+        var labels = titles
         return <Doughnut width={width} height={height}
             options={{
                 legend: {
@@ -23,7 +24,7 @@ class Chart extends React.Component {
                 labels: labels,
                 datasets: [{
                     label: '% of Votes',
-                    data: [this.props.rightAnswersWeight * 100 / (this.props.rightAnswersWeight + this.props.wrongAnswersWeight + (unpassWeight ? unpassWeight : 0)), this.props.wrongAnswersWeight * 100 / (this.props.rightAnswersWeight + this.props.wrongAnswersWeight + (unpassWeight ? unpassWeight : 0)), unpassWeight ? unpassWeight * 100 / (this.props.rightAnswersWeight + this.props.wrongAnswersWeight + unpassWeight) : null],
+                    data: weights.map(value => value * 100 / summWeight),
                     backgroundColor: [
                         style.firstParamColor || '#3f51b5',
                         style.secondParamColor || 'white',
@@ -48,7 +49,12 @@ Chart.propTypes = {
         firstParamColor: PropTypes.string,
         secondParamColor: PropTypes.string
     }),
-    unpassWeight: PropTypes.number
+    unpassWeight: PropTypes.number,
+    titles: PropTypes.arrayOf(PropTypes.string),
+    weights: PropTypes.arrayOf(PropTypes.number)
 }
 
+Chart.defaultProps = {
+    titles: ['Правильные ответы', 'Неправильные ответы']
+}
 export default Chart

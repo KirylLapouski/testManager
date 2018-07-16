@@ -122,7 +122,7 @@ class Test extends React.Component {
                         <Button onClick={this.handleChartClose} style={{ position: 'absolute', top: '50px', right: '50px', backgroundColor: '#3f51b5', boxShadow: 'none' }} variant="fab">
                             <CloseIcon style={{ color: 'white' }} />
                         </Button>
-                        <Chart rightAnswersWeight={this.getAnswersWeight()} wrongAnswersWeight={weight - this.getAnswersWeight()} />
+                        <Chart weights={[this.getAnswersWeight(), weight - this.getAnswersWeight()]} />
                     </div>
                     }
                 </div>

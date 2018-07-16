@@ -10,7 +10,7 @@ class LessonResult extends React.Component {
         return <div style={{ color: '#212529', textAlign: 'left', width: '80%', margin: '0 auto' }}>
             <div style={{ width: '50%', float: 'right' }}>
                 <div style={{ backgroundColor: 'white' }}>
-                    <Chart duration={800} rightAnswersWeight={rightAnswersWeight} wrongAnswersWeight={wrongAnswerWeight} style={{ fontColor: '#212529', firstParamColor: '#4CAF50', secondParamColor: '#E57373' }} />
+                    <Chart duration={800} weights={[rightAnswersWeight, wrongAnswerWeight]} style={{ fontColor: '#212529', firstParamColor: '#4CAF50', secondParamColor: '#E57373' }} />
                 </div>
             </div>
             <Slide direction="right" in={true} mountOnEnter unmountOnExit>
