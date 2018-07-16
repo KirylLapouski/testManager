@@ -15,12 +15,12 @@ class LessonResult extends React.Component {
             </div>
             <Slide direction="right" in={true} mountOnEnter unmountOnExit>
                 <p style={{ fontSize: '30px', fontFamily: '"Roboto", sans-serif' }}>
-                    Правильные ответы:   {wrongAnswerWeight}%
+                    Правильные ответы:   {rightAnswersWeight}%
             </p>
             </Slide>
             <Slide direction="right" in={true} mountOnEnter unmountOnExit>
                 <p style={{ fontSize: '30px', fontFamily: '"Roboto", sans-serif' }}>
-                    Неправильные ответы:   {rightAnswersWeight} %
+                    Неправильные ответы:   {wrongAnswerWeight} %
             </p>
             </Slide>
             <QuestionList questions={questions} />

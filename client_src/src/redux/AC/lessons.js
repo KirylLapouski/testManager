@@ -75,15 +75,13 @@ const editLesson = (lessonId, title, desctiption) => {
 }
 const loadLessons = (courseId) => {
     return dispatch => {
-        axios.get(`http://localhost:3000/api/Disciplines/${courseId}/lessons`)
-            .then(response => {
-                return response.data
-            })
-            .then(response => {
+        return axios.get(`http://localhost:3000/api/Disciplines/${courseId}/lessons`)
+            .then(({ data: response }) => {
                 dispatch({
                     type: constants.lessons.ADD_LESSONS,
                     payload: response
                 })
+                return response
             })
     }
 }

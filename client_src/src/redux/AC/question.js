@@ -26,17 +26,17 @@ const addQuestion = (topicId, weight, title, description = ' ') => {
 
 const loadQuestionsForLesson = lessonId => {
     return dispatch => {
-        axios.get(`http://localhost:3000/api/Lessons/${lessonId}/topics`)
+        return axios.get(`http://localhost:3000/api/Lessons/${lessonId}/topics`)
             .then(values => {
-                values.data.map(value => value.id).forEach(topicsId => {
-                    loadQuestion(topicsId)(dispatch)
-                })
+                return Promise.all(values.data.map(value => value.id).map(topicsId => {
+                    return loadQuestion(topicsId)(dispatch)
+                }))
             })
     }
 }
 const loadQuestion = topicId => {
     return dispatch => {
-        axios.get('http://localhost:3000/api/Topics/' + topicId + '/questions')
+        return axios.get(`http://localhost:3000/api/Topics/${topicId}/questions`)
             .then(response => {
                 return response.data
             })
@@ -45,6 +45,7 @@ const loadQuestion = topicId => {
                     type: constants.questions.ADD_QUESTIONS,
                     payload: response
                 })
+                return response
             })
     }
 }

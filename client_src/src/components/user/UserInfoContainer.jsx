@@ -5,7 +5,8 @@ import { getUserById } from '../../redux/AC/users'
 import { withRouter } from 'react-router-dom'
 import Cookies from 'universal-cookie'
 import UserInfo from "./UserInfo";
-import UserInfoExtended from './UserInfoExtended'
+import UserInfoExtendedContainer from './UserInfoExtendedContainer'
+import { loadLessons } from '../../redux/AC/lessons'
 class UserInfoContainer extends React.Component {
     constructor(props) {
         super(props)
@@ -17,7 +18,6 @@ class UserInfoContainer extends React.Component {
     componentDidMount() {
         if (this.props.userId)
             this.props.getUser(this.props.userId)
-
     }
 
     handleMenuClick = event => {
@@ -26,6 +26,8 @@ class UserInfoContainer extends React.Component {
     handleMenuClose = () => {
         this.setState({ menu: null })
     }
+
+
     goToUrl = (url) => () => {
         this.props.history.push(url)
     }
@@ -39,8 +41,24 @@ class UserInfoContainer extends React.Component {
         this.props.history.push(`/`)
     }
     render() {
-        return this.props.extended ? <UserInfoExtended handleMenuClick={this.handleMenuClick} handleMenuClose={this.handleMenuClose} goToUrl={this.goToUrl} logOut={this.logOut} imageSrc={this.props.imageSrc} {...this.props} {...this.state} />
-            : <UserInfo handleMenuClick={this.handleMenuClick} handleMenuClose={this.handleMenuClose} goToUrl={this.goToUrl} logOut={this.logOut} imageSrc={this.props.imageSrc} {...this.props} {...this.state} />
+
+        return <React.Fragment>
+            {this.props.extended ? <UserInfoExtendedContainer
+                handleMenuClick={this.handleMenuClick}
+                handleMenuClose={this.handleMenuClose}
+                goToUrl={this.goToUrl}
+                logOut={this.logOut}
+                imageSrc={this.props.imageSrc}
+                {...this.props}
+                {...this.state} />
+                : <UserInfo handleMenuClick={this.handleMenuClick}
+                    handleMenuClose={this.handleMenuClose}
+                    goToUrl={this.goToUrl}
+                    logOut={this.logOut}
+                    imageSrc={this.props.imageSrc}
+                    {...this.props}
+                    {...this.state} />}
+        </React.Fragment>
     }
 }
 

@@ -234,7 +234,7 @@ const getUserTestsResultsForLesson = (lessonId, userId) => {
                 questions: questionResults
             }
         })
-        return questionsInlesson
+        return questionResults
         // var userAnswers = await Promise.all(questionsInlesson.map(value => {
         //     return axios.get(`http://localhost:3000/api/UserQuestions?filter=%7B%22where%22%3A%7B%22participantId%22%3A${userId}%2C%20%22questionId%22%3A${value.id}%7D%7D`)
         // }))
