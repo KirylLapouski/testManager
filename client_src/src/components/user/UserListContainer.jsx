@@ -4,8 +4,21 @@ import { connect } from "react-redux";
 import { getUsersInDiscipline } from '../../redux/AC/users'
 import { addDisciplineUserMapping } from "../../redux/AC/mapping";
 import PropTypes from "prop-types";
+import CourseResultContainer from "../course/course-page/CourseResultContainer";
 
 class UserListContainer extends React.Component {
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            showChartFor: 0
+        }
+    }
+    toggleShowChartClick = (userId) => () => {
+        this.setState({
+            showChartFor: userId
+        })
+    }
     componentDidMount() {
         var { getUsers } = this.props
         getUsers()
@@ -13,7 +26,11 @@ class UserListContainer extends React.Component {
     render() {
         var { users } = this.props
 
-        return <UserList users={users} />
+        return <React.Fragment>
+            <UserList users={users} toggleShowChartClick={this.toggleShowChartClick} />
+            {this.state.showChartFor && <CourseResultContainer userId={this.state.showChartFor} />}
+        </React.Fragment>
+
     }
 }
 

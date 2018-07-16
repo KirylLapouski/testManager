@@ -5,8 +5,8 @@ import { getUserById } from '../../redux/AC/users'
 import { withRouter } from 'react-router-dom'
 import Cookies from 'universal-cookie'
 import UserInfo from "./UserInfo";
-import UserInfoExtendedContainer from './UserInfoExtendedContainer'
-import { loadLessons } from '../../redux/AC/lessons'
+import UserInfoExtended from './UserInfoExtended'
+
 class UserInfoContainer extends React.Component {
     constructor(props) {
         super(props)
@@ -14,6 +14,7 @@ class UserInfoContainer extends React.Component {
             menu: false
         }
     }
+
 
     componentDidMount() {
         if (this.props.userId)
@@ -41,25 +42,26 @@ class UserInfoContainer extends React.Component {
         this.props.history.push(`/`)
     }
     render() {
-
-        return <React.Fragment>
-            {this.props.extended ? <UserInfoExtendedContainer
-                handleMenuClick={this.handleMenuClick}
+        var { toggleShowChartClick, userId } = this.props
+        return this.props.extended ? <UserInfoExtended
+            buttonTitle={'Прогресс курса'}
+            onButtonClick={toggleShowChartClick(userId)}
+            handleMenuClick={this.handleMenuClick}
+            handleMenuClose={this.handleMenuClose}
+            goToUrl={this.goToUrl}
+            logOut={this.logOut}
+            imageSrc={this.props.imageSrc}
+            {...this.props}
+            {...this.state} />
+            : <UserInfo handleMenuClick={this.handleMenuClick}
                 handleMenuClose={this.handleMenuClose}
                 goToUrl={this.goToUrl}
                 logOut={this.logOut}
                 imageSrc={this.props.imageSrc}
                 {...this.props}
                 {...this.state} />
-                : <UserInfo handleMenuClick={this.handleMenuClick}
-                    handleMenuClose={this.handleMenuClose}
-                    goToUrl={this.goToUrl}
-                    logOut={this.logOut}
-                    imageSrc={this.props.imageSrc}
-                    {...this.props}
-                    {...this.state} />}
-        </React.Fragment>
     }
+
 }
 
 const mapStateToProps = (state, ownProps) => {

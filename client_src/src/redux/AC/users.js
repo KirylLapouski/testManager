@@ -202,7 +202,7 @@ const untieUserFromCourse = (userId, courseId) => {
             })
     }
 }
-
+//If user did not answer on this lesson quesrions return UNDEFINED
 const getUserTestsResultsForLesson = (lessonId, userId) => {
     //TODO: now only for logged in. Is it true ?
     return async dispatch => {
@@ -219,7 +219,7 @@ const getUserTestsResultsForLesson = (lessonId, userId) => {
         var questionsInlessonWithResults = await Promise.all(questionsInlesson.map(value => axios.get(`http://localhost:3000/api/UserQuestions?filter=%7B%22where%22%3A%7B%20%22participantId%22%3A${userId}%2C%20%22questionId%22%3A${value.id}%7D%7D`)))
         questionsInlessonWithResults = questionsInlessonWithResults.map(value => value.data[0])
         var questionResults = questionsInlesson.map(question => {
-            var position = questionsInlessonWithResults.map(value => value.questionId).indexOf(question.id)
+            var position = questionsInlessonWithResults.map(value => value ? value.questionId : 0).indexOf(question.id)
             if (position >= 0) {
                 return {
                     ...question,

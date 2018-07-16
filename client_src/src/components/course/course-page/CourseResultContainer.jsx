@@ -14,6 +14,10 @@ class CourseResultContainer extends React.Component {
             titles: []
         }
     }
+    componentDidUpdate(prevProps, prevState) {
+        if (this.props.userId !== prevProps.userId)
+            console.log(11111)
+    }
     componentDidMount() {
         var { userId, courseId } = this.props
 
@@ -24,6 +28,9 @@ class CourseResultContainer extends React.Component {
             })
             .then(values => {
                 return values.map(value => {
+                    if (value.includes(undefined)) {
+                        return
+                    }
                     return value.reduce((acc, value) => {
                         acc.summWeight += value.weight;
                         acc.rightWeight += value.isRightAnswered ? value.weight : 0
@@ -34,7 +41,7 @@ class CourseResultContainer extends React.Component {
             })
             .then(values => {
                 this.setState({
-                    testsOfCourseResult: values.map(value => (value.rightWeight * 100) / value.summWeight)
+                    testsOfCourseResult: values.map(value => value ? (value.rightWeight * 100) / value.summWeight : null)
                 })
             })
         lessons.then(values =>

@@ -25,7 +25,7 @@ class CourseMain extends React.Component {
         var { contentDisplay } = this.state
 
         return <div style={{ position: 'relative' }}>
-            {loggedUserId === ownerUser.id && <SideBar lessonButtonOnClick={this.sideBarClickHandler(0)} descipleButtonClick={this.sideBarClickHandler(1)} style={{ position: 'absolute', top: '20px', left: '2%', width: '15%' }} />}
+            <SideBar lessonButtonOnClick={this.sideBarClickHandler(0)} descipleButtonClick={this.sideBarClickHandler(1)} style={{ position: 'absolute', top: '20px', left: '2%', width: '15%' }} />
             {contentDisplay === this.CONTENT[0] ? < LessonContainer lessonsOwner={ownerUser} loggedUserId={loggedUserId} courseId={courseId} /> : <UserListContainer courseId={courseId} />}
         </div >
     }

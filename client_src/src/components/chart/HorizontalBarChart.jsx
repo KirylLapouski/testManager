@@ -1,11 +1,11 @@
-import { Line } from 'react-chartjs-2'
+import { HorizontalBar } from 'react-chartjs-2'
 import React from 'react'
 import PropTypes from 'prop-types'
 //TODO: titles and data should be same lenght? No should not
-class LineChart extends React.Component {
+class HorizontalBarChart extends React.Component {
     render() {
         var { titles, data, minValue, maxValue = 100, style, duration, height, width } = this.props
-        return <Line width={width} height={height}
+        return <HorizontalBar width={width} height={height}
             options={{
                 legend: {
                     labels: {
@@ -24,16 +24,14 @@ class LineChart extends React.Component {
                     label: 'Результат пройденных тестов',
                     data: [...data, maxValue, minValue],
                     backgroundColor: 'rgba(165, 214, 167, 0.5)',
-                    borderColor: [
-                        '#4CAF50',
-                    ],
+                    borderColor: '#4CAF50',
                     borderWidth: 3
                 }]
             }}
         />
     }
 }
-LineChart.propTypes = {
+HorizontalBarChart.propTypes = {
     titles: PropTypes.arrayOf(PropTypes.string),
     data: PropTypes.arrayOf(PropTypes.number),
     minValue: PropTypes.number,
@@ -47,10 +45,10 @@ LineChart.propTypes = {
     height: PropTypes.number,
 }
 
-LineChart.defaultProps = {
+HorizontalBarChart.defaultProps = {
     minValue: 0,
     maxvalue: 100,
     style: {}
 }
 
-export default LineChart
+export default HorizontalBarChart

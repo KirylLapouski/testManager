@@ -9,7 +9,7 @@ import Grow from '@material-ui/core/Grow'
 
 class UserInfoExtended extends React.Component {
     render() {
-        var { toggleOpenChart, buttonClicked, children } = this.props
+        var { onButtonClick, buttonClicked, children, buttonTitle } = this.props
         var { firstName, secondName, username, email } = this.props.user
         return <Grow timeout={800} in={true}>
             <Card style={{ background: 'url("https://lh4.googleusercontent.com/-64uhpsHBEZw/VMqrG_6wowI/AAAAAAAAAIE/_Pw_QoP0opU/w1005-h214-no/123_rainbowtriangle_teal.jpg")', width: '300px', height: '200px', position: 'relative' }}>
@@ -22,9 +22,9 @@ class UserInfoExtended extends React.Component {
 
                 </CardContent>
                 <CardActions style={{ display: 'flex', marginTop: '25px', justifyContent: 'flex-end' }}>
-                    <Button onClick={toggleOpenChart} size="small" style={{ color: 'white' }}>
-                        Прогресс курса
-                </Button>
+                    <Button onClick={onButtonClick} size="small" style={{ color: 'white' }}>
+                        {buttonTitle}
+                    </Button>
                 </CardActions>
             </Card>
         </Grow>
@@ -37,7 +37,8 @@ UserInfoExtended.propTypes = {
     username: PropTypes.string,
     email: PropTypes.string,
     toggleOpenChart: PropTypes.func,
-    buttonClicked: PropTypes.bool
+    onButtonClick: PropTypes.bool,
+    buttonTitle: PropTypes.string
 }
 
 export default UserInfoExtended
