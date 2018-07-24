@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 class UserList extends React.Component {
     render() {
         var { users, toggleShowChartClick } = this.props
-        return <div className="container" style={{ display: 'flex', position: 'relative', marginTop: '20px', justifyContent: 'space-between', flexWrap: 'wrap', maxWidth: '800px' }}>
+        return <div style={{ display: 'flex', position: 'relative', marginTop: '20px', justifyContent: 'space-between', flexWrap: 'wrap', width: '1200px', marginLeft: '30px' }}>
             {users.map((value) => <UserInfoContainer extended={true} user={value} userId={value.id} toggleShowChartClick={toggleShowChartClick} />)}
         </div>
     }

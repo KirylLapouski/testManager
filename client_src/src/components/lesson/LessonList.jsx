@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { loadLessons } from '../../redux/AC/lessons'
 import Paginator from '../Paginator'
 class LessonContainer extends React.Component {
-    constructor(props){
+    constructor(props) {
         super(props)
         this.state = {
             listNumber: 1
@@ -14,22 +14,22 @@ class LessonContainer extends React.Component {
     componentWillMount() {
         this.props.getLessons(this.props.courseId)
     }
-    handlePaginatorClick = paginatorPos =>{
+    handlePaginatorClick = paginatorPos => {
         this.setState({
-            listNumber:paginatorPos
+            listNumber: paginatorPos
         })
     }
     render() {
         const LESSONS_IN_LIST = 10;
         if (this.props.lessons) {
-            var lessons = this.props.lessons.slice((this.state.listNumber-1)*LESSONS_IN_LIST, this.state.listNumber*LESSONS_IN_LIST).map((value, index, array) => {
+            var lessons = this.props.lessons.slice((this.state.listNumber - 1) * LESSONS_IN_LIST, this.state.listNumber * LESSONS_IN_LIST).map((value, index, array) => {
                 return (<Lesson id={value.id} key={value.id} loggedUserId={this.props.loggedUserId} lessonOwner={this.props.lessonsOwner} title={value.title} description={value.description} />)
             })
         }
         return (
-            <div className="container" style={{ marginTop: '20px', maxWidth: '800px' }}>
+            <div style={{ marginTop: '20px', width: '800px', marginLeft: '30px' }}>
                 {lessons}
-                <Paginator length={Math.ceil(this.props.lessons.length/LESSONS_IN_LIST)} onClick={this.handlePaginatorClick}/>
+                <Paginator length={Math.ceil(this.props.lessons.length / LESSONS_IN_LIST)} onClick={this.handlePaginatorClick} />
             </div>
         )
     }

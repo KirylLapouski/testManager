@@ -6,8 +6,8 @@ class CourseResult extends React.Component {
     render() {
         var { titles, data } = this.props
         return <Fade in={true}>
-            <div style={{ position: 'absolute', width: '25%', top: '0px', right: '20px', zIndex: '3' }}>
-                <LineChart style={{ fontColor: 'black' }} titles={titles} data={data} height={100} width={100} />
+            <div style={{ width: '400px', marginLeft: 'auto', marginRight: '50px' }}>
+                <LineChart style={{ fontColor: 'black' }} titles={titles} data={data} height='400' />
             </div>
         </Fade>
     }
