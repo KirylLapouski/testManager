@@ -1,17 +1,18 @@
 import constants from '../constants'
 
-const tests = (state={},action)=>{
+const tests = (state = {}, action) => {
 
-    switch(action.type){
-    case constants.tests.ADD_TEST:
-        var id = action.payload.id
-        return {
-            ...state,
-            [id]:{
-                id: id
+    switch (action.type) {
+        case constants.tests.ADD_TEST:
+            var id = action.payload.id
+            return {
+                ...state,
+                [id]: {
+                    id: id
+                }
             }
-        }
+        default:
+            return state
     }
-    return state
 }
 export default tests

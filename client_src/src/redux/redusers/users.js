@@ -54,16 +54,15 @@ const users = (state = {}, action) => {
                 loggedIn: loggedIn
             }
         case constants.users.ADD_WRONG_ANSWERED_QUESTION_FOR_LOGGED_IN:
-            var rightAnswered = state.loggedIn.rightAnswered.map(value => {
-                if (value !== action.payload.questionId) return value
-            }).filter(value => !!value && value)
-            var loggedIn = {
+            var rightAnswered = state.loggedIn.rightAnswered.map(value => value !== action.payload.questionId
+            ).filter(value => !!value && value)
+            var newLoggedIn = {
                 ...state.loggedIn
             }
-            loggedIn.rightAnswered = rightAnswered
+            newLoggedIn.rightAnswered = rightAnswered
             return {
                 ...state,
-                loggedIn
+                newLoggedIn
             }
         default:
             return state

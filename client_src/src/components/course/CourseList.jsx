@@ -1,7 +1,7 @@
 import React from 'react'
 import Course from './Course'
 import PropTypes from 'prop-types'
-import Button from 'material-ui/Button'
+import Button from '@material-ui/core/Button'
 import AddIcon from '@material-ui/icons/Add'
 import NewCourseModal from '../modal/modal-total/NewCourseModal'
 //TODO: can rewrite on function
@@ -9,8 +9,8 @@ class CourseContainer extends React.Component {
     render() {
         var { courses } = this.props
         if (courses) {
-            var courses = courses.map((value) => {
-                return (<div key={value.id} className="col-xl-3 col-lg-4 col-md-6"><Course {...value}/></div>)
+            courses = courses.map((value) => {
+                return (<div key={value.id} className="col-xl-3 col-lg-4 col-md-6"><Course {...value} /></div>)
             })
         }
 

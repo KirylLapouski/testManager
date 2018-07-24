@@ -10,9 +10,8 @@ import { connect } from 'react-redux'
 import toastr from 'toastr'
 import isUrl from 'is-url'
 import url from 'url'
-import Button from 'material-ui/Button';
-var initVideo = '<div style=\"text-align:center;margin: 0 auto\">\n<iframe width=\"100%\" height=\"600\" style=\"margin: 0 auto\" src=\"|https://www.youtube.com/embed/ioC2wj4CKss\|" frameBorder=\"0\"></iframe>\n</div>\n'
-const modalStyles = { width: '840px', height: '320px', color: 'black', padding: 20, boxShadow: 'inset 0px 0px 5px rgba(154, 147, 140, 0.5)', display: 'flex', justifyContent: 'center', alignItems: 'center', textAlign: 'center' };
+import Button from '@material-ui/core/Button';
+var initVideo = '<div style="text-align:center;margin: 0 auto">\n<iframe width="100%" height="600" style="margin: 0 auto" src="|https://www.youtube.com/embed/ioC2wj4CKss|" frameBorder="0"></iframe>\n</div>\n'
 
 
 class TopicModal extends React.Component {
@@ -58,7 +57,7 @@ class TopicModal extends React.Component {
             return
         }
         var node = initVideo
-        var node = node.split('|')
+        node = node.split('|')
         node[1] = parsedUrl
         //TODO: new reducer
         this.props.createTopic(this.props.lessonId, node.join(''), this.state.title)
@@ -84,7 +83,7 @@ class TopicModal extends React.Component {
         }
 
         var node = initVideo
-        var node = node.split('|')
+        node = node.split('|')
         node[1] = src
         //TODO: new reducer
         this.props.createTopic(this.props.lessonId, node.join(''), this.state.title)
@@ -154,7 +153,7 @@ class TopicModal extends React.Component {
     }
     render() {
         var { open } = this.props
-        return <ModalBase open={open}  width='900px' handleClose={this.handleClose}>
+        return <ModalBase open={open} width='900px' handleClose={this.handleClose}>
             <TextField name='title' onChange={this.handleChange} InputProps={{ disableUnderline: true }} placeholder='Название урока' style={{ width: '815px', color: 'black', padding: '10px', paddingLeft: 20, marginBottom: '20px', boxShadow: 'inset 0px 0px 5px rgba(154, 147, 140, 0.5)' }} />
             <DrugnDropFile
                 onFilesChange={this.onFilesChange}
@@ -162,7 +161,7 @@ class TopicModal extends React.Component {
                 onFilesError={this.onFilesError}
             />
 
-            <div style={{ margin: 'auto', marginLeft: '0px', position:'absolute', left:'20px', bottom:'20px' }}>
+            <div style={{ margin: 'auto', marginLeft: '0px', position: 'absolute', left: '20px', bottom: '20px' }}>
                 <Button onClick={this.handleYouTubeClick}><i className="fa fa-youtube-play" style={{ fontSize: '2em' }} aria-hidden="true"></i></Button>
                 <Button onClick={this.handleSoundCloudClick} ><i className="fa fa-soundcloud" style={{ fontSize: '2em' }} aria-hidden="true"></i></Button>
             </div>

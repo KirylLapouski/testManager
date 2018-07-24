@@ -36,14 +36,14 @@ class LessonContainer extends React.Component {
 }
 
 LessonContainer.propTypes = {
-    courseId: PropTypes.string,
+    courseId: PropTypes.number,
     lessonsOwner: PropTypes.object,
     loggedUserId: PropTypes.number,
     //redux
-    lessons: PropTypes.arrayOf({
+    lessons: PropTypes.arrayOf(PropTypes.shape({
         id: PropTypes.number,
         title: PropTypes.string
-    }),
+    })),
     getLessons: PropTypes.func
 }
 

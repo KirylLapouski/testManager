@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import Slide from '@material-ui/core/Slide';
 
-class Question extends React.Component {
+class QuestionSmall extends React.Component {
     render() {
         var { title, right } = this.props
         return <Slide direction="up" in={true} mountOnEnter unmountOnExit>
@@ -13,11 +13,11 @@ class Question extends React.Component {
     }
 }
 
-Question.propTypes = {
+QuestionSmall.propTypes = {
     right: PropTypes.bool,
     title: PropTypes.string,
     description: PropTypes.string,
     weight: PropTypes.number
 }
 
-export default Question
+export default QuestionSmall

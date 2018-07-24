@@ -11,7 +11,7 @@ class TopicContainer extends React.Component {
         super(props)
 
         this.state = {
-            currenTopicId: this.props.match.params.topicId ? this.props.match.params.topicId : 1,
+            currenTopicId: +this.props.match.params.topicId ? +this.props.match.params.topicId : 1,
             rightAnswersWeight: 0,
             allAnswersWeight: 0,
             readOnly: true
@@ -55,7 +55,8 @@ class TopicContainer extends React.Component {
             handleTopicEndEditClick={this.handleTopicEndEditClick}
             handleTopicBeginEditClick={this.handleTopicBeginEditClick}
             {...this.props}
-            {...this.state} />
+            {...this.state}
+        />
     }
 }
 
@@ -82,10 +83,10 @@ const mapDispatchToProps = dispatch => {
 }
 
 TopicContainer.propTypes = {
-    topics: PropTypes.arrayOf({
+    topics: PropTypes.arrayOf(PropTypes.shape({
         id: PropTypes.number,
         path: PropTypes.string,
-    }),
+    })),
     loggedUserId: PropTypes.number,
     userOwnerId: PropTypes.number,
     getTopics: PropTypes.func

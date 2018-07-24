@@ -1,7 +1,7 @@
 import React from 'react'
 import CourseHeader from './CourseHeader'
 import UserInfoContainer from '../../user/UserInfoContainer'
-import Button from 'material-ui/Button'
+import Button from '@material-ui/core/Button'
 import AddIcon from '@material-ui/icons/Add'
 import NewLessonModal from '../../modal/modal-total/NewLessonModal'
 import CourseMain from './CourseMain'
@@ -37,7 +37,7 @@ class EditableCourse extends React.Component {
 
 EditableCourse.propTypes = {
     ownerUser: PropTypes.shape({
-        id: PropTypes.string,
+        id: PropTypes.number,
         firstName: PropTypes.string,
         secondName: PropTypes.string
     }),

@@ -34,7 +34,8 @@ const lessons = (state = {}, action) => {
             return {
                 ...lessons
             }
+        default:
+            return state
     }
-    return state
 }
 export default lessons

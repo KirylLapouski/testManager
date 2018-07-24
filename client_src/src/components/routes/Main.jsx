@@ -1,7 +1,7 @@
 import React from 'react'
 import CourseContainer from '../course/CourseContainer'
 import { Switch, Route } from 'react-router-dom'
-import TestContainer from '../testCMS/TestContainerStatefull'
+import TestContainer from '../testCMS/TestContainer'
 import TopicContainer from '../topic/TopicContainer'
 import LoginInContainer from '../login/LoginInContainer'
 import SignUp from '../SignUp'

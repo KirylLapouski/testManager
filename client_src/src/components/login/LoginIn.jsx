@@ -8,6 +8,7 @@ import PropTypes from 'prop-types'
 class LoginIn extends React.Component {
 
     render() {
+        var { onChangeHandler, onSubmitHandler, mail, password } = this.props
         return (<div style={{ backgroundImage: 'url(\'https://mdbootstrap.com/img/Photos/Others/images/78.jpg\')', height: '100vh', backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }}>
 
             <div className="w-100 h-100 mask rgba-black-light d-flex justify-content-center align-items-center">
@@ -26,12 +27,12 @@ class LoginIn extends React.Component {
                                 <i className="fa fa-graduation-cap ml-2"></i>
                             </Link>
                         </div>
-                        <form method="POST" name="loginIn" className="form-signin" onSubmit={this.props.onSubmitHandler} style={{ borderRadius: '5px', padding: '20px', minHeight: '500px', display: 'flex', flexDirection: 'column', justifyContent: 'center', backgroundColor: '#fff', color: '#4f4f4f' }}>
+                        <form method="POST" name="loginIn" className="form-signin" onSubmit={onSubmitHandler} style={{ borderRadius: '5px', padding: '20px', minHeight: '500px', display: 'flex', flexDirection: 'column', justifyContent: 'center', backgroundColor: '#fff', color: '#4f4f4f' }}>
                             <h1 style={{ marginBottom: '30px' }}>Вход</h1>
                             <label htmlFor="inputEmail" className="sr-only">Электронная почта</label>
-                            <input onChange={this.props.onChangeHandler} type="text" name="mail" id="inputEmail" className="form-control" placeholder="Электронная почта" required autoFocus />
+                            <input onChange={onChangeHandler} type="text" value={mail} name="mail" id="inputEmail" className="form-control" placeholder="Электронная почта" required autoFocus />
                             <label htmlFor="inputPassword" className="sr-only">Пароль</label>
-                            <input onChange={this.props.onChangeHandler} type="password" name="password" id="inputPassword" className="form-control" placeholder="Пароль" style={{ marginTop: '10px' }} required />
+                            <input onChange={onChangeHandler} type="password" value={password} name="password" id="inputPassword" className="form-control" placeholder="Пароль" style={{ marginTop: '10px' }} required />
                             <br />
                             <button className="btn btn-lg btn-primary btn-block" type="submit">Вход</button><br />
                             <a role="button" href="http://localhost:3000/auth/yandex" className="btn red btn-block btn-li waves-effect waves-light"><i className="fa fa-yahoo" aria-hidden="true"></i> yandex</a>
@@ -50,13 +51,10 @@ class LoginIn extends React.Component {
 
 LoginIn.propTypes = {
     mail: PropTypes.string,
-    password: PropTypes.func,
-    toggleLoading: PropTypes.func,
+    password: PropTypes.string,
     onSubmitHandler: PropTypes.func,
     onChangeHandler: PropTypes.func,
-    //LoadingIndicator decorator
-    loading: PropTypes.bool,
-   
+
 }
 
 export default LoginIn

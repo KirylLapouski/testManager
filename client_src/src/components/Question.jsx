@@ -4,8 +4,7 @@ import Answer from './Answer'
 import Button from '@material-ui/core/Button';
 import { connect } from 'react-redux'
 import { loadAnswers } from '../redux/AC/answers'
-import {submitQuestionResult} from '../redux/AC/users'
-import RadioGroup from '@material-ui/core/RadioGroup'
+import { submitQuestionResult } from '../redux/AC/users'
 import toastr from 'toastr'
 class Question extends React.Component {
     constructor(props) {
@@ -46,8 +45,8 @@ class Question extends React.Component {
     checkCorrectAnswers() {
         var answers = this.props.answers
         var choosen = this.state.choosen
-        if(!choosen.length){
-            toastr.error('Выберите хотя бы один вариант ответа','Ошибка отправки формы')
+        if (!choosen.length) {
+            toastr.error('Выберите хотя бы один вариант ответа', 'Ошибка отправки формы')
             return
         }
         var res = answers.every((answer, i) => {
@@ -62,31 +61,31 @@ class Question extends React.Component {
         })
         if (res) {
             this.props.onRightAnswer(this.props.question.weight)
-            this.props.submitAnswer(this.props.loggedInUser.id,true)
-        }else{
+            this.props.submitAnswer(this.props.loggedInUser.id, true)
+        } else {
             this.props.onWrongAnswer()
-            this.props.submitAnswer(this.props.loggedInUser.id,false)            
+            this.props.submitAnswer(this.props.loggedInUser.id, false)
         }
     }
 
     handleAnswerClick = (i) => (e) => {
         this.setState(prevState => {
-                var res = prevState.choosen
-                res[i] = !res[i]
-                return { choosen: res }
-            })
+            var res = prevState.choosen
+            res[i] = !res[i]
+            return { choosen: res }
+        })
     }
 
-    handleRadioClick = (i)=>(e)=>{
-        this.setState((prevState)=>{
+    handleRadioClick = (i) => (e) => {
+        this.setState((prevState) => {
             var res = new Array(prevState.choosen.length).fill(false)
             res[i] = true
-            return {choosen: res}
+            return { choosen: res }
         })
     }
     renderAnswers() {
         return this.props.answers.map((value, i) => {
-            return <Answer typeOfAnswer={this.state.testType} checked={this.state.choosen[i] || false} onClick={this.state.testType==='radio'?this.handleRadioClick(i):this.handleAnswerClick(i)} id={value.id} key={value.id} text={value.text} />
+            return <Answer typeOfAnswer={this.state.testType} checked={this.state.choosen[i] || false} onClick={this.state.testType === 'radio' ? this.handleRadioClick(i) : this.handleAnswerClick(i)} id={value.id} key={value.id} text={value.text} />
         })
     }
     render() {
@@ -121,7 +120,7 @@ const mapStateToProps = (state, ownProps) => {
         if (Number(ownProps.question.id) === Number(state.answers[key].questionId))
             res.push(state.answers[key])
     }
-    return { answers: res,loggedInUser: state.users.loggedIn }
+    return { answers: res, loggedInUser: state.users.loggedIn }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
@@ -129,8 +128,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         getAnswers(questionId) {
             dispatch(loadAnswers(questionId))
         },
-        submitAnswer(userId,isRightAnswered){
-            dispatch(submitQuestionResult(userId,ownProps.question.id,isRightAnswered))
+        submitAnswer(userId, isRightAnswered) {
+            dispatch(submitQuestionResult(userId, ownProps.question.id, isRightAnswered))
         }
     }
 }

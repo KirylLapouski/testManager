@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
-import Menu, { MenuItem } from 'material-ui/Menu'
-import Button from 'material-ui/Button'
+import Menu from '@material-ui/core/Menu'
+import MenuItem from '@material-ui/core/MenuItem';
+import Button from '@material-ui/core/Button'
 
 class UserInfo extends React.Component {
 
@@ -28,7 +28,7 @@ UserInfo.propTypes = {
     disabled: PropTypes.bool,
     style: PropTypes.object,
     userId: PropTypes.number,
-    menu: PropTypes.bool,
+    menu: PropTypes.object,
     imageSrc: PropTypes.string,
     goToUrl: PropTypes.func,
     handleMenuClose: PropTypes.func,

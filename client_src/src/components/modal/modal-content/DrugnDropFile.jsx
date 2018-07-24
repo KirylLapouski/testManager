@@ -1,6 +1,6 @@
 import React from "react";
 import Files from 'react-files'
-import Button from 'material-ui/Button'
+import Button from '@material-ui/core/Button'
 import PropTypes from "prop-types";
 import DeleteIcon from '@material-ui/icons/Delete';
 class DrugnDropFile extends React.Component {

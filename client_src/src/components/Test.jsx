@@ -98,15 +98,15 @@ class Test extends React.Component {
         var weight = 0;
         var questionsRes = this.props.questions.map((value, index) => {
             weight += value.weight
-            return <TabContainer key={value.id} tabId={index + 1}>
+            return <TabContainer key={index + 1} tabId={index + 1}>
                 <Question onWrongAnswer={this.handleWrongAnswer(index)} onRightAnswer={this.handleRightAnswer(index)} question={value} />
             </TabContainer>
         })
         questionsRes.push(<TabContainer><Button color="primary" className="float-right" onClick={this.handleTestSubmit}>Завершить</Button></TabContainer>)
-        var navs = this.props.questions.map((index) => {
-            return <Tab label={index + 1} />
+        var navs = this.props.questions.map((value, index) => {
+            return <Tab key={index + 1} label={index + 1} />
         })
-        navs.push(<Tab label='Завершить тест' icon={<DoneAllIcon />} />)
+        navs.push(<Tab key={navs.length + 1} label='Завершить тест' icon={<DoneAllIcon />} />)
 
         return <div>
             <Button onClick={this.toggle} variant="outlined" color="primary" style={{ marginTop: '20px' }}>{this.state.collapse ? "Закрыть тест" : 'Открыть тест'}</Button>

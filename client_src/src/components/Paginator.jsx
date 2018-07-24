@@ -1,6 +1,5 @@
 import React from 'react'
 import { Pagination, PageItem, PageLink } from 'mdbreact'
-import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 class Paginator extends React.Component {
@@ -38,7 +37,7 @@ class Paginator extends React.Component {
     render() {
         let numbers = []
         for (let i = 0; i < this.props.length; i++) {
-            var currenCircle = (i + 1) ==   this.state.currenNumber 
+            var currenCircle = (i + 1) == this.state.currenNumber
             numbers.push(
                 //!!!!!!
                 <PageItem key={i} active={currenCircle} >
@@ -48,7 +47,7 @@ class Paginator extends React.Component {
                 </PageItem>)
         }
 
-        if (this.props.length>1) {
+        if (this.props.length > 1) {
 
             return (
                 <Pagination style={{ justifyContent: 'center' }} className="pagination-circle">

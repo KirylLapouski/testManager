@@ -39,7 +39,7 @@ class Answer extends React.Component {
 
 Answer.propTypes = {
     id: PropTypes.number,
-    text: PropTypes.string.isRequired,
+    text: PropTypes.string,
     typeOfAnswer: PropTypes.string,
     onClick: PropTypes.func,
     onChange: PropTypes.func,

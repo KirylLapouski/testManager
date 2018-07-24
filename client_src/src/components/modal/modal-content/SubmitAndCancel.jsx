@@ -1,5 +1,5 @@
 import React from 'react'
-import Button from 'material-ui/Button'
+import Button from '@material-ui/core/Button'
 import PropTypes from 'prop-types'
 class SubmitAndCancel extends React.Component {
 

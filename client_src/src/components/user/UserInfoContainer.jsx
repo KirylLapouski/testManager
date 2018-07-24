@@ -31,6 +31,9 @@ class UserInfoContainer extends React.Component {
 
     goToUrl = (url) => () => {
         this.props.history.push(url)
+        this.setState({
+            menu: false
+        })
     }
     logOut = () => {
         var cookies = new Cookies()
@@ -63,7 +66,6 @@ class UserInfoContainer extends React.Component {
     }
 
 }
-
 const mapStateToProps = (state, ownProps) => {
     var imageSrc
     if (ownProps.userId) {

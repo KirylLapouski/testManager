@@ -8,7 +8,7 @@ import ExpansionPanel, {
 } from 'material-ui/ExpansionPanel';
 import Typography from 'material-ui/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import Button from 'material-ui/Button';
+import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add'
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -23,7 +23,7 @@ class Lesson extends React.Component {
     }
 
     render() {
-        var { id, topics, title, topics, loggedUserId, lessonOwner, topicsOpened, modalOpened, edditing, handleDeleteClick, toggleEdditing, handleModalOpen, description, handleInputChange, handleSubmitEditLesson, handleTopicsClick, handleModalClose, handleCancelEdditingClick, edditing } = this.props
+        var { id, title, topics, loggedUserId, lessonOwner, topicsOpened, modalOpened, handleDeleteClick, toggleEdditing, handleModalOpen, description, handleInputChange, handleSubmitEditLesson, handleTopicsClick, handleModalClose, handleCancelEdditingClick, edditing } = this.props
         var readOnlyexpantionPanel = <ExpansionPanelDetails style={{ display: 'flex', justifyContent: 'flex-start', paddingBottom: '0px', textAlign: 'left' }}>
             {loggedUserId === lessonOwner.id && <div style={{ display: 'flex', flexDirection: 'column' }}>
                 <Button onClick={handleDeleteClick} style={{ color: 'white', boxShadow: 'none', backgroundColor: 'rgba(0,0,0,0)' }} variant="fab"  >

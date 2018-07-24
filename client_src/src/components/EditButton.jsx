@@ -1,5 +1,5 @@
 import React from 'react'
-import Button from 'material-ui/Button'
+import Button from '@material-ui/core/Button'
 import EditIcon from '@material-ui/icons/Edit'
 import MessageIcon from '@material-ui/icons/Message'
 import TestIcon from '@material-ui/icons/Assignment'
@@ -21,14 +21,14 @@ class EditButton extends React.Component {
         this.setState({ open: null });
     };
 
-    handleEditTestClick = ()=>{
+    handleEditTestClick = () => {
         this.props.history.push(`${this.props.location.pathname}/testEditor`)
     }
     render() {
         const { open } = this.state;
         return <div style={{ position: 'fixed', bottom: '20px', right: '40px' }}>
-            <Collapse in={this.state.open} timeout="auto" unmountOnExit>
-                <div style={{ display: 'flex', flexDirection: 'column', marginBottom: '30px', width: '70px',alignItems:'center' }} >
+            <Collapse in={open} timeout="auto" unmountOnExit>
+                <div style={{ display: 'flex', flexDirection: 'column', marginBottom: '30px', width: '70px', alignItems: 'center' }} >
                     <Tooltip id="tooltip-icon" title="Редактировать топик" placement='left'>
                         <Button variant="fab" color="primary" aria-label="add" onClick={this.props.onTopicEditClick} style={{ marginBottom: '30px' }}>
                             <MessageIcon />

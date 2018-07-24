@@ -73,7 +73,7 @@ const mapDispatchToProps = (dispatch) => {
 
 SingleCourseContainer.propTypes = {
     ownerUser: PropTypes.shape({
-        id: PropTypes.string,
+        id: PropTypes.number,
         firstName: PropTypes.string,
         secondName: PropTypes.string
     }),

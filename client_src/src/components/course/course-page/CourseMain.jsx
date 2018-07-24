@@ -1,5 +1,5 @@
 import React from 'react'
-import LessonContainer from '../../lesson/LessonList'
+import LessonList from '../../lesson/LessonList'
 import PropTypes from 'prop-types'
 import SideBar from "./SideBar";
 import UserListContainer from "../../user/UserListContainer";
@@ -35,11 +35,11 @@ class CourseMain extends React.Component {
         var { contentDisplay, showChartFor } = this.state
 
         return <div style={{ position: 'relative', display: 'flex', alignItems: 'flex-start' }}>
-            <SideBar lessonButtonOnClick={this.sideBarClickHandler(0)} descipleButtonClick={this.sideBarClickHandler(1)} style={{ width: '200px', marginTop: '50px', maxHeight: '300px' }} />
+            <SideBar lessonButtonOnClick={this.sideBarClickHandler(0)} descipleButtonClick={this.sideBarClickHandler(1)} style={{ width: '200px', marginTop: '50px', marginLeft: '10px', maxHeight: '300px' }} />
             <div style={{ width: '1200px', display: 'flex', justifyContent: 'center' }}>
-                {contentDisplay === this.CONTENT[0] ? < LessonContainer lessonsOwner={ownerUser} loggedUserId={loggedUserId} courseId={courseId} /> : <UserListContainer toggleShowChartClick={this.toggleShowChartClick} courseId={courseId} />}
+                {contentDisplay === this.CONTENT[0] ? < LessonList lessonsOwner={ownerUser} loggedUserId={loggedUserId} courseId={courseId} /> : <UserListContainer toggleShowChartClick={this.toggleShowChartClick} courseId={courseId} />}
             </div>
-            {showChartFor && <CourseResultContainer userId={showChartFor} />}
+            {contentDisplay !== this.CONTENT[0] && showChartFor && <CourseResultContainer userId={showChartFor} />}
         </div >
     }
 }

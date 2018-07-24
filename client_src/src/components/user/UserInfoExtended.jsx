@@ -37,7 +37,7 @@ UserInfoExtended.propTypes = {
     username: PropTypes.string,
     email: PropTypes.string,
     toggleOpenChart: PropTypes.func,
-    onButtonClick: PropTypes.bool,
+    onButtonClick: PropTypes.func,
     buttonTitle: PropTypes.string
 }
 

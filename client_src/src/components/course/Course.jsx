@@ -6,7 +6,6 @@ import Grow from '@material-ui/core/Grow'
 import Divider from '@material-ui/core/Divider'
 import DeleteIcon from '@material-ui/icons/Delete'
 import OutIcon from '@material-ui/icons/PowerSettingsNew'
-import Tooltip from 'material-ui/Tooltip';
 import Button from '@material-ui/core/Button'
 import { withRouter } from 'react-router-dom'
 import { untieUserFromCourseAndDeleteCourse, untieUserFromCourse } from '../../redux/AC/users'

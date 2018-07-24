@@ -36,10 +36,10 @@ class TopicList extends React.Component {
 }
 
 TopicList.propTypes = {
-    topics: PropTypes.arrayOf({
+    topics: PropTypes.arrayOf(PropTypes.shape({
         id: PropTypes.number,
         path: PropTypes.string,
-    }),
+    })),
     loggedUserId: PropTypes.number,
     userOwnerId: PropTypes.number,
     currenTopicId: PropTypes.number,

@@ -81,7 +81,6 @@ class LoginInContainer extends React.Component {
         return <LoginIn
             onSubmitHandler={this.onSubmitHandler}
             onChangeHandler={this.onChangeHandler}
-            {...this.props}
             {...this.state} />
     }
 }

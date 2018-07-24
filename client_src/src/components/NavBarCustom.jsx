@@ -3,7 +3,7 @@ import { Navbar, NavbarBrand, NavbarNav, NavbarToggler, NavItem, NavLink } from 
 import UserInfoContainer from './user/UserInfoContainer';
 import { Link } from 'react-router-dom';
 import Add from '@material-ui/icons/Add';
-import Button from 'material-ui/Button';
+import Button from '@material-ui/core/Button';
 import Menu, { MenuItem } from 'material-ui/Menu';
 import NewCourseModal from './modal/modal-total/NewCourseModal'
 import AttachToCourseModal from './modal/modal-total/AttachToCourseModal'
@@ -65,7 +65,7 @@ class NavBarCustom extends React.Component {
         return (
             <Navbar color="indigo" dark expand="md" scrolling>
                 <NavbarBrand>
-                    <strong><Link to='/'>Home</Link></strong>
+                    <Link to='/'><strong>Home</strong></Link>
                 </NavbarBrand>
                 <NavbarNav left>
                     <NavItem>

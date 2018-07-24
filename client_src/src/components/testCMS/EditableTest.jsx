@@ -70,7 +70,7 @@ class Test extends React.Component {
 
     getAnswers(ansersText, editable = false) {
         return ansersText.map((answer, i) => {
-            return <Answer key={i} editable={editable} onChange={editable ? this.handleAnswerTitleChange(i) : null} typeOfAnswer={this.props.testType} onClick={editable ? this.handleClickRadio.bind(this, i) : null} checked={this.state.isRadiosSelected[i]} text={this.state.answersTitle[i]} id={answer.id} serialNumber={editable && i + 1} />
+            return <Answer key={i} editable={editable} onChange={editable ? this.handleAnswerTitleChange(i) : null} typeOfAnswer={this.props.testType} onClick={editable ? this.handleClickRadio.bind(this, i) : null} checked={this.state.isRadiosSelected[i]} text={this.state.answersTitle[i]} id={answer.id} serialNumber={editable ? i + 1 : 0} />
         })
     }
 
@@ -91,7 +91,7 @@ class Test extends React.Component {
     }
 
     handleSubmit = () => {
-        if(!this.state.answersTitle.every(value => value.trim())){
+        if (!this.state.answersTitle.every(value => value.trim())) {
             toastr.error('Все варианты ответов должны быть заполнены')
             return
         }
@@ -99,10 +99,10 @@ class Test extends React.Component {
         if (!this.state.isRadiosSelected.some(value => value)) {
             toastr.error('Надо отметить хотя бы один ответ как правильный')
             return
-        }else {
+        } else {
             toastr.success('Текст ответов сохранён', 'Вопрос обновлен')
 
-            this.state.isRadiosSelected.map((value, i) => {
+            this.state.isRadiosSelected.forEach((value, i) => {
                 this.props.updateAnswer(this.props.answers[i].id, this.state.answersTitle[i], this.state.isRadiosSelected[i])
             })
 
