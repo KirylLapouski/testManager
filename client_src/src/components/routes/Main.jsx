@@ -2,7 +2,7 @@ import React from 'react'
 import CourseContainer from '../course/CourseContainer'
 import { Switch, Route } from 'react-router-dom'
 import TestContainer from '../testCMS/TestContainer'
-import TopicContainer from '../topic/TopicContainer'
+import TopicListContainer from '../topic/TopicListContainer'
 import LoginInContainer from '../login/LoginInContainer'
 import SignUp from '../SignUp'
 import ProfileContainer from '../profile/ProfileContainer'
@@ -12,13 +12,13 @@ class Main extends React.Component {
         return (
             <Switch>
                 {/* <Route exact path="/cources" component={CourseContainer} /> */}
-                <Route path="/cources/:userId" component={CourseContainer}/>
+                <Route path="/cources/:userId" component={CourseContainer} />
                 <Route path="/:courseId/lessons" component={SingleCourseContainer} />
                 <Route path="/lesson/:lessonId/topic/:topicId/testEditor" component={TestContainer} />
-                <Route path="/lesson/:lessonId/topic/:topicId" component={TopicContainer} />
-                <Route path="/" exact component={LoginInContainer}/>
+                <Route path="/lesson/:lessonId/topic/:topicId" component={TopicListContainer} />
+                <Route path="/" exact component={LoginInContainer} />
                 <Route path="/signUp" component={SignUp} />
-                <Route path="/profile" component={ProfileContainer  }/>
+                <Route path="/profile" component={ProfileContainer} />
             </Switch >
         )
     }

@@ -227,4 +227,41 @@ describe('topic reducer', function () {
             reducerTest(store, action, expectedResult)
         })
     })
+
+    describe('DELETE_TOPIC', function () {
+        it('delete topic in empty store(silently ends)', function () {
+            //TODO: this test works when reducer appropriate does not exists
+            const store = {}
+            const action = {
+                type: constants.topics.DELETE_TOPIC,
+                payload: {
+                    id: 1
+                }
+            }
+            const expectedResult = {}
+
+            reducerTest(store, action, expectedResult)
+        })
+
+        it('delete topic in NOT empty store', function () {
+
+            const store = initState
+            const action = {
+                type: constants.topics.DELETE_TOPIC,
+                payload: {
+                    id: 1
+                }
+            }
+            const expectedResult = {
+                2: {
+                    id: 2,
+                    lessonId: 9,
+                    path: "html html",
+                    title: "topic 1"
+                }
+            }
+
+            reducerTest(store, action, expectedResult)
+        })
+    })
 })

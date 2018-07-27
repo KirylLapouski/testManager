@@ -38,6 +38,12 @@ const topics = (state = {}, action) => {
             return {
                 ...result
             }
+        case constants.topics.DELETE_TOPIC:
+            var result = { ...state }
+            delete result[action.payload.id]
+            return {
+                ...result
+            }
         default:
             return state
     }

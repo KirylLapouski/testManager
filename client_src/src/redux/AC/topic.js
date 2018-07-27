@@ -70,9 +70,27 @@ const updateTopic = (topicId, editorState) => {
     }
 }
 
+const deleteTopic = (topicId) => {
+    return dispatch => {
+        axios.delete(`http://localhost:3000/api/Topics/${topicId}`)
+            .then(({ data: value }) => {
+                console.log(value)
+                if (value.count) {
+                    dispatch({
+                        type: constants.topics.DELETE_TOPIC,
+                        payload: {
+                            id: topicId
+                        }
+                    })
+                }
+            })
+    }
+}
+
 export {
     addTopic,
     loadTopics,
     addQuestionIdToTopic,
-    updateTopic
+    updateTopic,
+    deleteTopic
 }

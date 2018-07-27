@@ -1,6 +1,6 @@
 import React from 'react'
 import Paginator from '../Paginator'
-import Topic from './Topic'
+import TopicContainer from './TopicContainer'
 import PropTypes from 'prop-types'
 import EditButton from '../EditButton'
 import LessonResultContainer from "../topic/LessonResultContainer";
@@ -22,7 +22,7 @@ class TopicList extends React.Component {
             if (currenTopicId === 0) {
                 elem = <LessonResultContainer />
             } else {
-                elem = <Topic key={this.props.match.params.topicId} readOnly={this.props.readOnly} path={topic.path} id={topic.id} />
+                elem = <TopicContainer key={this.props.match.params.topicId} readOnly={this.props.readOnly} path={topic && topic.path} id={topic && topic.id} />
             }
         }
 

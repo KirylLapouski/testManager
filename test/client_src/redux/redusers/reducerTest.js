@@ -4,10 +4,11 @@ var assert = require('assert')
 const reducerTest = (reducer) => (initState, action, expectedResult) => {
     const state = initState instanceof Array ? [...initState] : { ...initState }
 
+    var newAction = { ...action }
     deepFreeze(state)
-    deepFreeze({ ...action })
+    deepFreeze(newAction)
 
-    assert.deepEqual(reducer(state, { ...action }), expectedResult instanceof Array ? [...expectedResult] : { ...expectedResult })
+    assert.deepEqual(reducer(state, newAction), expectedResult instanceof Array ? [...expectedResult] : { ...expectedResult })
 }
 
 module.exports = reducerTest

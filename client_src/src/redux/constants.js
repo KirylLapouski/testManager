@@ -26,7 +26,8 @@ const constants = {
         ADD_TOPIC: 'ADD_TOPIC',
         ADD_TOPICS: 'ADD_TOPICS',
         ADD_TOPIC_QUESTIONS: 'ADD_TOPIC_QUESTIONS',
-        UPDATE_TOPIC: 'UPDATE_TOPIC'
+        UPDATE_TOPIC: 'UPDATE_TOPIC',
+        DELETE_TOPIC: 'DELETE_TOPIC'
     },
     tests: {
         ADD_TEST: 'ADD_TEST',
