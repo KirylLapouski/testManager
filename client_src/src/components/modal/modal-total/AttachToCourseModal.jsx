@@ -2,20 +2,21 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { attachUserToCource } from '../../../redux/AC/users'
 import { connect } from "react-redux";
+import toastr from "toastr";
 import ModalBase from "../ModalBase";
 import SingleTextField from '../modal-content/SingleTextField'
 class AttachToCourseModal extends React.Component {
-    constructor(props){
+    constructor(props) {
         super(props)
 
-        this.state ={
-            secretWord:''
+        this.state = {
+            secretWord: ''
         }
     }
     handleSubmit = (e) => {
-        //TODO: toastr after ac done
         e.preventDefault()
         this.props.attachUserToCource(this.props.userId, this.state.secretWord)
+            .then(() => { toastr.success('Успешно добавлен к курсу') })
         this.props.handleClose()
     }
 
@@ -26,9 +27,9 @@ class AttachToCourseModal extends React.Component {
         })
     }
     render() {
-        var {open,handleClose} = this.props
-        return <ModalBase title={'Присоединится к курсу'}  width='350px' minHeight="250px" open={open} handleClose={handleClose}>
-            <SingleTextField textFieldTitle='Секретное слово' handleClose={handleClose} onChangeHandler={this.onChangeHandler} handleSubmit={this.handleSubmit}/>
+        var { open, handleClose } = this.props
+        return <ModalBase title={'Присоединится к курсу'} width='350px' minHeight="250px" open={open} handleClose={handleClose}>
+            <SingleTextField textFieldTitle='Секретное слово' handleClose={handleClose} onChangeHandler={this.onChangeHandler} handleSubmit={this.handleSubmit} />
         </ModalBase>
     }
 }
@@ -48,8 +49,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        attachUserToCource(userId,secretWord){
-            dispatch(attachUserToCource(userId,secretWord))
+        attachUserToCource(userId, secretWord) {
+            return dispatch(attachUserToCource(userId, secretWord))
         }
     }
 }

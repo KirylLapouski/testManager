@@ -32,7 +32,8 @@ class EditButton extends React.Component {
     handleDeleteTopicClick = () => {
         //TODO: go to next topic
         this.props.deleteTopic(this.props.match.params.topicId)
-        toastr.success('Топик успешно удален')
+            .then(() => toastr.success('Топик успешно удален'))
+
     }
 
     handleTopicEditClick = () => {
@@ -77,7 +78,7 @@ EditButton.propTypes = {
 const mapDispatchToProps = (dispatch) => {
     return {
         deleteTopic(topicId) {
-            dispatch(deleteTopic(topicId))
+            return dispatch(deleteTopic(topicId))
         }
     }
 }

@@ -61,8 +61,10 @@ class TopicModal extends React.Component {
         node[1] = parsedUrl
         //TODO: new reducer
         this.props.createTopic(this.props.lessonId, node.join(''), this.state.title)
+            .then(() => { toastr.success('Новый топик был успешно добавлен') },
+                (err) => { toastr.error(err.message) })
         this.props.handleClose()
-        toastr.success('Новый топик был успешно добавлен')
+
     }
 
     handleSoundCloudClick = () => {
@@ -87,6 +89,8 @@ class TopicModal extends React.Component {
         node[1] = src
         //TODO: new reducer
         this.props.createTopic(this.props.lessonId, node.join(''), this.state.title)
+            .then(() => { toastr.success('Новый топик был успешно добавлен') },
+                (err) => { toastr.error(err.message) })
         this.props.handleClose()
         toastr.success('Новый топик был успешно добавлен')
     }
@@ -100,7 +104,7 @@ class TopicModal extends React.Component {
             return
         }
 
-        if (Object.keys(this.state.file).length === 0) {
+        if (Object.keys(this.state.files).length === 0) {
             toastr.error('Выберите файл', 'Ошибка отправки формы')
             return
         }
@@ -108,7 +112,7 @@ class TopicModal extends React.Component {
 
         var { userId, addFileToUser } = this.props
         var sendingForm = new FormData()
-        sendingForm.append('file', this.state.file)
+        sendingForm.append('file', this.state.files[0])
         addFileToUser(userId, sendingForm)
     }
 
@@ -156,6 +160,7 @@ class TopicModal extends React.Component {
         return <ModalBase open={open} width='900px' handleClose={this.handleClose}>
             <TextField name='title' onChange={this.handleChange} InputProps={{ disableUnderline: true }} placeholder='Название урока' style={{ width: '815px', color: 'black', padding: '10px', paddingLeft: 20, marginBottom: '20px', boxShadow: 'inset 0px 0px 5px rgba(154, 147, 140, 0.5)' }} />
             <DrugnDropFile
+                allowedTypes={['video/*']}
                 onFilesChange={this.onFilesChange}
                 files={this.state.files}
                 onFilesError={this.onFilesError}
@@ -182,7 +187,7 @@ TopicModal.propTypes = {
 const mapDispatchToProps = dispatch => {
     return {
         createTopic(lessonId, node, title) {
-            dispatch(addTopic(lessonId, node, title))
+            return dispatch(addTopic(lessonId, node, title))
         },
         addFileToUser(userId, form) {
             dispatch(addFileToUser(userId, form))

@@ -17,13 +17,14 @@ class TestFromFileModal extends React.Component {
     sendFile = (file) => {
         try {
             this.props.uploadFile(this.props.topicId, file)
-        }catch(e){
+                .catch(err => toastr.error(err.message))
+        } catch (e) {
             //TODO: check not for all errors
             toastr.error(e.message)
         }
     }
 
-    onFilesError =(error)=>{
+    onFilesError = (error) => {
         switch (error.code) {
             case 1:
                 toastr.error('Неправильный тип файла', 'Ошибка при выборе файла')
@@ -57,10 +58,10 @@ class TestFromFileModal extends React.Component {
         var { open, handleClose } = this.props
         return <ModalBase title={'Создать курс'} open={open} width='800px' minHeight='400px' handleClose={handleClose}>
             <DrugnDropFile onFilesChange={this.onFilesChange}
-            handleClose={handleClose}
-            onFilesError={this.onFilesError}
-            files={this.state.files}/>
-            <SubmitAndCancel handleSubmit={ this.handleFilesUpload} handleClose={handleClose}/>
+                handleClose={handleClose}
+                onFilesError={this.onFilesError}
+                files={this.state.files} />
+            <SubmitAndCancel handleSubmit={this.handleFilesUpload} handleClose={handleClose} />
         </ModalBase>
     }
 }
@@ -73,7 +74,7 @@ TestFromFileModal.propTypes = {
 const mapDispatchToProps = dispatch => {
     return {
         uploadFile(topicId, file) {
-            dispatch(createTestFromFile(topicId, file))
+            return dispatch(createTestFromFile(topicId, file))
         }
     }
 }

@@ -1,10 +1,7 @@
 import constants from '../constants'
 import axios from 'axios'
-import toastr from 'toastr'
 const addQuestion = (topicId, weight, title, description = ' ') => {
-    console.log(topicId, weight, title)
     return dispatch => {
-
         axios.post('http://localhost:3000/api/Questions', {
             title,
             description,
@@ -88,19 +85,19 @@ const createTestFromFile = (topicId, file) => {
         const formData = new FormData()
         formData.append('file', file)
 
-        var xhr = new XMLHttpRequest()
-
-        xhr.open('POST', `http://localhost:3000/${topicId}/parseQuestion`, true)
-
-        xhr.onload = () => {
-            if (xhr.status === 201)
+        const config = { headers: { 'Content-Type': 'multipart/form-data' } }
+        return axios.post(`http://localhost:3000/${topicId}/parseQuestion`, formData, config)
+            .then(() => {
                 dispatch(loadQuestion(topicId))
-            if (xhr.status === 400) {
-                return toastr.error('Ошибка при создании теста из файла', xhr.responseText)
-            }
+            }, (err) => {
+                switch (err.message) {
+                    case 'Network Error':
+                        throw new Error('Ошибка сети, сервер недоступен')
+                    default:
+                        throw new Error('Ошибка создания теста')
+                }
+            })
 
-        }
-        xhr.send(formData)
     }
 }
 export {

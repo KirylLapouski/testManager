@@ -32,7 +32,7 @@ class LessonList extends React.Component {
 
     handleDeleteClick = () => {
         this.props.deleteLesson(this.props.id)
-        toastr.success('Урок успешно удалён')
+            .then(() => { toastr.success('Урок успешно удалён') })
     }
 
     toggleState = (name) => () => {
@@ -50,9 +50,10 @@ class LessonList extends React.Component {
     }
     handleSubmitEditLesson = () => {
         this.props.editLesson(this.props.id, this.state.title, this.state.description)
+            .then(() => { toastr.success('Урок изменён') })
         //TODO:: rewrite on refs
         //TODO: need new reducer that check that change
-        toastr.success('Урок изменён')
+
         this.toggleState('edditing')()
     }
 
@@ -92,13 +93,13 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = dispatch => {
     return {
         getTopics(lessonID) {
-            dispatch(loadTopics(lessonID))
+            return dispatch(loadTopics(lessonID))
         },
         deleteLesson(lessonId) {
-            dispatch(deleteLesson(lessonId))
+            return dispatch(deleteLesson(lessonId))
         },
         editLesson(lessonId, title, desctiption) {
-            dispatch(editLesson(lessonId, title, desctiption))
+            return dispatch(editLesson(lessonId, title, desctiption))
         }
     }
 }

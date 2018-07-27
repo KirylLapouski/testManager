@@ -73,7 +73,7 @@ passportConfigurator.init()
 // We need flash messages to see passport errors
 app.use(flash())
 app.use(fileUpload())
-app.use(loopback.static('../uploads'))
+app.use(loopback.static(path.resolve(__dirname, './uploads')))
 
 passportConfigurator.setupModels({
     userModel: app.models.user,

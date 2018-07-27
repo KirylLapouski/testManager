@@ -14,9 +14,9 @@ class DrugnDropFile extends React.Component {
     }
 
     render() {
-        var { onFilesChange} = this.props
-        return <div style={{width:'100%', display:'flex', flexDirection:'column'}}>
-            <Files ref='files' onChange={onFilesChange} multiple onError={this.onFilesError} style={{ cursor: 'pointer', width: '100%', height: '168px', display: 'flex', justifyContent: 'center', alignItems: 'center', border: '1px dashed grey', textAlign: 'center' }} accepts={['text/plain']} clickable>
+        var { onFilesChange, allowedTypes } = this.props
+        return <div style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
+            <Files ref='files' onChange={onFilesChange} multiple onError={this.onFilesError} style={{ cursor: 'pointer', width: '100%', height: '168px', display: 'flex', justifyContent: 'center', alignItems: 'center', border: '1px dashed grey', textAlign: 'center' }} accepts={allowedTypes || ['text/plain']} clickable>
                 Перетащите файлы сюда<br />
                 или<br />
                 Выберите файл на компьютере
@@ -39,7 +39,7 @@ class DrugnDropFile extends React.Component {
                 </div>
                 : <div style={{ maxHeight: '215px' }}></div>
             }
-            <Button onClick={this.filesRemoveAll}><DeleteIcon/>Удалить все файлы</Button>
+            <Button onClick={this.filesRemoveAll}><DeleteIcon />Удалить все файлы</Button>
         </div>
     }
 }
@@ -48,5 +48,6 @@ DrugnDropFile.propTypes = {
     files: PropTypes.array,
     onFilesChange: PropTypes.func,
     onFilesError: PropTypes.func,
+    allowedTypes: PropTypes.array
 }
 export default DrugnDropFile

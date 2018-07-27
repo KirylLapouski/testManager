@@ -1,22 +1,32 @@
 import constants from '../constants'
-import request from 'request'
 import axios from 'axios'
 const addTopic = (lessonId, node, title) => {
     return dispatch => {
-        request.post('http://localhost:3000/api/Topics', {
-            form: {
-                path: node,
-                lessonId: lessonId,
-                title: title || ' '
-            }
-        }, (err, response, body) => {
-            dispatch({
-                type: constants.topics.ADD_TOPIC,
-                payload: {
-                    ...JSON.parse(body)
+        const config = { headers: { 'Content-Type': 'multipart/form-data' } }
+
+        var formData = new FormData()
+        formData.append('path', node)
+        formData.append('lessonId', lessonId)
+        formData.append('title', title || ' ')
+
+
+
+        return axios.post('http://localhost:3000/api/Topics', formData, config)
+            .then(({ data: body }) => {
+                dispatch({
+                    type: constants.topics.ADD_TOPIC,
+                    payload: {
+                        ...body
+                    }
+                })
+            }, (err) => {
+                switch (err.message) {
+                    case 'Network Error':
+                        throw new Error('Ошибка сети, сервер недоступен')
+                    default:
+                        throw new Error('Ошибка при добаввлении топика')
                 }
             })
-        })
     }
 }
 
@@ -72,9 +82,8 @@ const updateTopic = (topicId, editorState) => {
 
 const deleteTopic = (topicId) => {
     return dispatch => {
-        axios.delete(`http://localhost:3000/api/Topics/${topicId}`)
+        return axios.delete(`http://localhost:3000/api/Topics/${topicId}`)
             .then(({ data: value }) => {
-                console.log(value)
                 if (value.count) {
                     dispatch({
                         type: constants.topics.DELETE_TOPIC,

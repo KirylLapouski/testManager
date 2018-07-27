@@ -100,25 +100,31 @@ const addImageToUser = (userId, form) => {
     }
 }
 
-const addFileToUser = (userId, form) => {
+const addFileToUser = (userId, form, yandexUser = false) => {
     return dispatch => {
-        var xhr = new XMLHttpRequest()
-        xhr.open('POST', `http://localhost:3000/${userId}/saveFile`, true)
+        const config = { headers: { 'Content-type': 'multipart/form-data' } }
+        const url = yandexUser ? `http://localhost:3000/${userId}/saveFile` : `http://localhost:3000/save-file/${userId}/saveFileLocal`
+        axios.post(url, form, config)
+            .then((url) => { })
 
-        xhr.onload = () => {
-            // if(xhr.status)
-            // xhr.open('GET', `http://localhost:3000/api/Participants/${userId}`)
-            // xhr.onload = (res) => {
-            //     dispatch({
-            //         type: constants.users.ADD_LOGGED_IN_USER,
-            //         payload: {
-            //             ...JSON.parse(res.currentTarget.response)
-            //         }
-            //     })
-            // }
-            // xhr.send()
-        }
-        xhr.send(form)
+
+        // var xhr = new XMLHttpRequest()
+        // xhr.open('POST', `http://localhost:3000/${userId}/saveFile`, true)
+
+        // xhr.onload = () => {
+        //     // if(xhr.status)
+        //     // xhr.open('GET', `http://localhost:3000/api/Participants/${userId}`)
+        //     // xhr.onload = (res) => {
+        //     //     dispatch({
+        //     //         type: constants.users.ADD_LOGGED_IN_USER,
+        //     //         payload: {
+        //     //             ...JSON.parse(res.currentTarget.response)
+        //     //         }
+        //     //     })
+        //     // }
+        //     // xhr.send()
+        // }
+        // xhr.send(form)
     }
 }
 const getUserById = userId => {
@@ -140,7 +146,7 @@ const getUserById = userId => {
 const attachUserToCource = (userId, secretWord) => {
     //it is not AC it just query to back
     return dispatch => {
-        axios.get(`http://localhost:3000/api/Disciplines?filter=%7B%22where%22%3A%7B%22secretWord%22%3A%22${secretWord}%22%7D%7D`)
+        return axios.get(`http://localhost:3000/api/Disciplines?filter=%7B%22where%22%3A%7B%22secretWord%22%3A%22${secretWord}%22%7D%7D`)
             .then(({
                 data
             }) => {

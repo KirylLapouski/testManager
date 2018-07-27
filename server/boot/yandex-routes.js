@@ -11,15 +11,16 @@ module.exports = function (app) {
     var upload = require('ya-disk').upload
     var meta = require('ya-disk').meta
     var fs = require('fs')
-    var fileUpload = require('express-fileupload')
+    var path = require('path')
+
 
     //promisify
     // var findOneParticipant = promisify(app.models.Participant.findOne)
     var requestPost = promisify(request.post)
     var uploadLink = promisify(upload.link)
+    var appendFile = promisify(fs.appendFile)
 
 
-    router.use(fileUpload())
 
     router.get('/auth/yandex/callback', function (req, res) {
         var tokenResponseBody, user
@@ -165,55 +166,56 @@ module.exports = function (app) {
     router.post('/:id/saveFile', /*checkLoggedAsYandexUser,*/ function (req, resp) {
 
         //TODO: take token from req
-        const API_TOKEN = 'AQAAAAAEyQZ1AAUBQNdGxaSB8EYSg32qncCS114'
+        const API_TOKEN = 'AQAAAAAEyQZ1AAUBQMOGDFQiVUJrkgDd9ITwSOo'
 
         var sampleFile = req.files.file
-        sampleFile.mv(`./uploads/${sampleFile.name}`, function (err) {
-            if (err)
-                return res.status(500).send(err)
+        appendFile(path.resolve(__dirname, `../uploads/${sampleFile.name}`), req.files.file.data)
+            .catch((err) => {
+                console.log(err)
+                if (err)
+                    return resp.status(500).send(err)
+            })
+            //TODO: FIRST TODO upload link promisifying incorrect(does not create reject if error because of 2 callbacs )
+            .then(() => uploadLink(API_TOKEN, `app:/${sampleFile.name}`, true))
+            .then(null, ({
+                href,
+                method
+            }) => {
+                const fileStream = createReadStream(path.resolve(__dirname, `../uploads/${sampleFile.name}`))
 
-            uploadLink(API_TOKEN, `app:/${sampleFile.name}`, true)
-                .then(({
-                    href,
+                const uploadStream = requestHttps(Object.assign(parse(href), {
                     method
-                }) => {
+                }), () => {
+                    meta.get(API_TOKEN, `app:/${sampleFile.name}`, {}, (res) => {
+                        fs.unlink(path.resolve(__dirname, `../uploads/${sampleFile.name}`))
 
-                    const fileStream = createReadStream(`./uploads/${sampleFile.name}`)
-
-                    const uploadStream = requestHttps(Object.assign(parse(href), {
-                        method
-                    }), () => {
-                        meta.get(API_TOKEN, `app:/${sampleFile.name}`, {}, (res) => {
-                            fs.unlink(`./uploads/${sampleFile.name}`)
-
-                            axios.put(`https://cloud-api.yandex.net/v1/disk/resources/publish?path=app:/${sampleFile.name}`, null, {
-                                headers: {
-                                    Authorization: `OAuth ${API_TOKEN}`
-                                }
-                            })
-                                .then(({
-                                    data
-                                }) => {
-                                    return axios.get(data.href, {
-                                        headers: {
-                                            Authorization: `OAuth ${API_TOKEN}`
-                                        }
-                                    })
-                                })
-                                .then(({
-                                    data
-                                }) => {
-                                    resp.status(201).send(data.public_url)
-                                })
+                        axios.put(`https://cloud-api.yandex.net/v1/disk/resources/publish?path=app:/${sampleFile.name}`, null, {
+                            headers: {
+                                Authorization: `OAuth ${API_TOKEN}`
+                            }
                         })
+                            .then(({
+                                data
+                            }) => {
+                                return axios.get(data.href, {
+                                    headers: {
+                                        Authorization: `OAuth ${API_TOKEN}`
+                                    }
+                                })
+                            })
+                            .then(({
+                                data
+                            }) => {
+                                resp.status(201).send(data.file)
+                            })
                     })
-
-                    fileStream.pipe(uploadStream)
-
-                    fileStream.on('end', () => uploadStream.end())
                 })
 
-        })
+                fileStream.pipe(uploadStream)
+
+                fileStream.on('end', () => uploadStream.end())
+            })
+
     })
 
     //TODO: only yandex users can set avatar?!!!!!

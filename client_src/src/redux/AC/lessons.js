@@ -11,7 +11,6 @@ const addLesson = (title, disciplineId, desc) => {
         })
             .then(response => {
                 if (response.status === 200) {
-                    console.log(response)
                     id = response.data.id
                     return
                 }
@@ -37,7 +36,7 @@ const addLesson = (title, disciplineId, desc) => {
 
 const deleteLesson = lessonId => {
     return dispatch => {
-        axios.delete(`http://localhost:3000/api/Lessons/${lessonId}`)
+        return axios.delete(`http://localhost:3000/api/Lessons/${lessonId}`)
             .then(response => {
                 return response.data
             })
@@ -60,7 +59,7 @@ const editLesson = (lessonId, title, desctiption) => {
     if (desctiption)
         resLesson.description = desctiption
     return dispatch => {
-        axios.patch('http://localhost:3000/api/Lessons', resLesson)
+        return axios.patch('http://localhost:3000/api/Lessons', resLesson)
             .then(response => {
                 return response.data
             }).then(response => {
