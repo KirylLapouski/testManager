@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import DrugnDropFile from '../modal-content/DrugnDropFile'
 import TextField from 'material-ui/TextField'
 import SubmitAndCancel from "../modal-content/SubmitAndCancel";
+import Cookies from 'universal-cookie'
 import { addTopic } from '../../../redux/AC/topic'
 import { addFileToUser } from '../../../redux/AC/users'
 import { connect } from 'react-redux'
@@ -113,7 +114,10 @@ class TopicModal extends React.Component {
         var { userId, addFileToUser } = this.props
         var sendingForm = new FormData()
         sendingForm.append('file', this.state.files[0])
-        addFileToUser(userId, sendingForm)
+
+        const cookies = new Cookies()
+        addFileToUser(userId, sendingForm, !!cookies.get('yandexToken'))
+        toastr.info('Новый топик появится сразу после полной загрузки файла на сервер.', 'Файл отправляется на сервер.')
     }
 
 
@@ -189,8 +193,8 @@ const mapDispatchToProps = dispatch => {
         createTopic(lessonId, node, title) {
             return dispatch(addTopic(lessonId, node, title))
         },
-        addFileToUser(userId, form) {
-            dispatch(addFileToUser(userId, form))
+        addFileToUser(userId, form, yandexUser) {
+            return dispatch(addFileToUser(userId, form, yandexUser))
         }
     }
 }

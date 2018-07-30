@@ -165,8 +165,7 @@ module.exports = function (app) {
     }
     router.post('/:id/saveFile', /*checkLoggedAsYandexUser,*/ function (req, resp) {
 
-        //TODO: take token from req
-        const API_TOKEN = 'AQAAAAAEyQZ1AAUBQMOGDFQiVUJrkgDd9ITwSOo'
+        const API_TOKEN = req.cookies.yandexToken
 
         var sampleFile = req.files.file
         appendFile(path.resolve(__dirname, `../uploads/${sampleFile.name}`), req.files.file.data)

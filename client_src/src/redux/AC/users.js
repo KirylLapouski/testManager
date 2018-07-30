@@ -102,10 +102,13 @@ const addImageToUser = (userId, form) => {
 
 const addFileToUser = (userId, form, yandexUser = false) => {
     return dispatch => {
-        const config = { headers: { 'Content-type': 'multipart/form-data' } }
+        const config = { headers: { 'Content-type': 'multipart/form-data' }, withCredentials: true }
         const url = yandexUser ? `http://localhost:3000/${userId}/saveFile` : `http://localhost:3000/save-file/${userId}/saveFileLocal`
         axios.post(url, form, config)
-            .then((url) => { })
+            .then((url) => {
+                //TODO: create new topic with this data
+                console.log(url.data)
+            })
 
 
         // var xhr = new XMLHttpRequest()

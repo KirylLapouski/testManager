@@ -1,56 +1,43 @@
 import React, { Component } from 'react';
-import { EditorState, convertToRaw, ContentState } from 'draft-js';
-import { Editor } from 'react-draft-wysiwyg';
-import draftToHtml from 'draftjs-to-html';
-import htmlToDraft from 'html-to-draftjs';
+// import { EditorState, convertToRaw, ContentState } from 'draft-js';
+// import { Editor } from 'react-draft-wysiwyg';
+// import draftToHtml from 'draftjs-to-html';
+// import htmlToDraft from 'html-to-draftjs';
+import { Editor } from "@tinymce/tinymce-react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { updateTopic } from '../../redux/AC/topic'
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+// import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import toastr from 'toastr'
 //TODO: maybe use props instead of state? Fetch data from db. Init complexities
 //TODO: parse youtube watch video to embed
 //TODO: soundcloud doesnot work
 class EditorConvertToHTML extends Component {
     constructor(props) {
-        super(props)
-        const contentBlock = htmlToDraft(props.currentData)
-        if (contentBlock) {
-            const contentState = ContentState.createFromBlockArray(contentBlock.contentBlocks);
-            const editorState = EditorState.createWithContent(contentState);
-            this.state = {
-                editorState,
-            };
-        }
+        super(props);
+
+        this.state = { content: props.currentData };
+        this.handleEditorChange = this.handleEditorChange.bind(this);
     }
 
-    onEditorStateChange = (editorState) => {
-        if (draftToHtml(convertToRaw(editorState.getCurrentContent())).length > 510) {
-            toastr.warning('Достигнуто максимальное количество символов')
-            return
-        }
-        if (this.state.editorState !== editorState) {
-            this.props.saveEditorState(draftToHtml(convertToRaw(editorState.getCurrentContent())))
-        }
+    handleEditorChange(content) {
+        if (this.state.content !== content)
+            this.props.saveEditorState(content)
+        this.setState({ content });
 
-        this.setState({
-            editorState,
-        });
-    };
+    }
 
     render() {
-        const { editorState } = this.state;
         return (
             <div style={{ boxShadow: ' 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)' }}>
                 <Editor
-                    toolbarHidden={this.props.readOnly}
-                    editorState={editorState}
-                    wrapperClassName="demo-wrapper"
-                    editorClassName="demo-editor"
-                    onEditorStateChange={this.onEditorStateChange}
-                    readOnly={this.props.readOnly}
-                    editorStyle={{ padding: '30px' }}
+                    apiKey="awz2mcrcs6wtqo0a2zg6s2jmxg1s322zk417tk3zmddsxpbk"
+                    value={this.state.content}
+                    init={{ height: '700px' }}
+                    onEditorChange={this.handleEditorChange}
+                    plugins='image table media'
                 />
+
             </div>
         )
     }
