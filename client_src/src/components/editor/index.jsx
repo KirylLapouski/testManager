@@ -12,7 +12,7 @@ import toastr from 'toastr'
 //TODO: maybe use props instead of state? Fetch data from db. Init complexities
 //TODO: parse youtube watch video to embed
 //TODO: soundcloud doesnot work
-class EditorConvertToHTML extends Component {
+class MyEditor extends Component {
     constructor(props) {
         super(props);
 
@@ -33,9 +33,45 @@ class EditorConvertToHTML extends Component {
                 <Editor
                     apiKey="awz2mcrcs6wtqo0a2zg6s2jmxg1s322zk417tk3zmddsxpbk"
                     value={this.state.content}
-                    init={{ height: '700px' }}
+                    init={{
+                        selector: "textarea",
+                        height: 700,
+                        resize: false,
+                        autosave_ask_before_unload: false,
+                        codesample_dialog_width: 600,
+                        codesample_dialog_height: 425,
+                        template_popup_width: 600,
+                        template_popup_height: 450,
+                        powerpaste_allow_local_images: true,
+                        plugins: [
+                            "a11ychecker advcode advlist anchor autolink codesample colorpicker contextmenu fullscreen help image imagetools",
+                            " lists link linkchecker media mediaembed noneditable powerpaste preview",
+                            " searchreplace table template textcolor tinymcespellchecker visualblocks wordcount"
+                        ], //removed:  charmap insertdatetime print
+                        external_plugins: {
+                            mentions: "//www.tinymce.com/pro-demo/mentions/plugin.min.js",
+                            moxiemanager: "//www.tinymce.com/pro-demo/moxiemanager/plugin.min.js"
+                        },
+                        templates: [
+                            {
+                                title: "Non-editable Example",
+                                description: "Non-editable example.",
+                            },
+                            {
+                                title: "Simple Table Example",
+                                description: "Simple Table example.",
+                            }
+                        ],
+                        toolbar:
+                            "insertfile a11ycheck undo redo | bold italic | forecolor backcolor | template codesample | alignleft aligncenter alignright alignjustify | bullist numlist | link image",
+                        content_css: [
+                            "//fonts.googleapis.com/css?family=Lato:300,300i,400,400i",
+                            "//www.tiny.cloud/css/content-standard.min.css"
+                        ]
+                    }}
                     onEditorChange={this.handleEditorChange}
-                    plugins='image table media'
+                    plugins='media'
+
                 />
 
             </div>
@@ -43,7 +79,7 @@ class EditorConvertToHTML extends Component {
     }
 }
 
-EditorConvertToHTML.propTypes = {
+MyEditor.propTypes = {
     topicId: PropTypes.number,
     readonly: PropTypes.bool,
     currentData: PropTypes.string,
@@ -58,4 +94,4 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         }
     }
 }
-export default connect(null, mapDispatchToProps)(EditorConvertToHTML)
+export default connect(null, mapDispatchToProps)(MyEditor)
