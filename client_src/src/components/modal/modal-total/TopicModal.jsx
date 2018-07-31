@@ -117,6 +117,12 @@ class TopicModal extends React.Component {
 
         const cookies = new Cookies()
         addFileToUser(userId, sendingForm, !!cookies.get('yandexToken'))
+            .then((fileInfo) => {
+                console.log(fileInfo)
+                toastr.success('Файл успешно загружен')
+            }, () => {
+                toastr.error('Ошибка загрузки файла на сервер')
+            })
         toastr.info('Новый топик появится сразу после полной загрузки файла на сервер.', 'Файл отправляется на сервер.')
     }
 

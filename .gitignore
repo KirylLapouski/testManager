@@ -21,3 +21,4 @@ npm-debug.log
 uploads/*
 .nyc_output
 server/uploads
+testFiles

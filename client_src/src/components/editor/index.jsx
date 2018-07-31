@@ -7,6 +7,7 @@ import { Editor } from "@tinymce/tinymce-react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { updateTopic } from '../../redux/AC/topic'
+import axios from "axios";
 // import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import toastr from 'toastr'
 //TODO: maybe use props instead of state? Fetch data from db. Init complexities
@@ -43,6 +44,17 @@ class MyEditor extends Component {
                         template_popup_width: 600,
                         template_popup_height: 450,
                         powerpaste_allow_local_images: true,
+                        images_upload_handler: function (blobInfo, success, failure) {
+                            var formData = new FormData();
+                            formData.append('file', blobInfo.blob());
+
+                            axios.post('http://localhost:3000/save-file/undefined/saveFileLocal', formData)
+                                .then((fileInfo) => {
+                                    success(fileInfo.data)
+                                }, (err) => {
+                                    failure(`HTTP error: ${err.message}`)
+                                })
+                        },
                         plugins: [
                             "a11ychecker advcode advlist anchor autolink codesample colorpicker contextmenu fullscreen help image imagetools",
                             " lists link linkchecker media mediaembed noneditable powerpaste preview",
