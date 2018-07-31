@@ -44,6 +44,40 @@ class MyEditor extends Component {
                         template_popup_width: 600,
                         template_popup_height: 450,
                         powerpaste_allow_local_images: true,
+                        // file_picker_types: 'media',
+                        // file_picker_callback: function () {
+                        //     var input = document.createElement('input');
+                        //     input.setAttribute('type', 'file');
+                        //     input.setAttribute('accept', 'image/*');
+
+                        //     // Note: In modern browsers input[type="file"] is functional without
+                        //     // even adding it to the DOM, but that might not be the case in some older
+                        //     // or quirky browsers like IE, so you might want to add it to the DOM
+                        //     // just in case, and visually hide it. And do not forget do remove it
+                        //     // once you do not need it anymore.
+
+                        //     input.onchange = function () {
+                        //         var file = this.files[0];
+
+                        //         var reader = new FileReader();
+                        //         reader.onload = function () {
+                        //             // Note: Now we need to register the blob in TinyMCEs image blob
+                        //             // registry. In the next release this part hopefully won't be
+                        //             // necessary, as we are looking to handle it internally.
+                        //             var id = 'blobid' + (new Date()).getTime();
+                        //             var blobCache = tinymce.activeEditor.editorUpload.blobCache;
+                        //             var base64 = reader.result.split(',')[1];
+                        //             var blobInfo = blobCache.create(id, file, base64);
+                        //             blobCache.add(blobInfo);
+
+                        //             // call the callback and populate the Title field with the file name
+                        //             cb(blobInfo.blobUri(), { title: file.name });
+                        //         };
+                        //         reader.readAsDataURL(file);
+                        //     };
+
+                        //     input.click();
+                        // },
                         images_upload_handler: function (blobInfo, success, failure) {
                             var formData = new FormData();
                             formData.append('file', blobInfo.blob());
@@ -61,8 +95,8 @@ class MyEditor extends Component {
                             " searchreplace table template textcolor tinymcespellchecker visualblocks wordcount"
                         ], //removed:  charmap insertdatetime print
                         external_plugins: {
-                            mentions: "//www.tinymce.com/pro-demo/mentions/plugin.min.js",
-                            moxiemanager: "//www.tinymce.com/pro-demo/moxiemanager/plugin.min.js"
+                            // mentions: "//www.tinymce.com/pro-demo/mentions/plugin.min.js",
+                            // moxiemanager: "//www.tinymce.com/pro-demo/moxiemanager/plugin.min.js"
                         },
                         templates: [
                             {
@@ -82,7 +116,6 @@ class MyEditor extends Component {
                         ]
                     }}
                     onEditorChange={this.handleEditorChange}
-                    plugins='media'
 
                 />
 

@@ -13,7 +13,8 @@ class LessonResultContainer extends React.Component {
     }
     render() {
         var { rightAnswersWeight, wrongAnswersWeight, questions } = this.props
-        return <LessonResult wrongAnswerWeight={wrongAnswersWeight} rightAnswersWeight={rightAnswersWeight} questions={questions} />
+
+        return (Number.isNaN(rightAnswersWeight) || Number.isNaN(wrongAnswersWeight)) ? <span style={{ color: 'black' }}>Этот урок не содержит тестов.</span> : <LessonResult wrongAnswerWeight={wrongAnswersWeight} rightAnswersWeight={rightAnswersWeight} questions={questions} />
     }
 }
 

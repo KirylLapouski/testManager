@@ -1,12 +1,11 @@
 import React, { Component } from 'react'
 import '../node_modules/font-awesome/css/font-awesome.min.css'
-import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 import '../node_modules/mdbreact/dist/css/mdb.css'
 import '../node_modules/toastr/build/toastr.css'
 import Header from './components/routes/Header'
 import Main from './components/routes/Main'
 import './App.css'
-import {BrowserRouter as Router} from 'react-router-dom'
+import { BrowserRouter as Router } from 'react-router-dom'
 
 class App extends Component {
     render() {
@@ -15,7 +14,7 @@ class App extends Component {
                 <Router>
                     <div>
                         <Header />
-                        <Main/>
+                        <Main />
                     </div>
                 </Router>
             </div>
