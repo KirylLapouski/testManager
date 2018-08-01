@@ -1,8 +1,8 @@
 import React from 'react'
 import UserList from './UserList'
 import { connect } from "react-redux";
-import { getUsersInDiscipline } from '../../redux/AC/users'
-import { addDisciplineUserMapping } from "../../redux/AC/mapping";
+import { getUsersInDiscipline } from '../../../redux/AC/users'
+import { addDisciplineUserMapping } from "../../../redux/AC/mapping";
 import PropTypes from "prop-types";
 
 class UserListContainer extends React.Component {

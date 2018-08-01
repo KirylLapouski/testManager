@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import UserInfoContainer from '../user/UserInfoContainer'
+import UserInfoContainer from '../user/user-info/UserInfoContainer'
 import { Link } from 'react-router-dom'
 import Grow from '@material-ui/core/Grow'
 import Divider from '@material-ui/core/Divider'

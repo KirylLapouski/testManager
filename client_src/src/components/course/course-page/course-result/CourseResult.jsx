@@ -1,5 +1,5 @@
 import React from 'react'
-import LineChart from '../../chart/HorizontalBarChart'
+import LineChart from '../../../chart/HorizontalBarChart'
 import Slide from '@material-ui/core/Slide';
 import PropTypes from "prop-types";
 class CourseResult extends React.Component {

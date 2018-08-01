@@ -1,13 +1,13 @@
 import React from 'react'
-import Paginator from '../Paginator'
-import TopicContainer from './TopicContainer'
+import Paginator from '../../Paginator'
+import TopicContainer from '../TopicContainer'
 import PropTypes from 'prop-types'
-import EditButton from '../EditButton'
-import LessonResultContainer from "../topic/LessonResultContainer";
+import EditButton from '../../EditButton'
+import LessonResultContainer from "../lesson-result/LessonResultContainer";
 //TODO: can rewrite on function
 class TopicList extends React.Component {
     render() {
-        var { loggedUserId, userOwnerId, currenTopicId, topics } = this.props
+        var { loggedUserId, userOwnerId, currenTopicId, topics, allAnswersWeight } = this.props
         var paginatorSerialNumber
         if ((JSON.stringify(topics) !== '[]')) {
             //TODO:instead of receive currentTopicId just take current paginator position
@@ -19,7 +19,7 @@ class TopicList extends React.Component {
             }
 
             var elem
-            if (currenTopicId === 0) {
+            if (currenTopicId === 0 && allAnswersWeight) {
                 elem = <LessonResultContainer />
             } else {
                 elem = <TopicContainer key={this.props.match.params.topicId} readOnly={this.props.readOnly} path={topic && topic.path} id={topic && topic.id} />
@@ -27,7 +27,7 @@ class TopicList extends React.Component {
         }
 
         return (<div>
-            {topics.length + 1 && <Paginator initCurrentPos={paginatorSerialNumber || null} length={topics.length + 1} onClick={this.props.handlePaginatorClick} />}
+            {topics.length + 1 && <Paginator initCurrentPos={paginatorSerialNumber || null} length={topics.length + !!allAnswersWeight} onClick={this.props.handlePaginatorClick} />}
             {elem}
             {loggedUserId === userOwnerId && <EditButton onTopicEditClick={this.props.readOnly ? this.props.handleTopicBeginEditClick : this.props.handleTopicEndEditClick} />}
         </div>

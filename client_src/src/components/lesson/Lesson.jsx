@@ -1,5 +1,5 @@
 import React from 'react';
-import UserInfoContainer from '../user/UserInfoContainer';
+import UserInfoContainer from '../user/user-info/UserInfoContainer';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import ExpansionPanel, {

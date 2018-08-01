@@ -3,8 +3,8 @@ import LessonResult from "./LessonResult";
 import { withRouter } from "react-router-dom";
 import { connect } from 'react-redux'
 import PropTypes from "prop-types"
-import { getUserTestsResultsForLesson } from '../../redux/AC/users';
-import { loadQuestionsForLesson } from '../../redux/AC/question'
+import { getUserTestsResultsForLesson } from '../../../redux/AC/users';
+import { loadQuestionsForLesson } from '../../../redux/AC/question'
 class LessonResultContainer extends React.Component {
 
     componentDidMount() {

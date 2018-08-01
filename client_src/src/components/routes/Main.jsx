@@ -1,19 +1,19 @@
 import React from 'react'
-import CourseContainer from '../course/CourseContainer'
+import CourseListContainer from '../course/CourseListContainer'
 import { Switch, Route } from 'react-router-dom'
-import TestContainer from '../testCMS/TestContainer'
-import TopicListContainer from '../topic/TopicListContainer'
+import TestContainer from '../testCMS/test-page/TestPageContainer'
+import TopicListContainer from '../topic/topic-page/TopicPageContainer'
 import LoginInContainer from '../login/LoginInContainer'
 import SignUp from '../SignUp'
 import ProfileContainer from '../profile/ProfileContainer'
-import SingleCourseContainer from '../course/course-page/SingleCourseContainer'
+import CoursePageContainer from '../course/course-page/CoursePageContainer'
 class Main extends React.Component {
     render() {
         return (
             <Switch>
                 {/* <Route exact path="/cources" component={CourseContainer} /> */}
-                <Route path="/cources/:userId" component={CourseContainer} />
-                <Route path="/:courseId/lessons" component={SingleCourseContainer} />
+                <Route path="/cources/:userId" component={CourseListContainer} />
+                <Route path="/:courseId/lessons" component={CoursePageContainer} />
                 <Route path="/lesson/:lessonId/topic/:topicId/testEditor" component={TestContainer} />
                 <Route path="/lesson/:lessonId/topic/:topicId" component={TopicListContainer} />
                 <Route path="/" exact component={LoginInContainer} />

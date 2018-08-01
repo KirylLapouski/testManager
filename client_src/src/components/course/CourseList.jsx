@@ -5,7 +5,7 @@ import Button from '@material-ui/core/Button'
 import AddIcon from '@material-ui/icons/Add'
 import NewCourseModal from '../modal/modal-total/NewCourseModal'
 //TODO: can rewrite on function
-class CourseContainer extends React.Component {
+class CourseList extends React.Component {
     render() {
         var { courses } = this.props
         if (courses) {
@@ -29,7 +29,7 @@ class CourseContainer extends React.Component {
     }
 }
 
-CourseContainer.propTypes = {
+CourseList.propTypes = {
     recordsInRows: PropTypes.number,
     modalOpened: PropTypes.bool,
     courses: PropTypes.arrayOf(
@@ -41,8 +41,8 @@ CourseContainer.propTypes = {
     handleModalOpen: PropTypes.func,
     handleModalClose: PropTypes.func
 }
-CourseContainer.defaultProps = {
+CourseList.defaultProps = {
     recordsInRows: 4
 }
 
-export default CourseContainer
+export default CourseList

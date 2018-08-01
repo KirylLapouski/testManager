@@ -1,5 +1,5 @@
 import React from 'react'
-import UserInfo from "./UserInfo";
+import UserInfo from "./user-info/UserInfo";
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';

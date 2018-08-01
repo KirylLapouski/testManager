@@ -11,8 +11,8 @@ import { loadAnswers, addAnswer, updateAnswer } from '../../redux/AC/answers'
 import { deleteQuestion, updateQuestion } from '../../redux/AC/question'
 import DeleteIcon from '@material-ui/icons/Delete'
 import toastr from 'toastr'
-//TODO: refactor test cms
-class Test extends React.Component {
+//TODO: refactor Question cms
+class Question extends React.Component {
     constructor(props) {
         super(props)
 
@@ -70,7 +70,7 @@ class Test extends React.Component {
 
     getAnswers(ansersText, editable = false) {
         return ansersText.map((answer, i) => {
-            return <Answer key={i} editable={editable} onChange={editable ? this.handleAnswerTitleChange(i) : null} typeOfAnswer={this.props.testType} onClick={editable ? this.handleClickRadio.bind(this, i) : null} checked={this.state.isRadiosSelected[i]} text={this.state.answersTitle[i]} id={answer.id} serialNumber={editable ? i + 1 : 0} />
+            return <Answer key={i} editable={editable} onChange={editable ? this.handleAnswerTitleChange(i) : null} typeOfAnswer={this.props.QuestionType} onClick={editable ? this.handleClickRadio.bind(this, i) : null} checked={this.state.isRadiosSelected[i]} text={this.state.answersTitle[i]} id={answer.id} serialNumber={editable ? i + 1 : 0} />
         })
     }
 
@@ -145,15 +145,16 @@ class Test extends React.Component {
                 </FormGroup>
             </div>
         } else {
-            return (<div className="mx-auto container" onClick={this.begginEdit} style={{ color: '#263238', borderBottom: '1px  solid rgba(0,0,0,0.12)' }} >
-                <div style={{ background: 'rgba(0,0,0,0.1)', overflow: 'hidden' }}><h3>{this.props.question.title}</h3></div>
-                {answers}
-            </div>)
+            return (
+                <div className="mx-auto container" onClick={this.begginEdit} style={{ color: '#263238', borderBottom: '1px  solid rgba(0,0,0,0.12)' }} >
+                    <div style={{ background: 'rgba(0,0,0,0.1)', overflow: 'hidden' }}><h3>{this.props.question.title}</h3></div>
+                    {answers}
+                </div>)
         }
     }
 }
-//TODO: update right answer in test cms, display right answer
-Test.propTypes = {
+//TODO: update right answer in Question cms, display right answer
+Question.propTypes = {
     question: PropTypes.shape({
         id: PropTypes.number,
         title: PropTypes.string,
@@ -206,4 +207,4 @@ const mapDispatchtToProps = (dispatch, ownProps) => {
         }
     }
 }
-export default connect(mapStateToProps, mapDispatchtToProps)(Test)
+export default connect(mapStateToProps, mapDispatchtToProps)(Question)

@@ -1,7 +1,7 @@
 import React from 'react'
-import Chart from "../chart/Chart";
+import Chart from "../../chart/Chart";
 import PropTypes from "prop-types";
-import QuestionList from "../questions/QuestionList";
+import QuestionList from "../../questions/QuestionList";
 import Slide from '@material-ui/core/Slide';
 class LessonResult extends React.Component {
 

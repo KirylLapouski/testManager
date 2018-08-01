@@ -1,17 +1,17 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { getUserById } from '../../redux/AC/users'
+import { getUserById } from '../../../redux/AC/users'
 import { withRouter } from 'react-router-dom'
 import Cookies from 'universal-cookie'
 import UserInfo from "./UserInfo";
-import UserInfoExtended from './UserInfoExtended'
+import UserInfoExtended from '../UserInfoExtended'
 
 class UserInfoContainer extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            menu: false
+            menu: null
         }
     }
 

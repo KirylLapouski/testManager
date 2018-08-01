@@ -1,7 +1,7 @@
 import React from 'react'
 import CourseResult from './CourseResult'
-import { getUserTestsResultsForLesson } from '../../../redux/AC/users'
-import { loadLessons } from '../../../redux/AC/lessons'
+import { getUserTestsResultsForLesson } from '../../../../redux/AC/users'
+import { loadLessons } from '../../../../redux/AC/lessons'
 import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 //TODO: redraw

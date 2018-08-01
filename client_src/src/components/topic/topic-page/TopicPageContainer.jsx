@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import TopicList from './TopicList'
-import { loadTopics } from '../../redux/AC/topic'
+import TopicPage from './TopicPage'
+import { loadTopics } from '../../../redux/AC/topic'
 import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 //TODO: write
@@ -50,7 +50,7 @@ class TopicContainer extends React.Component {
     }
 
     render() {
-        return <TopicList
+        return <TopicPage
             handlePaginatorClick={this.handlePaginatorClick}
             handleTopicEndEditClick={this.handleTopicEndEditClick}
             handleTopicBeginEditClick={this.handleTopicBeginEditClick}

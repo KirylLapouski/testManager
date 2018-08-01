@@ -1,14 +1,13 @@
 import React from 'react'
 import PropType from 'prop-types'
 import { connect } from 'react-redux'
-import { addQuestion } from '../../redux/AC/question'
-import { loadQuestion } from '../../redux/AC/question'
+import { loadQuestion, addQuestion } from '../../../redux/AC/question'
 import { withRouter } from 'react-router-dom'
 import PropTypes from "prop-types";
 import toastr from 'toastr'
-import TestList from "./TestList";
+import TestPage from "./TestPage";
 //TODO: decouple adding new question in new component
-class TestContainer extends React.Component {
+class TestPageContainer extends React.Component {
     constructor(props) {
         super(props)
 
@@ -58,7 +57,7 @@ class TestContainer extends React.Component {
     }
 
     render() {
-        return <TestList
+        return <TestPage
             handleChange={this.handleChange}
             openModal={this.openModal}
             closeModal={this.closeModal}
@@ -89,7 +88,7 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-TestContainer.propTypes = {
+TestPageContainer.propTypes = {
     questions: PropTypes.arrayOf(PropTypes.shape({
         id: PropTypes.number,
         title: PropTypes.string,
@@ -100,4 +99,4 @@ TestContainer.propTypes = {
     addQuestion: PropTypes.func,
     getQuestions: PropType.func
 }
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(TestContainer))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(TestPageContainer))

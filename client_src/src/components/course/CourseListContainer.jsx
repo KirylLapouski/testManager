@@ -1,10 +1,10 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import CourseContainer from './CourseList'
-import {  loadCoursesForUser } from '../../redux/AC/courses'
+import CourseList from './CourseList'
+import { loadCoursesForUser } from '../../redux/AC/courses'
 import { assignloggedInUser } from '../../redux/AC/users'
 
-class CourseContainerStatefull extends React.Component {
+class CourseContainer extends React.Component {
     constructor(props) {
         super(props)
 
@@ -27,8 +27,8 @@ class CourseContainerStatefull extends React.Component {
         this.setState({ [modalName]: false });
     };
 
-    render(){
-        return <CourseContainer handleModalClose={this.handleModalClose} handleModalOpen={this.handleModalOpen} {...this.state} {...this.props}/>
+    render() {
+        return <CourseList handleModalClose={this.handleModalClose} handleModalOpen={this.handleModalOpen} {...this.state} {...this.props} />
     }
 }
 const mapStateToProps = state => {
@@ -47,4 +47,4 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     return result
 
 }
-export default connect(mapStateToProps, mapDispatchToProps)(CourseContainerStatefull)
+export default connect(mapStateToProps, mapDispatchToProps)(CourseContainer)

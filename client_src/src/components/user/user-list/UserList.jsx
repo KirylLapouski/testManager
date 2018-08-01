@@ -1,5 +1,5 @@
 import React from 'react'
-import UserInfoContainer from "./UserInfoContainer";
+import UserInfoContainer from "../user-info/UserInfoContainer";
 import PropTypes from "prop-types";
 class UserList extends React.Component {
     render() {

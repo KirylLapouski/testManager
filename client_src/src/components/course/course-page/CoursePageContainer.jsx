@@ -1,10 +1,10 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import EditableCourse from './EditableCourse'
+import CoursePage from './CoursePage'
 import { getCourseOwner, updateCourse } from '../../../redux/AC/courses'
 import { withRouter } from 'react-router-dom'
 import PropTypes from "prop-types";
-class SingleCourseContainer extends React.Component {
+class CoursePageContainer extends React.Component {
     constructor(props) {
         super(props)
 
@@ -39,7 +39,7 @@ class SingleCourseContainer extends React.Component {
     }
 
     render() {
-        return <EditableCourse
+        return <CoursePage
             handleTopicModalClose={this.handleChange('lessonModalOpened')(false)}
             handleTopicModalOpen={this.handleChange('lessonModalOpened')(true)}
             handleBackgroundModalClose={this.handleChange('backgroundModalOpened')(false)}
@@ -71,7 +71,7 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-SingleCourseContainer.propTypes = {
+CoursePageContainer.propTypes = {
     ownerUser: PropTypes.shape({
         id: PropTypes.number,
         firstName: PropTypes.string,
@@ -89,4 +89,4 @@ SingleCourseContainer.propTypes = {
     updateCourse: PropTypes.func
 
 }
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SingleCourseContainer))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CoursePageContainer))

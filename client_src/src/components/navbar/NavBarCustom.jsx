@@ -2,7 +2,7 @@ import React from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import MenuIcon from '@material-ui/icons/Menu';
-import UserInfoContainer from '../user/UserInfoContainer';
+import UserInfoContainer from '../user/user-info/UserInfoContainer';
 import { Link } from 'react-router-dom';
 import Add from '@material-ui/icons/Add';
 import Button from '@material-ui/core/Button';
@@ -13,12 +13,16 @@ import PropTypes from "prop-types";
 import NewCourseModal from '../modal/modal-total/NewCourseModal'
 import AttachToCourseModal from '../modal/modal-total/AttachToCourseModal'
 import Hidden from '@material-ui/core/Hidden';
+import NavSidebar from "./NavSidebar";
 class NavBarCustom extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            menu: null
+            menu: null,
+            sideBarOpened: false,
+            open: false,
+            attachCourseModalOpened: false
         }
 
     };
@@ -44,16 +48,22 @@ class NavBarCustom extends React.Component {
         this.handleMenuClose()
         this.handleModalOpen()
     }
+    handleSideBarButtonClick = (e) => {
+        this.setState((prevState) => {
+            return { sideBarOpened: !prevState.sideBarOpened }
+        })
+    }
 
     render() {
-        var { menu } = this.state;
+        var { menu, open, attachCourseModalOpened } = this.state;
+        var { userId } = this.props
         return (<AppBar position="static">
             <Toolbar>
-                <IconButton color="inherit" aria-label="Menu">
+                <IconButton onClick={this.handleSideBarButtonClick} color="inherit" aria-label="Menu">
                     <MenuIcon />
                 </IconButton>
                 <Hidden only={["xs"]}>
-                    <Link style={{ marginLeft: '20px' }} to={`/cources/${this.props.userId}`}>Мои курсы</Link>
+                    <Link style={{ marginLeft: '20px' }} to={`/cources/${userId}`}>Мои курсы</Link>
                     <Link style={{ marginLeft: '20px' }} to="/profile">Профиль</Link>
                 </Hidden>
 
@@ -63,15 +73,16 @@ class NavBarCustom extends React.Component {
                 <Button color="primary" style={{ color: "white" }} aria-label="add" aria-owns={menu ? 'simple-menu' : null} aria-haspopup="true" onClick={this.handleMenuClick}>
                     <Add style={{ width: "30px", height: "30px" }} />
                 </Button>
-                <Menu id="simple-menu" anchorEl={menu} open={Boolean(menu)} style={{ display: "relative", top: "40px" }} onClose={this.handleMenuClose}>
+                <Menu id="simple-menu" anchorEl={menu} open={!!menu} style={{ display: "relative", top: "40px" }} onClose={this.handleMenuClose}>
                     <MenuItem onClick={this.handleModalOpen.bind(this, 'attachCourseModalOpened')}>Присоединиться</MenuItem>
-                    <MenuItem onClick={this.state.open ? this.handleModalClose : this.handleModalOpen.bind(this, 'open')}>Создать курс</MenuItem>
+                    <MenuItem onClick={open ? this.handleModalClose : this.handleModalOpen.bind(this, 'open')}>Создать курс</MenuItem>
                 </Menu>
                 <UserInfoContainer userId={this.props.userId} />
 
             </Toolbar>
-            <NewCourseModal open={this.state.open} handleClose={this.handleModalClose.bind(this, 'open')} />
-            <AttachToCourseModal open={this.state.attachCourseModalOpened} handleClose={this.handleModalClose.bind(this, 'attachCourseModalOpened')} />
+            <NewCourseModal open={open} handleClose={this.handleModalClose.bind(this, 'open')} />
+            <AttachToCourseModal open={attachCourseModalOpened} handleClose={this.handleModalClose.bind(this, 'attachCourseModalOpened')} />
+            {this.state.sideBarOpened && <NavSidebar userId={userId} onClose={this.handleSideBarButtonClick} />}
         </AppBar>
             // <Navbar color="indigo" dark expand="md" scrolling>
             //     <NavbarBrand>

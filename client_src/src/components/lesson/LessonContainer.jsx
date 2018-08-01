@@ -6,7 +6,7 @@ import { loadTopics } from '../../redux/AC/topic'
 import Lesson from './Lesson'
 import { deleteLesson, editLesson } from '../../redux/AC/lessons'
 
-class LessonList extends React.Component {
+class LessonContainer extends React.Component {
     constructor(props) {
         super(props)
 
@@ -104,7 +104,7 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-LessonList.propTypes = {
+LessonContainer.propTypes = {
     title: PropTypes.string,
     description: PropTypes.string,
     id: PropTypes.number.isRequired,
@@ -118,4 +118,4 @@ LessonList.propTypes = {
     deleteLesson: PropTypes.func
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(LessonList)
+export default connect(mapStateToProps, mapDispatchToProps)(LessonContainer)
