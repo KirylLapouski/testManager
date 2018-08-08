@@ -93,7 +93,7 @@ class LoginIn extends React.Component {
                                     <i
                                         className="fa fa-yahoo"
                                         aria-hidden="true"
-                                    />
+                                    />{" "}
                                     yandex
                                 </a>
                                 <div className="modal-footer pr-0">

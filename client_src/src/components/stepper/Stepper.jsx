@@ -31,6 +31,7 @@ class HorizontalLinearStepper extends React.Component {
         return this.props.stepsTitles.length;
     };
 
+    changeActiveStep = step => {};
     handleNext = () => {
         let activeStep;
 
@@ -101,6 +102,9 @@ class HorizontalLinearStepper extends React.Component {
 
         return (
             <div className={classes.root}>
+                {/* {React.cloneElement(this.props.nextButton, {
+                    // Add onclick
+                })} */}
                 <Stepper nonLinear activeStep={activeStep}>
                     {steps.map((label, index) => {
                         return (
@@ -127,21 +131,28 @@ class HorizontalLinearStepper extends React.Component {
                     ) : (
                         <div>
                             <div>
-                                <Button
+                                {React.cloneElement(this.props.backButton, {
+                                    disabled: activeStep === 0,
+                                    onClick: this.handleBack
+                                })}
+                                {/* <Button
                                     disabled={activeStep === 0}
                                     onClick={this.handleBack}
                                     className={classes.button}
                                 >
                                     Back
-                                </Button>
-                                <Button
+                                </Button> */}
+                                {React.cloneElement(this.props.nextButton, {
+                                    onClick: this.handleNext
+                                })}
+                                {/* <Button
                                     variant="contained"
                                     color="primary"
                                     onClick={this.handleNext}
                                     className={classes.button}
                                 >
                                     Next
-                                </Button>
+                                </Button> */}
                                 {activeStep !== steps.length &&
                                     (this.state.completed[
                                         this.state.activeStep
@@ -179,7 +190,9 @@ HorizontalLinearStepper.propTypes = {
     stepsTitles: PropTypes.arrayOf(PropTypes.string),
     onChange: PropTypes.func,
     initCurrentPos: PropTypes.number,
-    displayWhenComplete: PropTypes.node
+    displayWhenComplete: PropTypes.node,
+    nextButton: PropTypes.node,
+    backButton: PropTypes.node
 };
 
 export default withStyles(styles)(HorizontalLinearStepper);
