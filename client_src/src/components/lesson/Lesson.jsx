@@ -23,7 +23,7 @@ class Lesson extends React.Component {
     }
 
     render() {
-        var { id, title, topics, loggedUserId, lessonOwner, topicsOpened, modalOpened, handleDeleteClick, toggleEdditing, handleModalOpen, description, handleInputChange, handleSubmitEditLesson, handleTopicsClick, handleModalClose, handleCancelEdditingClick, edditing } = this.props
+        var { id, title, topics, loggedUserId, lessonOwner, topicsOpened,topics, modalOpened, handleDeleteClick, toggleEdditing, handleModalOpen, description, handleInputChange, handleSubmitEditLesson, handleTopicsClick, handleModalClose, handleCancelEdditingClick, edditing } = this.props
         var readOnlyexpantionPanel = <ExpansionPanelDetails style={{ display: 'flex', justifyContent: 'flex-start', paddingBottom: '0px', textAlign: 'left' }}>
             {loggedUserId === lessonOwner.id && <div style={{ display: 'flex', flexDirection: 'column' }}>
                 <Button onClick={handleDeleteClick} style={{ color: 'white', boxShadow: 'none', backgroundColor: 'rgba(0,0,0,0)' }} variant="fab"  >

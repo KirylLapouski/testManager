@@ -1,0 +1,17 @@
+.index-background {
+    background-image: url("https://mdbootstrap.com/img/Photos/Others/images/78.jpg");
+    height: 100vh;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.index-form {
+    border-radius: 5px;
+    padding: 20px;
+    min-height: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #fff;
+    color: #4f4f4f;
+    width: 330px;
+}

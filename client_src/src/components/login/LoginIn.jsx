@@ -4,32 +4,19 @@ import "font-awesome/css/font-awesome.min.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import PropTypes from "prop-types";
 import Hidden from "@material-ui/core/Hidden";
+import "./login-in.css";
 //TODO: rewrite on function
 class LoginIn extends React.Component {
     render() {
         var { onChangeHandler, onSubmitHandler, mail, password } = this.props;
         return (
-            <div
-                style={{
-                    backgroundImage:
-                        "url('https://mdbootstrap.com/img/Photos/Others/images/78.jpg')",
-                    height: "100vh",
-                    backgroundRepeat: "no-repeat",
-                    backgroundSize: "cover"
-                }}
-            >
+            <div className="index-background">
                 <div className="w-100 h-100 mask rgba-black-light d-flex justify-content-center align-items-center">
-                    <div style={{ display: "flex", justifyContent: "center" }}>
+                    <div className="login-in-container">
                         <Hidden only={["sm", "xs"]}>
-                            <div
-                                className="mb-4 white-text text-center text-md-left"
-                                style={{
-                                    maxWidth: "500px",
-                                    marginRight: "30px"
-                                }}
-                            >
+                            <div className="application-description mb-4 white-text text-center text-md-left">
                                 <h1 className="display-4 font-weight-bold">
-                                    Тестовая платформа{" "}
+                                    Тестовая платформа
                                 </h1>
                                 <hr className="hr-light" />
                                 <p>
@@ -51,31 +38,14 @@ class LoginIn extends React.Component {
                                 </Link>
                             </div>
                         </Hidden>
-                        <div
-                            style={{
-                                width: "500px",
-                                display: "flex",
-                                justifyContent: "center"
-                            }}
-                        >
+                        <div className="login-in-form-container">
                             <form
                                 method="POST"
                                 name="loginIn"
-                                className="form-signin "
+                                className="index-form"
                                 onSubmit={onSubmitHandler}
-                                style={{
-                                    borderRadius: "5px",
-                                    padding: "20px",
-                                    minHeight: "500px",
-                                    display: "flex",
-                                    flexDirection: "column",
-                                    justifyContent: "center",
-                                    backgroundColor: "#fff",
-                                    color: "#4f4f4f",
-                                    width: "330px"
-                                }}
                             >
-                                <h1 style={{ marginBottom: "30px" }}>Вход</h1>
+                                <h1>Вход</h1>
                                 <label htmlFor="inputEmail" className="sr-only">
                                     Электронная почта
                                 </label>
@@ -123,13 +93,14 @@ class LoginIn extends React.Component {
                                     <i
                                         className="fa fa-yahoo"
                                         aria-hidden="true"
-                                    />{" "}
+                                    />
                                     yandex
                                 </a>
                                 <div className="modal-footer pr-0">
                                     <div className="options font-weight-light">
                                         <p>
-                                            Не зарегистрированы?{" "}
+                                            {/* TODO: change color style */}
+                                            Не зарегистрированы?
                                             <Link
                                                 style={{ color: "blue" }}
                                                 to="/signUp"

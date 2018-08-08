@@ -1,0 +1,14 @@
+.sign-up-container {
+    display: flex;
+    justify-content: center;
+}
+.index-form p {
+    align-self: center;
+}
+.flag {
+    color: #ff7961;
+}
+.submit-form-container {
+    align-self: center;
+    display: flex;
+}
