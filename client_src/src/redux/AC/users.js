@@ -168,22 +168,35 @@ const attachUserToCource = (userId, secretWord) => {
             .get(
                 `http://localhost:3000/api/Disciplines?filter=%7B%22where%22%3A%7B%22secretWord%22%3A%22${secretWord}%22%7D%7D`
             )
-            .then(({ data }) => {
-                dispatch({
-                    type: constants.courses.ADD_COURSE,
-                    payload: {
-                        ...data[0]
-                    }
-                });
-                return axios.post(
-                    "http://localhost:3000/api/ParticipantDisciplineMappings",
-                    {
-                        type: "student",
-                        participantId: userId,
-                        disciplineId: data[0].id
-                    }
-                );
-            });
+            .then(
+                ({ data }) => {
+                    dispatch({
+                        type: constants.courses.ADD_COURSE,
+                        payload: {
+                            ...data[0]
+                        }
+                    });
+                    return axios
+                        .post(
+                            "http://localhost:3000/api/ParticipantDisciplineMappings",
+                            {
+                                type: "student",
+                                participantId: userId,
+                                disciplineId: data[0].id
+                            }
+                        )
+                        .then(
+                            () => {},
+                            () => {
+                                console.log("222222");
+                            }
+                        );
+                },
+                err => {
+                    console.log("11111");
+                    console.log(err);
+                }
+            );
     };
 };
 

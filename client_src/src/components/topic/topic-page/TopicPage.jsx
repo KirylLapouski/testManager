@@ -66,10 +66,16 @@ class TopicPage extends React.Component {
                 {allStepsCompleted() ? (
                     <React.Fragment>
                         <Typography className={classes.instructions}>
-                            <LessonResultContainer />
-                            All steps completed - you&quot;re finished
+                            Результаты урока
                         </Typography>
-                        <Button onClick={handleReset}>Пройти снова</Button>
+                        <LessonResultContainer />
+
+                        <Button
+                            className={classes.resetButton}
+                            onClick={handleReset}
+                        >
+                            Пройти снова
+                        </Button>
                         {/* <Button onClick={this.handleBackToLessonsClick}>
                             Назад к урокам
                         </Button> */}
@@ -94,16 +100,18 @@ class TopicPage extends React.Component {
                         )}
                     />
                 )}
-                <TopicContainer
-                    key={this.props.match.params.topicId}
-                    readOnly={readOnly}
-                    path={topics[activeStep] && topics[activeStep].path}
-                    id={topics[activeStep] && topics[activeStep].id}
-                />
+                {!allStepsCompleted() && (
+                    <TopicContainer
+                        key={this.props.match.params.topicId}
+                        readOnly={readOnly}
+                        path={topics[activeStep] && topics[activeStep].path}
+                        id={topics[activeStep] && topics[activeStep].id}
+                    />
+                )}
                 {activeStep !== steps.length &&
                     !completed[activeStep] && (
                         <Button
-                            variant="contained"
+                            variant="raised"
                             color="primary"
                             // className={classes}
                             onClick={
@@ -119,13 +127,16 @@ class TopicPage extends React.Component {
                         </Button>
                     )}
                 <Tooltip title="Предыдущий урок" placement="left">
-                    <IconButton
-                        disabled={activeStep === 0}
-                        onClick={handleBack}
-                        className={classes.backTopicButton}
-                    >
-                        <KeyboardArrowLeft className={classes.icon} />
-                    </IconButton>
+                    {/* //without div material ui warning appears */}
+                    <div>
+                        <IconButton
+                            disabled={activeStep === 0}
+                            onClick={handleBack}
+                            className={classes.backTopicButton}
+                        >
+                            <KeyboardArrowLeft className={classes.icon} />
+                        </IconButton>
+                    </div>
                 </Tooltip>
                 <Tooltip title="Следующий урок" placement="right">
                     <IconButton
@@ -184,6 +195,13 @@ const styles = {
         left: "10px",
         bottom: "45vh"
     },
-    completeStepButton: {}
+    instructions: {
+        fontSize: "30px",
+        fontWeight: "bold"
+    },
+    resetButton: {
+        width: "200px",
+        margin: "50px auto"
+    }
 };
 export default withRouter(withStyles(styles)(TopicPage));
