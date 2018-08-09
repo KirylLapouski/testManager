@@ -5,12 +5,20 @@ import EditButton from "../../EditButton";
 import LessonResultContainer from "../lesson-result/LessonResultContainer";
 import toastr from "toastr";
 import Stepper from "../../stepper/Stepper";
+import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
 import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
 import { withStyles } from "@material-ui/core/styles";
+import { withRouter } from "react-router-dom";
+import Done from "@material-ui/icons/Done";
+import Typography from "@material-ui/core/Typography";
+import Tooltip from "@material-ui/core/Tooltip";
 //TODO: can rewrite on function
 class TopicPage extends React.Component {
+    // handleBackToLessonsClick = () => {
+    //     this.props.history.push('/')
+    // };
     handleTopicEditClick = readOnly => {
         return this.props.readOnly
             ? () => {
@@ -23,61 +31,62 @@ class TopicPage extends React.Component {
               };
     };
     render() {
-        var { loggedUserId, userOwnerId, currenTopicId, topics } = this.props;
-        var paginatorSerialNumber;
-        if (JSON.stringify(topics) !== "[]") {
-            //TODO:instead of receive currentTopicId just take current paginator position
-            for (var i = 0; i < topics.length; i++) {
-                if (Number(currenTopicId) === topics[i].id) {
-                    var topic = topics[i];
-                    paginatorSerialNumber = i + 1;
-                }
-            }
-
-            var elem;
-            if (currenTopicId !== 0) {
-                elem = (
-                    <TopicContainer
-                        key={this.props.match.params.topicId}
-                        readOnly={this.props.readOnly}
-                        path={topic && topic.path}
-                        id={topic && topic.id}
-                    />
-                );
-            }
-        }
+        var {
+            loggedUserId,
+            userOwnerId,
+            topics,
+            classes,
+            handleStep,
+            activeStep,
+            completed,
+            handleReset,
+            completedSteps,
+            totalSteps,
+            handleFinish,
+            handleComplete,
+            handleBack,
+            handleNext,
+            readOnly,
+            allStepsCompleted
+        } = this.props;
+        const steps = topics.map(value => {
+            return value.title;
+        });
 
         return (
-            <div>
+            <React.Fragment>
                 {topics.length + 1 && (
                     <Stepper
-                        onChange={this.props.handlePaginatorClick}
-                        stepsTitles={topics.map(value => {
-                            return value.title;
-                        })}
-                        initCurrentPos={paginatorSerialNumber - 1}
-                        displayWhenComplete={<LessonResultContainer />}
-                        nextButton={
-                            <IconButton
-                                className={this.props.classes.nextTopicButton}
-                            >
-                                <KeyboardArrowRight
-                                    className={this.props.classes.icon}
-                                />
-                            </IconButton>
-                        }
-                        backButton={
-                            <IconButton
-                                className={this.props.classes.backTopicButton}
-                            >
-                                <KeyboardArrowLeft
-                                    className={this.props.classes.icon}
-                                />
-                            </IconButton>
-                        }
+                        stepsTitles={steps}
+                        handleStep={handleStep}
+                        activeStep={activeStep}
+                        completed={completed}
                     />
                 )}
-                {elem}
+                {allStepsCompleted() ? (
+                    <React.Fragment>
+                        <Typography className={classes.instructions}>
+                            <LessonResultContainer />
+                            All steps completed - you&quot;re finished
+                        </Typography>
+                        <Button onClick={handleReset}>Пройти снова</Button>
+                        {/* <Button onClick={this.handleBackToLessonsClick}>
+                            Назад к урокам
+                        </Button> */}
+                    </React.Fragment>
+                ) : (
+                    activeStep !== steps.length &&
+                    completed[activeStep] && (
+                        <React.Fragment>
+                            <Typography
+                                variant="caption"
+                                className={classes.completed}
+                            >
+                                Step {activeStep + 1} already completed
+                            </Typography>
+                        </React.Fragment>
+                    )
+                )}
                 {loggedUserId === userOwnerId && (
                     <EditButton
                         onTopicEditClick={this.handleTopicEditClick(
@@ -85,7 +94,48 @@ class TopicPage extends React.Component {
                         )}
                     />
                 )}
-            </div>
+                <TopicContainer
+                    key={this.props.match.params.topicId}
+                    readOnly={readOnly}
+                    path={topics[activeStep] && topics[activeStep].path}
+                    id={topics[activeStep] && topics[activeStep].id}
+                />
+                {activeStep !== steps.length &&
+                    !completed[activeStep] && (
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            // className={classes}
+                            onClick={
+                                completedSteps() === totalSteps() - 1
+                                    ? handleFinish
+                                    : handleComplete
+                            }
+                        >
+                            <Done />
+                            {completedSteps() === totalSteps() - 1
+                                ? "Finish"
+                                : "Complete Step"}
+                        </Button>
+                    )}
+                <Tooltip title="Предыдущий урок" placement="left">
+                    <IconButton
+                        disabled={activeStep === 0}
+                        onClick={handleBack}
+                        className={classes.backTopicButton}
+                    >
+                        <KeyboardArrowLeft className={classes.icon} />
+                    </IconButton>
+                </Tooltip>
+                <Tooltip title="Следующий урок" placement="right">
+                    <IconButton
+                        onClick={handleNext}
+                        className={classes.nextTopicButton}
+                    >
+                        <KeyboardArrowRight className={classes.icon} />
+                    </IconButton>
+                </Tooltip>
+            </React.Fragment>
         );
     }
 }
@@ -99,29 +149,41 @@ TopicPage.propTypes = {
     ),
     loggedUserId: PropTypes.number,
     userOwnerId: PropTypes.number,
-    currenTopicId: PropTypes.number,
     readOnly: PropTypes.bool,
-    handlePaginatorClick: PropTypes.func,
     handleTopicEndEditClick: PropTypes.func,
-    handleTopicBeginEditClick: PropTypes.func
+    handleTopicBeginEditClick: PropTypes.func,
+    handleStep: PropTypes.func,
+    activeStep: PropTypes.number,
+    completed: PropTypes.object,
+    handleReset: PropTypes.func,
+    completedSteps: PropTypes.func,
+    totalSteps: PropTypes.func,
+    handleNext: PropTypes.func,
+    handleFinish: PropTypes.func,
+    handleComplete: PropTypes.func,
+    handleBack: PropTypes.func,
+    allStepsCompleted: PropTypes.func
 };
 
 const styles = {
     nextTopicButton: {
-        position: "absolute",
+        position: "fixed",
         width: "100px",
         height: "100px",
-        right: "10px"
+        right: "10px",
+        bottom: "45vh"
     },
     icon: {
         width: "100px",
         height: "100px"
     },
     backTopicButton: {
-        position: "absolute",
+        position: "fixed",
         width: "100px",
         height: "100px",
-        left: "10px"
-    }
+        left: "10px",
+        bottom: "45vh"
+    },
+    completeStepButton: {}
 };
-export default withStyles(styles)(TopicPage);
+export default withRouter(withStyles(styles)(TopicPage));
