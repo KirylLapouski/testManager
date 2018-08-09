@@ -20,12 +20,13 @@ class AttachToCourseModal extends React.Component {
             .then(
                 () => {
                     toastr.success("Успешно добавлен к курсу");
+                    this.props.handleClose();
+
                 },
-                () => {
-                    toastr.error("Ошибка присоединения к курсу");
+                (err) => {
+                    toastr.error(err.message);
                 }
-            );
-        this.props.handleClose();
+            )
     };
 
     onChangeHandler = e => {
@@ -49,6 +50,7 @@ class AttachToCourseModal extends React.Component {
                     handleClose={handleClose}
                     onChangeHandler={this.onChangeHandler}
                     handleSubmit={this.handleSubmit}
+                    autoFocus={true}
                 />
             </ModalBase>
         );

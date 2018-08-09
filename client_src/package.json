@@ -11,10 +11,9 @@
         "chart.js": "^2.7.2",
         "classnames": "^2.2.5",
         "https": "^1.0.0",
+        "is-url": "^1.2.4",
         "image-extensions": "^1.1.0",
         "immutable": "^3.8.2",
-        "is-hotkey": "^0.1.2",
-        "is-url": "^1.2.4",
         "jquery": "^3.3.1",
         "material-ui": "^1.0.0-beta.44",
         "mdbreact": "^4.6.1",
@@ -22,7 +21,6 @@
         "react": "^16.3.2",
         "react-chartjs-2": "^2.7.2",
         "react-dom": "^16.3.2",
-        "react-file-drop": "^0.2.4",
         "react-files": "^2.4.5",
         "react-html-parser": "^2.0.2",
         "react-redux": "^5.0.7",
@@ -36,8 +34,7 @@
         "redux-thunk": "^2.2.0",
         "tinymce": "^4.8.1",
         "toastr": "^2.1.4",
-        "universal-cookie": "^2.1.5",
-        "ya-disk": "^1.2.1"
+        "universal-cookie": "^2.1.5"
     },
     "scripts": {
         "start": "react-scripts start",

@@ -5,7 +5,9 @@ const assignloggedInUser = userId => {
     return dispatch => {
         axios
             .get(`http://localhost:3000/api/Participants/${userId}`)
-            .then(({ data }) => {
+            .then(({
+                data
+            }) => {
                 dispatch({
                     type: constants.users.ADD_LOGGED_IN_USER,
                     payload: {
@@ -22,11 +24,12 @@ const submitQuestionResult = (userId, questionId, isRightAnswered) => {
             .get(
                 `http://localhost:3000/api/UserQuestions?filter=%7B%22where%22%3A%7B%22participantId%22%3A${userId}%2C%22questionId%22%3A${questionId}%7D%7D`
             )
-            .then(({ data }) => {
+            .then(({
+                data
+            }) => {
                 if (data.length === 0)
                     return axios.post(
-                        "http://localhost:3000/api/UserQuestions",
-                        {
+                        "http://localhost:3000/api/UserQuestions", {
                             isRightAnswered,
                             participantId: userId,
                             questionId
@@ -34,27 +37,26 @@ const submitQuestionResult = (userId, questionId, isRightAnswered) => {
                     );
                 else
                     return axios.patch(
-                        `http://localhost:3000/api/UserQuestions/${data[0].id}`,
-                        {
+                        `http://localhost:3000/api/UserQuestions/${data[0].id}`, {
                             isRightAnswered,
                             participantId: userId,
                             questionId
                         }
                     );
             })
-            .then(({ data }) => {
+            .then(({
+                data
+            }) => {
                 if (data.isRightAnswered) {
                     dispatch({
-                        type:
-                            constants.users
-                                .ADD_RIGHT_ANSWERED_QUESTION_FOR_LOGGED_IN,
+                        type: constants.users
+                            .ADD_RIGHT_ANSWERED_QUESTION_FOR_LOGGED_IN,
                         payload: data
                     });
                 } else {
                     dispatch({
-                        type:
-                            constants.users
-                                .ADD_WRONG_ANSWERED_QUESTION_FOR_LOGGED_IN,
+                        type: constants.users
+                            .ADD_WRONG_ANSWERED_QUESTION_FOR_LOGGED_IN,
                         payload: data
                     });
                 }
@@ -64,11 +66,12 @@ const submitQuestionResult = (userId, questionId, isRightAnswered) => {
                     `http://localhost:3000/api/Participants/${userId}/questions`
                 );
             })
-            .then(({ data }) => {
+            .then(({
+                data
+            }) => {
                 dispatch({
-                    type:
-                        constants.users
-                            .SUBMIT_RESULT_OF_QUESTIONS_FOR_LOGGEDIN_USER,
+                    type: constants.users
+                        .SUBMIT_RESULT_OF_QUESTIONS_FOR_LOGGEDIN_USER,
                     payload: {
                         questions: data
                     }
@@ -112,15 +115,20 @@ const addImageToUser = (userId, form) => {
 const addFileToUser = (userId, form, yandexUser = false) => {
     return dispatch => {
         const config = {
-            headers: { "Content-type": "multipart/form-data" },
+            headers: {
+                "Content-type": "multipart/form-data"
+            },
             withCredentials: true
         };
-        const url = yandexUser
-            ? `http://localhost:3000/${userId}/saveFile`
-            : `http://localhost:3000/save-file/${userId}/saveFileLocal`;
+        const url = yandexUser ?
+            `http://localhost:3000/${userId}/saveFile` :
+            `http://localhost:3000/save-file/${userId}/saveFileLocal`;
         return axios.post(url, form, config).then(
             response => {
-                return { url: response.data, type: form.get("file").type };
+                return {
+                    url: response.data,
+                    type: form.get("file").type
+                };
             },
             () => {
                 throw new Error("Ошибка загрузки файла на сервер");
@@ -150,7 +158,9 @@ const getUserById = userId => {
     return dispatch => {
         axios
             .get(`http://localhost:3000/api/Participants/${userId}`)
-            .then(({ data }) => {
+            .then(({
+                data
+            }) => {
                 dispatch({
                     type: constants.users.ADD_USER,
                     payload: {
@@ -169,7 +179,12 @@ const attachUserToCource = (userId, secretWord) => {
                 `http://localhost:3000/api/Disciplines?filter=%7B%22where%22%3A%7B%22secretWord%22%3A%22${secretWord}%22%7D%7D`
             )
             .then(
-                ({ data }) => {
+                ({
+                    data
+                }) => {
+                    if(typeof data[0]==="undefined")
+                        throw new Error('Такого курса не существует')
+
                     dispatch({
                         type: constants.courses.ADD_COURSE,
                         payload: {
@@ -178,23 +193,12 @@ const attachUserToCource = (userId, secretWord) => {
                     });
                     return axios
                         .post(
-                            "http://localhost:3000/api/ParticipantDisciplineMappings",
-                            {
+                            "http://localhost:3000/api/ParticipantDisciplineMappings", {
                                 type: "student",
                                 participantId: userId,
                                 disciplineId: data[0].id
                             }
                         )
-                        .then(
-                            () => {},
-                            () => {
-                                console.log("222222");
-                            }
-                        );
-                },
-                err => {
-                    console.log("11111");
-                    console.log(err);
                 }
             );
     };
@@ -206,14 +210,18 @@ const untieUserFromCourseAndDeleteCourse = (userId, courseId) => {
             .get(
                 `http://localhost:3000/api/ParticipantDisciplineMappings?filter=%7B%22where%22%3A%7B%22participantId%22%3A%22${userId}%22%2C%22disciplineId%22%3A%22${courseId}%22%7D%7D`
             )
-            .then(({ data }) => {
+            .then(({
+                data
+            }) => {
                 return axios.delete(
                     `http://localhost:3000/api/ParticipantDisciplineMappings/${
                         data[0].id
                     }`
                 );
             })
-            .then(({ data }) => {
+            .then(({
+                data
+            }) => {
                 dispatch({
                     type: constants.courses.DELETE_COURSE,
                     payload: {
@@ -230,7 +238,9 @@ const untieUserFromCourse = (userId, courseId) => {
             .get(
                 `http://localhost:3000/api/ParticipantDisciplineMappings?filter=%7B%22where%22%3A%7B%22participantId%22%3A${userId}%2C%22disciplineId%22%3A${courseId}%7D%7D`
             )
-            .then(({ data }) => {
+            .then(({
+                data
+            }) => {
                 if (data.length > 0) {
                     axios
                         .delete(
@@ -258,7 +268,9 @@ const getUserTestsResultsForLesson = (lessonId, userId) => {
     return dispatch => {
         return axios
             .get(`http://localhost:3000/api/Lessons/${lessonId}/topics/`)
-            .then(({ data: topics }) => {
+            .then(({
+                data: topics
+            }) => {
                 return Promise.all(
                     topics.map(value => {
                         return axios.get(
@@ -271,8 +283,9 @@ const getUserTestsResultsForLesson = (lessonId, userId) => {
             })
             .then(questionsInlessonRaw => {
                 questionsInlesson = questionsInlessonRaw.reduce(
-                    (accumulator, { data: value }) => accumulator.concat(value),
-                    []
+                    (accumulator, {
+                        data: value
+                    }) => accumulator.concat(value), []
                 );
                 return Promise.all(
                     questionsInlesson.map(value =>
@@ -297,18 +310,16 @@ const getUserTestsResultsForLesson = (lessonId, userId) => {
                         if (position >= 0) {
                             return {
                                 ...question,
-                                isRightAnswered:
-                                    questionsInlessonWithResults[position]
-                                        .isRightAnswered
+                                isRightAnswered: questionsInlessonWithResults[position]
+                                    .isRightAnswered
                             };
                         }
                     })
                     .filter(val => !!val);
 
                 dispatch({
-                    type:
-                        constants.users
-                            .SUBMIT_RESULT_OF_QUESTIONS_FOR_LOGGEDIN_USER,
+                    type: constants.users
+                        .SUBMIT_RESULT_OF_QUESTIONS_FOR_LOGGEDIN_USER,
                     payload: {
                         questions: questionResults
                     }
@@ -329,7 +340,9 @@ const getUsersInDiscipline = disciplineId => {
             .get(
                 `http://localhost:3000/api/ParticipantDisciplineMappings?filter=%7B%22where%22%3A%7B%22disciplineId%22%3A${disciplineId}%7D%7D`
             )
-            .then(({ data }) => {
+            .then(({
+                data
+            }) => {
                 return Promise.all(
                     data.map(value => {
                         return axios.get(
