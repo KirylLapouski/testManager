@@ -17,7 +17,6 @@ class UserList extends React.Component {
                 }}
             >
                 {users.map(value => {
-                    console.log(value);
                     return (
                         <UserInfoContainer
                             key={value && value.id}

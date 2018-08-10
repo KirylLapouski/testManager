@@ -41,7 +41,7 @@ const addCourse = (
     };
 };
 
-const addCourseByLessonId = (lessonId, userId) => {
+const addCourseByLessonId = lessonId => {
     return dispatch => {
         return axios
             .get(`http://localhost:3000/api/Lessons/${lessonId}/discipline`)
@@ -51,7 +51,6 @@ const addCourseByLessonId = (lessonId, userId) => {
                     payload: {
                         id: response.id,
                         title: response.title,
-                        ownerId: userId,
                         secretWord: response.secretWord,
                         backgroundUrl: response.backgroundUrl
                     }
