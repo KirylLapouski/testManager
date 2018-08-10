@@ -22,7 +22,7 @@ class TypeOfAnswerSelect extends React.Component {
                     <CheckBoxIcon style={{ marginRight: "5px" }} />
                     Несколько из списка
                 </MenuItem>
-                <MenuItem value="graggableList">
+                <MenuItem value="draggableList">
                     <List style={{ marginRight: "5px" }} />
                     Список{" "}
                 </MenuItem>

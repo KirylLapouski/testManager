@@ -7,16 +7,7 @@ import "./draggable-list.css";
 class DraggableListQuestion extends React.Component {
     state = {
         useContainer: false,
-        list: [
-            { name: "Mercury" },
-            { name: "Venus" },
-            { name: "Earth", subtitle: true },
-            { name: "Mars" },
-            { name: "Jupiter" },
-            { name: "Saturn", subtitle: true },
-            { name: "Uranus", subtitle: true },
-            { name: "Neptune" }
-        ]
+        list: this.props.answers
     };
 
     _toggleContainer() {

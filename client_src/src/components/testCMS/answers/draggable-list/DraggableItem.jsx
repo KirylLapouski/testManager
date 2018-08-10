@@ -27,13 +27,6 @@ class PlanetItem extends React.Component {
                         This item has a subtitle visible while dragging
                     </div>
                 )}
-                <div>
-                    some description here
-                    <br />
-                    this planet orbits the sun
-                    <br />
-                    this planet is mostly round
-                </div>
                 {item.subtitle && (
                     <div>
                         subtitled planets are better
