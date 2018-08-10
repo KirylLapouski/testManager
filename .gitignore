@@ -20,5 +20,6 @@ npm-debug.log
 .eslintrc.yml
 uploads/*
 .nyc_output
+.vscode
 server/uploads
 testFiles

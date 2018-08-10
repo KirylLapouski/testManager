@@ -112,6 +112,7 @@ class TopicPage extends React.Component {
                         readOnly={readOnly}
                         path={topics[activeStep] && topics[activeStep].path}
                         id={topics[activeStep] && topics[activeStep].id}
+                        ownerId={userOwnerId}
                     />
                 )}
                 <div>

@@ -1,51 +1,64 @@
 import React from "react";
 import Topic from "./Topic";
-import { connect } from 'react-redux'
-import { addQuestionIdToTopic } from '../../redux/AC/topic'
+import { connect } from "react-redux";
+import { addQuestionIdToTopic } from "../../redux/AC/topic";
 import PropTypes from "prop-types";
 //TODO: error handling does not work
 class TopicContainer extends React.Component {
     constructor(props) {
-        super(props)
+        super(props);
         this.state = {
             hasError: false
-        }
+        };
     }
     componentWillMount() {
         // if (!this.props.path) {
         //     throw new Error('нет материала для отображения')
         // }
-        this.props.getTopicQuestion(this.props.id)
+        this.props.getTopicQuestion(this.props.id);
     }
     componentDidCatch(error) {
         this.setState({
             hasError: true
-        })
+        });
     }
     render() {
-        return this.state.hasError ? <div style={{ color: '#212529' }}>Ошибка отображения топика</div> : <Topic {...this.props} />
+        return this.state.hasError ? (
+            <div style={{ color: "#212529" }}>Ошибка отображения топика</div>
+        ) : (
+            <Topic {...this.props} />
+        );
     }
 }
 TopicContainer.propTypes = {
     id: PropTypes.number.isRequired,
     path: PropTypes.string.isRequired,
     readOnly: PropTypes.bool,
+    ownerId: PropTypes.number,
     //redux
     getTopicQuestion: PropTypes.func,
     hasTests: PropTypes.bool
-}
+};
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        hasTests: (state.topics[ownProps.id] && state.topics[ownProps.id].questions && state.topics[ownProps.id].questions.length) ? true : false
-    }
-}
+        hasTests:
+            state.topics[ownProps.id] &&
+            state.topics[ownProps.id].questions &&
+            state.topics[ownProps.id].questions.length
+                ? true
+                : false
+    };
+};
 
 const mapDispatchToProps = dispatch => {
     return {
         getTopicQuestion(topicId) {
-            dispatch(addQuestionIdToTopic(topicId))
+            dispatch(addQuestionIdToTopic(topicId));
         }
-    }
-}
-export default connect(mapStateToProps, mapDispatchToProps)(TopicContainer)
+    };
+};
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(TopicContainer);

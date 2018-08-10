@@ -5,11 +5,10 @@ import { connect } from "react-redux";
 import { updateTopic } from "../../redux/AC/topic";
 import axios from "axios";
 import toastr from "toastr";
-import ReactHtmlParser, {
-    processNodes,
-    convertNodeToElement,
-    htmlparser2
-} from "react-html-parser";
+import ReactHtmlParser from "react-html-parser";
+import { addFileToUser } from "../../redux/AC/users";
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
 //TODO: maybe use props instead of state? Fetch data from db. Init complexities
 //TODO: parse youtube watch video to embed
 //TODO: soundcloud doesnot work
@@ -50,9 +49,10 @@ class MyEditor extends Component {
                         template_popup_height: 450,
                         powerpaste_allow_local_images: true,
                         file_picker_types: "media",
-                        file_picker_callback: function(callback, value, meta) {
+                        file_picker_callback: (callback, value, meta) => {
                             if (meta.filetype === "media") {
                                 var input = document.createElement("input");
+                                var ownerId = this.props.ownerId;
                                 input.setAttribute("type", "file");
                                 input.setAttribute("accept", "video/*");
 
@@ -64,26 +64,25 @@ class MyEditor extends Component {
 
                                     toastr.info("Файл загружается на сервер");
 
-                                    axios
-                                        .post(
-                                            "http://localhost:3000/save-file/undefined/saveFileLocal",
-                                            form
-                                        )
-                                        .then(
-                                            ({ data: fileUrl }) => {
-                                                toastr.success(
-                                                    "Файл успешно загружен"
-                                                );
-                                                callback(fileUrl, {
-                                                    title: file.name
-                                                });
-                                            },
-                                            () => {
-                                                toastr.error(
-                                                    "Ошибка загрузки файла на сервер"
-                                                );
-                                            }
-                                        );
+                                    addFileToUser(
+                                        ownerId,
+                                        form,
+                                        !!cookies.get("yandexToken")
+                                    )().then(
+                                        ({ url }) => {
+                                            toastr.success(
+                                                "Файл успешно загружен"
+                                            );
+                                            callback(url, {
+                                                title: file.name
+                                            });
+                                        },
+                                        () => {
+                                            toastr.error(
+                                                "Ошибка загрузки файла на сервер"
+                                            );
+                                        }
+                                    );
                                 };
 
                                 input.click();
@@ -151,6 +150,7 @@ MyEditor.propTypes = {
     topicId: PropTypes.number,
     readOnly: PropTypes.bool,
     currentData: PropTypes.string,
+    ownerId: PropTypes.number,
     //redux
     saveEditorState: PropTypes.func
 };
