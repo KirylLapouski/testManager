@@ -1,10 +1,11 @@
 import React from "react";
 import { connect } from "react-redux";
 import TopicPage from "./TopicPage";
-import { addTopics } from "../../../redux/AC/topic";
+import { addTopics, deleteTopic } from "../../../redux/AC/topic";
 import { addCourseByLessonId, getCourseOwner } from "../../../redux/AC/courses";
 import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
+import toastr from "toastr";
 //TODO: write
 class TopicPageContainer extends React.Component {
     constructor(props) {
@@ -16,6 +17,14 @@ class TopicPageContainer extends React.Component {
             completed: {}
         };
     }
+
+    handleDeleteTopic = () => {
+        //TODO: go to next topic
+        this.props.deleteTopic(this.props.match.params.topicId).then(() => {
+            toastr.success("Топик успешно удален");
+            this.handleBack();
+        });
+    };
 
     totalSteps = () => {
         return this.props.topics.length;
@@ -147,6 +156,7 @@ class TopicPageContainer extends React.Component {
                 handleBack={this.handleBack}
                 allStepsCompleted={this.allStepsCompleted}
                 course={this.course}
+                handleDeleteTopic={this.handleDeleteTopic}
                 {...this.props}
                 {...this.state}
             />
@@ -181,6 +191,9 @@ const mapDispatchToProps = dispatch => {
         },
         getCourse(lessonId) {
             return dispatch(addCourseByLessonId(lessonId));
+        },
+        deleteTopic(topicId) {
+            return dispatch(deleteTopic(topicId));
         }
     };
 };
@@ -197,7 +210,8 @@ TopicPageContainer.propTypes = {
     userOwnerId: PropTypes.number,
     lesson: PropTypes.object,
     getTopics: PropTypes.func,
-    getCourse: PropTypes.func
+    getCourse: PropTypes.func,
+    deleteTopic: PropTypes.func
 };
 export default withRouter(
     connect(

@@ -51,7 +51,8 @@ class TopicPage extends React.Component {
             handleBack,
             handleNext,
             readOnly,
-            allStepsCompleted
+            allStepsCompleted,
+            handleDeleteTopic
         } = this.props;
         const steps = topics.map(value => {
             return value.title;
@@ -102,6 +103,7 @@ class TopicPage extends React.Component {
                         onTopicEditClick={this.handleTopicEditClick(
                             this.props.readOnly
                         )}
+                        handleDeleteTopic={handleDeleteTopic}
                     />
                 )}
                 {!allStepsCompleted() && (
@@ -185,7 +187,8 @@ TopicPage.propTypes = {
     handleFinish: PropTypes.func,
     handleComplete: PropTypes.func,
     handleBack: PropTypes.func,
-    allStepsCompleted: PropTypes.func
+    allStepsCompleted: PropTypes.func,
+    handleDeleteTopic: PropTypes.func
 };
 
 const styles = {
