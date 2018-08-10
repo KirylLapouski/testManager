@@ -133,8 +133,8 @@ class TopicPage extends React.Component {
                             >
                                 <Done />
                                 {completedSteps() === totalSteps() - 1
-                                    ? "Finish"
-                                    : "Complete Step"}
+                                    ? "Завершить урок"
+                                    : "Завершить топик"}
                             </Button>
                         )}
                 </div>

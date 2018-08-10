@@ -16,15 +16,18 @@ class UserList extends React.Component {
                     marginLeft: "30px"
                 }}
             >
-                {users.map(value => (
-                    <UserInfoContainer
-                        key={value.id}
-                        extended={true}
-                        user={value}
-                        userId={value.id}
-                        toggleShowChartClick={toggleShowChartClick}
-                    />
-                ))}
+                {users.map(value => {
+                    console.log(value);
+                    return (
+                        <UserInfoContainer
+                            key={value && value.id}
+                            extended={true}
+                            user={value}
+                            userId={value && value.id}
+                            toggleShowChartClick={toggleShowChartClick}
+                        />
+                    );
+                })}
             </div>
         );
     }

@@ -50,43 +50,40 @@ class Lesson extends React.Component {
 
         var readOnlyexpantionPanel = (
             <ExpansionPanelDetails className={this.props.classes.lessonDetails}>
-                {loggedUserId === lessonOwner &&
-                    lessonOwner.id && (
-                        <div
-                            style={{ display: "flex", flexDirection: "column" }}
+                {loggedUserId === (lessonOwner && lessonOwner.id) && (
+                    <div style={{ display: "flex", flexDirection: "column" }}>
+                        <Button
+                            className={this.props.classes.iconButton}
+                            onClick={handleDeleteClick}
+                            variant="fab"
                         >
-                            <Button
-                                className={this.props.classes.iconButton}
-                                onClick={handleDeleteClick}
-                                variant="fab"
-                            >
-                                <DeleteIcon />
-                            </Button>
-                            <hr
-                                style={{
-                                    width: "69%",
-                                    backgroundColor: "white",
-                                    margin: "0px",
-                                    alignSelf: "center"
-                                }}
-                            />
-                            <Button
-                                className={this.props.classes.iconButton}
-                                variant="fab"
-                                onClick={toggleEdditing}
-                            >
-                                <EditIcon />
-                            </Button>
-                            <Button
-                                className={this.props.classes.iconButton}
-                                variant="fab"
-                                onClick={handleModalOpen}
-                            >
-                                <AddIcon />
-                            </Button>
-                            <div style={{ clear: "both" }} />
-                        </div>
-                    )}
+                            <DeleteIcon />
+                        </Button>
+                        <hr
+                            style={{
+                                width: "69%",
+                                backgroundColor: "white",
+                                margin: "0px",
+                                alignSelf: "center"
+                            }}
+                        />
+                        <Button
+                            className={this.props.classes.iconButton}
+                            variant="fab"
+                            onClick={toggleEdditing}
+                        >
+                            <EditIcon />
+                        </Button>
+                        <Button
+                            className={this.props.classes.iconButton}
+                            variant="fab"
+                            onClick={handleModalOpen}
+                        >
+                            <AddIcon />
+                        </Button>
+                        <div style={{ clear: "both" }} />
+                    </div>
+                )}
                 <Typography style={{ color: "white", marginLeft: "5px" }}>
                     {description}
                 </Typography>
