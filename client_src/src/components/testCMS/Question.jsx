@@ -2,25 +2,24 @@ import React from "react";
 import PropTypes from "prop-types";
 import Answer from "../Answer";
 import TextField from "@material-ui/core/TextField";
-import Divider from "@material-ui/core/Divider";
 import Button from "@material-ui/core/Button";
-import FormGroup from "@material-ui/core/FormGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
 import TypeOfAnswerSelect from "./TypeOfAnswerSelect";
 import { connect } from "react-redux";
 import { loadAnswers, addAnswer, updateAnswer } from "../../redux/AC/answers";
 import { deleteQuestion, updateQuestion } from "../../redux/AC/question";
-import DeleteIcon from "@material-ui/icons/Delete";
 import toastr from "toastr";
+import DraggableList from "./questoins/draggable-list/DraggableListQuestion";
+import EditableQuestionBottom from "./EditableQuestionBottom";
 //TODO: refactor Question cms
-class Question extends React.Component {
+class QuestionContainer extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
             isRadiosSelected: [],
             answersTitle: [],
-            questionTitle: ""
+            questionTitle: "",
+            selectedType: "radio"
         };
         this.getAnswers = this.getAnswers.bind(this);
         this.begginEdit = this.begginEdit.bind(this);
@@ -181,6 +180,8 @@ class Question extends React.Component {
                             style={{ marginLeft: "27px", width: "50%" }}
                         />
                         <TypeOfAnswerSelect
+                            onChange={this.onChange("selectedType")}
+                            selectedType={this.state.selectedType}
                             style={{ width: "300px", marginRight: "25px" }}
                         />
                     </div>
@@ -188,56 +189,8 @@ class Question extends React.Component {
                     <Button onClick={this.addNewAnswer}>
                         Добавить вариант
                     </Button>
-                    <Divider
-                        inset={true}
-                        style={{
-                            position: "relative",
-                            left: "-5%",
-                            width: "100%",
-                            marginTop: "30px"
-                        }}
-                    />
-                    <FormGroup
-                        row
-                        style={{
-                            position: "relative",
-                            paddingTop: "10px",
-                            minHeight: "60px"
-                        }}
-                    >
-                        <FormControlLabel
-                            style={{
-                                position: "absolute",
-                                right: "320px",
-                                paddingRight: "10px",
-                                borderRight: "1px solid grey"
-                            }}
-                            control={
-                                <Button onClick={this.deleteQuestionHandler}>
-                                    {" "}
-                                    <DeleteIcon />
-                                </Button>
-                            }
-                        />
-                        <FormControlLabel
-                            style={{ position: "absolute", right: "0" }}
-                            control={
-                                <Button
-                                    onClick={this.handleSubmit}
-                                    color="primary"
-                                >
-                                    {" "}
-                                    Принять изменения
-                                </Button>
-                            }
-                        />
-                        <FormControlLabel
-                            style={{ position: "absolute", right: "200px" }}
-                            control={
-                                <Button onClick={this.endEdit}>Свернуть</Button>
-                            }
-                        />
-                    </FormGroup>
+                    {/* <DraggableList /> */}
+                    <EditableQuestionBottom />
                 </div>
             );
         } else {
@@ -265,7 +218,7 @@ class Question extends React.Component {
     }
 }
 //TODO: update right answer in Question cms, display right answer
-Question.propTypes = {
+QuestionContainer.propTypes = {
     question: PropTypes.shape({
         id: PropTypes.number,
         title: PropTypes.string,
@@ -321,4 +274,4 @@ const mapDispatchtToProps = (dispatch, ownProps) => {
 export default connect(
     mapStateToProps,
     mapDispatchtToProps
-)(Question);
+)(QuestionContainer);

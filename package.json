@@ -32,6 +32,7 @@
         "passport-oauth2": "^1.4.0",
         "passport-yandex": "0.0.3",
         "pug": "^2.0.3",
+        "react-draggable-list": "^3.5.3",
         "request": "^2.86.0",
         "request-promise": "^4.2.2",
         "serve-favicon": "^2.0.1",
