@@ -30,6 +30,10 @@ class TopicPage extends React.Component {
                   this.props.handleTopicEndEditClick();
               };
     };
+
+    goToLessonClickHandler = () => {
+        this.props.history.push(`/${this.props.course.id}/lessons`);
+    };
     render() {
         var {
             loggedUserId,
@@ -108,35 +112,40 @@ class TopicPage extends React.Component {
                         id={topics[activeStep] && topics[activeStep].id}
                     />
                 )}
-                {activeStep !== steps.length &&
-                    !completed[activeStep] && (
-                        <Button
-                            variant="raised"
-                            color="primary"
-                            // className={classes}
-                            onClick={
-                                completedSteps() === totalSteps() - 1
-                                    ? handleFinish
-                                    : handleComplete
-                            }
-                        >
-                            <Done />
-                            {completedSteps() === totalSteps() - 1
-                                ? "Finish"
-                                : "Complete Step"}
-                        </Button>
-                    )}
+                <div>
+                    <Button
+                        className={classes.goToLessonsButton}
+                        onClick={this.goToLessonClickHandler}
+                    >
+                        Вернуться к урокам
+                    </Button>
+                    {activeStep !== steps.length &&
+                        !completed[activeStep] && (
+                            <Button
+                                variant="raised"
+                                color="primary"
+                                // className={classes}
+                                onClick={
+                                    completedSteps() === totalSteps() - 1
+                                        ? handleFinish
+                                        : handleComplete
+                                }
+                            >
+                                <Done />
+                                {completedSteps() === totalSteps() - 1
+                                    ? "Finish"
+                                    : "Complete Step"}
+                            </Button>
+                        )}
+                </div>
                 <Tooltip title="Предыдущий урок" placement="left">
-                    {/* //without div material ui warning appears */}
-                    <div>
-                        <IconButton
-                            disabled={activeStep === 0}
-                            onClick={handleBack}
-                            className={classes.backTopicButton}
-                        >
-                            <KeyboardArrowLeft className={classes.icon} />
-                        </IconButton>
-                    </div>
+                    <IconButton
+                        disabled={activeStep === 0}
+                        onClick={handleBack}
+                        className={classes.backTopicButton}
+                    >
+                        <KeyboardArrowLeft className={classes.icon} />
+                    </IconButton>
                 </Tooltip>
                 <Tooltip title="Следующий урок" placement="right">
                     <IconButton
@@ -161,11 +170,14 @@ TopicPage.propTypes = {
     loggedUserId: PropTypes.number,
     userOwnerId: PropTypes.number,
     readOnly: PropTypes.bool,
+    activeStep: PropTypes.number,
+    completed: PropTypes.object,
+    course: PropTypes.shape({
+        id: PropTypes.number
+    }),
     handleTopicEndEditClick: PropTypes.func,
     handleTopicBeginEditClick: PropTypes.func,
     handleStep: PropTypes.func,
-    activeStep: PropTypes.number,
-    completed: PropTypes.object,
     handleReset: PropTypes.func,
     completedSteps: PropTypes.func,
     totalSteps: PropTypes.func,
@@ -202,6 +214,10 @@ const styles = {
     resetButton: {
         width: "200px",
         margin: "50px auto"
+    },
+    goToLessonsButton: {
+        height: "40px",
+        marginRight: "20px"
     }
 };
 export default withRouter(withStyles(styles)(TopicPage));

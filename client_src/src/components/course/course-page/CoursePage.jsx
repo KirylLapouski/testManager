@@ -31,7 +31,9 @@ class CoursePage extends React.Component {
                     handleBackgroundModalOpen={handleBackgroundModalOpen}
                     handleBackgroundModalClose={handleBackgroundModalClose}
                     secretWord={
-                        loggedUserId === ownerUser.id ? course.secretWord : ""
+                        loggedUserId === ownerUser && ownerUser.id
+                            ? course.secretWord
+                            : ""
                     }
                     backgroundSrc={course.backgroundUrl}
                     name={course.title}
@@ -46,22 +48,23 @@ class CoursePage extends React.Component {
                     />
                 </CourseHeader>
 
-                {loggedUserId === ownerUser.id && (
-                    <Button
-                        onClick={handleTopicModalOpen}
-                        variant="fab"
-                        color="primary"
-                        aria-label="add"
-                        style={{
-                            position: "fixed",
-                            bottom: "20px",
-                            right: "20px",
-                            zIndex: "2"
-                        }}
-                    >
-                        <AddIcon />
-                    </Button>
-                )}
+                {loggedUserId === ownerUser &&
+                    ownerUser.id && (
+                        <Button
+                            onClick={handleTopicModalOpen}
+                            variant="fab"
+                            color="primary"
+                            aria-label="add"
+                            style={{
+                                position: "fixed",
+                                bottom: "20px",
+                                right: "20px",
+                                zIndex: "2"
+                            }}
+                        >
+                            <AddIcon />
+                        </Button>
+                    )}
                 <CourseMain
                     ownerUser={ownerUser}
                     loggedUserId={loggedUserId}

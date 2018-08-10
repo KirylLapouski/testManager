@@ -1,7 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
 import TopicPage from "./TopicPage";
-import { loadTopics } from "../../../redux/AC/topic";
+import { addTopics } from "../../../redux/AC/topic";
+import { addCourseByLessonId, getCourseOwner } from "../../../redux/AC/courses";
 import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 //TODO: write
@@ -20,7 +21,6 @@ class TopicPageContainer extends React.Component {
         return this.props.topics.length;
     };
 
-    changeActiveStep = step => {};
     handleNext = () => {
         let activeStep;
 
@@ -116,6 +116,9 @@ class TopicPageContainer extends React.Component {
 
     componentWillMount() {
         this.props.getTopics(this.props.match.params.lessonId);
+        this.props.getCourse(this.props.match.params.lessonId).then(course => {
+            this.course = course;
+        });
     }
     componentDidMount() {
         if (typeof this.props.topics !== "indefined") {
@@ -143,6 +146,7 @@ class TopicPageContainer extends React.Component {
                 handleComplete={this.handleComplete}
                 handleBack={this.handleBack}
                 allStepsCompleted={this.allStepsCompleted}
+                course={this.course}
                 {...this.props}
                 {...this.state}
             />
@@ -173,12 +177,16 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = dispatch => {
     return {
         getTopics(lessonID) {
-            dispatch(loadTopics(lessonID));
+            dispatch(addTopics(lessonID));
+        },
+        getCourse(lessonId) {
+            return dispatch(addCourseByLessonId(lessonId));
         }
     };
 };
 
 TopicPageContainer.propTypes = {
+    // redux
     topics: PropTypes.arrayOf(
         PropTypes.shape({
             id: PropTypes.number,
@@ -187,7 +195,9 @@ TopicPageContainer.propTypes = {
     ),
     loggedUserId: PropTypes.number,
     userOwnerId: PropTypes.number,
-    getTopics: PropTypes.func
+    lesson: PropTypes.object,
+    getTopics: PropTypes.func,
+    getCourse: PropTypes.func
 };
 export default withRouter(
     connect(

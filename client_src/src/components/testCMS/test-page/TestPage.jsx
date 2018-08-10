@@ -13,7 +13,7 @@ class TestPage extends React.Component {
         var {
             handleChange,
             handleSubmitNewQuestionForm,
-            name,
+            title,
             weight,
             description,
             questions,
@@ -30,7 +30,7 @@ class TestPage extends React.Component {
                 <AddNewQuestionInTest
                     handleChange={handleChange}
                     handleSubmitNewQuestionForm={handleSubmitNewQuestionForm}
-                    name={name}
+                    name={title}
                     weight={weight}
                     description={description}
                 />

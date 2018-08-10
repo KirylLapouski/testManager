@@ -30,7 +30,7 @@ class TestPageContainer extends React.Component {
             return;
         }
         this.setState({
-            [name]: event.target.value
+            [name]: name === "weight" ? +event.target.value : event.target.value
         });
     };
 
@@ -66,6 +66,12 @@ class TestPageContainer extends React.Component {
             title,
             description
         );
+        this.setState({
+            title: "",
+            description: "",
+            weight: 1,
+            modalOpened: false
+        });
     };
 
     componentWillMount() {

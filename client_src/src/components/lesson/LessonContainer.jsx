@@ -1,14 +1,14 @@
-import React from 'react'
-import toastr from 'toastr'
-import { connect } from 'react-redux'
+import React from "react";
+import toastr from "toastr";
+import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { loadTopics } from '../../redux/AC/topic'
-import Lesson from './Lesson'
-import { deleteLesson, editLesson } from '../../redux/AC/lessons'
+import { addTopics } from "../../redux/AC/topic";
+import Lesson from "./Lesson";
+import { deleteLesson, editLesson } from "../../redux/AC/lessons";
 
 class LessonContainer extends React.Component {
     constructor(props) {
-        super(props)
+        super(props);
 
         this.state = {
             topicsOpened: false,
@@ -16,93 +16,100 @@ class LessonContainer extends React.Component {
             edditing: false,
             title: props.title,
             description: props.description
-        }
+        };
     }
 
     componentWillMount() {
-        this.props.getTopics(this.props.id)
+        this.props.getTopics(this.props.id);
     }
 
-    handleOpen = (name) => (value) => () => {
+    handleOpen = name => value => () => {
         this.setState({
             [name]: value
-        })
-    }
-
+        });
+    };
 
     handleDeleteClick = () => {
-        this.props.deleteLesson(this.props.id)
-            .then(() => { toastr.success('Урок успешно удалён') })
-    }
+        this.props.deleteLesson(this.props.id).then(() => {
+            toastr.success("Урок успешно удалён");
+        });
+    };
 
-    toggleState = (name) => () => {
+    toggleState = name => () => {
         this.setState(prevState => {
             return {
                 [name]: !prevState[name]
-            }
-        })
-    }
+            };
+        });
+    };
 
-    handleInputChange = (e) => {
+    handleInputChange = e => {
         this.setState({
             [e.target.name]: e.target.value
-        })
-    }
+        });
+    };
     handleSubmitEditLesson = () => {
-        this.props.editLesson(this.props.id, this.state.title, this.state.description)
-            .then(() => { toastr.success('Урок изменён') })
+        this.props
+            .editLesson(this.props.id, this.state.title, this.state.description)
+            .then(() => {
+                toastr.success("Урок изменён");
+            });
         //TODO:: rewrite on refs
         //TODO: need new reducer that check that change
 
-        this.toggleState('edditing')()
-    }
+        this.toggleState("edditing")();
+    };
 
     handleCancelEdditingClick = () => {
         this.setState({
             title: this.props.title,
             description: this.props.description
-        })
-        this.toggleState('edditing')()
-    }
+        });
+        this.toggleState("edditing")();
+    };
     render() {
-        return <Lesson
-            handleSubmitEditLesson={this.handleSubmitEditLesson}
-            handleInputChange={this.handleInputChange}
-            toggleEdditing={this.toggleState('edditing')}
-            handleDeleteClick={this.handleDeleteClick}
-            handleTopicsClick={this.toggleState('topicsOpened')}
-            handleModalOpen={this.handleOpen('modalOpened')(true)}
-            handleModalClose={this.handleOpen('modalOpened')(false)}
-            handleCancelEdditingClick={this.handleCancelEdditingClick}
-            {...this.props} {...this.state} />
+        return (
+            <Lesson
+                handleSubmitEditLesson={this.handleSubmitEditLesson}
+                handleInputChange={this.handleInputChange}
+                toggleEdditing={this.toggleState("edditing")}
+                handleDeleteClick={this.handleDeleteClick}
+                handleTopicsClick={this.toggleState("topicsOpened")}
+                handleModalOpen={this.handleOpen("modalOpened")(true)}
+                handleModalClose={this.handleOpen("modalOpened")(false)}
+                handleCancelEdditingClick={this.handleCancelEdditingClick}
+                {...this.props}
+                {...this.state}
+            />
+        );
     }
 }
 
 const mapStateToProps = (state, ownProps) => {
-    var res = []
+    var res = [];
     for (var key in state.topics) {
         if (Number(ownProps.id) === state.topics[key].lessonId) {
-            res.push(state.topics[key])
+            res.push(state.topics[key]);
         }
     }
     return {
         topics: res
-    }
-}
+    };
+};
 
 const mapDispatchToProps = dispatch => {
     return {
         getTopics(lessonID) {
-            return dispatch(loadTopics(lessonID))
+            return dispatch(addTopics(lessonID));
         },
         deleteLesson(lessonId) {
-            return dispatch(deleteLesson(lessonId))
+            return dispatch(deleteLesson(lessonId));
         },
         editLesson(lessonId, title, desctiption) {
-            return dispatch(editLesson(lessonId, title, desctiption))
+            return dispatch(editLesson(lessonId, title, desctiption));
         }
-    }
-}
+    };
+};
 
 LessonContainer.propTypes = {
     title: PropTypes.string,
@@ -116,6 +123,9 @@ LessonContainer.propTypes = {
     topics: PropTypes.arrayOf(PropTypes.object),
     getTopics: PropTypes.func,
     deleteLesson: PropTypes.func
-}
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(LessonContainer)
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(LessonContainer);
