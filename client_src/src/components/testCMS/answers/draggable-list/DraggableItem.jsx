@@ -2,9 +2,9 @@ import React from "react";
 import cx from "classnames";
 import ClearIcon from "@material-ui/icons/Clear";
 import IconButton from "@material-ui/core/IconButton";
-class PlanetItem extends React.Component {
+class DraggableItem extends React.Component {
     getDragHeight() {
-        return this.props.item.subtitle ? 47 : 28;
+        return this.props.item.subtitle ? 47 : 45;
     }
 
     render() {
@@ -48,4 +48,4 @@ class PlanetItem extends React.Component {
         );
     }
 }
-export default PlanetItem;
+export default DraggableItem;

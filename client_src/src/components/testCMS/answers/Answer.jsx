@@ -5,14 +5,9 @@ import Radio from "@material-ui/core/Radio";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import CloseIcon from "@material-ui/icons/Close";
 import TextField from "material-ui/TextField";
-import { deleteAnswer } from "../../../redux/AC/answers";
 import { connect } from "react-redux";
 import { Button } from "material-ui";
 class Answer extends React.Component {
-    deleteAnswerHandler = () => {
-        this.props.deleteAnswer(this.props.id);
-    };
-
     render() {
         var {
             typeOfAnswer,
@@ -21,7 +16,8 @@ class Answer extends React.Component {
             editable,
             checked,
             onClick,
-            onChange
+            onChange,
+            deleteAnswerHandler
         } = this.props;
 
         return editable ? (
@@ -41,7 +37,7 @@ class Answer extends React.Component {
                     onChange={onChange}
                     style={{ width: "90%" }}
                 />
-                <Button onClick={this.deleteAnswerHandler}>
+                <Button onClick={deleteAnswerHandler}>
                     <CloseIcon />
                 </Button>
             </div>
@@ -79,8 +75,7 @@ Answer.propTypes = {
     editable: PropTypes.bool,
     serialNumber: PropTypes.number,
     checked: PropTypes.bool,
-    //redux
-    deleteAnswer: PropTypes.func
+    deleteAnswerHandler: PropTypes.func
 };
 
 Answer.defaultProps = {
@@ -89,14 +84,4 @@ Answer.defaultProps = {
     editable: false
 };
 
-const mapDispatchToProps = dispatch => {
-    return {
-        deleteAnswer(answerId) {
-            dispatch(deleteAnswer(answerId));
-        }
-    };
-};
-export default connect(
-    null,
-    mapDispatchToProps
-)(Answer);
+export default Answer;

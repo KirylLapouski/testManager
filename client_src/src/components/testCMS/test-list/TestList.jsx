@@ -1,12 +1,12 @@
 import React from "react";
-import Question from "../question/QuestionContainer";
+import QuestionContainer from "../question/QuestionContainer";
 import PropTypes from "prop-types";
 class TestList extends React.Component {
     render() {
         return (
             <div className="z-depth-1 container" style={{ padding: "0px" }}>
                 {this.props.questions.map((item, i) => (
-                    <Question
+                    <QuestionContainer
                         key={item.id}
                         editing={
                             this.props.openedItem === item.id ? true : false

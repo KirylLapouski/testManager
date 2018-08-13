@@ -1,73 +1,72 @@
-import constants from '../constants'
-import axios from 'axios'
-const addAnswer = (questionId, text = ' ') => {
+import constants from "../constants";
+import axios from "axios";
+const addAnswer = (questionId, text = " ") => {
     return dispatch => {
-        axios.post(`http://localhost:3000/api/Questions/${questionId}/answers`, {
-            isRight: false,
-            text: text
-        })
-            .then(({
-                data
-            }) => {
+        axios
+            .post(`http://localhost:3000/api/Questions/${questionId}/answers`, {
+                isRight: false,
+                text: text
+            })
+            .then(({ data }) => {
                 dispatch({
                     type: constants.answers.ADD_ANSWER,
-                    payload: { ...data
+                    payload: {
+                        ...data
                     }
-                })
-            })
-    }
-}
+                });
+            });
+    };
+};
 
 const loadAnswers = questionId => {
     return dispatch => {
-        axios.get(`http://localhost:3000/api/Questions/${questionId}/answers`)
+        axios
+            .get(`http://localhost:3000/api/Questions/${questionId}/answers`)
             .then(response => {
-                return response.data
+                return response.data;
             })
             .then(response => {
                 dispatch({
                     type: constants.answers.ADD_ANSWERS,
                     payload: response
-                })
-            })
-    }
-}
+                });
+            });
+    };
+};
 
 const deleteAnswer = answerId => {
     return dispatch => {
-        axios.delete(`http://localhost:3000/api/Answers/${answerId}`)
+        axios
+            .delete(`http://localhost:3000/api/Answers/${answerId}`)
             .then(() => {
                 dispatch({
                     type: constants.answers.DELETE_ANSWER,
-                    payload:{
+                    payload: {
                         answerId
                     }
-                })
-            })
-    }
-}
+                });
+            });
+    };
+};
 
-const updateAnswer = (answerId,text,isRight)=>{
-    return dispatch =>{
-        axios.patch('http://localhost:3000/api/Answers',{
-            id: answerId,
-            text,
-            isRight
-        })
-            .then(({data})=>{
+const updateOrCreateAnswer = (text, isRight = false, questionId, answerId) => {
+    return dispatch => {
+        axios
+            .patch("http://localhost:3000/api/Answers", {
+                id: answerId,
+                text,
+                isRight,
+                questionId
+            })
+            .then(({ data }) => {
                 dispatch({
-                    type:constants.answers.UPDATE_ANSWER,
-                    payload:{
+                    type: constants.answers.UPDATE_ANSWER,
+                    payload: {
                         ...data
                     }
-                })
-            })
-    }
-}
+                });
+            });
+    };
+};
 
-export {
-    addAnswer,
-    loadAnswers,
-    deleteAnswer,
-    updateAnswer
-}
+export { addAnswer, loadAnswers, deleteAnswer, updateOrCreateAnswer };

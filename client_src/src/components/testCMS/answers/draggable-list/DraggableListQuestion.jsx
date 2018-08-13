@@ -6,13 +6,8 @@ import "./draggable-list.css";
 
 class DraggableListQuestion extends React.Component {
     state = {
-        useContainer: false,
         list: this.props.answers
     };
-
-    _toggleContainer() {
-        this.setState({ useContainer: !this.state.useContainer });
-    }
 
     _onListChange(newList) {
         this.setState({ list: newList });
@@ -32,15 +27,7 @@ class DraggableListQuestion extends React.Component {
 
         return (
             <div className="main">
-                <div
-                    className="list"
-                    ref="container"
-                    style={{
-                        overflow: useContainer ? "auto" : "",
-                        height: useContainer ? "200px" : "",
-                        border: useContainer ? "1px solid gray" : ""
-                    }}
-                >
+                <div className="list">
                     <DraggableList
                         itemKey="name"
                         template={PlanetItem}

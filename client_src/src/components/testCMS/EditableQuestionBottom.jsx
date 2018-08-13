@@ -4,9 +4,15 @@ import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import DeleteIcon from "@material-ui/icons/Delete";
 import Divider from "@material-ui/core/Divider";
-
+import IconButton from "@material-ui/core/IconButton";
+import PropTypes from "prop-types";
 class EditableQuestionBottom extends React.Component {
     render() {
+        var {
+            handleSubmit,
+            endEditHandler,
+            deleteQuestionHandler
+        } = this.props;
         return (
             <React.Fragment>
                 <Divider
@@ -34,16 +40,16 @@ class EditableQuestionBottom extends React.Component {
                             borderRight: "1px solid grey"
                         }}
                         control={
-                            <Button onClick={this.deleteQuestionHandler}>
+                            <IconButton onClick={deleteQuestionHandler}>
                                 {" "}
                                 <DeleteIcon />
-                            </Button>
+                            </IconButton>
                         }
                     />
                     <FormControlLabel
                         style={{ position: "absolute", right: "0" }}
                         control={
-                            <Button onClick={this.handleSubmit} color="primary">
+                            <Button onClick={handleSubmit} color="primary">
                                 {" "}
                                 Принять изменения
                             </Button>
@@ -52,7 +58,7 @@ class EditableQuestionBottom extends React.Component {
                     <FormControlLabel
                         style={{ position: "absolute", right: "200px" }}
                         control={
-                            <Button onClick={this.endEdit}>Свернуть</Button>
+                            <Button onClick={endEditHandler}>Свернуть</Button>
                         }
                     />
                 </FormGroup>
@@ -61,4 +67,9 @@ class EditableQuestionBottom extends React.Component {
     }
 }
 
+EditableQuestionBottom.propTypes = {
+    handleSubmit: PropTypes.func,
+    endEditHandler: PropTypes.func,
+    deleteQuestionHandler: PropTypes.func
+};
 export default EditableQuestionBottom;

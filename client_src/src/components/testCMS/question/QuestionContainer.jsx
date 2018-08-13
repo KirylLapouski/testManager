@@ -1,18 +1,19 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Answer from "../answers/Answer";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import TypeOfAnswerSelect from "../TypeOfAnswerSelect";
+import AnswerList from "../answers/AnswerList";
 import { connect } from "react-redux";
 import {
     loadAnswers,
-    addAnswer,
-    updateAnswer
+    deleteAnswer,
+    updateOrCreateAnswer
 } from "../../../redux/AC/answers";
+
 import { deleteQuestion, updateQuestion } from "../../../redux/AC/question";
 import toastr from "toastr";
-import DraggableList from "../answers/draggable-list/DraggableListQuestion";
+import DraggableListQuestionSwitcher from "../answers/draggable-list/DraggableListQuestionSwitcher";
 import EditableQuestionBottom from "../EditableQuestionBottom";
 //TODO: refactor Question cms
 class QuestionContainer extends React.Component {
@@ -20,10 +21,11 @@ class QuestionContainer extends React.Component {
         super(props);
 
         this.state = {
-            isRadiosSelected: [],
-            answersTitle: [],
             questionTitle: "",
+            // for simple question
             selectedType: "radio",
+            answers: [],
+            // for list
             draggableList: [
                 { name: "Mercury" },
                 { name: "Venus" },
@@ -41,70 +43,50 @@ class QuestionContainer extends React.Component {
         this.props.getAnswers(this.props.question.id);
     }
 
-    handleClickRadio = (number, e) => {
+    handleClickRadio = number => e => {
         var checked = e.target.checked;
         this.setState(prevState => {
-            var newIsRadiosSelected = [...prevState.isRadiosSelected];
-            newIsRadiosSelected[number] = checked;
+            var answers = JSON.parse(JSON.stringify(prevState.answers));
+            answers[number].isRight = checked;
             return {
-                isRadiosSelected: newIsRadiosSelected
+                answers
             };
         });
     };
 
-    handleAnswerTitleChange = number => e => {
+    handleAnswerTextChange = number => e => {
         var value = e.target.value;
         this.setState(prevState => {
-            var newAnswersTitle = [...prevState.answersTitle];
-            newAnswersTitle[number] = value;
+            var newAnswers = [...prevState.answers];
+            newAnswers[number].text = value;
             return {
-                answersTitle: newAnswersTitle
+                answers: newAnswers
             };
-        });
-    };
-
-    getAnswersNessecaryInfo = () => {
-        return this.props.answers.map(answer => {
-            return { text: answer.text, id: answer.id };
         });
     };
 
     componentWillReceiveProps(newProps) {
-        if (!this.state.answersTitle.length)
+        if (!this.state.answers.length)
             this.setState({
-                answersTitle: newProps.answers.map(value => value.text)
-            });
-        if (!this.state.isRadiosSelected.length)
-            this.setState({
-                isRadiosSelected: newProps.answers.map(value => value.isRight)
+                answers: newProps.answers.map(value => value)
             });
     }
 
-    getAnswers = (ansersText, editable = false) => {
+    getAnswers = (editable = false) => {
         return this.state.selectedType === "draggableList" ? (
-            <DraggableList answers={this.state.draggableList} />
+            <DraggableListQuestionSwitcher
+                editing={editable}
+                answers={this.state.draggableList}
+            />
         ) : (
-            ansersText.map((answer, i) => {
-                return (
-                    <Answer
-                        key={i}
-                        editable={editable}
-                        onChange={
-                            editable ? this.handleAnswerTitleChange(i) : null
-                        }
-                        typeOfAnswer={this.props.QuestionType}
-                        onClick={
-                            editable
-                                ? this.handleClickRadio.bind(this, i)
-                                : null
-                        }
-                        checked={this.state.isRadiosSelected[i]}
-                        text={this.state.answersTitle[i]}
-                        id={answer.id}
-                        serialNumber={editable ? i + 1 : 0}
-                    />
-                );
-            })
+            <AnswerList
+                editable={editable}
+                onChange={this.handleAnswerTextChange}
+                typeOfAnswer={this.props.QuestionType}
+                onClick={this.handleClickRadio}
+                answers={this.state.answers}
+                deleteAnswerHandler={this.deleteAnswerHandler}
+            />
         );
     };
 
@@ -112,6 +94,27 @@ class QuestionContainer extends React.Component {
         this.props.deleteQuestion(this.props.question.id);
     };
 
+    deleteAnswerHandler = number => () => {
+        this.setState(prevState => {
+            var answers = [...prevState.answers];
+            answers[number].wouldBeDeletedAfterSubmit = true;
+            return {
+                answers
+            };
+        });
+    };
+
+    addAnswerHandler = () => {
+        this.setState(prevState => {
+            var answers = [...prevState.answers];
+            answers.push({
+                text: ""
+            });
+            return {
+                answers
+            };
+        });
+    };
     begginEdit = () => {
         this.props.toggleOpenItem(this.props.question.id);
     };
@@ -138,27 +141,39 @@ class QuestionContainer extends React.Component {
     addNewAnswer = () => {
         this.state.selectedType == "draggableList"
             ? this.addItemToDraggableList()
-            : this.props.addSimpleAnswer();
+            : this.addAnswerHandler();
     };
 
     handleSubmit = () => {
-        if (!this.state.answersTitle.every(value => value.trim())) {
+        if (
+            !this.state.answers
+                .map(answer => answer.text)
+                .every(value => value.trim())
+        ) {
             toastr.error("Все варианты ответов должны быть заполнены");
             return;
         }
 
-        if (!this.state.isRadiosSelected.some(value => value)) {
+        if (
+            !this.state.answers
+                .map(answer => answer.isRight)
+                .some(value => value)
+        ) {
             toastr.error("Надо отметить хотя бы один ответ как правильный");
             return;
         } else {
             toastr.success("Текст ответов сохранён", "Вопрос обновлен");
 
-            this.state.isRadiosSelected.forEach((value, i) => {
-                this.props.updateAnswer(
-                    this.props.answers[i].id,
-                    this.state.answersTitle[i],
-                    this.state.isRadiosSelected[i]
-                );
+            this.state.answers.forEach((value, i) => {
+                if (value.wouldBeDeletedAfterSubmit) {
+                    this.props.deleteAnswer(value.id);
+                } else {
+                    this.props.updateOrCreateAnswer(
+                        value.text,
+                        value.isRight,
+                        value.id
+                    );
+                }
             });
         }
 
@@ -182,8 +197,7 @@ class QuestionContainer extends React.Component {
 
     render() {
         var { editing } = this.props;
-        var answersText = this.getAnswersNessecaryInfo();
-        var answers = this.getAnswers(answersText, editing);
+        var answers = this.getAnswers(editing);
         if (editing) {
             return (
                 <div
@@ -227,7 +241,11 @@ class QuestionContainer extends React.Component {
                         Добавить вариант
                     </Button>
 
-                    <EditableQuestionBottom />
+                    <EditableQuestionBottom
+                        endEditHandler={this.endEdit}
+                        handleSubmit={this.handleSubmit}
+                        deleteQuestionHandler={this.deleteQuestionHandler}
+                    />
                 </div>
             );
         } else {
@@ -269,7 +287,7 @@ QuestionContainer.propTypes = {
     getAnswers: PropTypes.func,
     deleteQuestion: PropTypes.func,
     updateQuestion: PropTypes.func,
-    updateAnswer: PropTypes.func,
+    updateOrCreateAnswer: PropTypes.func,
     answers: PropTypes.arrayOf(
         PropTypes.shape({
             text: PropTypes.string,
@@ -294,17 +312,24 @@ const mapDispatchtToProps = (dispatch, ownProps) => {
         getAnswers(questionId) {
             dispatch(loadAnswers(questionId));
         },
-        addSimpleAnswer() {
-            dispatch(addAnswer(ownProps.question.id));
-        },
         deleteQuestion(questionId) {
             dispatch(deleteQuestion(questionId));
         },
         updateQuestion(questionId, title) {
             dispatch(updateQuestion(questionId, title));
         },
-        updateAnswer(answerId, text, isRight) {
-            dispatch(updateAnswer(answerId, text, isRight));
+        deleteAnswer(answerId) {
+            dispatch(deleteAnswer(answerId));
+        },
+        updateOrCreateAnswer(text, isRight, answerId) {
+            dispatch(
+                updateOrCreateAnswer(
+                    text,
+                    isRight,
+                    ownProps.question.id,
+                    answerId
+                )
+            );
         }
     };
 };
