@@ -6,14 +6,14 @@ import { addCourseByLessonId, getCourseOwner } from "../../../redux/AC/courses";
 import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import toastr from "toastr";
-//TODO: write
+//TODO: when fetch state in redux?
 class TopicPageContainer extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
             readOnly: true,
-            activeStep: 0,
+            activeStep: null,
             completed: {}
         };
     }
@@ -123,13 +123,11 @@ class TopicPageContainer extends React.Component {
         );
     };
 
-    componentWillMount() {
+    componentDidMount() {
         this.props.getTopics(this.props.match.params.lessonId);
         this.props.getCourse(this.props.match.params.lessonId).then(course => {
             this.course = course;
         });
-    }
-    componentDidMount() {
         if (typeof this.props.topics !== "indefined") {
             this.props.topics.forEach((value, index) => {
                 if (value.id === +this.props.match.params.topicId) {

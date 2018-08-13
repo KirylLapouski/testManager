@@ -9,7 +9,6 @@ class AnswerList extends React.Component {
             onChange,
             typeOfAnswer,
             onClick,
-            checked,
             answers,
             deleteAnswerHandler
         } = this.props;
@@ -20,16 +19,19 @@ class AnswerList extends React.Component {
                     return (
                         !answer.wouldBeDeletedAfterSubmit && (
                             <Answer
-                                key={answer.id}
+                                key={i}
                                 id={answer.id}
                                 editable={editable}
-                                onChange={onChange(i)}
+                                onChange={onChange && onChange(i)}
                                 typeOfAnswer={typeOfAnswer}
                                 onClick={onClick(i)}
                                 checked={answers[i].isRight}
                                 text={answers[i].text}
                                 serialNumber={i + 1}
-                                deleteAnswerHandler={deleteAnswerHandler(i)}
+                                deleteAnswerHandler={
+                                    deleteAnswerHandler &&
+                                    deleteAnswerHandler(i)
+                                }
                             />
                         )
                     );
@@ -47,7 +49,8 @@ AnswerList.propTypes = {
     answers: PropTypes.arrayOf(
         PropTypes.shape({
             id: PropTypes.number,
-            text: PropTypes.string
+            text: PropTypes.string,
+            isRight: PropTypes.bool
         })
     ),
     id: PropTypes.number,

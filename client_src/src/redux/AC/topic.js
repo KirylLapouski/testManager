@@ -35,11 +35,8 @@ const addTopic = (lessonId, node, title) => {
 const addTopics = lessonId => {
     return dispatch => {
         axios
-            .get("http://localhost:3000/api/Lessons/" + lessonId + "/topics")
-            .then(response => {
-                return response.data;
-            })
-            .then(response => {
+            .get(`http://localhost:3000/api/Lessons/${lessonId}/topics`)
+            .then(({ data: response }) => {
                 dispatch({
                     type: constants.topics.ADD_TOPICS,
                     payload: response
@@ -51,11 +48,8 @@ const addTopics = lessonId => {
 const addQuestionIdToTopic = topicID => {
     return dispatch => {
         axios
-            .get("http://localhost:3000/api/Topics/" + topicID + "/questions")
-            .then(response => {
-                return response.data;
-            })
-            .then(response => {
+            .get(`http://localhost:3000/api/Topics/${topicID}/questions`)
+            .then(({ data: response }) => {
                 dispatch({
                     type: constants.topics.ADD_TOPIC_QUESTIONS,
                     payload: {

@@ -13,10 +13,10 @@ class App extends Component {
         return (
             <div className="App">
                 <Router>
-                    <div>
+                    <React.Fragment>
                         <Header />
                         <Main />
-                    </div>
+                    </React.Fragment>
                 </Router>
             </div>
         );

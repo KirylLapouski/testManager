@@ -3,6 +3,7 @@ import Topic from "./Topic";
 import { connect } from "react-redux";
 import { addQuestionIdToTopic } from "../../redux/AC/topic";
 import PropTypes from "prop-types";
+import { withRouter } from "react-router-dom";
 //TODO: error handling does not work
 class TopicContainer extends React.Component {
     constructor(props) {
@@ -11,10 +12,7 @@ class TopicContainer extends React.Component {
             hasError: false
         };
     }
-    componentWillMount() {
-        // if (!this.props.path) {
-        //     throw new Error('нет материала для отображения')
-        // }
+    componentDidMount() {
         this.props.getTopicQuestion(this.props.id);
     }
     componentDidCatch(error) {
@@ -45,9 +43,7 @@ const mapStateToProps = (state, ownProps) => {
         hasTests:
             state.topics[ownProps.id] &&
             state.topics[ownProps.id].questions &&
-            state.topics[ownProps.id].questions.length
-                ? true
-                : false
+            !!state.topics[ownProps.id].questions.length
     };
 };
 
@@ -58,7 +54,9 @@ const mapDispatchToProps = dispatch => {
         }
     };
 };
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(TopicContainer);
+export default withRouter(
+    connect(
+        mapStateToProps,
+        mapDispatchToProps
+    )(TopicContainer)
+);

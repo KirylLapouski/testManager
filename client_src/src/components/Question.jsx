@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Answer from "./testCMS/answers/Answer";
+import AnswerList from "./testCMS/answers/AnswerList";
 import Button from "@material-ui/core/Button";
 import { connect } from "react-redux";
 import { loadAnswers } from "../redux/AC/answers";
@@ -83,22 +83,17 @@ class Question extends React.Component {
         });
     };
     renderAnswers() {
-        return this.props.answers.map((value, i) => {
-            return (
-                <Answer
-                    typeOfAnswer={this.state.testType}
-                    checked={this.state.choosen[i] || false}
-                    onClick={
-                        this.state.testType === "radio"
-                            ? this.handleRadioClick(i)
-                            : this.handleAnswerClick(i)
-                    }
-                    id={value.id}
-                    key={value.id}
-                    text={value.text}
-                />
-            );
-        });
+        return (
+            <AnswerList
+                typeOfAnswer={this.state.testType}
+                answers={this.props.answers}
+                onClick={
+                    this.state.testType === "radio"
+                        ? this.handleRadioClick
+                        : this.handleAnswerClick
+                }
+            />
+        );
     }
     render() {
         return (
