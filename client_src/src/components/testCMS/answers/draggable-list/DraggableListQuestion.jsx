@@ -18,6 +18,15 @@ class DraggableListQuestion extends React.Component {
         this.setState({ list: newList });
     }
 
+    deleteListItem = name => () => {
+        this.setState(prevState => {
+            var list = prevState.list;
+
+            return {
+                list: list.filter(value => value.name !== name)
+            };
+        });
+    };
     render() {
         const { useContainer } = this.state;
 
@@ -35,6 +44,7 @@ class DraggableListQuestion extends React.Component {
                     <DraggableList
                         itemKey="name"
                         template={PlanetItem}
+                        commonProps={{ deleteItem: this.deleteListItem }}
                         list={this.state.list}
                         onMoveEnd={newList => this._onListChange(newList)}
                         container={() =>

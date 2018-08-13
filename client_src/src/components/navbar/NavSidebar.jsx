@@ -36,7 +36,7 @@ class NavSidebar extends React.Component {
                                     width: "100%",
                                     color: "white"
                                 }}
-                                variant="contained"
+                                variant="flat"
                                 onClick={onClose}
                             >
                                 <KeyboardBackspace /> Назад

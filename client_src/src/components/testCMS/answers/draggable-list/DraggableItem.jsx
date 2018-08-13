@@ -1,12 +1,15 @@
 import React from "react";
 import cx from "classnames";
+import ClearIcon from "@material-ui/icons/Clear";
+import IconButton from "@material-ui/core/IconButton";
 class PlanetItem extends React.Component {
     getDragHeight() {
         return this.props.item.subtitle ? 47 : 28;
     }
 
     render() {
-        const { item, itemSelected, dragHandle } = this.props;
+        const { item, itemSelected, dragHandle, commonProps } = this.props;
+        const { deleteItem } = commonProps;
         const scale = itemSelected * 0.05 + 1;
         const shadow = itemSelected * 15 + 1;
         const dragged = itemSelected !== 0;
@@ -17,7 +20,8 @@ class PlanetItem extends React.Component {
                 style={{
                     transform: `scale(${scale})`,
                     boxShadow: `rgba(0, 0, 0, 0.3) 0px ${shadow}px ${2 *
-                        shadow}px 0px`
+                        shadow}px 0px`,
+                    position: "relative"
                 }}
             >
                 {dragHandle(<div className="dragHandle" />)}
@@ -27,14 +31,19 @@ class PlanetItem extends React.Component {
                         This item has a subtitle visible while dragging
                     </div>
                 )}
-                {item.subtitle && (
-                    <div>
-                        subtitled planets are better
-                        <br />
-                        and have longer descriptions
-                    </div>
-                )}
-                <div>State works and is retained during movement: </div>
+
+                <IconButton
+                    style={{ position: "absolute", right: "0px", top: "0px" }}
+                    onClick={deleteItem(item.name)}
+                    aria-label="Delete"
+                >
+                    <ClearIcon />
+                </IconButton>
+                <div>
+                    subtitled planets are better
+                    <br />
+                    and have longer descriptions
+                </div>
             </div>
         );
     }
