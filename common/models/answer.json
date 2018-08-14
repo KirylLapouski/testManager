@@ -1,38 +1,42 @@
 {
-  "name": "Answer",
-  "base": "PersistedModel",
-  "idInjection": true,
-  "options": {
-    "validateUpsert": true
-  },
-  "properties": {
-    "text": {
-      "type": "string",
-      "required": true
+    "name": "Answer",
+    "base": "PersistedModel",
+    "idInjection": true,
+    "options": {
+        "validateUpsert": true
     },
-    "isRight": {
-      "type": "boolean",
-      "required": true
-    }
-  },
-  "validations": [],
-  "relations": {
-    "question": {
-      "type": "belongsTo",
-      "model": "Question",
-      "foreignKey": "",
-      "options": {
-        "nestRemoting": true
-      }
-    }
-  },
-  "acls": [
-    {
-      "accessType": "*",
-      "principalType": "ROLE",
-      "principalId": "admin",
-      "permission": "ALLOW"
-    }
-  ],
-  "methods": {}
+    "properties": {
+        "text": {
+            "type": "string",
+            "required": true
+        },
+        "typeOfAnswer": {
+            "type": "string",
+            "required": "true"
+        },
+        "isRight": {
+            "type": "boolean",
+            "required": true
+        }
+    },
+    "validations": [],
+    "relations": {
+        "question": {
+            "type": "belongsTo",
+            "model": "Question",
+            "foreignKey": "",
+            "options": {
+                "nestRemoting": true
+            }
+        }
+    },
+    "acls": [
+        {
+            "accessType": "*",
+            "principalType": "ROLE",
+            "principalId": "admin",
+            "permission": "ALLOW"
+        }
+    ],
+    "methods": {}
 }

@@ -26,20 +26,11 @@ class QuestionContainer extends React.Component {
             selectedType: "radio",
             answers: [],
             // for list
-            draggableList: [
-                { name: "Mercury" },
-                { name: "Venus" },
-                { name: "Earth", subtitle: true },
-                { name: "Mars" },
-                { name: "Jupiter" },
-                { name: "Saturn", subtitle: true },
-                { name: "Uranus", subtitle: true },
-                { name: "Neptune" }
-            ]
+            draggableList: []
         };
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.props.getAnswers(this.props.question.id);
     }
 
@@ -68,26 +59,37 @@ class QuestionContainer extends React.Component {
     componentWillReceiveProps(newProps) {
         if (!this.state.answers.length)
             this.setState({
-                answers: newProps.answers.map(value => value)
+                answers: newProps.answers
             });
+        if (!this.state.draggableList.length && !!newProps.draggableList[0]) {
+            this.setState({
+                draggableList: JSON.parse(newProps.draggableList[0].text)
+            });
+        }
     }
 
     getAnswers = (editable = false) => {
-        return this.state.selectedType === "draggableList" ? (
-            <DraggableListQuestionSwitcher
-                editing={editable}
-                answers={this.state.draggableList}
-            />
-        ) : (
-            <AnswerList
-                editable={editable}
-                onChange={this.handleAnswerTextChange}
-                typeOfAnswer={this.props.QuestionType}
-                onClick={this.handleClickRadio}
-                answers={this.state.answers}
-                deleteAnswerHandler={this.deleteAnswerHandler}
-            />
-        );
+        switch (this.state.selectedType) {
+            case "draggableList":
+                return (
+                    <DraggableListQuestionSwitcher
+                        editing={editable}
+                        answers={this.state.draggableList}
+                    />
+                );
+            case "radio":
+            case "checkbox":
+                return (
+                    <AnswerList
+                        editable={editable}
+                        onChange={this.handleAnswerTextChange}
+                        typeOfAnswer={this.props.QuestionType}
+                        onClick={this.handleClickRadio}
+                        answers={this.state.answers}
+                        deleteAnswerHandler={this.deleteAnswerHandler}
+                    />
+                );
+        }
     };
 
     deleteQuestionHandler = () => {
@@ -145,6 +147,28 @@ class QuestionContainer extends React.Component {
     };
 
     handleSubmit = () => {
+        switch (this.state.selectedType) {
+            case "draggableList":
+                this.handleDraggebleListSubmit();
+                break;
+            case "radio":
+            case "checkbox":
+                this.handleRadioCheckBoxSubmit();
+                break;
+        }
+        this.endEdit();
+    };
+
+    handleDraggebleListSubmit = () => {
+        this.props.updateOrCreateAnswer(
+            JSON.stringify(this.state.draggableList),
+            true,
+            undefined,
+            "draggableList"
+        );
+    };
+
+    handleRadioCheckBoxSubmit = () => {
         if (
             !this.state.answers
                 .map(answer => answer.text)
@@ -185,10 +209,7 @@ class QuestionContainer extends React.Component {
             //TODO: check if updated
             toastr.success("Текст вопроса успешно обновлен", "Вопрос обновлен");
         }
-
-        this.endEdit();
     };
-
     onChange = name => e => {
         this.setState({
             [name]: e.target.value
@@ -284,17 +305,18 @@ QuestionContainer.propTypes = {
     editing: PropTypes.bool,
     toggleOpenItem: PropTypes.func,
     //redux
-    getAnswers: PropTypes.func,
-    deleteQuestion: PropTypes.func,
-    updateQuestion: PropTypes.func,
-    updateOrCreateAnswer: PropTypes.func,
+    draggableList: PropTypes.array,
     answers: PropTypes.arrayOf(
         PropTypes.shape({
             text: PropTypes.string,
             //TODO: !!!!!!!!!!!!!!!!! count answer type
             isRight: PropTypes.bool
         })
-    )
+    ),
+    getAnswers: PropTypes.func,
+    deleteQuestion: PropTypes.func,
+    updateQuestion: PropTypes.func,
+    updateOrCreateAnswer: PropTypes.func
 };
 
 const mapStateToProps = (state, ownProps) => {
@@ -304,7 +326,16 @@ const mapStateToProps = (state, ownProps) => {
             res.push(state.answers[key]);
         }
     }
-    return { answers: res };
+    return {
+        answers: res.filter(
+            value =>
+                value.typeOfAnswer === "radio" ||
+                value.typeOfAnswer === "checkbox"
+        ),
+        draggableList: res.filter(
+            value => value.typeOfAnswer === "draggableList"
+        )
+    };
 };
 
 const mapDispatchtToProps = (dispatch, ownProps) => {
@@ -321,13 +352,14 @@ const mapDispatchtToProps = (dispatch, ownProps) => {
         deleteAnswer(answerId) {
             dispatch(deleteAnswer(answerId));
         },
-        updateOrCreateAnswer(text, isRight, answerId) {
+        updateOrCreateAnswer(text, isRight, answerId, typeOfAnswer) {
             dispatch(
                 updateOrCreateAnswer(
                     text,
                     isRight,
                     ownProps.question.id,
-                    answerId
+                    answerId,
+                    typeOfAnswer
                 )
             );
         }

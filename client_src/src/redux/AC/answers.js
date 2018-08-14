@@ -1,11 +1,12 @@
 import constants from "../constants";
 import axios from "axios";
-const addAnswer = (questionId, text = " ") => {
+const addAnswer = (questionId, text = " ", typeOfAnswer = "radio") => {
     return dispatch => {
         axios
             .post(`http://localhost:3000/api/Questions/${questionId}/answers`, {
                 isRight: false,
-                text: text
+                text: text,
+                typeOfAnswer
             })
             .then(({ data }) => {
                 dispatch({
@@ -49,14 +50,21 @@ const deleteAnswer = answerId => {
     };
 };
 
-const updateOrCreateAnswer = (text, isRight = false, questionId, answerId) => {
+const updateOrCreateAnswer = (
+    text,
+    isRight = false,
+    questionId,
+    answerId,
+    typeOfAnswer = "radio"
+) => {
     return dispatch => {
         axios
             .patch("http://localhost:3000/api/Answers", {
                 id: answerId,
                 text,
                 isRight,
-                questionId
+                questionId,
+                typeOfAnswer
             })
             .then(({ data }) => {
                 dispatch({
