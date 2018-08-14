@@ -12,7 +12,7 @@ class DraggableItem extends React.Component {
 
         this.state = {
             initName: this.props.item.name,
-            name: "",
+            name: this.props.item.name,
             editing: false
         };
     }
@@ -69,14 +69,14 @@ class DraggableItem extends React.Component {
             >
                 {dragHandle(<div className="dragHandle" />)}
                 <h2>{item.name}</h2>
-                <TextField
-                    onChange={this.onChange("name")}
-                    value={this.state.name}
-                />
-                {item.subtitle && (
-                    <div className="subtitle">
-                        This item has a subtitle visible while dragging
-                    </div>
+                {this.state.editing && (
+                    <p>
+                        {" "}
+                        <TextField
+                            onChange={this.onChange("name")}
+                            value={this.state.name}
+                        />
+                    </p>
                 )}
 
                 <IconButton
@@ -86,11 +86,7 @@ class DraggableItem extends React.Component {
                 >
                     <ClearIcon />
                 </IconButton>
-                <div>
-                    subtitled planets are better
-                    <br />
-                    and have longer descriptions
-                </div>
+
                 {this.state.editing ? (
                     <Button onClick={this.saveChanges} color="primary">
                         Сохранить

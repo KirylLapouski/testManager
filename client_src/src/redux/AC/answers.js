@@ -50,6 +50,30 @@ const deleteAnswer = answerId => {
     };
 };
 
+const deleteAllAnswersForQuestion = questionId => {
+    return dispatch => {
+        var answersId;
+        return axios
+            .get(`http://localhost:3000/api/Questions/${questionId}/answers`)
+            .then(({ data: response }) => {
+                answersId = response.map(value => value.id);
+                return axios.delete(
+                    `http://localhost:3000/api/Questions/${questionId}/answers`
+                );
+            })
+            .then(() => {
+                answersId.forEach(answerId => {
+                    dispatch({
+                        type: constants.answers.DELETE_ANSWER,
+                        payload: {
+                            answerId
+                        }
+                    });
+                });
+            });
+    };
+};
+
 const updateOrCreateAnswer = (
     text,
     isRight = false,
@@ -77,4 +101,10 @@ const updateOrCreateAnswer = (
     };
 };
 
-export { addAnswer, loadAnswers, deleteAnswer, updateOrCreateAnswer };
+export {
+    addAnswer,
+    loadAnswers,
+    deleteAnswer,
+    updateOrCreateAnswer,
+    deleteAllAnswersForQuestion
+};

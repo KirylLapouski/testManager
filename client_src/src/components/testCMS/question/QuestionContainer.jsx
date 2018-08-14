@@ -8,7 +8,8 @@ import { connect } from "react-redux";
 import {
     loadAnswers,
     deleteAnswer,
-    updateOrCreateAnswer
+    updateOrCreateAnswer,
+    deleteAllAnswersForQuestion
 } from "../../../redux/AC/answers";
 
 import { deleteQuestion, updateQuestion } from "../../../redux/AC/question";
@@ -26,7 +27,7 @@ class QuestionContainer extends React.Component {
             selectedType: "radio",
             answers: [],
             // for list
-            draggableList: {}
+            draggableList: { text: [] }
         };
     }
 
@@ -56,18 +57,28 @@ class QuestionContainer extends React.Component {
         });
     };
 
-    componentWillReceiveProps(newProps) {
-        if (!this.state.answers.length)
-            this.setState({
-                answers: newProps.answers
-            });
-        if (!this.state.draggableList.length && !!newProps.draggableList) {
-            this.setState({
+    static getDerivedStateFromProps(props, state) {
+        let result = null;
+        if (!state.answers.length)
+            result = {
+                ...result,
+                answers: props.answers
+            };
+
+        if (
+            !state.draggableList.text.length &&
+            !!props.draggableList.text.length
+        ) {
+            result = {
+                ...result,
                 draggableList: {
-                    ...newProps.draggableList
-                }
-            });
+                    ...props.draggableList
+                },
+                selectedType: "draggableList"
+            };
         }
+
+        return result;
     }
 
     deleteListItem = name => () => {
@@ -180,11 +191,17 @@ class QuestionContainer extends React.Component {
     handleSubmit = () => {
         switch (this.state.selectedType) {
             case "draggableList":
-                this.handleDraggebleListSubmit();
+                this.props.deleteAllAnswersForQuestion().then(() => {
+                    this.handleDraggebleListSubmit();
+                });
                 break;
             case "radio":
             case "checkbox":
-                this.handleRadioCheckBoxSubmit();
+                if (this.radioCheckboxValidate()) return;
+
+                this.props.deleteAllAnswersForQuestion().then(() => {
+                    this.handleRadioCheckBoxSubmit();
+                });
                 break;
         }
         this.endEdit();
@@ -194,19 +211,19 @@ class QuestionContainer extends React.Component {
         this.props.updateOrCreateAnswer(
             JSON.stringify(this.state.draggableList.text),
             true,
-            this.state.draggableList.questionId,
+            undefined,
             "draggableList"
         );
     };
 
-    handleRadioCheckBoxSubmit = () => {
+    radioCheckboxValidate = () => {
         if (
             !this.state.answers
                 .map(answer => answer.text)
                 .every(value => value.trim())
         ) {
             toastr.error("Все варианты ответов должны быть заполнены");
-            return;
+            return 1;
         }
 
         if (
@@ -215,22 +232,18 @@ class QuestionContainer extends React.Component {
                 .some(value => value)
         ) {
             toastr.error("Надо отметить хотя бы один ответ как правильный");
-            return;
-        } else {
-            toastr.success("Текст ответов сохранён", "Вопрос обновлен");
-
-            this.state.answers.forEach((value, i) => {
-                if (value.wouldBeDeletedAfterSubmit) {
-                    this.props.deleteAnswer(value.id);
-                } else {
-                    this.props.updateOrCreateAnswer(
-                        value.text,
-                        value.isRight,
-                        value.id
-                    );
-                }
-            });
+            return 1;
         }
+    };
+    handleRadioCheckBoxSubmit = () => {
+        this.state.answers.forEach(value => {
+            if (value.wouldBeDeletedAfterSubmit) {
+                this.props.deleteAnswer(value.id);
+            } else {
+                this.props.updateOrCreateAnswer(value.text, value.isRight);
+            }
+        });
+        toastr.success("Текст ответов сохранён", "Вопрос обновлен");
 
         if (this.state.questionTitle) {
             this.props.updateQuestion(
@@ -336,7 +349,7 @@ QuestionContainer.propTypes = {
     editing: PropTypes.bool,
     toggleOpenItem: PropTypes.func,
     //redux
-    draggableList: PropTypes.shape({}),
+    draggableList: PropTypes.object,
     answers: PropTypes.arrayOf(
         PropTypes.shape({
             text: PropTypes.string,
@@ -403,6 +416,9 @@ const mapDispatchtToProps = (dispatch, ownProps) => {
                     typeOfAnswer
                 )
             );
+        },
+        deleteAllAnswersForQuestion() {
+            return dispatch(deleteAllAnswersForQuestion(ownProps.question.id));
         }
     };
 };
