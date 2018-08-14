@@ -26,7 +26,7 @@ class QuestionContainer extends React.Component {
             selectedType: "radio",
             answers: [],
             // for list
-            draggableList: []
+            draggableList: {}
         };
     }
 
@@ -61,12 +61,27 @@ class QuestionContainer extends React.Component {
             this.setState({
                 answers: newProps.answers
             });
-        if (!this.state.draggableList.length && !!newProps.draggableList[0]) {
+        if (!this.state.draggableList.length && !!newProps.draggableList) {
             this.setState({
-                draggableList: JSON.parse(newProps.draggableList[0].text)
+                draggableList: {
+                    ...newProps.draggableList
+                }
             });
         }
     }
+
+    deleteListItem = name => () => {
+        this.setState(prevState => {
+            var list = prevState.draggableList.text;
+
+            return {
+                draggableList: {
+                    ...prevState.draggableList,
+                    text: list.filter(value => value.name !== name)
+                }
+            };
+        });
+    };
 
     getAnswers = (editable = false) => {
         switch (this.state.selectedType) {
@@ -74,7 +89,18 @@ class QuestionContainer extends React.Component {
                 return (
                     <DraggableListQuestionSwitcher
                         editing={editable}
-                        answers={this.state.draggableList}
+                        answers={this.state.draggableList.text}
+                        deleteListItem={this.deleteListItem}
+                        onChange={list =>
+                            this.setState(prevState => {
+                                return {
+                                    draggableList: {
+                                        ...prevState.draggableList,
+                                        text: [...list]
+                                    }
+                                };
+                            })
+                        }
                     />
                 );
             case "radio":
@@ -126,17 +152,22 @@ class QuestionContainer extends React.Component {
     };
 
     addItemToDraggableList = () => {
-        var hasEmptyItem = this.state.draggableList.some(value => {
+        var hasEmptyItem = this.state.draggableList.text.some(value => {
             return value.name === "";
         });
         if (hasEmptyItem) {
             toastr.error("Исправьте ранее созданный элемент списка");
             return;
         }
+
         this.setState(prevState => {
+            let newList = prevState.draggableList.text;
+            newList.push({ name: "" });
             return {
-                draggableList: (prevState.draggableList.push({ name: "" }),
-                prevState.draggableList)
+                draggableList: {
+                    ...prevState.draggableList,
+                    text: newList
+                }
             };
         });
     };
@@ -161,9 +192,9 @@ class QuestionContainer extends React.Component {
 
     handleDraggebleListSubmit = () => {
         this.props.updateOrCreateAnswer(
-            JSON.stringify(this.state.draggableList),
+            JSON.stringify(this.state.draggableList.text),
             true,
-            undefined,
+            this.state.draggableList.questionId,
             "draggableList"
         );
     };
@@ -305,7 +336,7 @@ QuestionContainer.propTypes = {
     editing: PropTypes.bool,
     toggleOpenItem: PropTypes.func,
     //redux
-    draggableList: PropTypes.array,
+    draggableList: PropTypes.shape({}),
     answers: PropTypes.arrayOf(
         PropTypes.shape({
             text: PropTypes.string,
@@ -326,15 +357,25 @@ const mapStateToProps = (state, ownProps) => {
             res.push(state.answers[key]);
         }
     }
+    var draggable = !!res.filter(
+        value => value.typeOfAnswer === "draggableList"
+    )[0]
+        ? {
+              ...res.filter(value => value.typeOfAnswer === "draggableList")[0],
+              text: JSON.parse(
+                  res.filter(value => value.typeOfAnswer === "draggableList")[0]
+                      .text
+              )
+          }
+        : { text: [] };
+
     return {
         answers: res.filter(
             value =>
                 value.typeOfAnswer === "radio" ||
                 value.typeOfAnswer === "checkbox"
         ),
-        draggableList: res.filter(
-            value => value.typeOfAnswer === "draggableList"
-        )
+        draggableList: draggable
     };
 };
 

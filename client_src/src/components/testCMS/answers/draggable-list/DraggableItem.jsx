@@ -2,11 +2,54 @@ import React from "react";
 import cx from "classnames";
 import ClearIcon from "@material-ui/icons/Clear";
 import IconButton from "@material-ui/core/IconButton";
+import CreateIcon from "@material-ui/icons/Create";
+import TextField from "@material-ui/core/TextField";
+import PropTypes from "prop-types";
+import Button from "@material-ui/core/Button";
 class DraggableItem extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            initName: this.props.item.name,
+            name: "",
+            editing: false
+        };
+    }
     getDragHeight() {
         return this.props.item.subtitle ? 47 : 45;
     }
 
+    onChange = name => e => {
+        this.setState({
+            [name]: e.target.value
+        });
+    };
+
+    saveChanges = () => {
+        let newAnswers = this.props.commonProps.answers.map(
+            value =>
+                value.name === this.state.initName
+                    ? {
+                          ...value,
+                          name: this.state.name
+                      }
+                    : value
+        );
+
+        this.props.commonProps.onChange(newAnswers);
+        this.endEdit();
+    };
+    beginEdit = () => {
+        this.setState({
+            editing: true
+        });
+    };
+    endEdit = () => {
+        this.setState({
+            editing: false
+        });
+    };
     render() {
         const { item, itemSelected, dragHandle, commonProps } = this.props;
         const { deleteItem } = commonProps;
@@ -26,6 +69,10 @@ class DraggableItem extends React.Component {
             >
                 {dragHandle(<div className="dragHandle" />)}
                 <h2>{item.name}</h2>
+                <TextField
+                    onChange={this.onChange("name")}
+                    value={this.state.name}
+                />
                 {item.subtitle && (
                     <div className="subtitle">
                         This item has a subtitle visible while dragging
@@ -44,8 +91,25 @@ class DraggableItem extends React.Component {
                     <br />
                     and have longer descriptions
                 </div>
+                {this.state.editing ? (
+                    <Button onClick={this.saveChanges} color="primary">
+                        Сохранить
+                    </Button>
+                ) : (
+                    <IconButton onClick={this.beginEdit}>
+                        <CreateIcon />
+                    </IconButton>
+                )}
             </div>
         );
     }
 }
+
+DraggableItem.propTypes = {
+    commonProps: PropTypes.shape({
+        answers: PropTypes.array,
+        deleteItem: PropTypes.func,
+        onChange: PropTypes.func
+    })
+};
 export default DraggableItem;

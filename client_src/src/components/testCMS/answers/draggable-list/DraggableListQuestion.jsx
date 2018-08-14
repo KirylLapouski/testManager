@@ -5,46 +5,37 @@ import PlanetItem from "./DraggableItem";
 import "./draggable-list.css";
 
 class DraggableListQuestion extends React.Component {
-    state = {
-        list: this.props.answers
-    };
-
-    _onListChange(newList) {
-        this.setState({ list: newList });
-    }
-
-    deleteListItem = name => () => {
-        this.setState(prevState => {
-            var list = prevState.list;
-
-            return {
-                list: list.filter(value => value.name !== name)
-            };
-        });
-    };
     render() {
-        const { useContainer } = this.state;
-
-        return (
-            <div className="main">
-                <div className="list">
-                    <DraggableList
-                        itemKey="name"
-                        template={PlanetItem}
-                        commonProps={{ deleteItem: this.deleteListItem }}
-                        list={this.state.list}
-                        onMoveEnd={newList => this._onListChange(newList)}
-                        container={() =>
-                            useContainer ? this.refs.container : document.body
-                        }
-                    />
+        if (!this.props.answers) {
+            return <div> </div>;
+        } else {
+            return (
+                <div className="main">
+                    <div className="list">
+                        <DraggableList
+                            itemKey="name"
+                            template={PlanetItem}
+                            commonProps={{
+                                deleteItem: this.props.deleteListItem,
+                                onChange: this.props.onChange,
+                                answers: this.props.answers
+                            }}
+                            list={this.props.answers}
+                            onMoveEnd={this.props.onChange}
+                            // container={() =>
+                            //     useContainer ? this.refs.container : document.body
+                            // }
+                        />
+                    </div>
                 </div>
-            </div>
-        );
+            );
+        }
     }
 }
 
 DraggableListQuestion.propTypes = {
-    answers: PropTypes.array
+    answers: PropTypes.array,
+    onChange: PropTypes.func,
+    deleteListItem: PropTypes.func
 };
 export default DraggableListQuestion;
