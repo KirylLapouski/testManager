@@ -86,7 +86,12 @@ class Question extends React.Component {
         return (
             <AnswerList
                 typeOfAnswer={this.state.testType}
-                answers={this.props.answers}
+                answers={this.props.answers.map((value, i) => {
+                    return {
+                        ...value,
+                        isRight: !!this.state.choosen[i]
+                    }
+                })}
                 onClick={
                     this.state.testType === "radio"
                         ? this.handleRadioClick
