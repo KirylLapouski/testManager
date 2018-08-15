@@ -4,7 +4,7 @@ import CourseList from "./CourseList";
 import { loadCoursesForUser } from "../../redux/AC/courses";
 import { addloggedInUser } from "../../redux/AC/users";
 
-class CourseContainer extends React.Component {
+class CourseListContainer extends React.Component {
     constructor(props) {
         super(props);
 
@@ -61,4 +61,4 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(CourseContainer);
+)(CourseListContainer);

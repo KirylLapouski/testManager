@@ -19,6 +19,7 @@ const addTopic = (lessonId, node, title) => {
                             ...body
                         }
                     });
+                    return body;
                 },
                 err => {
                     switch (err.message) {
