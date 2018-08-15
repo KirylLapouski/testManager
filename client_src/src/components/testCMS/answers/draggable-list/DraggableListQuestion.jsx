@@ -1,20 +1,19 @@
-import React from "react";
-import DraggableList from "react-draggable-list";
-import PropTypes from "prop-types";
-import PlanetItem from "./DraggableItem";
-import "./draggable-list.css";
+import React from 'react'
+import DraggableList from 'react-draggable-list'
+import PropTypes from 'prop-types'
+import './draggable-list.css'
 
 class DraggableListQuestion extends React.Component {
     render() {
         if (!this.props.answers) {
-            return <div> </div>;
+            return <div> </div>
         } else {
             return (
                 <div className="main">
                     <div className="list">
                         <DraggableList
                             itemKey="name"
-                            template={PlanetItem}
+                            template={this.props.item}
                             commonProps={{
                                 deleteItem: this.props.deleteListItem,
                                 onChange: this.props.onChange,
@@ -22,13 +21,10 @@ class DraggableListQuestion extends React.Component {
                             }}
                             list={this.props.answers}
                             onMoveEnd={this.props.onChange}
-                            // container={() =>
-                            //     useContainer ? this.refs.container : document.body
-                            // }
                         />
                     </div>
                 </div>
-            );
+            )
         }
     }
 }
@@ -36,6 +32,7 @@ class DraggableListQuestion extends React.Component {
 DraggableListQuestion.propTypes = {
     answers: PropTypes.array,
     onChange: PropTypes.func,
-    deleteListItem: PropTypes.func
-};
-export default DraggableListQuestion;
+    deleteListItem: PropTypes.func,
+    item: PropTypes.node
+}
+export default DraggableListQuestion

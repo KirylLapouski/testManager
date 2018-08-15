@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 import { loadAnswers } from "../redux/AC/answers";
 import { submitQuestionResult } from "../redux/AC/users";
 import toastr from "toastr";
+import DraggableListQuestionSwitcher from './testCMS/answers/draggable-list/DraggableListQuestionSwitcher'
 class Question extends React.Component {
     constructor(props) {
         super(props);
@@ -19,27 +20,34 @@ class Question extends React.Component {
         this.checkCorrectAnswers = this.checkCorrectAnswers.bind(this);
     }
 
-    componentWillMount() {
-        this.props.getAnswers(this.props.question.id);
+    componentDidMount() {
+        this.props.getAnswers(this.props.question.id)
+            .then((answers) => {
+                switch (answers[0].typeOfAnswer) {
+                    case "draggableList":
+                        this.setState({ testType: answers[0].typeOfAnswer })
+                        break;
+                    case "radio":
+                    case "checkbox":
+                        let numberOfRightAnswers = 0;
+                        answers.map(value => {
+                            if (value.isRight) numberOfRightAnswers++;
+                        });
+                        if (numberOfRightAnswers > 1)
+                            this.setState({
+                                testType: "checkbox"
+                            });
+                        if (numberOfRightAnswers === 1) {
+                            this.setState({
+                                testType: "radio"
+                            });
+                        }
+                        break
+                }
+
+            })
     }
 
-    componentWillReceiveProps(newProps) {
-        if (newProps.answers.length) {
-            var numberOfRightAnswers = 0;
-            newProps.answers.map(value => {
-                if (value.isRight) numberOfRightAnswers++;
-            });
-            if (numberOfRightAnswers > 1)
-                this.setState({
-                    testType: "checkbox"
-                });
-            if (numberOfRightAnswers === 1) {
-                this.setState({
-                    testType: "radio"
-                });
-            }
-        }
-    }
     checkCorrectAnswers() {
         var answers = this.props.answers;
         var choosen = this.state.choosen;
@@ -83,22 +91,43 @@ class Question extends React.Component {
         });
     };
     renderAnswers() {
-        return (
-            <AnswerList
-                typeOfAnswer={this.state.testType}
-                answers={this.props.answers.map((value, i) => {
-                    return {
-                        ...value,
-                        isRight: !!this.state.choosen[i]
+        console.log(this.props.answers)
+        switch (this.state.testType) {
+            case "draggableList":
+                return (
+                    <DraggableListQuestionSwitcher
+                        displayMode={'testing'}
+                        answers={JSON.parse(this.props.answers[0].text)}
+                        deleteListItem={this.deleteListItem}
+                        onChange={list =>
+                            this.setState(prevState => {
+                                return {
+                                    draggableList: {
+                                        ...prevState.draggableList,
+                                        text: [...list]
+                                    }
+                                };
+                            })
+                        }
+                    />
+                );
+            case 'radio':
+            case "checkbox":
+                return <AnswerList
+                    typeOfAnswer={this.state.testType}
+                    answers={this.props.answers.map((value, i) => {
+                        return {
+                            ...value,
+                            isRight: !!this.state.choosen[i]
+                        }
+                    })}
+                    onClick={
+                        this.state.testType === "radio"
+                            ? this.handleRadioClick
+                            : this.handleAnswerClick
                     }
-                })}
-                onClick={
-                    this.state.testType === "radio"
-                        ? this.handleRadioClick
-                        : this.handleAnswerClick
-                }
-            />
-        );
+                />
+        }
     }
     render() {
         return (
@@ -157,7 +186,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         getAnswers(questionId) {
-            dispatch(loadAnswers(questionId));
+            return dispatch(loadAnswers(questionId));
         },
         submitAnswer(userId, isRightAnswered) {
             dispatch(

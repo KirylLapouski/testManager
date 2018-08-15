@@ -1,6 +1,6 @@
-import constants from "../constants";
-import axios from "axios";
-const addAnswer = (questionId, text = " ", typeOfAnswer = "radio") => {
+import constants from '../constants'
+import axios from 'axios'
+const addAnswer = (questionId, text = ' ', typeOfAnswer = 'radio') => {
     return dispatch => {
         axios
             .post(`http://localhost:3000/api/Questions/${questionId}/answers`, {
@@ -14,26 +14,27 @@ const addAnswer = (questionId, text = " ", typeOfAnswer = "radio") => {
                     payload: {
                         ...data
                     }
-                });
-            });
-    };
-};
+                })
+            })
+    }
+}
 
 const loadAnswers = questionId => {
     return dispatch => {
-        axios
+        return axios
             .get(`http://localhost:3000/api/Questions/${questionId}/answers`)
             .then(response => {
-                return response.data;
+                return response.data
             })
             .then(response => {
                 dispatch({
                     type: constants.answers.ADD_ANSWERS,
                     payload: response
-                });
-            });
-    };
-};
+                })
+                return response
+            })
+    }
+}
 
 const deleteAnswer = answerId => {
     return dispatch => {
@@ -45,21 +46,21 @@ const deleteAnswer = answerId => {
                     payload: {
                         answerId
                     }
-                });
-            });
-    };
-};
+                })
+            })
+    }
+}
 
 const deleteAllAnswersForQuestion = questionId => {
     return dispatch => {
-        var answersId;
+        var answersId
         return axios
             .get(`http://localhost:3000/api/Questions/${questionId}/answers`)
             .then(({ data: response }) => {
-                answersId = response.map(value => value.id);
+                answersId = response.map(value => value.id)
                 return axios.delete(
                     `http://localhost:3000/api/Questions/${questionId}/answers`
-                );
+                )
             })
             .then(() => {
                 answersId.forEach(answerId => {
@@ -68,22 +69,22 @@ const deleteAllAnswersForQuestion = questionId => {
                         payload: {
                             answerId
                         }
-                    });
-                });
-            });
-    };
-};
+                    })
+                })
+            })
+    }
+}
 
 const updateOrCreateAnswer = (
     text,
     isRight = false,
     questionId,
     answerId,
-    typeOfAnswer = "radio"
+    typeOfAnswer = 'radio'
 ) => {
     return dispatch => {
         axios
-            .patch("http://localhost:3000/api/Answers", {
+            .patch('http://localhost:3000/api/Answers', {
                 id: answerId,
                 text,
                 isRight,
@@ -96,10 +97,10 @@ const updateOrCreateAnswer = (
                     payload: {
                         ...data
                     }
-                });
-            });
-    };
-};
+                })
+            })
+    }
+}
 
 export {
     addAnswer,
@@ -107,4 +108,4 @@ export {
     deleteAnswer,
     updateOrCreateAnswer,
     deleteAllAnswersForQuestion
-};
+}

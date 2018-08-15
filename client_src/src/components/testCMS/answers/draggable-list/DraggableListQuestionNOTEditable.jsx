@@ -1,5 +1,5 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react';
+import PropTypes from 'prop-types';
 
 class DraggableListQuestionNOTEditable extends React.Component {
     render() {
@@ -8,18 +8,18 @@ class DraggableListQuestionNOTEditable extends React.Component {
                 return (
                     <div
                         style={{
-                            padding: "10px",
-                            borderBottom: "2px solid #e5e5e5 ",
-                            textAlign: "left"
+                            padding: '10px',
+                            borderBottom: '2px solid #e5e5e5 ',
+                            textAlign: 'left'
                         }}
                         key={value.name}
                     >
                         {i + 1} {value.name}
                     </div>
-                );
-            });
+                )
+            })
         } else {
-            return <div />;
+            return <div />
         }
     }
 }
@@ -30,6 +30,6 @@ DraggableListQuestionNOTEditable.propTypes = {
             name: PropTypes.string
         })
     )
-};
+}
 
-export default DraggableListQuestionNOTEditable;
+export default DraggableListQuestionNOTEditable

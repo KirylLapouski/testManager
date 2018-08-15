@@ -99,7 +99,7 @@ class QuestionContainer extends React.Component {
             case "draggableList":
                 return (
                     <DraggableListQuestionSwitcher
-                        editing={editable}
+                        displayMode={editable ? 'editing' : 'readOnly'}
                         answers={this.state.draggableList.text}
                         deleteListItem={this.deleteListItem}
                         onChange={list =>
@@ -374,12 +374,12 @@ const mapStateToProps = (state, ownProps) => {
         value => value.typeOfAnswer === "draggableList"
     )[0]
         ? {
-              ...res.filter(value => value.typeOfAnswer === "draggableList")[0],
-              text: JSON.parse(
-                  res.filter(value => value.typeOfAnswer === "draggableList")[0]
-                      .text
-              )
-          }
+            ...res.filter(value => value.typeOfAnswer === "draggableList")[0],
+            text: JSON.parse(
+                res.filter(value => value.typeOfAnswer === "draggableList")[0]
+                    .text
+            )
+        }
         : { text: [] };
 
     return {
