@@ -1,8 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
 import toastr from "toastr";
-import { addImageToUser } from "../../redux/AC/users";
-import { addloggedInUser } from "../../redux/AC/users";
+import { addImageToUser, addloggedInUser } from "../../redux/AC/users";
+import { loadCoursesForUser } from '../../redux/AC/courses'
 import Profile from "./Profile";
 import PropTypes from "prop-types";
 class ProfileContainer extends React.Component {
@@ -170,6 +170,12 @@ class ProfileContainer extends React.Component {
     handleChangeIndex = index => {
         this.setState({ tabsValue: index });
     };
+    componentDidMount() {
+        this.props.loadCoursesForUser(this.props.userId)
+            .then(courses => {
+                this.courses = courses
+            })
+    }
 
     render() {
         return (
@@ -178,6 +184,7 @@ class ProfileContainer extends React.Component {
                 onChangeHandler={this.onChangeHandler}
                 handleTabChange={this.handleTabChange}
                 onSubmitHandler={this.onSubmitHandler}
+                courses={this.courses}
                 {...this.props}
                 {...this.state}
             />
@@ -203,6 +210,9 @@ const mapDispatchToProps = dispatch => {
         },
         updateLoggedUser(userId) {
             dispatch(addloggedInUser(userId));
+        },
+        loadCoursesForUser(userId) {
+            return dispatch(loadCoursesForUser(userId))
         }
     };
 };
@@ -212,7 +222,8 @@ Profile.propTypes = {
     userImageSrc: PropTypes.string,
     hasYandexToken: PropTypes.bool,
     addUserImage: PropTypes.func,
-    updateLoggedUser: PropTypes.func
+    updateLoggedUser: PropTypes.func,
+    loadCoursesForUser: PropTypes.func
 };
 export default connect(
     mapStateToProps,

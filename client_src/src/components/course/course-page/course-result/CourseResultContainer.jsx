@@ -1,5 +1,5 @@
 import React from 'react'
-import CourseResult from './CourseResult'
+// import CourseResult from './CourseResultChart'
 import { getUserTestsResultsForLesson } from '../../../../redux/AC/users'
 import { loadLessons } from '../../../../redux/AC/lessons'
 import { withRouter } from 'react-router-dom'
@@ -15,7 +15,7 @@ class CourseResultContainer extends React.Component {
             redraw: false,
         }
     }
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(prevProps) {
         if (this.props.userId !== prevProps.userId) {
             //same as componentDidUpdate do
             var { userId, courseId } = this.props
@@ -31,7 +31,7 @@ class CourseResultContainer extends React.Component {
                             return
                         }
                         return value.reduce((acc, value) => {
-                            acc.summWeight += value.weight;
+                            acc.summWeight += value.weight
                             acc.rightWeight += value.isRightAnswered ? value.weight : 0
                             return acc
                         }, { summWeight: 0, rightWeight: 0 })
@@ -66,7 +66,7 @@ class CourseResultContainer extends React.Component {
                         return
                     }
                     return value.reduce((acc, value) => {
-                        acc.summWeight += value.weight;
+                        acc.summWeight += value.weight
                         acc.rightWeight += value.isRightAnswered ? value.weight : 0
                         return acc
                     }, { summWeight: 0, rightWeight: 0 })
@@ -85,7 +85,7 @@ class CourseResultContainer extends React.Component {
         )
     }
     render() {
-        return <CourseResult redraw={this.state.redraw} titles={this.state.titles} data={this.state.testsOfCourseResult} />
+        return React.cloneElement(this.props.children, { redraw: this.state.redraw, titles: this.state.titles, data: this.state.testsOfCourseResult, ...this.props })
     }
 }
 

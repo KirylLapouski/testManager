@@ -1,12 +1,12 @@
-import React from "react";
-import PropTypes from "prop-types";
-import Checkbox from "@material-ui/core/Checkbox";
-import Radio from "@material-ui/core/Radio";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import CloseIcon from "@material-ui/icons/Close";
-import TextField from "material-ui/TextField";
-import { connect } from "react-redux";
-import { Button } from "material-ui";
+import React from 'react';
+import PropTypes from 'prop-types';
+import Checkbox from '@material-ui/core/Checkbox';
+import Radio from '@material-ui/core/Radio';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import CloseIcon from '@material-ui/icons/Close';
+import TextField from 'material-ui/TextField';
+import { connect } from 'react-redux';
+import { Button } from 'material-ui';
 class Answer extends React.Component {
     render() {
         var {
@@ -18,35 +18,35 @@ class Answer extends React.Component {
             onClick,
             onChange,
             deleteAnswerHandler
-        } = this.props;
+        } = this.props
 
         return editable ? (
-            <div style={{ display: "flex", alignItems: "center" }}>
-                {serialNumber < 10 ? "0" + serialNumber : serialNumber}.
-                {typeOfAnswer == "radio" ? (
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+                {serialNumber < 10 ? '0' + serialNumber : serialNumber}.
+                {typeOfAnswer == 'radio' ? (
                     <Radio value="a" onClick={onClick} checked={checked} />
                 ) : (
                     <Checkbox
                         checked={checked}
                         onClick={onClick}
-                        style={{ width: "5%" }}
+                        style={{ width: '5%' }}
                     />
                 )}
                 <TextField
                     defaultValue={text}
                     onChange={onChange}
-                    style={{ width: "90%" }}
+                    style={{ width: '90%' }}
                 />
                 <Button onClick={deleteAnswerHandler}>
                     <CloseIcon />
                 </Button>
             </div>
         ) : (
-            <div style={{ display: "flex", alignItems: "center" }}>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
                 <FormControlLabel
                     label={text}
                     control={
-                        typeOfAnswer == "radio" ? (
+                        typeOfAnswer == 'radio' ? (
                             <Radio
                                 checked={checked !== undefined && checked}
                                 value={text}
@@ -62,7 +62,7 @@ class Answer extends React.Component {
                     }
                 />
             </div>
-        );
+        )
     }
 }
 
@@ -76,12 +76,12 @@ Answer.propTypes = {
     serialNumber: PropTypes.number,
     checked: PropTypes.bool,
     deleteAnswerHandler: PropTypes.func
-};
+}
 
 Answer.defaultProps = {
     onClick: f => f,
-    typeOfAnswer: "checkbox",
+    typeOfAnswer: 'checkbox',
     editable: false
-};
+}
 
-export default Answer;
+export default Answer

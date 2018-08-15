@@ -1,7 +1,7 @@
 import React from 'react'
 import LineChart from '../../../chart/HorizontalBarChart'
-import Slide from '@material-ui/core/Slide';
-import PropTypes from "prop-types";
+import Slide from '@material-ui/core/Slide'
+import PropTypes from 'prop-types'
 class CourseResult extends React.Component {
     render() {
         var { titles, data, redraw } = this.props

@@ -1,12 +1,12 @@
-import React from "react";
-import CourseHeader from "./CourseHeader";
-import UserInfoContainer from "../../user/user-info/UserInfoContainer";
-import Button from "@material-ui/core/Button";
-import AddIcon from "@material-ui/icons/Add";
-import NewLessonModal from "../../modal/modal-total/NewLessonModal";
-import CourseMain from "./CourseMain";
+import React from 'react'
+import CourseHeader from './CourseHeader'
+import UserInfoContainer from '../../user/user-info/UserInfoContainer'
+import Button from '@material-ui/core/Button'
+import AddIcon from '@material-ui/icons/Add'
+import NewLessonModal from '../../modal/modal-total/NewLessonModal'
+import CourseMain from './CourseMain'
 
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types'
 //TODO: rewrite modals on childs
 //TODO: can rewrite on function
 class CoursePage extends React.Component {
@@ -23,9 +23,9 @@ class CoursePage extends React.Component {
             handleBackgroundModalOpen,
             handleSubmitNewBackground,
             handleChange
-        } = this.props;
+        } = this.props
         return (
-            <div style={{ position: "relative" }}>
+            <div style={{ position: 'relative' }}>
                 <CourseHeader
                     backgroundModalOpened={backgroundModalOpened}
                     handleBackgroundModalOpen={handleBackgroundModalOpen}
@@ -33,7 +33,7 @@ class CoursePage extends React.Component {
                     secretWord={
                         loggedUserId === (ownerUser && ownerUser.id)
                             ? course.secretWord
-                            : ""
+                            : ''
                     }
                     backgroundSrc={course.backgroundUrl}
                     name={course.title}
@@ -55,10 +55,10 @@ class CoursePage extends React.Component {
                         color="primary"
                         aria-label="add"
                         style={{
-                            position: "fixed",
-                            bottom: "20px",
-                            right: "20px",
-                            zIndex: "2"
+                            position: 'fixed',
+                            bottom: '20px',
+                            right: '20px',
+                            zIndex: '2'
                         }}
                     >
                         <AddIcon />
@@ -75,7 +75,7 @@ class CoursePage extends React.Component {
                     handleClose={handleTopicModalClose}
                 />
             </div>
-        );
+        )
     }
 }
 
@@ -102,5 +102,5 @@ CoursePage.propTypes = {
     handleTopicModalClose: PropTypes.func,
     handleSubmitNewBackground: PropTypes.func,
     handleChange: PropTypes.func
-};
-export default CoursePage;
+}
+export default CoursePage

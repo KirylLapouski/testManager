@@ -1,30 +1,30 @@
-import constants from "../constants";
-import axios from "axios";
-import { getUserById } from "./users";
+import constants from '../constants'
+import axios from 'axios'
+import { getUserById } from './users'
 const addCourse = (
     userId,
-    title = " ",
-    backgroundUrl = "http://clipart-library.com/images/8ixrj6j7T.jpg"
+    title = ' ',
+    backgroundUrl = 'http://clipart-library.com/images/8ixrj6j7T.jpg'
 ) => {
-    var id, secretWord;
+    var id, secretWord
     return dispatch => {
         axios
-            .post("http://localhost:3000/api/Disciplines", {
+            .post('http://localhost:3000/api/Disciplines', {
                 title,
                 backgroundUrl
             })
             .then(({ data }) => {
-                id = data.id;
-                secretWord = data.secretWord;
+                id = data.id
+                secretWord = data.secretWord
                 //TODO: acn rewrite on remote hooks on back end
                 return axios.post(
-                    "http://localhost:3000/api/ParticipantDisciplineMappings",
+                    'http://localhost:3000/api/ParticipantDisciplineMappings',
                     {
-                        type: "teacher",
+                        type: 'teacher',
                         participantId: userId,
                         disciplineId: data.id
                     }
-                );
+                )
             })
             .then(() => {
                 dispatch({
@@ -36,10 +36,10 @@ const addCourse = (
                         secretWord,
                         backgroundUrl
                     }
-                });
-            });
-    };
-};
+                })
+            })
+    }
+}
 
 const addCourseByLessonId = lessonId => {
     return dispatch => {
@@ -54,40 +54,41 @@ const addCourseByLessonId = lessonId => {
                         secretWord: response.secretWord,
                         backgroundUrl: response.backgroundUrl
                     }
-                });
+                })
 
-                return response;
-            });
-    };
-};
+                return response
+            })
+    }
+}
 const loadCourses = () => {
     return dispatch => {
         axios
-            .get("http://localhost:3000/api/Disciplines")
+            .get('http://localhost:3000/api/Disciplines')
             .then(response => {
-                return response.data;
+                return response.data
             })
             .then(response => {
                 dispatch({
                     type: constants.courses.ADD_COURSES,
                     payload: response
-                });
-            });
-    };
-};
+                })
+            })
+    }
+}
 
 const loadCoursesForUser = userId => {
     return dispatch => {
-        axios
+        return axios
             .get(`http://localhost:3000/api/Participants/${userId}/disciplines`)
             .then(({ data }) => {
                 dispatch({
                     type: constants.courses.ADD_COURSES,
                     payload: data
-                });
-            });
-    };
-};
+                })
+                return data
+            })
+    }
+}
 
 const getCourseOwner = courseId => {
     return dispatch => {
@@ -103,12 +104,12 @@ const getCourseOwner = courseId => {
                             courseId,
                             ownerId: data[0].participantId
                         }
-                    });
-                    dispatch(getUserById(data[0].participantId));
+                    })
+                    dispatch(getUserById(data[0].participantId))
                 }
-            });
-    };
-};
+            })
+    }
+}
 
 const updateCourse = (id, course) => {
     //TODO: error handling
@@ -121,10 +122,10 @@ const updateCourse = (id, course) => {
                     payload: {
                         ...data
                     }
-                });
-            });
-    };
-};
+                })
+            })
+    }
+}
 
 export {
     addCourse,
@@ -133,4 +134,4 @@ export {
     getCourseOwner,
     updateCourse,
     addCourseByLessonId
-};
+}

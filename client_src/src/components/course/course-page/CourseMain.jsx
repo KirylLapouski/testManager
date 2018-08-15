@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import SideBar from "./SideBar";
 import UserListContainer from "../../user/user-list/UserListContainer";
 import CourseResultContainer from "./course-result/CourseResultContainer";
-
+import CourseResultChart from './course-result/CourseResultChart'
 class CourseMain extends React.Component {
     constructor() {
         super();
@@ -64,17 +64,19 @@ class CourseMain extends React.Component {
                             courseId={courseId}
                         />
                     ) : (
-                        <UserListContainer
-                            toggleShowChartClick={this.toggleShowChartClick}
-                            courseId={courseId}
-                        />
-                    )}
+                            <UserListContainer
+                                toggleShowChartClick={this.toggleShowChartClick}
+                                courseId={courseId}
+                            />
+                        )}
                 </div>
                 {contentDisplay !== this.CONTENT[0] &&
                     showCourseResultChartForUser && (
                         <CourseResultContainer
                             userId={showCourseResultChartForUser}
-                        />
+                        >
+                            <CourseResultChart />
+                        </CourseResultContainer>
                     )}
             </div>
         );

@@ -1,6 +1,6 @@
-import React from "react";
-import PropTypes from "prop-types";
-import Answer from "./Answer";
+import React from 'react'
+import PropTypes from 'prop-types'
+import Answer from './Answer'
 class AnswerList extends React.Component {
     render() {
         var {
@@ -11,7 +11,7 @@ class AnswerList extends React.Component {
             onClick,
             answers,
             deleteAnswerHandler
-        } = this.props;
+        } = this.props
 
         return (
             <React.Fragment>
@@ -34,10 +34,10 @@ class AnswerList extends React.Component {
                                 }
                             />
                         )
-                    );
+                    )
                 })}
             </React.Fragment>
-        );
+        )
     }
 }
 
@@ -50,11 +50,12 @@ AnswerList.propTypes = {
         PropTypes.shape({
             id: PropTypes.number,
             text: PropTypes.string,
+            //is checked
             isRight: PropTypes.bool
         })
     ),
     id: PropTypes.number,
     serialNumber: PropTypes.number,
     deleteAnswerHandler: PropTypes.func
-};
-export default AnswerList;
+}
+export default AnswerList
