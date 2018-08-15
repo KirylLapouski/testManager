@@ -23,6 +23,7 @@ class Question extends React.Component {
     componentDidMount() {
         this.props.getAnswers(this.props.question.id)
             .then((answers) => {
+                if (!answers[0]) return
                 switch (answers[0].typeOfAnswer) {
                     case "draggableList":
                         this.setState({ testType: answers[0].typeOfAnswer })
@@ -91,7 +92,6 @@ class Question extends React.Component {
         });
     };
     renderAnswers() {
-        console.log(this.props.answers)
         switch (this.state.testType) {
             case "draggableList":
                 return (

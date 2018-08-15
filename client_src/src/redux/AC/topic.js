@@ -1,16 +1,16 @@
-import constants from "../constants";
-import axios from "axios";
+import constants from '../constants'
+import axios from 'axios'
 const addTopic = (lessonId, node, title) => {
     return dispatch => {
-        const config = { headers: { "Content-Type": "multipart/form-data" } };
+        const config = { headers: { 'Content-Type': 'multipart/form-data' } }
 
-        var formData = new FormData();
-        formData.append("path", node);
-        formData.append("lessonId", lessonId);
-        formData.append("title", title || " ");
+        var formData = new FormData()
+        formData.append('path', node)
+        formData.append('lessonId', lessonId)
+        formData.append('title', title || ' ')
 
         return axios
-            .post("http://localhost:3000/api/Topics", formData, config)
+            .post('http://localhost:3000/api/Topics', formData, config)
             .then(
                 ({ data: body }) => {
                     dispatch({
@@ -18,20 +18,20 @@ const addTopic = (lessonId, node, title) => {
                         payload: {
                             ...body
                         }
-                    });
-                    return body;
+                    })
+                    return body
                 },
                 err => {
                     switch (err.message) {
-                        case "Network Error":
-                            throw new Error("Ошибка сети, сервер недоступен");
-                        default:
-                            throw new Error("Ошибка при добаввлении топика");
+                    case 'Network Error':
+                        throw new Error('Ошибка сети, сервер недоступен')
+                    default:
+                        throw new Error('Ошибка при добаввлении топика')
                     }
                 }
-            );
-    };
-};
+            )
+    }
+}
 
 const addTopics = lessonId => {
     return dispatch => {
@@ -41,14 +41,14 @@ const addTopics = lessonId => {
                 dispatch({
                     type: constants.topics.ADD_TOPICS,
                     payload: response
-                });
-            });
-    };
-};
+                })
+            })
+    }
+}
 
 const addQuestionIdToTopic = topicID => {
     return dispatch => {
-        axios
+        return axios
             .get(`http://localhost:3000/api/Topics/${topicID}/questions`)
             .then(({ data: response }) => {
                 dispatch({
@@ -57,20 +57,21 @@ const addQuestionIdToTopic = topicID => {
                         questions: response,
                         topicId: topicID
                     }
-                });
-            });
-    };
-};
+                })
+                return response
+            })
+    }
+}
 
 const updateTopic = (topicId, editorState) => {
     return dispatch => {
         axios
-            .patch("http://localhost:3000/api/Topics", {
+            .patch('http://localhost:3000/api/Topics', {
                 id: topicId,
                 path: editorState
             })
             .then(response => {
-                return response.data;
+                return response.data
             })
             .then(response => {
                 dispatch({
@@ -78,10 +79,10 @@ const updateTopic = (topicId, editorState) => {
                     payload: {
                         ...response
                     }
-                });
-            });
-    };
-};
+                })
+            })
+    }
+}
 
 const deleteTopic = topicId => {
     return dispatch => {
@@ -94,10 +95,10 @@ const deleteTopic = topicId => {
                         payload: {
                             id: topicId
                         }
-                    });
+                    })
                 }
-            });
-    };
-};
+            })
+    }
+}
 
-export { addTopic, addTopics, addQuestionIdToTopic, updateTopic, deleteTopic };
+export { addTopic, addTopics, addQuestionIdToTopic, updateTopic, deleteTopic }
