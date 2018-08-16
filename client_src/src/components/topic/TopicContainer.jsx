@@ -15,6 +15,9 @@ class TopicContainer extends React.Component {
     }
     componentDidMount() {
         this.props.getTopicQuestion(this.props.id)
+            .then(value => {
+                if (value) this.setState({ hasTests: true })
+            })
     }
     componentDidCatch(error) {
         this.setState({
@@ -22,11 +25,7 @@ class TopicContainer extends React.Component {
         })
     }
     render() {
-        return this.state.hasError ? (
-            <div style={{ color: '#212529' }}>Ошибка отображения топика</div>
-        ) : (
-            <Topic {...this.props} />
-        )
+        return <Topic {...this.props} {...this.state} />
     }
 }
 TopicContainer.propTypes = {
@@ -38,15 +37,6 @@ TopicContainer.propTypes = {
     getTopicQuestion: PropTypes.func,
 }
 
-const mapStateToProps = (state, ownProps) => {
-    return {
-        hasTests:
-            state.topics[ownProps.id] &&
-            state.topics[ownProps.id].questions &&
-            !!state.topics[ownProps.id].questions.length
-    }
-}
-
 const mapDispatchToProps = dispatch => {
     return {
         getTopicQuestion(topicId) {
@@ -56,7 +46,7 @@ const mapDispatchToProps = dispatch => {
 }
 export default withRouter(
     connect(
-        mapStateToProps,
+        null,
         mapDispatchToProps
     )(TopicContainer)
 )

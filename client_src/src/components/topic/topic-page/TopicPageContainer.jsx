@@ -13,7 +13,7 @@ class TopicPageContainer extends React.Component {
 
         this.state = {
             readOnly: true,
-            activeStep: null,
+            activeStep: 0,
             completed: {}
         };
     }

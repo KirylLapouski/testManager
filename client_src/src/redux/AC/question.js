@@ -91,10 +91,10 @@ const createTestFromFile = (topicId, file) => {
                 dispatch(loadQuestion(topicId))
             }, (err) => {
                 switch (err.message) {
-                    case 'Network Error':
-                        throw new Error('Ошибка сети, сервер недоступен')
-                    default:
-                        throw new Error('Ошибка создания теста')
+                case 'Network Error':
+                    throw new Error('Ошибка сети, сервер недоступен')
+                default:
+                    throw new Error('Ошибка создания теста')
                 }
             })
 

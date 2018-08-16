@@ -17,34 +17,9 @@ class Question extends React.Component {
         };
     }
 
-    // componentDidMount() {
-    //     this.props.getAnswers(this.props.question.id)
-    //         .then((answers) => {
-    //             if (!answers) return
-    //             switch (this.props.typeOfAnswer) {
-    //                 case "draggableList":
-    //                     this.setState({ testType: answers[0].typeOfAnswer })
-    //                     break;
-    //                 case "radio":
-    //                 case "checkbox":
-    //                     let numberOfRightAnswers = 0;
-    //                     answers.map(value => {
-    //                         if (value.isRight) numberOfRightAnswers++;
-    //                     });
-    //                     if (numberOfRightAnswers > 1)
-    //                         this.setState({
-    //                             testType: "checkbox"
-    //                         });
-    //                     if (numberOfRightAnswers === 1) {
-    //                         this.setState({
-    //                             testType: "radio"
-    //                         });
-    //                     }
-    //                     break
-    //             }
-
-    //         })
-    // }
+    componentDidMount() {
+        this.props.getAnswers(this.props.question.id)
+    }
 
     submitHandle = () => {
         if (this.checkCorrectAnswers()) {
@@ -184,9 +159,11 @@ const mapStateToProps = (state, ownProps) => {
         )
             res.push(state.answers[key]);
     }
+    var typeOfAnswer = res[0] && res[0].typeOfAnswer
+    typeOfAnswer = typeOfAnswer || 'radio'
     return {
-        answers: JSON.parse(res[0].text),
-        testType: res[0].typeOfAnswer,
+        answers: typeOfAnswer == 'draggableList' ? JSON.parse(res[0].text) : res,
+        testType: typeOfAnswer,
         loggedInUser: state.users.loggedIn
     };
 };
