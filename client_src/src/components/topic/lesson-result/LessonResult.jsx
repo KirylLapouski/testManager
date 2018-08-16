@@ -1,12 +1,12 @@
 import React from 'react'
-import Chart from "../../chart/Chart";
-import PropTypes from "prop-types";
-import QuestionList from "../../questions/QuestionList";
-import Slide from '@material-ui/core/Slide';
+import Chart from '../../chart/Chart'
+import PropTypes from 'prop-types'
+import QuestionList from '../../questions/QuestionList'
+import Slide from '@material-ui/core/Slide'
 class LessonResult extends React.Component {
 
     render() {
-        var { wrongAnswerWeight, rightAnswersWeight, questions } = this.props
+        let { wrongAnswerWeight, rightAnswersWeight, questions } = this.props
         return <div style={{ color: '#212529', textAlign: 'left', width: '80%', margin: '0 auto' }}>
             <div style={{ width: '50%', float: 'right' }}>
                 <div style={{ backgroundColor: 'white' }}>
@@ -15,13 +15,13 @@ class LessonResult extends React.Component {
             </div>
             <Slide direction="right" in={true} mountOnEnter unmountOnExit>
                 <p style={{ fontSize: '30px', fontFamily: '"Roboto", sans-serif' }}>
-                    Правильные ответы:   {rightAnswersWeight}%
-            </p>
+                    Правильные ответы:   {Math.round( rightAnswersWeight)}%
+                </p>
             </Slide>
             <Slide direction="right" in={true} mountOnEnter unmountOnExit>
                 <p style={{ fontSize: '30px', fontFamily: '"Roboto", sans-serif' }}>
-                    Неправильные ответы:   {wrongAnswerWeight} %
-            </p>
+                    Неправильные ответы:   {Math.round(wrongAnswerWeight)} %
+                </p>
             </Slide>
             <QuestionList questions={questions} />
 

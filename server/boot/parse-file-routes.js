@@ -1,18 +1,18 @@
 module.exports = function(app) {
-    var parseTest = require("../utils/test-parser");
-    var router = app.loopback.Router();
-    var fileUpload = require("express-fileupload");
+    let parseTest = require("../utils/test-parser");
+    let router = app.loopback.Router();
+    let fileUpload = require("express-fileupload");
     router.use(fileUpload());
 
     // function parseQuestion(question) {
     //     if (question.indexOf('?') === -1)
     //         throw new Error('Знак ? не найден')
 
-    //     var [questionTitle, answers, ...extradata] = question.split('?\r\n')
+    //     let [questionTitle, answers, ...extradata] = question.split('?\r\n')
     //     if (extradata.length)
     //         throw new Error('Найдено несколько знаков ? в одном вопросе')
 
-    //     var answers = answers.split('\r\n')
+    //     let answers = answers.split('\r\n')
 
     //     return {
     //         questionTitle,
@@ -21,7 +21,7 @@ module.exports = function(app) {
     // }
 
     // function saveQuestion(question, topicId, cb) {
-    //     var Question = app.models.Question
+    //     let Question = app.models.Question
 
     //     Question.create({
     //         title: question,
@@ -31,7 +31,7 @@ module.exports = function(app) {
     // }
     // //TODO: pass cb and handle error
     // function saveAnswer(answer, questionId) {
-    //     var Answer = app.models.Answer
+    //     let Answer = app.models.Answer
     //     answer.replace(/\\r/g, '')
     //     if (answer.indexOf('=') === 0) {
     //         Answer.create({
@@ -55,7 +55,7 @@ module.exports = function(app) {
     //     throw Error('Ни символ = ни символ ~ небыли найдены в ответе')
     // }
     function saveQuestion(question, topicId) {
-        var Question = app.models.Question;
+        let Question = app.models.Question;
 
         return new Promise((resolve, reject) => {
             Question.create(
@@ -73,7 +73,7 @@ module.exports = function(app) {
     }
 
     function saveAnswers(answers, questionId) {
-        var Answer = app.models.Answer;
+        let Answer = app.models.Answer;
         return answers.map(answer => {
             return new Promise((resolve, reject) => {
                 Answer.create(
@@ -114,9 +114,9 @@ module.exports = function(app) {
         });
     }
     router.post("/:topicId/parseQuestion", function(req, resp) {
-        var dataStr = req.files.file.data.toString();
+        let dataStr = req.files.file.data.toString();
         try {
-            var questions = parseTest(dataStr);
+            let questions = parseTest(dataStr);
         } catch (e) {
             resp.status(400).send(e.message);
         }

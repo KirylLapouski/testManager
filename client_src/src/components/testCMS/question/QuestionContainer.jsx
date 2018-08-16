@@ -36,9 +36,9 @@ class QuestionContainer extends React.Component {
     }
 
     handleClickRadio = number => e => {
-        var checked = e.target.checked;
+        let checked = e.target.checked;
         this.setState(prevState => {
-            var answers = JSON.parse(JSON.stringify(prevState.answers));
+            let answers = JSON.parse(JSON.stringify(prevState.answers));
             answers[number].isRight = checked;
             return {
                 answers
@@ -47,9 +47,9 @@ class QuestionContainer extends React.Component {
     };
 
     handleAnswerTextChange = number => e => {
-        var value = e.target.value;
+        let value = e.target.value;
         this.setState(prevState => {
-            var newAnswers = [...prevState.answers];
+            let newAnswers = [...prevState.answers];
             newAnswers[number].text = value;
             return {
                 answers: newAnswers
@@ -83,7 +83,7 @@ class QuestionContainer extends React.Component {
 
     deleteListItem = name => () => {
         this.setState(prevState => {
-            var list = prevState.draggableList.text;
+            let list = prevState.draggableList.text;
 
             return {
                 draggableList: {
@@ -135,7 +135,7 @@ class QuestionContainer extends React.Component {
 
     deleteAnswerHandler = number => () => {
         this.setState(prevState => {
-            var answers = [...prevState.answers];
+            let answers = [...prevState.answers];
             answers[number].wouldBeDeletedAfterSubmit = true;
             return {
                 answers
@@ -145,7 +145,7 @@ class QuestionContainer extends React.Component {
 
     addAnswerHandler = () => {
         this.setState(prevState => {
-            var answers = [...prevState.answers];
+            let answers = [...prevState.answers];
             answers.push({
                 text: ""
             });
@@ -163,7 +163,7 @@ class QuestionContainer extends React.Component {
     };
 
     addItemToDraggableList = () => {
-        var hasEmptyItem = this.state.draggableList.text.some(value => {
+        let hasEmptyItem = this.state.draggableList.text.some(value => {
             return value.name === "";
         });
         if (hasEmptyItem) {
@@ -261,8 +261,8 @@ class QuestionContainer extends React.Component {
     };
 
     render() {
-        var { editing } = this.props;
-        var answers = this.getAnswers(editing);
+        let { editing } = this.props;
+        let answers = this.getAnswers(editing);
         if (editing) {
             return (
                 <div
@@ -364,13 +364,13 @@ QuestionContainer.propTypes = {
 };
 
 const mapStateToProps = (state, ownProps) => {
-    var res = [];
-    for (var key in state.answers) {
+    let res = [];
+    for (let key in state.answers) {
         if (Number(ownProps.question.id) === state.answers[key].questionId) {
             res.push(state.answers[key]);
         }
     }
-    var draggable = !!res.filter(
+    let draggable = !!res.filter(
         value => value.typeOfAnswer === "draggableList"
     )[0]
         ? {

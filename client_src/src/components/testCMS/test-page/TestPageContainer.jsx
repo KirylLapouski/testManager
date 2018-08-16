@@ -50,7 +50,7 @@ class TestPageContainer extends React.Component {
     handleSubmitNewQuestionForm = e => {
         e.preventDefault();
 
-        var { title, description, weight } = this.state;
+        let { title, description, weight } = this.state;
         if (!title) {
             toastr.error("Необходимо заполнить поле вопроса");
             return;
@@ -96,8 +96,8 @@ class TestPageContainer extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    var res = [];
-    for (var key in state.questions) {
+    let res = [];
+    for (let key in state.questions) {
         if (
             Number(ownProps.match.params.topicId) ===
             state.questions[key].topicId

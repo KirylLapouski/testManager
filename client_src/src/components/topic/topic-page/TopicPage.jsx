@@ -35,7 +35,7 @@ class TopicPage extends React.Component {
         this.props.history.push(`/${this.props.course.id}/lessons`);
     };
     render() {
-        var {
+        let {
             loggedUserId,
             userOwnerId,
             topics,
@@ -57,8 +57,6 @@ class TopicPage extends React.Component {
         const steps = topics.map(value => {
             return value.title;
         });
-
-        {console.log(topics[activeStep])}
 
         return (
             <React.Fragment>
@@ -110,6 +108,7 @@ class TopicPage extends React.Component {
                 )}
                 {!allStepsCompleted() && (
                     <TopicContainer
+                        hasTests={!this.props.completed[this.props.activeStep]}
                         key={this.props.match.params.topicId}
                         readOnly={readOnly}
                         path={topics[activeStep] && topics[activeStep].path}

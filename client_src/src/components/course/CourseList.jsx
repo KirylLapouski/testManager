@@ -7,7 +7,7 @@ import NewCourseModal from '../modal/modal-total/NewCourseModal'
 //TODO: can rewrite on function
 class CourseList extends React.Component {
     render() {
-        var { courses } = this.props
+        let { courses } = this.props
         if (courses) {
             courses = courses.map((value) => {
                 return (<div key={value.id} className="col-xl-3 col-lg-4 col-md-6"><Course {...value} /></div>)

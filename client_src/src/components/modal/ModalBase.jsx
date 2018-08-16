@@ -5,7 +5,7 @@ import Button from '@material-ui/core/Button'
 import ClearIcon from '@material-ui/icons/Clear'
 class ModalBase extends React.Component {
     render() {
-        var { title, open, handleClose, children, minHeight, width } = this.props
+        let { title, open, handleClose, children, minHeight, width } = this.props
         return (
             <Modal open={open} onClose={handleClose}>
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', minHeight, width, position: 'absolute', left: '50%', marginLeft: `-${width.replace('px', '') / 2}px`, top: '50%', marginTop: `-${minHeight.replace('px', '') / 2}px`, background: 'white', padding: `${+width.replace('px', '') * 0.05}px`, paddingTop: '0px' }}>

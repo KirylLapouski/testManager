@@ -16,15 +16,15 @@ class LoginInContainer extends React.Component {
     }
 
     onChangeHandler = (e) => {
-        var { name, value } = e.target
+        let { name, value } = e.target
         this.setState({
             [name]: value
         })
     }
     validate = () => {
         //email validation
-        var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,5})$/
-        var address = this.state.mail
+        let reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,5})$/
+        let address = this.state.mail
         if (reg.test(address) == false) {
             toastr.error('Неправильный формат электронной почты', 'Ошибка входа')
             return false
@@ -38,25 +38,25 @@ class LoginInContainer extends React.Component {
         if (!this.validate())
             return
         //TODO: need to refactor
-        var xhr = new XMLHttpRequest()
+        let xhr = new XMLHttpRequest()
         xhr.open('POST', 'http://localhost:3000/api/Participants/login', true)
         xhr.setRequestHeader('Content-Type', 'application/json')
 
         xhr.timeout = 10000
 
         xhr.onload = () => {
-            var userResponse = JSON.parse(xhr.response)
+            let userResponse = JSON.parse(xhr.response)
             if (xhr.status == 401) {
                 this.props.toggleLoading()
                 toastr.error('Неправильный логин или пароль', 'Ошибка входа')
             }
             if (xhr.status == 200) {
-                var loopbackToken = JSON.parse(xhr.response).id
-                var loopbackTokenExpireIn = (new Date(JSON.parse(xhr.response).ttl * 1000 + Date.now())).toDateString()
+                let loopbackToken = JSON.parse(xhr.response).id
+                let loopbackTokenExpireIn = (new Date(JSON.parse(xhr.response).ttl * 1000 + Date.now())).toDateString()
                 xhr.open('PATCH', `http://localhost:3000/api/Participants/${userResponse.userId}`)
                 xhr.setRequestHeader('Content-Type', 'application/json')
                 xhr.onload = () => {
-                    var userInfo = JSON.parse(xhr.response)
+                    let userInfo = JSON.parse(xhr.response)
                     this.props.toggleLoading()
                     toastr.success(`Добро пожаловать, ${userInfo.username || 'User'}!`)
                     const cookies = new Cookies()

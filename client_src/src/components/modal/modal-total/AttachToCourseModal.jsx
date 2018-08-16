@@ -30,13 +30,13 @@ class AttachToCourseModal extends React.Component {
     };
 
     onChangeHandler = e => {
-        var { value } = e.target;
+        let { value } = e.target;
         this.setState({
             secretWord: value
         });
     };
     render() {
-        var { open, handleClose } = this.props;
+        let { open, handleClose } = this.props;
         return (
             <ModalBase
                 title={"Присоединится к курсу"}

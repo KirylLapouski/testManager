@@ -27,10 +27,9 @@ class Lesson extends React.Component {
     };
 
     render() {
-        var {
+        let {
             id,
             title,
-            topics,
             loggedUserId,
             lessonOwner,
             topicsOpened,
@@ -48,7 +47,7 @@ class Lesson extends React.Component {
             edditing
         } = this.props;
 
-        var readOnlyexpantionPanel = (
+        let readOnlyexpantionPanel = (
             <ExpansionPanelDetails className={this.props.classes.lessonDetails}>
                 {loggedUserId === (lessonOwner && lessonOwner.id) && (
                     <div style={{ display: "flex", flexDirection: "column" }}>
@@ -90,7 +89,7 @@ class Lesson extends React.Component {
             </ExpansionPanelDetails>
         );
 
-        var edditingExpantionPanel = (
+        let edditingExpantionPanel = (
             <ExpansionPanelDetails
                 className={this.props.classes.editingLessonDetails}
             >

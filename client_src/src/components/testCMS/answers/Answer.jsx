@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 import { Button } from 'material-ui';
 class Answer extends React.Component {
     render() {
-        var {
+        let {
             typeOfAnswer,
             text,
             serialNumber,

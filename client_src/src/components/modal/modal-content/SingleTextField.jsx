@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import SubmitAndCancel from "./SubmitAndCancel";
 class SingleTextField extends React.Component {
     render() {
-        var {
+        let {
             onChangeHandler,
             handleClose,
             handleSubmit,

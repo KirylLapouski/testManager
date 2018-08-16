@@ -3,13 +3,12 @@ import PropTypes from 'prop-types'
 import Answer from './Answer'
 class AnswerList extends React.Component {
     render() {
-        var {
+        let {
             answers,
             editable,
             onChange,
             typeOfAnswer,
             onClick,
-            answers,
             deleteAnswerHandler
         } = this.props
 

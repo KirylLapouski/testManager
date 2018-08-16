@@ -4,7 +4,7 @@ import Slide from '@material-ui/core/Slide';
 
 class QuestionSmall extends React.Component {
     render() {
-        var { title, right } = this.props
+        let { title, right } = this.props
         return <Slide direction="up" in={true} mountOnEnter unmountOnExit>
             <div style={{ color: right ? '#4CAF50' : '#FF7043', background: "rgba(0,0,0,0.1)", width: '50%' }}>
                 < h2 > {title} </h2>

@@ -30,7 +30,7 @@ class Course extends React.Component {
         this.props.getCourseOwner(this.props.id);
     }
     render() {
-        var { loggedUserId, ownerId, backgroundUrl } = this.props;
+        let { loggedUserId, ownerId, backgroundUrl } = this.props;
         return (
             <Grow timeout={800} in={true}>
                 <div

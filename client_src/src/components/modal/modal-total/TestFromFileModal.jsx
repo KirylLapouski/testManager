@@ -55,7 +55,7 @@ class TestFromFileModal extends React.Component {
         })
     }
     render() {
-        var { open, handleClose } = this.props
+        let { open, handleClose } = this.props
         return <ModalBase title={'Создать курс'} open={open} width='800px' minHeight='400px' handleClose={handleClose}>
             <DrugnDropFile onFilesChange={this.onFilesChange}
                 handleClose={handleClose}

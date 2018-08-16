@@ -56,15 +56,15 @@ class MyEditor extends Component {
                         file_picker_types: 'media',
                         file_picker_callback: (callback, value, meta) => {
                             if (meta.filetype === 'media') {
-                                var input = document.createElement('input')
-                                var ownerId = this.props.ownerId
+                                let input = document.createElement('input')
+                                let ownerId = this.props.ownerId
                                 input.setAttribute('type', 'file')
                                 input.setAttribute('accept', 'video/*')
 
                                 input.onchange = function () {
-                                    var file = this.files[0]
+                                    let file = this.files[0]
 
-                                    var form = new FormData()
+                                    let form = new FormData()
                                     form.append('file', file)
 
                                     toastr.info('Файл загружается на сервер')
@@ -98,7 +98,7 @@ class MyEditor extends Component {
                             success,
                             failure
                         ) {
-                            var formData = new FormData()
+                            let formData = new FormData()
                             formData.append('file', blobInfo.blob())
 
                             axios

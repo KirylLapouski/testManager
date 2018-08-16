@@ -1,7 +1,7 @@
 function parseTest(questions) {
-    var q = questions.replace(/\r/g,'')
+    let q = questions.replace(/\r/g,'')
     return q.split('\n\n').map(question => {
-        var {
+        let {
             questionTitle,
             answers
         } = parseQuestion(question)
@@ -20,7 +20,7 @@ function parseQuestion(question) {
     if(question.split('?').length >2)
         throw new Error('Найдено несколько знаков ? в одном вопросе')
 
-    var [questionTitle, answers, ...extradata] = question.split('?')
+    let [questionTitle, answers, ...extradata] = question.split('?')
     if (extradata.length)
         throw new Error('Найдено несколько знаков ? в одном вопросе')
     answers = answers.split('\n')

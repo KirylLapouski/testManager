@@ -3,9 +3,9 @@
 module.exports = function(app) {
   // app.models.Participant.count(function(err, users) { console.log(users) });
     // TODO: UNCOMENT WHEN STARTS AT FIRST
-  // var User = app.models.Participant;
-  // var Role = app.models.Role;
-  // var RoleMapping = app.models.RoleMapping;
+  // let User = app.models.Participant;
+  // let Role = app.models.Role;
+  // let RoleMapping = app.models.RoleMapping;
 
   // User.create([
   //     {email: 'admin@admin.admin', password: 'admin'},

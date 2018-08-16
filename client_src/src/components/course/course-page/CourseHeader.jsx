@@ -6,7 +6,7 @@ import TextField from 'material-ui/TextField'
 class CourseHeader extends React.Component {
 
     render() {
-        var { backgroundSrc, name, teacherName, teacherLastName, children, secretWord, backgroundModalOpened, handleBackgroundModalClose, handleSubmitNewBackground, handleChange } = this.props
+        let { backgroundSrc, name, teacherName, teacherLastName, children, secretWord, backgroundModalOpened, handleBackgroundModalClose, handleSubmitNewBackground, handleChange } = this.props
         return <div style={{ height: '300px', position: 'relative', backgroundImage: `url('${backgroundSrc}')`, backgroundRepeat: 'no-repeat', backgroundPosition: 'left top', backgroundSize: 'cover' }}>
             <div style={{ backgroundColor: 'rgba(0,0,0,0.3)', backgroundSize: '100%', height: '100%', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
                 <h1>{name}</h1>

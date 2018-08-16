@@ -24,8 +24,8 @@ class LessonListContainer extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    var res = []
-    for (var key in state.lessons) {
+    let res = []
+    for (let key in state.lessons) {
         if (Number(ownProps.courseId) === state.lessons[key].disciplineId)
             res.push(state.lessons[key])
     }

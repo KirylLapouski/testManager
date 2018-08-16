@@ -53,7 +53,7 @@ const deleteAnswer = answerId => {
 
 const deleteAllAnswersForQuestion = questionId => {
     return dispatch => {
-        var answersId
+        let answersId
         return axios
             .get(`http://localhost:3000/api/Questions/${questionId}/answers`)
             .then(({ data: response }) => {

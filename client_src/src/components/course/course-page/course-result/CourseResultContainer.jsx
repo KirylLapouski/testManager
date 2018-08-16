@@ -18,9 +18,9 @@ class CourseResultContainer extends React.Component {
     componentDidUpdate(prevProps) {
         if (this.props.userId !== prevProps.userId) {
             //same as componentDidUpdate do
-            var { userId, courseId } = this.props
+            let { userId, courseId } = this.props
 
-            var lessons = loadLessons(courseId || this.props.match.params.courseId)(() => { })
+            let lessons = loadLessons(courseId || this.props.match.params.courseId)(() => { })
             lessons
                 .then(values => {
                     return Promise.all(values.map(value => { return getUserTestsResultsForLesson(value.id, userId)(() => { }) }))
@@ -53,9 +53,9 @@ class CourseResultContainer extends React.Component {
         }
     }
     componentDidMount() {
-        var { userId, courseId } = this.props
+        let { userId, courseId } = this.props
 
-        var lessons = loadLessons(courseId || this.props.match.params.courseId)(() => { })
+        let lessons = loadLessons(courseId || this.props.match.params.courseId)(() => { })
         lessons
             .then(values => {
                 return Promise.all(values.map(value => { return getUserTestsResultsForLesson(value.id, userId)(() => { }) }))

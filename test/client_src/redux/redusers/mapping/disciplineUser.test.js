@@ -1,6 +1,6 @@
-var constants = require('../../../../../client_src/src/redux/constants').default
-var disciplineUserReducer = require('../../../../../client_src/src/redux/redusers/mapping/disciplineUser').default
-var reducerTest = require('../reducerTest')(disciplineUserReducer)
+let constants = require('../../../../../client_src/src/redux/constants').default
+let disciplineUserReducer = require('../../../../../client_src/src/redux/redusers/mapping/disciplineUser').default
+let reducerTest = require('../reducerTest')(disciplineUserReducer)
 
 const initState = {
     1: {

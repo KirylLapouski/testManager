@@ -20,13 +20,13 @@ class SignUp extends React.Component {
     }
 
     onChangeHandler(e) {
-        var { name, value } = e.target;
+        let { name, value } = e.target;
         this.setState({
             [name]: value
         });
     }
     nameValidation(name) {
-        var reg = /^[a-z]{4,}(?:[._-][a-z\d]+)*$/i;
+        let reg = /^[a-z]{4,}(?:[._-][a-z\d]+)*$/i;
         if (reg.test(name) == false) {
             toastr.error("Неправильный логин", "Ошибка отправки формы");
             return false;
@@ -36,7 +36,7 @@ class SignUp extends React.Component {
 
     onSubmitHandler(e) {
         e.preventDefault();
-        var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+        let reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
         if (
             !this.state.email ||
             !this.state.password ||
@@ -63,7 +63,7 @@ class SignUp extends React.Component {
         if (this.state.userName && !this.nameValidation(this.state.userName))
             return;
 
-        var xhr = new XMLHttpRequest();
+        let xhr = new XMLHttpRequest();
         xhr.open("POST", "http://localhost:3000/api/Participants", true);
         xhr.setRequestHeader("Content-Type", "application/json");
         xhr.send(

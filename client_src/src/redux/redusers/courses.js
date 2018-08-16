@@ -1,7 +1,7 @@
 import constants from "../constants";
 
 const courses = (state = {}, action) => {
-    var constant = constants.courses;
+    let newState, constant = constants.courses;
     switch (action.type) {
         case constant.ADD_COURSE:
             return {
@@ -13,11 +13,11 @@ const courses = (state = {}, action) => {
             };
 
         case constants.courses.ADD_COURSES:
-            var newState = {
+            newState = {
                 ...state
             };
 
-            var courses = action.payload.reduce((result, course) => {
+            let courses = action.payload.reduce((result, course) => {
                 result[course.id] = Object.assign(
                     {},
                     newState[course.id],
@@ -31,7 +31,7 @@ const courses = (state = {}, action) => {
                 ...courses
             };
         case constants.courses.DELETE_COURSE:
-            var newState = {
+            newState = {
                 ...state
             };
             delete newState[action.payload.courseId];
@@ -40,10 +40,10 @@ const courses = (state = {}, action) => {
             };
         //TODO: can concat in one reducer with update
         case constants.courses.ADD_OWNER_TO_COURSE:
-            var newState = {
+            let newState = {
                 ...state
             };
-            var course = {
+            let course = {
                 ...newState[action.payload.courseId]
             };
             course.ownerId = action.payload.ownerId;

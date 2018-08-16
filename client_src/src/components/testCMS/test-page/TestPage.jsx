@@ -10,7 +10,7 @@ import TestList from '../test-list/TestList'
 //TODO: can rewrite on function
 class TestPage extends React.Component {
     render() {
-        var {
+        let {
             handleChange,
             handleSubmitNewQuestionForm,
             title,

@@ -3,7 +3,7 @@ import axios from "axios";
 //TODO: ОБРАБОТКА ОШИБОК В REACT THUNK????
 const addLesson = (title, disciplineId, desc) => {
     return dispatch => {
-        var id;
+        let id;
         axios
             .post("http://localhost:3000/api/Lessons/", {
                 title,
@@ -54,7 +54,7 @@ const deleteLesson = lessonId => {
 };
 
 const editLesson = (lessonId, title, desctiption) => {
-    var resLesson = { id: String(lessonId) };
+    let resLesson = { id: String(lessonId) };
 
     if (title) resLesson.title = title;
     if (desctiption) resLesson.description = desctiption;

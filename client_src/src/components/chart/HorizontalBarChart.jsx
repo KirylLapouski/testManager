@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 //TODO: titles and data should be same lenght? No should not
 class HorizontalBarChart extends React.Component {
     render() {
-        var { titles, data, minValue, maxValue = 100, style, duration, height, width, redraw } = this.props
+        let { titles, data, minValue, maxValue = 100, style, duration, height, width, redraw } = this.props
         return <HorizontalBar width={width} height={height} redraw={redraw}
             options={{
                 legend: {

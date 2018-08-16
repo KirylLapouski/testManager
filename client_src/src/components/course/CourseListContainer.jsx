@@ -38,15 +38,15 @@ class CourseListContainer extends React.Component {
     }
 }
 const mapStateToProps = state => {
-    var res = [];
-    for (var key in state.courses) {
+    let res = [];
+    for (let key in state.courses) {
         res.push(state.courses[key]);
     }
     return { courses: res };
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-    var result = {};
+    let result = {};
 
     result.getCourses = userId => {
         dispatch(loadCoursesForUser(userId));

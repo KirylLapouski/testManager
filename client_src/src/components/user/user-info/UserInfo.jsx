@@ -7,7 +7,7 @@ import Button from '@material-ui/core/Button'
 class UserInfo extends React.Component {
 
     render() {
-        var { style, menu, imageSrc, goToUrl, userId, handleMenuClose, handleMenuClick, logOut, disabled } = this.props
+        let { style, menu, imageSrc, goToUrl, userId, handleMenuClose, handleMenuClick, logOut, disabled } = this.props
         return (<div style={Object.assign({}, { display: 'inline-block', position: 'relative' }, style)}>
             <Button color="primary" aria-owns={menu ? 'simple-menu2' : null} aria-haspopup="true" onClick={handleMenuClick}>
                 <img width='50px' height='50px' style={{ backgroundColor: 'white' }} src={imageSrc} />

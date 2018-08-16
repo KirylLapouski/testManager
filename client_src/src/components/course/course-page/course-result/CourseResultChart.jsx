@@ -4,7 +4,7 @@ import Slide from '@material-ui/core/Slide'
 import PropTypes from 'prop-types'
 class CourseResult extends React.Component {
     render() {
-        var { titles, data, redraw } = this.props
+        let { titles, data, redraw } = this.props
         return <Slide direction='left' in={true}>
             <div style={{ width: '400px', marginLeft: 'auto', marginRight: '70px' }}>
                 <LineChart style={{ fontColor: 'black' }} redraw={redraw} titles={titles} data={data} height={400} />

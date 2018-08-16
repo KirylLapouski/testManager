@@ -55,7 +55,7 @@ class Test extends React.Component {
 
     handleRightAnswer = (numberInArray) => (weight) => {
         this.setState(prevState => {
-            var newState = prevState.AnswersWeight.slice()
+            let newState = prevState.AnswersWeight.slice()
             newState[numberInArray] = weight
             return {
                 AnswersWeight: newState,
@@ -66,7 +66,7 @@ class Test extends React.Component {
 
     handleWrongAnswer = (numberInArray) => () => {
         this.setState(prevState => {
-            var newState = prevState.AnswersWeight.slice()
+            let newState = prevState.AnswersWeight.slice()
             newState[numberInArray] = 0
             return {
                 AnswersWeight: newState,
@@ -95,15 +95,15 @@ class Test extends React.Component {
     }
     render() {
 
-        var weight = 0;
-        var questionsRes = this.props.questions.map((value, index) => {
+        let weight = 0;
+        let questionsRes = this.props.questions.map((value, index) => {
             weight += value.weight
             return <TabContainer key={index + 1} tabId={index + 1}>
                 <Question onWrongAnswer={this.handleWrongAnswer(index)} onRightAnswer={this.handleRightAnswer(index)} question={value} />
             </TabContainer>
         })
         questionsRes.push(<TabContainer><Button color="primary" className="float-right" onClick={this.handleTestSubmit}>Завершить</Button></TabContainer>)
-        var navs = this.props.questions.map((value, index) => {
+        let navs = this.props.questions.map((value, index) => {
             return <Tab key={index + 1} label={index + 1} />
         })
         navs.push(<Tab key={navs.length + 1} label='Завершить тест' icon={<DoneAllIcon />} />)
@@ -143,8 +143,8 @@ Test.defaultProps = {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    var res = [];
-    for (var key in state.questions) {
+    let res = [];
+    for (let key in state.questions) {
         if (Number(ownProps.topicId) === state.questions[key].topicId) {
             res.push(state.questions[key])
         }

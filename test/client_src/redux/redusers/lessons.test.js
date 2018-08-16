@@ -1,8 +1,8 @@
-var assert = require('assert')
-var lessonReducer = require('../../../../client_src/src/redux/redusers/lessons').default
-var constance = require('../../../../client_src/src/redux/constants').default
-var deepFreeze = require('deep-freeze')
-var reducerTest = require('./reducerTest')(lessonReducer)
+let assert = require('assert')
+let lessonReducer = require('../../../../client_src/src/redux/redusers/lessons').default
+let constance = require('../../../../client_src/src/redux/constants').default
+let deepFreeze = require('deep-freeze')
+let reducerTest = require('./reducerTest')(lessonReducer)
 const initState = {
     1: {
         description: 'description 1',

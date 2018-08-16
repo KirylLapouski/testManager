@@ -1,26 +1,26 @@
 module.exports = function(app) {
-    var router = app.loopback.Router();
-    var promisify = require("util").promisify;
-    var axios = require("axios");
-    var rp = require("request-promise");
-    var request = require("request");
-    var createReadStream = require("fs").createReadStream;
-    var requestHttps = require("https").request;
-    var parse = require("url").parse;
+    let router = app.loopback.Router();
+    let promisify = require("util").promisify;
+    let axios = require("axios");
+    let rp = require("request-promise");
+    let request = require("request");
+    let createReadStream = require("fs").createReadStream;
+    let requestHttps = require("https").request;
+    let parse = require("url").parse;
 
-    var upload = require("ya-disk").upload;
-    var meta = require("ya-disk").meta;
-    var fs = require("fs");
-    var path = require("path");
+    let upload = require("ya-disk").upload;
+    let meta = require("ya-disk").meta;
+    let fs = require("fs");
+    let path = require("path");
 
     //promisify
-    // var findOneParticipant = promisify(app.models.Participant.findOne)
-    var requestPost = promisify(request.post);
-    var uploadLink = promisify(upload.link);
-    var appendFile = promisify(fs.appendFile);
+    // let findOneParticipant = promisify(app.models.Participant.findOne)
+    let requestPost = promisify(request.post);
+    let uploadLink = promisify(upload.link);
+    let appendFile = promisify(fs.appendFile);
 
     router.get("/auth/yandex/callback", function(req, res) {
-        var tokenResponseBody, user;
+        let tokenResponseBody, user;
         requestPost("https://oauth.yandex.ru/token", {
             form: {
                 grant_type: "authorization_code",
@@ -128,7 +128,7 @@ module.exports = function(app) {
                 };
             })
             .then(({ data }) => {
-                var account = data;
+                let account = data;
 
                 res.cookie("yandexToken", account.yandexToken, {
                     maxAge: +(
@@ -166,7 +166,7 @@ module.exports = function(app) {
         //TODO: response
     });
 
-    var checkLoggedAsYandexUser = (req, resp, next) => {
+    let checkLoggedAsYandexUser = (req, resp, next) => {
         if (!req.cookies.yandexToken)
             resp.status(400).send("It is not a yandex user");
         next();
@@ -174,7 +174,7 @@ module.exports = function(app) {
     router.post("/:id/saveFile", checkLoggedAsYandexUser, function(req, resp) {
         const API_TOKEN = req.cookies.yandexToken;
 
-        var sampleFile = req.files.file;
+        let sampleFile = req.files.file;
         appendFile(
             path.resolve(__dirname, `../uploads/${sampleFile.name}`),
             req.files.file.data
@@ -245,7 +245,7 @@ module.exports = function(app) {
     router.post("/:id/setAvatar", checkLoggedAsYandexUser, function(req, resp) {
         const API_TOKEN = req.cookies.yandexToken;
 
-        var sampleFile = req.files.imageFile;
+        let sampleFile = req.files.imageFile;
 
         new Promise((resolve, reject) => {
             upload.link(

@@ -29,8 +29,8 @@ class CourseMain extends React.Component {
     };
 
     render() {
-        var { ownerUser, loggedUserId, courseId } = this.props;
-        var { contentDisplay, showCourseResultChartForUser } = this.state;
+        let { ownerUser, loggedUserId, courseId } = this.props;
+        let { contentDisplay, showCourseResultChartForUser } = this.state;
 
         return (
             <div

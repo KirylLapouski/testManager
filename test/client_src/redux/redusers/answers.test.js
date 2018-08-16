@@ -1,7 +1,7 @@
-var assert = require('assert')
-var deepFreeze = require('deep-freeze')
-var constants = require('../../../../client_src/src/redux/constants').default
-var answersReducer = require('../../../../client_src/src/redux/redusers/answers').default
+let assert = require('assert')
+let deepFreeze = require('deep-freeze')
+let constants = require('../../../../client_src/src/redux/constants').default
+let answersReducer = require('../../../../client_src/src/redux/redusers/answers').default
 const initState = {
     1: {
         id: 1,

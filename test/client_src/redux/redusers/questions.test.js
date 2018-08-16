@@ -1,6 +1,6 @@
-var questionReducer = require('../../../../client_src/src/redux/redusers/questions').default
-var constants = require('../../../../client_src/src/redux/constants').default
-var reducerTest = require('./reducerTest')(questionReducer)
+let questionReducer = require('../../../../client_src/src/redux/redusers/questions').default
+let constants = require('../../../../client_src/src/redux/constants').default
+let reducerTest = require('./reducerTest')(questionReducer)
 const initState = {
     1: {
         id: 1,

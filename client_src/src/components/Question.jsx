@@ -34,8 +34,8 @@ class Question extends React.Component {
         switch (this.props.testType) {
             case "radio":
             case "checkbox":
-                var answers = this.props.answers;
-                var choosen = this.state.choosen;
+                let answers = this.props.answers;
+                let choosen = this.state.choosen;
                 if (!choosen.length) {
                     toastr.error(
                         "Выберите хотя бы один вариант ответа",
@@ -61,7 +61,7 @@ class Question extends React.Component {
 
     handleAnswerClick = i => e => {
         this.setState(prevState => {
-            var res = prevState.choosen;
+            let res = prevState.choosen;
             res[i] = !res[i];
             return { choosen: res };
         });
@@ -69,7 +69,7 @@ class Question extends React.Component {
 
     handleRadioClick = i => e => {
         this.setState(prevState => {
-            var res = new Array(prevState.choosen.length).fill(false);
+            let res = new Array(prevState.choosen.length).fill(false);
             res[i] = true;
             return { choosen: res };
         });
@@ -151,15 +151,15 @@ Question.propTypes = {
 };
 
 const mapStateToProps = (state, ownProps) => {
-    var res = [];
-    for (var key in state.answers) {
+    let res = [];
+    for (let key in state.answers) {
         if (
             Number(ownProps.question.id) ===
             Number(state.answers[key].questionId)
         )
             res.push(state.answers[key]);
     }
-    var typeOfAnswer = res[0] && res[0].typeOfAnswer
+    let typeOfAnswer = res[0] && res[0].typeOfAnswer
     typeOfAnswer = typeOfAnswer || 'radio'
     return {
         answers: typeOfAnswer == 'draggableList' ? JSON.parse(res[0].text) : res,

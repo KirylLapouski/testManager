@@ -1,9 +1,9 @@
 module.exports = function (app) {
-    var router = app.loopback.Router()
+    let router = app.loopback.Router()
     const fs = require('fs');
     const path = require('path')
     const promisify = require('util').promisify
-    var appendFile = promisify(fs.appendFile)
+    let appendFile = promisify(fs.appendFile)
 
 
     router.post('/:userId/saveFileLocal', function (req, resp) {

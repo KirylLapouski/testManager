@@ -163,8 +163,8 @@ class TopicPageContainer extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    var res = [];
-    for (var key in state.topics) {
+    let res = [];
+    for (let key in state.topics) {
         if (
             Number(ownProps.match.params.lessonId) ===
             state.topics[key].lessonId

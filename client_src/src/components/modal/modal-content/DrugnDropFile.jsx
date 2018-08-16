@@ -14,7 +14,7 @@ class DrugnDropFile extends React.Component {
     }
 
     render() {
-        var { onFilesChange, allowedTypes } = this.props
+        let { onFilesChange, allowedTypes } = this.props
         return <div style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
             <Files ref='files' onChange={onFilesChange} multiple onError={this.onFilesError} style={{ cursor: 'pointer', width: '100%', height: '168px', display: 'flex', justifyContent: 'center', alignItems: 'center', border: '1px dashed grey', textAlign: 'center' }} accepts={allowedTypes || ['text/plain']} clickable>
                 Перетащите файлы сюда<br />

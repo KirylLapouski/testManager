@@ -1,10 +1,10 @@
-var deepFreeze = require('deep-freeze')
-var assert = require('assert')
+let deepFreeze = require('deep-freeze')
+let assert = require('assert')
 
 const reducerTest = (reducer) => (initState, action, expectedResult) => {
     const state = initState instanceof Array ? [...initState] : { ...initState }
 
-    var newAction = { ...action }
+    let newAction = { ...action }
     deepFreeze(state)
     deepFreeze(newAction)
 

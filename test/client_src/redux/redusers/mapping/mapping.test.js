@@ -1,6 +1,6 @@
-var constants = require('../../../../../client_src/src/redux/constants').default
-var mappingReducer = require('../../../../../client_src/src/redux/redusers/mapping/mapping').default
-var reducerTest = require('../reducerTest')(mappingReducer)
+let constants = require('../../../../../client_src/src/redux/constants').default
+let mappingReducer = require('../../../../../client_src/src/redux/redusers/mapping/mapping').default
+let reducerTest = require('../reducerTest')(mappingReducer)
 
 describe('mapping reducer', function () {
     describe('userDiscipline reducer', function () {

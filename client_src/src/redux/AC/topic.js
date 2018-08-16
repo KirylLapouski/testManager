@@ -4,7 +4,7 @@ const addTopic = (lessonId, node, title) => {
     return dispatch => {
         const config = { headers: { 'Content-Type': 'multipart/form-data' } }
 
-        var formData = new FormData()
+        let formData = new FormData()
         formData.append('path', node)
         formData.append('lessonId', lessonId)
         formData.append('title', title || ' ')

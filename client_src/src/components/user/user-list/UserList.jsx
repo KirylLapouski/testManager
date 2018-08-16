@@ -3,7 +3,7 @@ import UserInfoContainer from "../user-info/UserInfoContainer";
 import PropTypes from "prop-types";
 class UserList extends React.Component {
     render() {
-        var { users, toggleShowChartClick } = this.props;
+        let { users, toggleShowChartClick } = this.props;
         return (
             <div
                 style={{

@@ -4,9 +4,9 @@ import PropTypes from 'prop-types'
 //TODO: write % when hover chart
 class Chart extends React.Component {
     render() {
-        var { unpassWeight, width, height, style = {}, duration, weights, titles } = this.props
-        var summWeight = weights.reduce((acc, value) => acc + value, 0)
-        var labels = titles
+        let { unpassWeight, width, height, style = {}, duration, weights, titles } = this.props
+        let summWeight = weights.reduce((acc, value) => acc + value, 0)
+        let labels = titles
         return <Doughnut width={width} height={height}
             options={{
                 legend: {

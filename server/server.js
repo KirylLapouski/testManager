@@ -4,23 +4,23 @@
 // License text available at https://opensource.org/licenses/MIT
 'use strict'
 
-var loopback = require('loopback')
-var boot = require('loopback-boot')
-var app = module.exports = loopback()
-var cookieParser = require('cookie-parser')
-var session = require('express-session')
+let loopback = require('loopback')
+let boot = require('loopback-boot')
+let app = module.exports = loopback()
+let cookieParser = require('cookie-parser')
+let session = require('express-session')
 // Passport configurators..
-var loopbackPassport = require('loopback-component-passport')
-var PassportConfigurator = loopbackPassport.PassportConfigurator
-var passportConfigurator = new PassportConfigurator(app)
-var fileUpload = require('express-fileupload')
+let loopbackPassport = require('loopback-component-passport')
+let PassportConfigurator = loopbackPassport.PassportConfigurator
+let passportConfigurator = new PassportConfigurator(app)
+let fileUpload = require('express-fileupload')
 /*
  * body-parser is a piece of express middleware that
  *   reads a form's input and stores it as a javascript
  *   object accessible through `req.body`
  *
  */
-var bodyParser = require('body-parser')
+let bodyParser = require('body-parser')
 
 /**
  * Flash messages for passport
@@ -30,10 +30,10 @@ var bodyParser = require('body-parser')
  * if any. This is often the best approach, because the verify callback
  * can make the most accurate determination of why authentication failed.
  */
-var flash = require('express-flash')
+let flash = require('express-flash')
 
 // attempt to build the providers/passport config
-var config = {}
+let config = {}
 try {
     config = require('../providers.json')
 } catch (err) {
@@ -44,7 +44,7 @@ try {
 // -- Add your pre-processing middleware here --
 
 // Setup the view engine (jade)
-var path = require('path')
+let path = require('path')
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'jade')
 // boot scripts mount components like REST API
@@ -80,8 +80,8 @@ passportConfigurator.setupModels({
     userIdentityModel: app.models.userIdentity,
     userCredentialModel: app.models.userCredential,
 })
-for (var s in config) {
-    var c = config[s]
+for (let s in config) {
+    let c = config[s]
     c.session = c.session !== false
     passportConfigurator.configureProvider(s, c)
 }
@@ -91,10 +91,10 @@ app.start = function () {
     // start the web server
     return app.listen(function () {
         app.emit('started')
-        var baseUrl = app.get('url').replace(/\/$/, '')
+        let baseUrl = app.get('url').replace(/\/$/, '')
         console.log('Web server listening at: %s', baseUrl)
         if (app.get('loopback-component-explorer')) {
-            var explorerPath = app.get('loopback-component-explorer').mountPath
+            let explorerPath = app.get('loopback-component-explorer').mountPath
             console.log('Browse your REST API at %s%s', baseUrl, explorerPath)
         }
     })

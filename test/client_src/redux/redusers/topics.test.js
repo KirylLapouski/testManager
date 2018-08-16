@@ -1,6 +1,6 @@
-var constants = require('../../../../client_src/src/redux/constants').default
-var topicReducer = require('../../../../client_src/src/redux/redusers/topics').default
-var reducerTest = require('./reducerTest')(topicReducer)
+let constants = require('../../../../client_src/src/redux/constants').default
+let topicReducer = require('../../../../client_src/src/redux/redusers/topics').default
+let reducerTest = require('./reducerTest')(topicReducer)
 
 const initState = {
     1: {
@@ -160,6 +160,7 @@ describe('topic reducer', function () {
             }
             reducerTest(store, action, expectedResult)
         })
+        it('do not rewrite previous state')
     })
 
     describe('UPDATE_TOPIC', function () {

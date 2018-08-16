@@ -36,7 +36,7 @@ class UserInfoContainer extends React.Component {
         })
     }
     logOut = () => {
-        var cookies = new Cookies()
+        let cookies = new Cookies()
         cookies.remove('loopbackToken', { path: '/' })
         cookies.remove('yandexToken', { path: '/' })
 
@@ -45,7 +45,7 @@ class UserInfoContainer extends React.Component {
         this.props.history.push(`/`)
     }
     render() {
-        var { toggleShowChartClick, userId } = this.props
+        let { toggleShowChartClick, userId } = this.props
         return this.props.extended ? <UserInfoExtended
             buttonTitle={'Прогресс курса'}
             onButtonClick={toggleShowChartClick(userId)}
@@ -67,7 +67,7 @@ class UserInfoContainer extends React.Component {
 
 }
 const mapStateToProps = (state, ownProps) => {
-    var imageSrc
+    let imageSrc
     if (ownProps.userId) {
         imageSrc = state.users[ownProps.userId] && state.users[ownProps.userId].imageUrl
     }

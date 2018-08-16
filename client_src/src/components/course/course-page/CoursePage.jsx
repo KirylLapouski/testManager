@@ -11,7 +11,7 @@ import PropTypes from 'prop-types'
 //TODO: can rewrite on function
 class CoursePage extends React.Component {
     render() {
-        var {
+        let {
             loggedUserId,
             ownerUser,
             course,

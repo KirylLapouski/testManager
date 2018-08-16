@@ -14,8 +14,8 @@ const topics = (state = {}, action) => {
                 }
             }
         case constants.topics.ADD_TOPICS:
-            var topics = action.payload.reduce((result, topic) => {
-                result[topic.id] = topic
+            let topics = action.payload.reduce((result, topic) => {
+                result[topic.id] = {...state[topic.id],...topic}
                 return result
             }, {})
             return {
@@ -23,27 +23,29 @@ const topics = (state = {}, action) => {
                 ...topics
             }
         case constants.topics.ADD_TOPIC_QUESTIONS:
-            var questionsId = action.payload.questions.map(question => {
+            let questionsId = action.payload.questions.map(question => {
                 return question.id
             })
             //TODO: is it ok?
-            var res = JSON.parse(JSON.stringify(state))
+            let res = JSON.parse(JSON.stringify(state))
             res[action.payload.topicId].questions = questionsId
             return {
                 ...res
             }
-        case constants.topics.UPDATE_TOPIC:
-            var result = { ...state }
+        case constants.topics.UPDATE_TOPIC: {
+            let result = { ...state }
             result[action.payload.id] = action.payload
             return {
                 ...result
             }
-        case constants.topics.DELETE_TOPIC:
-            var result = { ...state }
+        }
+        case constants.topics.DELETE_TOPIC: {
+            let result = { ...state }
             delete result[action.payload.id]
             return {
                 ...result
             }
+        }
         default:
             return state
     }

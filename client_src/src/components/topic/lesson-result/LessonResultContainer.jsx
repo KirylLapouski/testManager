@@ -14,7 +14,7 @@ class LessonResultContainer extends React.Component {
         this.props.getAllQuestionsForLesson(this.props.match.params.lessonId);
     }
     render() {
-        var { rightAnswersWeight, wrongAnswersWeight, questions } = this.props;
+        let { rightAnswersWeight, wrongAnswersWeight, questions } = this.props;
 
         return Number.isNaN(rightAnswersWeight) ||
             Number.isNaN(wrongAnswersWeight) ? (
@@ -32,7 +32,7 @@ class LessonResultContainer extends React.Component {
 }
 
 const getQuestionsInLesson = (state, lessonId) => {
-    var topics = [],
+    let topics = [],
         questions = [],
         topicsId;
 
@@ -55,26 +55,26 @@ const getQuestionsInLesson = (state, lessonId) => {
     return questions;
 };
 const mapStateToProps = (state, ownProps) => {
-    var idRightAnsweredQuestions = [
+    let idRightAnsweredQuestions = [
         ...(state.users.loggedIn.rightAnswered || [])
     ];
-    var questionsInLesson = getQuestionsInLesson(
+    let questionsInLesson = getQuestionsInLesson(
         state,
         ownProps.match.params.lessonId
     );
-    var weightOfQuestionsInLesson = questionsInLesson.reduce(
+    let weightOfQuestionsInLesson = questionsInLesson.reduce(
         (acc, value) => acc + value.weight,
         0
     );
-    var rightAnsweredQuestionsInThisLesson = questionsInLesson.filter(value =>
+    let rightAnsweredQuestionsInThisLesson = questionsInLesson.filter(value =>
         idRightAnsweredQuestions.includes(value.id)
     );
-    var weightOfRightAnsweredQuestionsInThisLesson = rightAnsweredQuestionsInThisLesson.reduce(
+    let weightOfRightAnsweredQuestionsInThisLesson = rightAnsweredQuestionsInThisLesson.reduce(
         (acc, value) => acc + value.weight,
         0
     );
 
-    var questions = questionsInLesson.map(value => {
+    let questions = questionsInLesson.map(value => {
         if (idRightAnsweredQuestions.includes(value.id)) {
             value.rightAnswered = true;
         } else {

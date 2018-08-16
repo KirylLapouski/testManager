@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 class ProfileCard extends React.Component {
     render() {
-        var { email, username, imageUrl, firstName, secondName } = this.props.loggedInUser
+        let { email, username, imageUrl, firstName, secondName } = this.props.loggedInUser
 
         return <div className="col-4">
             <div className="card card-cascade">

@@ -11,11 +11,11 @@ const users = (state = {}, action) => {
                 }
             };
         case constants.users.SUBMIT_RESULT_OF_QUESTIONS_FOR_LOGGEDIN_USER:
-            var newState = {
+            let newState = {
                 ...state
             };
-            var loggedInUser = Object.assign({}, newState.loggedIn);
-            var questionsId = action.payload.questions.map(value => {
+            let loggedInUser = Object.assign({}, newState.loggedIn);
+            let questionsId = action.payload.questions.map(value => {
                 return value.id;
             });
             loggedInUser.answeredQuestions = uniqueArrayOfPrimitives([
@@ -23,7 +23,7 @@ const users = (state = {}, action) => {
                 ...questionsId
             ]).map(value => +value);
 
-            var rightAnsweredId = action.payload.questions
+            let rightAnsweredId = action.payload.questions
                 .filter(value => {
                     return value.isRightAnswered;
                 })
@@ -41,7 +41,7 @@ const users = (state = {}, action) => {
                 [action.payload.id]: action.payload
             };
         case constants.users.ADD_USERS:
-            var usersToAdd = action.payload.users.reduce((acc, value) => {
+            let usersToAdd = action.payload.users.reduce((acc, value) => {
                 acc[value.id] = value;
                 return acc;
             }, {});
@@ -50,7 +50,7 @@ const users = (state = {}, action) => {
                 ...usersToAdd
             };
         case constants.users.ADD_RIGHT_ANSWERED_QUESTION_FOR_LOGGED_IN:
-            var loggedIn = {
+            let loggedIn = {
                 ...state.loggedIn
             };
             loggedIn.rightAnswered = uniqueArrayOfPrimitives([
@@ -62,10 +62,10 @@ const users = (state = {}, action) => {
                 loggedIn: loggedIn
             };
         case constants.users.ADD_WRONG_ANSWERED_QUESTION_FOR_LOGGED_IN:
-            var rightAnswered = state.loggedIn.rightAnswered
+            let rightAnswered = state.loggedIn.rightAnswered
                 .map(value => value !== action.payload.questionId)
                 .filter(value => !!value && value);
-            var newLoggedIn = {
+            let newLoggedIn = {
                 ...state.loggedIn
             };
             newLoggedIn.rightAnswered = rightAnswered;

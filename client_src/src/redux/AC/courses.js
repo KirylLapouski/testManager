@@ -6,7 +6,7 @@ const addCourse = (
     title = ' ',
     backgroundUrl = 'http://clipart-library.com/images/8ixrj6j7T.jpg'
 ) => {
-    var id, secretWord
+    let id, secretWord
     return dispatch => {
         axios
             .post('http://localhost:3000/api/Disciplines', {

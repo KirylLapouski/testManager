@@ -20,7 +20,7 @@ class ProfileContainer extends React.Component {
     }
 
     onChangeHandler = e => {
-        var { name, value } = e.target;
+        let { name, value } = e.target;
         this.setState(prevState => ({
             [name]: value
         }));
@@ -35,8 +35,8 @@ class ProfileContainer extends React.Component {
                 "Название изображения должно быть не больше 15 символов включая расширение файла"
             );
 
-        var { userId, addUserImage } = this.props;
-        var sendingForm = new FormData();
+        let { userId, addUserImage } = this.props;
+        let sendingForm = new FormData();
         sendingForm.append("imageFile", filefield.files[0]);
         try {
             addUserImage(userId, sendingForm);
@@ -50,7 +50,7 @@ class ProfileContainer extends React.Component {
     };
 
     emailValidation(email) {
-        var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+        let reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
 
         if (reg.test(email) == false) {
             toastr.error(
@@ -62,7 +62,7 @@ class ProfileContainer extends React.Component {
         return true;
     }
     loginValidation(name) {
-        var reg = /^[a-z]{4,}(?:[._-][a-z\d]+)*$/i;
+        let reg = /^[a-z]{4,}(?:[._-][a-z\d]+)*$/i;
         if (reg.test(name) == false) {
             toastr.error("Неправильный логин", "Ошибка отправки формы");
             return false;
@@ -71,7 +71,7 @@ class ProfileContainer extends React.Component {
     }
 
     nameValidation(name, field) {
-        var reg = /^[а-яА-ЯёЁa-zA-Z]+$/;
+        let reg = /^[а-яА-ЯёЁa-zA-Z]+$/;
         if (reg.test(name) == false) {
             toastr.error(
                 `Такой формат ${field} не поддерживается`,
@@ -96,9 +96,9 @@ class ProfileContainer extends React.Component {
     onSubmitHandler = e => {
         e.preventDefault();
 
-        var form = document.querySelector('form[name="userEdit"]');
+        let form = document.querySelector('form[name="userEdit"]');
         //TODO: rewrite on refs
-        var file = form.elements.imageFile.files[0];
+        let file = form.elements.imageFile.files[0];
         if (file) {
             try {
                 this.upload(form.elements.imageFile);
@@ -108,7 +108,7 @@ class ProfileContainer extends React.Component {
             }
         }
 
-        var xhr = new XMLHttpRequest();
+        let xhr = new XMLHttpRequest();
         xhr.open(
             "PATCH",
             `http://localhost:3000/api/Participants/${this.props.userId}`,
@@ -116,7 +116,7 @@ class ProfileContainer extends React.Component {
         );
         xhr.setRequestHeader("Content-Type", "application/json");
 
-        var user = {};
+        let user = {};
         if (this.state.email) {
             user.email = this.state.email;
             if (!this.emailValidation(this.state.email)) return;

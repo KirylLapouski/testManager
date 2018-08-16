@@ -8,7 +8,7 @@ import "./login-in.css";
 //TODO: rewrite on function
 class LoginIn extends React.Component {
     render() {
-        var { onChangeHandler, onSubmitHandler, mail, password } = this.props;
+        let { onChangeHandler, onSubmitHandler, mail, password } = this.props;
         return (
             <div className="index-background">
                 <div className="w-100 h-100 mask rgba-black-light d-flex justify-content-center align-items-center">

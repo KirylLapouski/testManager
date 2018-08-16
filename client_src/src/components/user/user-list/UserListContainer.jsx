@@ -7,11 +7,11 @@ import PropTypes from 'prop-types'
 import { uniqueArrayOfObjectById } from '../../../utils'
 class UserListContainer extends React.Component {
     componentDidMount() {
-        var { getUsers } = this.props
+        let { getUsers } = this.props
         getUsers()
     }
     render() {
-        var { users, toggleShowChartClick } = this.props
+        let { users, toggleShowChartClick } = this.props
 
         return (
             <UserList
@@ -23,15 +23,15 @@ class UserListContainer extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    var userDiscipline = []
-    for (var key in state.mapping.userDiscipline) {
+    let userDiscipline = []
+    for (let key in state.mapping.userDiscipline) {
         userDiscipline.push(state.mapping.userDiscipline[key])
     }
-    var currentDisciplineUsersId = userDiscipline
+    let currentDisciplineUsersId = userDiscipline
         .filter(value => value.disciplineId === ownProps.courseId)
         .map(value => value.participantId)
 
-    var users = currentDisciplineUsersId.map(value => {
+    let users = currentDisciplineUsersId.map(value => {
         return state.users[value]
     }).filter(user => !!user)
 

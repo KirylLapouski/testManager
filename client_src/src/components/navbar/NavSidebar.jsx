@@ -9,7 +9,7 @@ import KeyboardBackspace from "@material-ui/icons/KeyboardBackspace";
 import Button from "@material-ui/core/Button";
 class NavSidebar extends React.Component {
     render() {
-        var { userId, onClose } = this.props;
+        let { userId, onClose } = this.props;
         return (
             <div
                 style={{

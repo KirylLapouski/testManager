@@ -9,13 +9,13 @@ import Grow from "@material-ui/core/Grow";
 
 class UserInfoExtended extends React.Component {
     render() {
-        var {
+        let {
             onButtonClick,
             buttonClicked,
             children,
             buttonTitle
         } = this.props;
-        var { firstName, secondName, username, email } = this.props.user;
+        let { firstName, secondName, username, email } = this.props.user;
         return (
             <Grow timeout={800} in={true}>
                 <Card

@@ -4,7 +4,7 @@ const tests = (state = {}, action) => {
 
     switch (action.type) {
         case constants.tests.ADD_TEST:
-            var id = action.payload.id
+            let id = action.payload.id
             return {
                 ...state,
                 [id]: {

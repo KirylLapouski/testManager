@@ -18,14 +18,14 @@ class NewCourseModal extends React.Component {
         this.props.handleClose()
     }
     onChangeHandler= (e)=> {
-        var {value } = e.target;
+        let {value } = e.target;
 
         this.setState({
             CourseTitle: value
         });
     }
     render() {
-        var {open,handleClose} = this.props
+        let {open,handleClose} = this.props
         return <ModalBase title={'Создать курс'}  width='300px' minHeight="250px" open={open} handleClose={handleClose}>
             <SingleTextField handleClose={handleClose} onChangeHandler={this.onChangeHandler} handleSubmit={this.handleSubmit}/>
         </ModalBase>

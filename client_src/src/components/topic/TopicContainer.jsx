@@ -6,21 +6,12 @@ import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom'
 //TODO: error handling does not work
 class TopicContainer extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            hasTests: false
-        }
-    }
     componentDidMount() {
         this.props.getTopicQuestion(this.props.id)
-            .then(value => {
-                if (value.length) this.setState({ hasTests: true })
-            })
     }
 
     render() {
-        return <Topic {...this.props} {...this.state} />
+        return <Topic {...this.props} />
     }
 }
 TopicContainer.propTypes = {
@@ -30,6 +21,14 @@ TopicContainer.propTypes = {
     ownerId: PropTypes.number,
     //redux
     getTopicQuestion: PropTypes.func,
+}
+const mapStateToProps = (state, ownProps) => {
+    return {
+        hasTests: (ownProps.hasTests === false) ? ownProps.hasTests : (
+            state.topics[ownProps.id] &&
+            state.topics[ownProps.id].questions &&
+            !!state.topics[ownProps.id].questions.length)
+    }
 }
 
 const mapDispatchToProps = dispatch => {
@@ -41,7 +40,7 @@ const mapDispatchToProps = dispatch => {
 }
 export default withRouter(
     connect(
-        null,
+        mapStateToProps,
         mapDispatchToProps
     )(TopicContainer)
 )

@@ -18,14 +18,14 @@ class TopicModal extends React.Component {
 
     // parseVideoForYouTube(url) {
     //     const youtube = "https://www.youtube.com/embed/";
-    //     var videoId = url.split("=");
-    //     var result = youtube.concat(videoId[1]);
+    //     let videoId = url.split("=");
+    //     let result = youtube.concat(videoId[1]);
     //     return result;
     // }
 
     // checkIsHostUrl(urlAdress, domen) {
     //     if (!urlAdress) return false;
-    //     var parsedUrl = url.parse(urlAdress);
+    //     let parsedUrl = url.parse(urlAdress);
     //     if (parsedUrl.host == domen) return true;
     //     return false;
     // }
@@ -38,7 +38,7 @@ class TopicModal extends React.Component {
     //         return;
     //     }
     //     if (this.checkIsHostUrl(src, "www.youtube.com")) {
-    //         var parsedUrl = this.parseVideoForYouTube(src);
+    //         let parsedUrl = this.parseVideoForYouTube(src);
     //     } else {
     //         toastr.error("Это видео не принадлежит youtube.com");
     //         return;
@@ -50,7 +50,7 @@ class TopicModal extends React.Component {
     //         );
     //         return;
     //     }
-    //     var node = initVideo;
+    //     let node = initVideo;
     //     node = node.split("|");
     //     node[1] = parsedUrl;
     //     //TODO: new reducer
@@ -87,7 +87,7 @@ class TopicModal extends React.Component {
     //         return;
     //     }
 
-    //     var node = initVideo;
+    //     let node = initVideo;
     //     node = node.split("|");
     //     node[1] = src;
     //     //TODO: new reducer
@@ -136,8 +136,8 @@ class TopicModal extends React.Component {
         //     return;
         // }
 
-        // var { userId, addFileToUser } = this.props;
-        // var sendingForm = new FormData();
+        // let { userId, addFileToUser } = this.props;
+        // let sendingForm = new FormData();
         // sendingForm.append("file", this.state.files[0]);
 
         // const cookies = new Cookies();
@@ -206,7 +206,7 @@ class TopicModal extends React.Component {
         });
     };
     render() {
-        var { open } = this.props;
+        let { open } = this.props;
         return (
             <ModalBase
                 title={"Создать топик"}

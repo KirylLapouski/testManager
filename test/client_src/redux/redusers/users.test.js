@@ -1,7 +1,7 @@
-var constants = require('../../../../client_src/src/redux/constants').default
-var userReducer = require('../../../../client_src/src/redux/redusers/users').default
-var reducerTest = require('./reducerTest')(userReducer)
-var initStore = {
+let constants = require('../../../../client_src/src/redux/constants').default
+let userReducer = require('../../../../client_src/src/redux/redusers/users').default
+let reducerTest = require('./reducerTest')(userReducer)
+let initStore = {
     loggedIn: {
         email: "lapkovskyk@mail.ru",
         emailVerified: null,
@@ -21,8 +21,8 @@ var initStore = {
 describe('user reducer', function () {
     describe('ADD_LOGGED_IN_USER', function () {
         it('add one loggedIn user in empty store', function () {
-            var store = {}
-            var action = {
+            let store = {}
+            let action = {
                 type: constants.users.ADD_LOGGED_IN_USER,
                 payload: {
                     email: "lapkovskyk@mail.ru",
@@ -40,7 +40,7 @@ describe('user reducer', function () {
                     yandexTokenExpireIn: null,
                 }
             }
-            var expectedResult = {
+            let expectedResult = {
                 loggedIn: {
                     email: "lapkovskyk@mail.ru",
                     emailVerified: null,

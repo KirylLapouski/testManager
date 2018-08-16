@@ -1,5 +1,5 @@
 // module.exports = function(app) {
-//   var Role = app.models.Role;
+//   let Role = app.models.Role;
 
 //   Role.registerResolver('teacher', function(role, context, cb) {
 //     function reject() {
@@ -9,7 +9,7 @@
 //     }
 
 //     // do not allow anonymous users
-//     var userId = context.accessToken.userId;
+//     let userId = context.accessToken.userId;
 //     if (!userId) {
 //       return reject();
 //     }
@@ -19,7 +19,7 @@
 //       if (err || !model)
 //         return reject();
 
-//       var Team = app.models.Team;
+//       let Team = app.models.Team;
 //       Team.count({
 //         participant: model.participant,
 //         memberId: userId,

@@ -6,7 +6,7 @@ import { Link  } from 'react-router-dom'
 class TopicList extends React.Component {
 
     render() {
-        var topics = this.props.topics.map(value => {
+        let topics = this.props.topics.map(value => {
             return <Link key={value.id} to={`/lesson/${this.props.lessonId}/topic/${value.id}`}>
                 <ListItem button style={{ borderLeft: 'coral solid 2px' }}>
                     <ListItemText inset primary={value.title} />

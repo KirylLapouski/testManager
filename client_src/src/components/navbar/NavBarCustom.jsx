@@ -55,8 +55,8 @@ class NavBarCustom extends React.Component {
     }
 
     render() {
-        var { menu, open, attachCourseModalOpened } = this.state;
-        var { userId } = this.props
+        let { menu, open, attachCourseModalOpened } = this.state;
+        let { userId } = this.props
         return (<AppBar position="static">
             <Toolbar>
                 <IconButton onClick={this.handleSideBarButtonClick} color="inherit" aria-label="Menu">

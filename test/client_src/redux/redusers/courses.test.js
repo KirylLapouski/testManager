@@ -1,9 +1,9 @@
-var assert = require("assert");
-var courseReducer = require("../../../../client_src/src/redux/redusers/courses")
+let assert = require("assert");
+let courseReducer = require("../../../../client_src/src/redux/redusers/courses")
     .default;
-var constants = require("../../../../client_src/src/redux/constants").default;
-var deepFreeze = require("deep-freeze");
-var reducerTest = require("./reducerTest")(courseReducer);
+let constants = require("../../../../client_src/src/redux/constants").default;
+let deepFreeze = require("deep-freeze");
+let reducerTest = require("./reducerTest")(courseReducer);
 const initState = {
     1: {
         id: 1,

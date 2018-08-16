@@ -1,6 +1,8 @@
 import constants from '../constants'
 
 const lessons = (state = {}, action) => {
+    let lessons
+
     switch (action.type) {
         case constants.lessons.ADD_LESSON:
             return {
@@ -13,7 +15,7 @@ const lessons = (state = {}, action) => {
                 }
             }
         case constants.lessons.ADD_LESSONS:
-            var lessons = action.payload.reduce((result, lesson) => {
+            lessons = action.payload.reduce((result, lesson) => {
                 result[lesson.id] = lesson
                 return result
             }, {})
@@ -23,13 +25,13 @@ const lessons = (state = {}, action) => {
             }
         //TODO: check is it immutable?
         case constants.lessons.DELETE_LESSON:
-            var lessons = { ...state }
+            lessons = { ...state }
             delete lessons[action.payload.id]
             return {
                 ...lessons
             }
         case constants.lessons.UPDATE_LESSON:
-            var lessons = { ...state }
+            lessons = { ...state }
             lessons[action.payload.id] = action.payload
             return {
                 ...lessons

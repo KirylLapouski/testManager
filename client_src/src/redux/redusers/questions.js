@@ -1,6 +1,7 @@
 import constants from '../constants'
 
 const questions = (state = {}, action) => {
+    let newState,questions
     switch (action.type) {
         case constants.questions.ADD_QUESTION:
             return {
@@ -10,7 +11,7 @@ const questions = (state = {}, action) => {
                 }
             }
         case constants.questions.ADD_QUESTIONS:
-            var questions = action.payload.reduce((result, question) => {
+            questions = action.payload.reduce((result, question) => {
                 result[question.id] = question
                 return result
             }, {})
@@ -19,7 +20,7 @@ const questions = (state = {}, action) => {
                 ...questions
             }
         case constants.questions.DELETE_QUESTION:
-            var newState = {
+            newState = {
                 ...state
             }
             delete newState[action.payload.questionId]
@@ -27,7 +28,7 @@ const questions = (state = {}, action) => {
                 ...newState
             }
         case constants.questions.UPDATE_QUESTION:
-            var newState = { ...state }
+            newState = { ...state }
             newState[action.payload.id] = action.payload
             return {
                 ...newState

@@ -82,7 +82,7 @@ const submitQuestionResult = (userId, questionId, isRightAnswered) => {
 // }
 const addImageToUser = (userId, form) => {
     return dispatch => {
-        var xhr = new XMLHttpRequest();
+        let xhr = new XMLHttpRequest();
         xhr.open("POST", `http://localhost:3000/${userId}/setAvatar`, true);
         xhr.withCredentials = true;
 
@@ -132,7 +132,7 @@ const addFileToUser = (userId, form, yandexUser = false) => {
             }
         );
 
-        // var xhr = new XMLHttpRequest()
+        // let xhr = new XMLHttpRequest()
         // xhr.open('POST', `http://localhost:3000/${userId}/saveFile`, true)
 
         // xhr.onload = () => {
@@ -248,8 +248,8 @@ const untieUserFromCourse = (userId, courseId) => {
 //If user did not answer on this lesson quesrions return UNDEFINED
 const getUserTestsResultsForLesson = (lessonId, userId) => {
     //TODO: now only for logged in. Is it true ?
-    // var questionsInlessonRaw
-    var questionsInlesson, questionsInlessonWithResults;
+    // let questionsInlessonRaw
+    let questionsInlesson, questionsInlessonWithResults;
     return dispatch => {
         return axios
             .get(`http://localhost:3000/api/Lessons/${lessonId}/topics/`)
@@ -284,9 +284,9 @@ const getUserTestsResultsForLesson = (lessonId, userId) => {
                     .map(value => value.data[0])
                     .filter(value => !!value);
 
-                var questionResults = questionsInlesson
+                let questionResults = questionsInlesson
                     .map(question => {
-                        var position = questionsInlessonWithResults
+                        let position = questionsInlessonWithResults
                             .map(value => (value ? value.questionId : 0))
                             .indexOf(question.id);
                         if (position >= 0) {
@@ -311,7 +311,7 @@ const getUserTestsResultsForLesson = (lessonId, userId) => {
                 return questionResults;
             });
 
-        // var userAnswers = await Promise.all(questionsInlesson.map(value => {
+        // let userAnswers = await Promise.all(questionsInlesson.map(value => {
         //     return axios.get(`http://localhost:3000/api/UserQuestions?filter=%7B%22where%22%3A%7B%22participantId%22%3A${userId}%2C%20%22questionId%22%3A${value.id}%7D%7D`)
         // }))
         // console.log(userAnswers.reduce((accumulator, { data }) => accumulator.concat(data), []))

@@ -8,7 +8,7 @@ import IconButton from "@material-ui/core/IconButton";
 import PropTypes from "prop-types";
 class EditableQuestionBottom extends React.Component {
     render() {
-        var {
+        let {
             handleSubmit,
             endEditHandler,
             deleteQuestionHandler
