@@ -6,6 +6,7 @@ import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import toastr from "toastr";
 import TestPage from "./TestPage";
+import {addAnswer} from '../../../redux/AC/answers'
 //TODO: decouple adding new question in new component
 class TestPageContainer extends React.Component {
     constructor(props) {
@@ -65,7 +66,9 @@ class TestPageContainer extends React.Component {
             weight,
             title,
             description
-        );
+        ).then(question => {
+            if(question && question.id)   this.props.addAnswer(question.id)
+        })
         this.setState({
             title: "",
             description: "",
@@ -111,12 +114,16 @@ const mapDispatchToProps = dispatch => {
             dispatch(loadQuestion(topicId));
         },
         addQuestion(topicId, weight, title, description) {
-            dispatch(addQuestion(topicId, weight, title, description));
+            return dispatch(addQuestion(topicId, weight, title, description));
+        },
+        addAnswer(questionId){
+            dispatch(addAnswer(questionId, 'add answer', 'radio'))
         }
     };
 };
 
 TestPageContainer.propTypes = {
+    //redux
     questions: PropTypes.arrayOf(
         PropTypes.shape({
             id: PropTypes.number,
@@ -127,7 +134,8 @@ TestPageContainer.propTypes = {
         })
     ),
     addQuestion: PropTypes.func,
-    getQuestions: PropType.func
+    getQuestions: PropType.func,
+    addAnswer: PropType.func
 };
 export default withRouter(
     connect(

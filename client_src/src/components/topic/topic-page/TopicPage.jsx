@@ -58,6 +58,8 @@ class TopicPage extends React.Component {
             return value.title;
         });
 
+        {console.log(topics[activeStep])}
+
         return (
             <React.Fragment>
                 {topics.length + 1 && (

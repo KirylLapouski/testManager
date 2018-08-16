@@ -2,7 +2,7 @@ import constants from '../constants'
 import axios from 'axios'
 const addQuestion = (topicId, weight, title, description = ' ') => {
     return dispatch => {
-        axios.post('http://localhost:3000/api/Questions', {
+        return axios.post('http://localhost:3000/api/Questions', {
             title,
             description,
             weight,
@@ -17,6 +17,7 @@ const addQuestion = (topicId, weight, title, description = ' ') => {
                         ...data
                     }
                 })
+                return data
             })
     }
 }

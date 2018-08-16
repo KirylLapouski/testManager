@@ -9,21 +9,16 @@ class TopicContainer extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            hasError: false,
             hasTests: false
         }
     }
     componentDidMount() {
         this.props.getTopicQuestion(this.props.id)
             .then(value => {
-                if (value) this.setState({ hasTests: true })
+                if (value.length) this.setState({ hasTests: true })
             })
     }
-    componentDidCatch(error) {
-        this.setState({
-            hasError: true
-        })
-    }
+
     render() {
         return <Topic {...this.props} {...this.state} />
     }

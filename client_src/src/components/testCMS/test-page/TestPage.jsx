@@ -1,12 +1,12 @@
-import React from "react";
-import PropTypes from "prop-types";
-import Accordion from "../../decorators/Accordion";
-import AttachFileIcon from "@material-ui/icons/AttachFile";
-import Button from "@material-ui/core/Button";
-import Tooltip from "material-ui/Tooltip";
-import TestFromFileModal from "../../modal/modal-total/TestFromFileModal";
-import AddNewQuestionInTest from "../AddNewQuestionInTest";
-import TestList from "../test-list/TestList";
+import React from 'react'
+import PropTypes from 'prop-types'
+import Accordion from '../../decorators/Accordion'
+import AttachFileIcon from '@material-ui/icons/AttachFile'
+import Button from '@material-ui/core/Button'
+import Tooltip from 'material-ui/Tooltip'
+import TestFromFileModal from '../../modal/modal-total/TestFromFileModal'
+import AddNewQuestionInTest from '../AddNewQuestionInTest'
+import TestList from '../test-list/TestList'
 //TODO: can rewrite on function
 class TestPage extends React.Component {
     render() {
@@ -19,7 +19,7 @@ class TestPage extends React.Component {
             questions,
             openedItem,
             toggleOpenItem
-        } = this.props;
+        } = this.props
         return (
             <div>
                 <TestList
@@ -45,10 +45,10 @@ class TestPage extends React.Component {
                         color="primary"
                         aria-label="add"
                         style={{
-                            position: "fixed",
-                            bottom: "20px",
-                            right: "20px",
-                            zIndex: "2"
+                            position: 'fixed',
+                            bottom: '20px',
+                            right: '20px',
+                            zIndex: '2'
                         }}
                     >
                         <AttachFileIcon />
@@ -60,7 +60,7 @@ class TestPage extends React.Component {
                     open={this.props.modalOpened}
                 />
             </div>
-        );
+        )
     }
 }
 
@@ -85,6 +85,6 @@ this.propTypes = {
     //accordion
     toggleOpenItem: PropTypes.func,
     openedItem: PropTypes.number
-};
+}
 
-export default Accordion(TestPage);
+export default Accordion(TestPage)
