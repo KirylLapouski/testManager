@@ -7,73 +7,81 @@ import { loadAnswers } from "../redux/AC/answers";
 import { submitQuestionResult } from "../redux/AC/users";
 import toastr from "toastr";
 import DraggableListQuestionSwitcher from './testCMS/answers/draggable-list/DraggableListQuestionSwitcher'
+import { shuffle } from '../utils'
 class Question extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
             choosen: [],
-            testType: "checkbox"
         };
-
-        this.renderAnswers = this.renderAnswers.bind(this);
-        this.checkCorrectAnswers = this.checkCorrectAnswers.bind(this);
     }
 
-    componentDidMount() {
-        this.props.getAnswers(this.props.question.id)
-            .then((answers) => {
-                if (!answers[0]) return
-                switch (answers[0].typeOfAnswer) {
-                    case "draggableList":
-                        this.setState({ testType: answers[0].typeOfAnswer })
-                        break;
-                    case "radio":
-                    case "checkbox":
-                        let numberOfRightAnswers = 0;
-                        answers.map(value => {
-                            if (value.isRight) numberOfRightAnswers++;
-                        });
-                        if (numberOfRightAnswers > 1)
-                            this.setState({
-                                testType: "checkbox"
-                            });
-                        if (numberOfRightAnswers === 1) {
-                            this.setState({
-                                testType: "radio"
-                            });
-                        }
-                        break
-                }
+    // componentDidMount() {
+    //     this.props.getAnswers(this.props.question.id)
+    //         .then((answers) => {
+    //             if (!answers) return
+    //             switch (this.props.typeOfAnswer) {
+    //                 case "draggableList":
+    //                     this.setState({ testType: answers[0].typeOfAnswer })
+    //                     break;
+    //                 case "radio":
+    //                 case "checkbox":
+    //                     let numberOfRightAnswers = 0;
+    //                     answers.map(value => {
+    //                         if (value.isRight) numberOfRightAnswers++;
+    //                     });
+    //                     if (numberOfRightAnswers > 1)
+    //                         this.setState({
+    //                             testType: "checkbox"
+    //                         });
+    //                     if (numberOfRightAnswers === 1) {
+    //                         this.setState({
+    //                             testType: "radio"
+    //                         });
+    //                     }
+    //                     break
+    //             }
 
-            })
-    }
+    //         })
+    // }
 
-    checkCorrectAnswers() {
-        var answers = this.props.answers;
-        var choosen = this.state.choosen;
-        if (!choosen.length) {
-            toastr.error(
-                "Выберите хотя бы один вариант ответа",
-                "Ошибка отправки формы"
-            );
-            return;
-        }
-        var res = answers.every((answer, i) => {
-            if (answer.isRight) {
-                if (choosen[i] != true) return false;
-            } else {
-                if (choosen[i] == true) return false;
-            }
-            return true;
-        });
-        if (res) {
+    submitHandle = () => {
+        if (this.checkCorrectAnswers()) {
             this.props.onRightAnswer(this.props.question.weight);
             this.props.submitAnswer(this.props.loggedInUser.id, true);
         } else {
             this.props.onWrongAnswer();
             this.props.submitAnswer(this.props.loggedInUser.id, false);
         }
+    }
+    checkCorrectAnswers = () => {
+        switch (this.props.testType) {
+            case "radio":
+            case "checkbox":
+                var answers = this.props.answers;
+                var choosen = this.state.choosen;
+                if (!choosen.length) {
+                    toastr.error(
+                        "Выберите хотя бы один вариант ответа",
+                        "Ошибка отправки формы"
+                    );
+                    return;
+                }
+                return answers.every((answer, i) => {
+                    if (answer.isRight) {
+                        if (choosen[i] != true) return false;
+                    } else {
+                        if (choosen[i] == true) return false;
+                    }
+                    return true;
+                });
+            case "draggableList":
+                console.log(JSON.stringify(this.props.answers))
+                console.log(JSON.stringify(this.state.choosen))
+                return JSON.stringify(this.props.answers) === JSON.stringify(this.state.choosen) ? true : false
+        }
+
     }
 
     handleAnswerClick = i => e => {
@@ -91,22 +99,17 @@ class Question extends React.Component {
             return { choosen: res };
         });
     };
-    renderAnswers() {
-        switch (this.state.testType) {
+    renderAnswers = () => {
+        switch (this.props.testType) {
             case "draggableList":
                 return (
                     <DraggableListQuestionSwitcher
                         displayMode={'testing'}
-                        answers={JSON.parse(this.props.answers[0].text)}
+                        answers={this.state.choosen.length ? this.state.choosen : shuffle(this.props.answers)}
                         deleteListItem={this.deleteListItem}
                         onChange={list =>
-                            this.setState(prevState => {
-                                return {
-                                    draggableList: {
-                                        ...prevState.draggableList,
-                                        text: [...list]
-                                    }
-                                };
+                            this.setState({
+                                choosen: [...list]
                             })
                         }
                     />
@@ -114,7 +117,7 @@ class Question extends React.Component {
             case 'radio':
             case "checkbox":
                 return <AnswerList
-                    typeOfAnswer={this.state.testType}
+                    typeOfAnswer={this.props.testType}
                     answers={this.props.answers.map((value, i) => {
                         return {
                             ...value,
@@ -122,7 +125,7 @@ class Question extends React.Component {
                         }
                     })}
                     onClick={
-                        this.state.testType === "radio"
+                        this.props.testType === "radio"
                             ? this.handleRadioClick
                             : this.handleAnswerClick
                     }
@@ -146,7 +149,7 @@ class Question extends React.Component {
                 <Button
                     color="primary"
                     variant="outlined"
-                    onClick={this.checkCorrectAnswers}
+                    onClick={this.submitHandle}
                 >
                     Ответить
                 </Button>
@@ -165,6 +168,7 @@ Question.propTypes = {
         description: PropTypes.string
     }).isRequired,
     //redux
+    testType: PropTypes.oneOf(['radio', 'checkbox', 'draggableList']),
     getAnswers: PropTypes.func,
     submitAnswer: PropTypes.func,
     answers: PropTypes.arrayOf(PropTypes.object),
@@ -180,7 +184,11 @@ const mapStateToProps = (state, ownProps) => {
         )
             res.push(state.answers[key]);
     }
-    return { answers: res, loggedInUser: state.users.loggedIn };
+    return {
+        answers: JSON.parse(res[0].text),
+        testType: res[0].typeOfAnswer,
+        loggedInUser: state.users.loggedIn
+    };
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
