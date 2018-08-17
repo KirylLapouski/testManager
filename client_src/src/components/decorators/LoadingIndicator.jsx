@@ -1,9 +1,8 @@
 import React from 'react'
-import CircularProgress from '@material-ui/core/CircularProgress';
 
-const LoadingIndicator = Component => {
+const LoadingIndicatorDecorator = Component => {
 
-    return class LoadingIndicatorClass extends React.Component {
+    return class LoadingIndicator extends React.Component {
         constructor(props) {
             super(props)
             this.state = {
@@ -19,16 +18,10 @@ const LoadingIndicator = Component => {
             })
         }
         render() {
-            return <div>
-                {!this.state.loading || <div style={{ position: 'absolute', display: 'flex', justifyContent: 'center', alignItems: 'center', top: '0', left: '0', right: '0', bottom: '0', zIndex: '1' }}>
-                    <CircularProgress style={{ color: '#9C27B0' }} />
-                </div>}
-                <div style={this.state.loading ? { opacity: '0.25' } : {}}>
-                    <Component {...this.props} loading={this.state.loading} toggleLoading={this.toggleLoading} />
-                </div>
-            </div>
+            return <Component {...this.props} loading={this.state.loading} toggleLoading={this.toggleLoading} />
+
         }
     }
 }
 
-export default LoadingIndicator
+export default LoadingIndicatorDecorator

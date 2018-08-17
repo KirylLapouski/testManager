@@ -4,6 +4,8 @@ import Cookies from 'universal-cookie'
 import toastr from 'toastr'
 import { withRouter } from 'react-router-dom'
 import LoadingIndicator from '../decorators/LoadingIndicator'
+import PropTypes from 'prop-types'
+import axios from 'axios'
 toastr.options.closeButton = true
 class LoginInContainer extends React.Component {
 
@@ -37,6 +39,8 @@ class LoginInContainer extends React.Component {
 
         if (!this.validate())
             return
+
+        // axios.post('http://localhost:3000/api/Participants/login')
         //TODO: need to refactor
         let xhr = new XMLHttpRequest()
         xhr.open('POST', 'http://localhost:3000/api/Participants/login', true)
@@ -81,9 +85,14 @@ class LoginInContainer extends React.Component {
         return <LoginIn
             onSubmitHandler={this.onSubmitHandler}
             onChangeHandler={this.onChangeHandler}
-            {...this.state} />
+            {...this.state}
+            {...this.props} />
     }
 }
 //TODO: show in propTypes props by withRoutes?
 
+LoginInContainer.propTypes = {
+    loading: PropTypes.bool,
+    toggleLoading: PropTypes.func
+}
 export default withRouter(LoadingIndicator(LoginInContainer))

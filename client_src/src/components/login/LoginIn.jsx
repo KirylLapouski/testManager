@@ -5,12 +5,14 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import PropTypes from "prop-types";
 import Hidden from "@material-ui/core/Hidden";
 import "./login-in.css";
+import CircularProgress from '@material-ui/core/CircularProgress'
+
 //TODO: rewrite on function
 class LoginIn extends React.Component {
     render() {
-        let { onChangeHandler, onSubmitHandler, mail, password } = this.props;
-        return (
-            <div className="index-background">
+        let { onChangeHandler, onSubmitHandler, mail, password, loading } = this.props;
+        return (<React.Fragment>
+            <div style={loading ? { opacity: '0.25' } : {}} className="index-background">
                 <div className="w-100 h-100 mask rgba-black-light d-flex justify-content-center align-items-center">
                     <div className="login-in-container">
                         <Hidden only={["sm", "xs"]}>
@@ -114,16 +116,23 @@ class LoginIn extends React.Component {
                         </div>
                     </div>
                 </div>
+
             </div>
-        );
+            {loading && <div style={{position:'absolute', display: 'flex', justifyContent: 'center', alignItems: 'center', top: '0', left: '0', right: '0', bottom: '0', zIndex: '1' }}>
+                <CircularProgress style={{ color: '#9C27B0' }} />
+            </div>}
+        </React.Fragment>
+
+        )
     }
 }
 
 LoginIn.propTypes = {
     mail: PropTypes.string,
     password: PropTypes.string,
+    loading: PropTypes.bool,
     onSubmitHandler: PropTypes.func,
-    onChangeHandler: PropTypes.func
-};
+    onChangeHandler: PropTypes.func,
+}
 
-export default LoginIn;
+export default LoginIn

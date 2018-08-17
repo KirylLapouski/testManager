@@ -102,7 +102,7 @@ class SignUp extends React.Component {
                         );
                         document.location.href = `/cources/${
                             JSON.parse(xhr.response).userId
-                        }`;
+                            }`;
                     }
                 };
             } else {
