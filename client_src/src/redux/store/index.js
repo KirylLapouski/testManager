@@ -16,7 +16,6 @@ import thunk from 'redux-thunk'
 import persistState from 'redux-localstorage'
 import logger from 'redux-logger'
 const enhancer = compose(applyMiddleware(thunk, logger), persistState())
-
 const store = createStore(combineReducers({
     courses,
     users,

@@ -30,7 +30,7 @@ class Course extends React.Component {
         this.props.getCourseOwner(this.props.id);
     }
     render() {
-        let { loggedUserId, ownerId, backgroundUrl } = this.props;
+        let { loggedUserId, ownerId, backgroundUrl,id,title } = this.props;
         return (
             <Grow timeout={800} in={true}>
                 <div
@@ -52,12 +52,12 @@ class Course extends React.Component {
                     >
                         <UserInfoContainer
                             disabled={true}
-                            userId={this.props.ownerId}
+                            userId={ownerId}
                             style={{ float: "left" }}
                         />
-                        <Link to={"/" + this.props.id + "/lessons"}>
+                        <Link to={"/" + id + "/lessons"}>
                             {" "}
-                            {this.props.title}
+                            {title}
                         </Link>
                     </div>
                     <Divider

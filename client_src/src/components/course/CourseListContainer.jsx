@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import CourseList from "./CourseList";
 import { loadCoursesForUser } from "../../redux/AC/courses";
 import { addloggedInUser } from "../../redux/AC/users";
-
+import PropTypes from 'prop-types'
 class CourseListContainer extends React.Component {
     constructor(props) {
         super(props);
@@ -18,12 +18,12 @@ class CourseListContainer extends React.Component {
         this.props.addloggedInUser();
     }
 
-    handleModalOpen = modalName => {
-        this.setState({ [modalName]: true });
+    handleModalOpen = ()=> {
+        this.setState({ modalOpened: true });
     };
 
-    handleModalClose = modalName => {
-        this.setState({ [modalName]: false });
+    handleModalClose =()=> {
+        this.setState({ modalOpened: false });
     };
 
     render() {
@@ -58,6 +58,13 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         : () => {};
     return result;
 };
+
+CourseListContainer.propTypes = {
+    // redux
+    getCourses: PropTypes.func,
+    addloggedInUser: PropTypes.func,
+    courses: PropTypes.object
+}
 export default connect(
     mapStateToProps,
     mapDispatchToProps

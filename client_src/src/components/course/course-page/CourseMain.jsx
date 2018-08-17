@@ -5,20 +5,20 @@ import SideBar from "./SideBar";
 import UserListContainer from "../../user/user-list/UserListContainer";
 import CourseResultContainer from "./course-result/CourseResultContainer";
 import CourseResultChart from './course-result/CourseResultChart'
+const CONTENT_TYPE = ["Lessons", "Students"];
 class CourseMain extends React.Component {
     constructor() {
         super();
 
-        this.CONTENT = ["Lessons", "Students"];
         this.state = {
-            contentDisplay: this.CONTENT[0],
+            contentDisplay: CONTENT_TYPE[0],
             showCourseResultChartForUser: 0
         };
     }
 
     sideBarClickHandler = i => () => {
         this.setState({
-            contentDisplay: this.CONTENT[i]
+            contentDisplay: CONTENT_TYPE[i]
         });
     };
 
@@ -57,7 +57,7 @@ class CourseMain extends React.Component {
                         justifyContent: "center"
                     }}
                 >
-                    {contentDisplay === this.CONTENT[0] ? (
+                    {contentDisplay === CONTENT_TYPE[0] ? (
                         <LessonListContainer
                             lessonsOwner={ownerUser}
                             loggedUserId={loggedUserId}
@@ -70,7 +70,7 @@ class CourseMain extends React.Component {
                             />
                         )}
                 </div>
-                {contentDisplay !== this.CONTENT[0] &&
+                {contentDisplay !== CONTENT_TYPE[0] &&
                     showCourseResultChartForUser && (
                         <CourseResultContainer
                             userId={showCourseResultChartForUser}

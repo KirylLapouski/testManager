@@ -7,7 +7,7 @@ import NewCourseModal from '../modal/modal-total/NewCourseModal'
 //TODO: can rewrite on function
 class CourseList extends React.Component {
     render() {
-        let { courses } = this.props
+        let { courses,handleModalClose ,modalOpened,handleModalOpen} = this.props
         if (courses) {
             courses = courses.map((value) => {
                 return (<div key={value.id} className="col-xl-3 col-lg-4 col-md-6"><Course {...value} /></div>)
@@ -18,11 +18,11 @@ class CourseList extends React.Component {
             <div className="container-fluid" style={{ maxWidth: '1300px', marginTop: '30px' }}>
                 <div className="row">
                     {courses}
-                    <Button onClick={this.props.handleModalOpen.bind(this, 'modalOpened')} variant="fab" color="primary" aria-label="add" style={{ position: 'fixed', bottom: '20px', right: '20px', zIndex: '2' }}>
+                    <Button onClick={handleModalOpen} variant="fab" color="primary" aria-label="add" style={{ position: 'fixed', bottom: '20px', right: '20px', zIndex: '2' }}>
                         <AddIcon />
                     </Button>
                     {/* TODO: why bind works? */}
-                    <NewCourseModal open={this.props.modalOpened} handleClose={this.props.handleModalClose.bind(null, 'modalOpened')} />
+                    <NewCourseModal open={modalOpened} handleClose={handleModalClose} />
                 </div>
             </div>
         )

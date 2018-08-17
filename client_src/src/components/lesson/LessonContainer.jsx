@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import { addTopics } from "../../redux/AC/topic";
 import Lesson from "./Lesson";
 import { deleteLesson, editLesson } from "../../redux/AC/lessons";
+import LessonSideBar from './LessonSideBar'
 
 class LessonContainer extends React.Component {
     constructor(props) {
@@ -70,14 +71,17 @@ class LessonContainer extends React.Component {
     render() {
         return (
             <Lesson
-                handleSubmitEditLesson={this.handleSubmitEditLesson}
                 handleInputChange={this.handleInputChange}
                 toggleEdditing={this.toggleState("edditing")}
                 handleDeleteClick={this.handleDeleteClick}
                 handleTopicsClick={this.toggleState("topicsOpened")}
                 handleModalOpen={this.handleOpen("modalOpened")(true)}
                 handleModalClose={this.handleOpen("modalOpened")(false)}
-                handleCancelEdditingClick={this.handleCancelEdditingClick}
+                sidebar={
+                <LessonSideBar
+                    onCancelEdditingClick={this.handleCancelEdditingClick}
+                    onSumbitEditLesson={this.handleSubmitEditLesson}
+                    onInputChange={this.handleInputChange} />}
                 {...this.props}
                 {...this.state}
             />

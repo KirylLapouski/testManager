@@ -19,12 +19,8 @@ import Slide from "@material-ui/core/Slide";
 import { withStyles } from "@material-ui/core/styles";
 import Flag from "@material-ui/icons/Flag";
 import Tooltip from "@material-ui/core/Tooltip";
-
 class Lesson extends React.Component {
-    handleHeaderInputChange = e => {
-        e.stopPropagation();
-        this.props.handleInputChange(e);
-    };
+
 
     render() {
         let {
@@ -40,11 +36,10 @@ class Lesson extends React.Component {
             handleModalOpen,
             description,
             handleInputChange,
-            handleSubmitEditLesson,
             handleTopicsClick,
             handleModalClose,
-            handleCancelEdditingClick,
-            edditing
+            edditing,
+            sidebar
         } = this.props;
 
         let readOnlyexpantionPanel = (
@@ -93,43 +88,7 @@ class Lesson extends React.Component {
             <ExpansionPanelDetails
                 className={this.props.classes.editingLessonDetails}
             >
-                <TextField
-                    name="description"
-                    onChange={this.handleHeaderInputChange}
-                    InputProps={{ disableUnderline: true }}
-                    multiline={true}
-                    placeholder="Описание урока"
-                    rows="5"
-                    style={{
-                        marginLeft: "61px",
-                        backgroundColor: "white",
-                        opacity: "0.9",
-                        borderRadius: "4px",
-                        width: "91%",
-                        padding: "10px"
-                    }}
-                />
-                <div
-                    style={{
-                        alignSelf: "flex-end",
-                        marginTop: "10px",
-                        marginRight: "3px"
-                    }}
-                >
-                    <Button
-                        onClick={handleCancelEdditingClick}
-                        style={{ marginRight: "5px" }}
-                    >
-                        Отмена
-                    </Button>
-                    <Button
-                        onClick={handleSubmitEditLesson}
-                        variant="raised"
-                        color="primary"
-                    >
-                        Создать
-                    </Button>
-                </div>
+                {sidebar}
             </ExpansionPanelDetails>
         );
         return (
@@ -174,24 +133,24 @@ class Lesson extends React.Component {
                                 <Link
                                     to={`/lesson/${id}/topic/${
                                         topics[0] ? topics[0].id : null
-                                    }`}
+                                        }`}
                                     style={{ height: "20px" }}
                                 >
                                     {title}
                                 </Link>
                             ) : (
-                                <React.Fragment>
-                                    <Tooltip
-                                        title="Урок не содержит топиков"
-                                        placement="left"
-                                    >
-                                        <Flag
-                                            className={this.props.classes.flag}
-                                        />
-                                    </Tooltip>{" "}
-                                    title
+                                        <React.Fragment>
+                                            <Tooltip
+                                                title="Урок не содержит топиков"
+                                                placement="left"
+                                            >
+                                                <Flag
+                                                    className={this.props.classes.flag}
+                                                />
+                                            </Tooltip>{" "}
+                                            title
                                 </React.Fragment>
-                            )}
+                                    )}
                         </ExpansionPanelSummary>
                         {edditing
                             ? edditingExpantionPanel
@@ -222,18 +181,17 @@ Lesson.propTypes = {
         id: PropTypes.number
     }),
     loggedUserId: PropTypes.number,
+    sidebar: PropTypes.node,
     handleModalClose: PropTypes.func,
     handleModalOpen: PropTypes.func,
     handleTopicsClick: PropTypes.func,
     handleDeleteClick: PropTypes.func,
     toggleEdditing: PropTypes.func,
     handleInputChange: PropTypes.func,
-    handleSubmitEditLesson: PropTypes.func,
-    handleCancelEdditingClick: PropTypes.func,
     topicsOpened: PropTypes.bool,
     modalOpened: PropTypes.bool,
     edditing: PropTypes.bool
-};
+}
 
 const styles = {
     iconButton: {

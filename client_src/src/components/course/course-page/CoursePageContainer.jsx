@@ -72,6 +72,7 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 CoursePageContainer.propTypes = {
+    // redux
     ownerUser: PropTypes.shape({
         id: PropTypes.number,
         firstName: PropTypes.string,

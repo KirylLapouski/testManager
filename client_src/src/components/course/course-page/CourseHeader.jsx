@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Button from '@material-ui/core/Button'
-import Modal from '../../modal/ModalBase'
-import TextField from 'material-ui/TextField'
+import ChangeBackgroundModal from '../../modal/modal-total/ChangeBackgroundModal'
+
 class CourseHeader extends React.Component {
 
     render() {
@@ -13,18 +13,12 @@ class CourseHeader extends React.Component {
                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '20px' }}>{children}{`${teacherName || ' '} ${teacherLastName || ' '}`}</div>
                 {secretWord && <p style={{ marginTop: '20px' }}>Код курса: {secretWord}<Button style={{ position: 'absolute', right: '0px', bottom: '0px', color: 'white', fontSize: '12px' }} onClick={this.props.handleBackgroundModalOpen}>Изменить фон курса</Button></p>}
             </div>
-            <Modal open={backgroundModalOpened} handleClose={handleBackgroundModalClose}>
-                <div style={{ display: 'flex', flexDirection: 'column', height: '300px', width: '250px', position: 'absolute', left: '50%', marginLeft: `-${250 / 2}px`, top: '50%', marginTop: `-${300 / 2}px`, background: 'white', padding: '30px' }}>
-                    <h3>Изменить фон</h3>
-                    <form onSubmit={handleSubmitNewBackground}>
-                        <TextField id="name" name="name" onChange={handleChange} margin="normal" />
-                        <div style={{ display: 'flex', alignSelf: 'flex-end', marginTop: '45px' }}>
-                            <Button onClick={this.props.handleBackgroundModalClose}>Отмена</Button>
-                            <Button type="submit" variant="raised" color="primary">Принять</Button>
-                        </div>
-                    </form>
-                </div>
-            </Modal>
+            <ChangeBackgroundModal
+                open={backgroundModalOpened}
+                handleClose={handleBackgroundModalClose}
+                onChange={handleChange}
+                handleSubmit={handleSubmitNewBackground}
+            />
         </div>
     }
 }
