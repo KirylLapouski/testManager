@@ -8,7 +8,7 @@ class LessonList extends React.Component {
         const LESSONS_IN_LIST = 10;
         let lessons
         if (this.props.lessons) {
-            lessons = this.props.lessons.slice((this.props.listNumber - 1) * LESSONS_IN_LIST, this.props.listNumber * LESSONS_IN_LIST).map((value, index, array) => {
+            lessons = this.props.lessons.slice((this.props.listNumber - 1) * LESSONS_IN_LIST, this.props.listNumber * LESSONS_IN_LIST).map(value => {
                 return (<Lesson id={value.id} key={value.id} loggedUserId={this.props.loggedUserId} lessonOwner={this.props.lessonsOwner} title={value.title} description={value.description} />)
             })
         }

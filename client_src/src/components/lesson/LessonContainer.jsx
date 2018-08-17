@@ -7,6 +7,8 @@ import Lesson from "./Lesson";
 import { deleteLesson, editLesson } from "../../redux/AC/lessons";
 import LessonEdditingFields from './LessonEdditingFields'
 import LessonSidebar from './LessonSidebar'
+import TopicModal from "../modal/modal-total/TopicModal";
+import TopicList from "./TopicListInLesson";
 class LessonContainer extends React.Component {
     constructor(props) {
         super(props);
@@ -70,23 +72,36 @@ class LessonContainer extends React.Component {
     };
     render() {
         return (
-            <Lesson
-                handleInputChange={this.handleInputChange}
-                handleTopicsClick={this.toggleState("topicsOpened")}
-                handleModalClose={this.handleOpen("modalOpened")(false)}
-                sidebar={<LessonSidebar
-                    onDeleteClick={this.handleDeleteClick}
-                    toggleEdditing={this.toggleState("edditing")}
-                    onModalOpen={this.handleOpen("modalOpened")(true)}
-                />}
-                edditingNode={
-                    <LessonEdditingFields
-                        onCancelEdditingClick={this.handleCancelEdditingClick}
-                        onSumbitEditLesson={this.handleSubmitEditLesson}
-                        onInputChange={this.handleInputChange} />}
-                {...this.props}
-                {...this.state}
-            />
+            <React.Fragment>
+                <Lesson
+                    handleInputChange={this.handleInputChange}
+                    sidebar={<LessonSidebar
+                        onDeleteClick={this.handleDeleteClick}
+                        toggleEdditing={this.toggleState("edditing")}
+                        onModalOpen={this.handleOpen("modalOpened")(true)}
+                    />}
+                    edditingNode={
+                        <LessonEdditingFields
+                            onCancelEdditingClick={this.handleCancelEdditingClick}
+                            onSumbitEditLesson={this.handleSubmitEditLesson}
+                            onInputChange={this.handleInputChange} />}
+                    topicsNode={
+                        <TopicList
+                            lessonId={this.props.id}
+                            topicsOpened={this.state.topicsOpened}
+                            handleTopicsClick={this.toggleState("topicsOpened")}
+                            topics={this.props.topics}
+                        />
+                    }
+                    {...this.props}
+                    {...this.state}
+                />
+                <TopicModal
+                    open={this.state.modalOpened}
+                    handleClose={this.handleOpen("modalOpened")(false)}
+                    lessonId={this.props.id}
+                />
+            </React.Fragment>
         );
     }
 }

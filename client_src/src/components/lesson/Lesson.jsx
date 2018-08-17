@@ -8,13 +8,12 @@ import ExpansionPanel, {
 } from "material-ui/ExpansionPanel";
 import Typography from "material-ui/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import TopicModal from "../modal/modal-total/TopicModal";
-import TopicList from "./TopicListInLesson";
 import TextField from "@material-ui/core/TextField";
 import Slide from "@material-ui/core/Slide";
 import { withStyles } from "@material-ui/core/styles";
 import Flag from "@material-ui/icons/Flag";
 import Tooltip from "@material-ui/core/Tooltip";
+import TopicList from "./TopicListInLesson";
 class Lesson extends React.Component {
 
     render() {
@@ -23,22 +22,19 @@ class Lesson extends React.Component {
             title,
             loggedUserId,
             lessonOwner,
-            topicsOpened,
             topics,
-            modalOpened,
             description,
             handleInputChange,
-            handleTopicsClick,
-            handleModalClose,
             edditing,
             sidebar,
-            edditingNode
+            edditingNode,
+            topicsNode
         } = this.props;
 
         let readOnlyexpantionPanel = (
             <ExpansionPanelDetails className={this.props.classes.lessonDetails}>
                 {(loggedUserId === (lessonOwner && lessonOwner.id)) &&
-                     sidebar
+                    sidebar
                 }
                 <Typography style={{ color: "white", marginLeft: "5px" }}>
                     {description}
@@ -118,17 +114,7 @@ class Lesson extends React.Component {
                             ? edditingExpantionPanel
                             : readOnlyexpantionPanel}
                     </ExpansionPanel>
-                    <TopicList
-                        lessonId={id}
-                        topicsOpened={topicsOpened}
-                        handleTopicsClick={handleTopicsClick}
-                        topics={topics}
-                    />
-                    <TopicModal
-                        open={modalOpened}
-                        handleClose={handleModalClose}
-                        lessonId={id}
-                    />
+                    {topicsNode}
                 </div>
             </Slide>
         );
@@ -145,12 +131,11 @@ Lesson.propTypes = {
     loggedUserId: PropTypes.number,
     sidebar: PropTypes.node,
     edditingNode: PropTypes.node,
-    handleModalClose: PropTypes.func,
-    handleTopicsClick: PropTypes.func,
+    topicsNode: PropTypes.node,
     handleInputChange: PropTypes.func,
     topicsOpened: PropTypes.bool,
-    modalOpened: PropTypes.bool,
-    edditing: PropTypes.bool
+    edditing: PropTypes.bool,
+    topics: PropTypes.array
 }
 
 const styles = {
@@ -178,5 +163,6 @@ const styles = {
     flag: {
         color: "#ff7961"
     }
+
 };
-export default withStyles(styles)(Lesson);
+export default withStyles(styles)(Lesson)
