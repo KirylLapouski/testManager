@@ -8,10 +8,6 @@ import ExpansionPanel, {
 } from "material-ui/ExpansionPanel";
 import Typography from "material-ui/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import Button from "@material-ui/core/Button";
-import AddIcon from "@material-ui/icons/Add";
-import EditIcon from "@material-ui/icons/Edit";
-import DeleteIcon from "@material-ui/icons/Delete";
 import TopicModal from "../modal/modal-total/TopicModal";
 import TopicList from "./TopicListInLesson";
 import TextField from "@material-ui/core/TextField";
@@ -20,7 +16,6 @@ import { withStyles } from "@material-ui/core/styles";
 import Flag from "@material-ui/icons/Flag";
 import Tooltip from "@material-ui/core/Tooltip";
 class Lesson extends React.Component {
-
 
     render() {
         let {
@@ -31,64 +26,31 @@ class Lesson extends React.Component {
             topicsOpened,
             topics,
             modalOpened,
-            handleDeleteClick,
-            toggleEdditing,
-            handleModalOpen,
             description,
             handleInputChange,
             handleTopicsClick,
             handleModalClose,
             edditing,
-            sidebar
+            sidebar,
+            edditingNode
         } = this.props;
 
         let readOnlyexpantionPanel = (
             <ExpansionPanelDetails className={this.props.classes.lessonDetails}>
-                {loggedUserId === (lessonOwner && lessonOwner.id) && (
-                    <div style={{ display: "flex", flexDirection: "column" }}>
-                        <Button
-                            className={this.props.classes.iconButton}
-                            onClick={handleDeleteClick}
-                            variant="fab"
-                        >
-                            <DeleteIcon />
-                        </Button>
-                        <hr
-                            style={{
-                                width: "69%",
-                                backgroundColor: "white",
-                                margin: "0px",
-                                alignSelf: "center"
-                            }}
-                        />
-                        <Button
-                            className={this.props.classes.iconButton}
-                            variant="fab"
-                            onClick={toggleEdditing}
-                        >
-                            <EditIcon />
-                        </Button>
-                        <Button
-                            className={this.props.classes.iconButton}
-                            variant="fab"
-                            onClick={handleModalOpen}
-                        >
-                            <AddIcon />
-                        </Button>
-                        <div style={{ clear: "both" }} />
-                    </div>
-                )}
+                {(loggedUserId === (lessonOwner && lessonOwner.id)) &&
+                     sidebar
+                }
                 <Typography style={{ color: "white", marginLeft: "5px" }}>
                     {description}
                 </Typography>
             </ExpansionPanelDetails>
-        );
+        )
 
         let edditingExpantionPanel = (
             <ExpansionPanelDetails
                 className={this.props.classes.editingLessonDetails}
             >
-                {sidebar}
+                {edditingNode}
             </ExpansionPanelDetails>
         );
         return (
@@ -182,11 +144,9 @@ Lesson.propTypes = {
     }),
     loggedUserId: PropTypes.number,
     sidebar: PropTypes.node,
+    edditingNode: PropTypes.node,
     handleModalClose: PropTypes.func,
-    handleModalOpen: PropTypes.func,
     handleTopicsClick: PropTypes.func,
-    handleDeleteClick: PropTypes.func,
-    toggleEdditing: PropTypes.func,
     handleInputChange: PropTypes.func,
     topicsOpened: PropTypes.bool,
     modalOpened: PropTypes.bool,
@@ -194,11 +154,6 @@ Lesson.propTypes = {
 }
 
 const styles = {
-    iconButton: {
-        color: "white",
-        boxShadow: "none",
-        backgroundColor: "rgba(0,0,0,0)"
-    },
     lesson: {
         marginTop: "20px",
         paddingBottom: "10px",

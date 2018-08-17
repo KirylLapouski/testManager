@@ -5,8 +5,8 @@ import PropTypes from "prop-types";
 import { addTopics } from "../../redux/AC/topic";
 import Lesson from "./Lesson";
 import { deleteLesson, editLesson } from "../../redux/AC/lessons";
-import LessonSideBar from './LessonSideBar'
-
+import LessonEdditingFields from './LessonEdditingFields'
+import LessonSidebar from './LessonSidebar'
 class LessonContainer extends React.Component {
     constructor(props) {
         super(props);
@@ -72,16 +72,18 @@ class LessonContainer extends React.Component {
         return (
             <Lesson
                 handleInputChange={this.handleInputChange}
-                toggleEdditing={this.toggleState("edditing")}
-                handleDeleteClick={this.handleDeleteClick}
                 handleTopicsClick={this.toggleState("topicsOpened")}
-                handleModalOpen={this.handleOpen("modalOpened")(true)}
                 handleModalClose={this.handleOpen("modalOpened")(false)}
-                sidebar={
-                <LessonSideBar
-                    onCancelEdditingClick={this.handleCancelEdditingClick}
-                    onSumbitEditLesson={this.handleSubmitEditLesson}
-                    onInputChange={this.handleInputChange} />}
+                sidebar={<LessonSidebar
+                    onDeleteClick={this.handleDeleteClick}
+                    toggleEdditing={this.toggleState("edditing")}
+                    onModalOpen={this.handleOpen("modalOpened")(true)}
+                />}
+                edditingNode={
+                    <LessonEdditingFields
+                        onCancelEdditingClick={this.handleCancelEdditingClick}
+                        onSumbitEditLesson={this.handleSubmitEditLesson}
+                        onInputChange={this.handleInputChange} />}
                 {...this.props}
                 {...this.state}
             />

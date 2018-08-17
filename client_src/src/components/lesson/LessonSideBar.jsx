@@ -1,58 +1,55 @@
 import React from 'react'
-import Button from "@material-ui/core/Button"
-import TextField from "@material-ui/core/TextField"
 import PropTypes from 'prop-types'
+import Button from "@material-ui/core/Button"
+import AddIcon from "@material-ui/icons/Add"
+import EditIcon from "@material-ui/icons/Edit"
+import DeleteIcon from "@material-ui/icons/Delete"
+import { withStyles } from "@material-ui/core/styles";
 function LessonSideBar(props) {
-
-    let handleHeaderInputChange = e => {
-        e.stopPropagation()
-        props.onInputChange(e)
-    }
-
-    return <React.Fragment>
-        <TextField
-            name="description"
-            onChange={handleHeaderInputChange}
-            InputProps={{ disableUnderline: true }}
-            multiline={true}
-            placeholder="Описание урока"
-            rows="5"
+    return <div style={{ display: "flex", flexDirection: "column" }}>
+        <Button
+            className={props.classes.iconButton}
+            onClick={props.onDeleteClick}
+            variant="fab"
+        >
+            <DeleteIcon />
+        </Button>
+        <hr
             style={{
-                marginLeft: "61px",
+                width: "69%",
                 backgroundColor: "white",
-                opacity: "0.9",
-                borderRadius: "4px",
-                width: "91%",
-                padding: "10px"
+                margin: "0px",
+                alignSelf: "center"
             }}
         />
-        <div
-            style={{
-                alignSelf: "flex-end",
-                marginTop: "10px",
-                marginRight: "3px"
-            }}
+        <Button
+            className={props.classes.iconButton}
+            variant="fab"
+            onClick={props.toggleEdditing}
         >
-            <Button
-                onClick={props.onCancelEdditingClick}
-                style={{ marginRight: "5px" }}
-            >
-                Отмена
-                    </Button>
-            <Button
-                onClick={props.onSumbitEditLesson}
-                variant="raised"
-                color="primary"
-            >
-                Создать
-                    </Button>
-        </div>
-    </React.Fragment>
+            <EditIcon />
+        </Button>
+        <Button
+            className={props.classes.iconButton}
+            variant="fab"
+            onClick={props.onModalOpen}
+        >
+            <AddIcon />
+        </Button>
+        <div style={{ clear: "both" }} />
+    </div>
 }
 
 LessonSideBar.propTypes = {
-    onCancelEdditingClick: PropTypes.func,
-    onSumbitEditLesson: PropTypes.func,
-    onInputChange: PropTypes.func
+    onDeleteClick: PropTypes.func,
+    toggleEdditing: PropTypes.func,
+    onModalOpen: PropTypes.func
 }
-export default LessonSideBar
+const style= {
+    iconButton: {
+        color: "white",
+        boxShadow: "none",
+        backgroundColor: "rgba(0,0,0,0)"
+    },
+}
+export default withStyles(style)( LessonSideBar)
