@@ -1,118 +1,110 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
-import toastr from "toastr";
-import Flag from "@material-ui/icons/Flag";
-import "./sign-up.css";
+import React from 'react'
+import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
+import toastr from 'toastr'
+import Flag from '@material-ui/icons/Flag'
+import { connect } from 'react-redux'
+import './sign-up.css'
+import { addUserAndLogIn } from '../../redux/AC/users'
+import Cookies from 'universal-cookie'
 //CAN ADD REAL TIME VALIDATION
 class SignUp extends React.Component {
     constructor(props) {
-        super(props);
+        super(props)
         this.state = {
-            email: "",
-            password: "",
-            passwordConfirm: "",
-            userName: ""
-        };
+            email: '',
+            password: '',
+            passwordConfirm: '',
+            userName: ''
+        }
 
-        this.onChangeHandler = this.onChangeHandler.bind(this);
-        this.onSubmitHandler = this.onSubmitHandler.bind(this);
+        this.onChangeHandler = this.onChangeHandler.bind(this)
+        this.onSubmitHandler = this.onSubmitHandler.bind(this)
     }
 
     onChangeHandler(e) {
-        let { name, value } = e.target;
+        let { name, value } = e.target
         this.setState({
             [name]: value
-        });
+        })
     }
     nameValidation(name) {
-        let reg = /^[a-z]{4,}(?:[._-][a-z\d]+)*$/i;
+        let reg = /^[a-z]{4,}(?:[._-][a-z\d]+)*$/i
         if (reg.test(name) == false) {
-            toastr.error("Неправильный логин", "Ошибка отправки формы");
-            return false;
+            toastr.error('Неправильный логин', 'Ошибка отправки формы')
+            return false
         }
-        return true;
+        return true
     }
 
     onSubmitHandler(e) {
-        e.preventDefault();
-        let reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+        e.preventDefault()
+        let reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/
         if (
             !this.state.email ||
             !this.state.password ||
             !this.state.passwordConfirm
         ) {
             toastr.error(
-                "Все обязательные поля должны быть заполнены",
-                "Ошибка отправки формы"
-            );
-            return;
+                'Все обязательные поля должны быть заполнены',
+                'Ошибка отправки формы'
+            )
+            return
         }
         if (this.state.password !== this.state.passwordConfirm) {
-            toastr.error("Пароли не совпадают", "Ошибка отправки формы");
-            return;
+            toastr.error('Пароли не совпадают', 'Ошибка отправки формы')
+            return
             //WRONG PASSWORD
         }
         if (reg.test(this.state.email) == false) {
             toastr.error(
-                "Неправильный формат для электронной почты",
-                "Ошибка отправки формы"
-            );
-            return;
+                'Неправильный формат для электронной почты',
+                'Ошибка отправки формы'
+            )
+            return
         }
         if (this.state.userName && !this.nameValidation(this.state.userName))
-            return;
+            return
 
-        let xhr = new XMLHttpRequest();
-        xhr.open("POST", "http://localhost:3000/api/Participants", true);
-        xhr.setRequestHeader("Content-Type", "application/json");
-        xhr.send(
-            JSON.stringify({
-                email: this.state.email,
-                password: this.state.password,
-                username: this.state.userName
-            })
-        );
-
-        xhr.onload = () => {
-            if (xhr.status == 200) {
-                toastr.success("Регистрация прошла успешно");
+        this.props.addUserAndLogIn(this.state.email, this.state.password, this.state.userName)
+            .then((loggedInUserInfo) => {
+                toastr.success('Регистрация прошла успешно')
                 toastr.success(
-                    `Добро пожаловать, ${this.state.userName || "User"}!`
-                );
+                    `Добро пожаловать, ${loggedInUserInfo.userName || 'User'}!`
+                )
 
-                xhr.open(
-                    "POST",
-                    "http://localhost:3000/api/Participants/login",
-                    true
-                );
-                xhr.setRequestHeader("Content-Type", "application/json");
-                xhr.send(
-                    JSON.stringify({
-                        email: this.state.email,
-                        password: this.state.password
-                    })
-                );
+                const cookies = new Cookies()
+                cookies.set('loopbackToken', loggedInUserInfo.loopbackToken, { maxAge: (Date.parse(loggedInUserInfo.loopbackTokenExpireIn) - Date.now()) / 1000 })
 
-                xhr.onload = () => {
-                    if (xhr.status == 200) {
-                        localStorage.setItem(
-                            "token",
-                            JSON.parse(xhr.responseText).id
-                        );
-                        document.location.href = `/cources/${
-                            JSON.parse(xhr.response).userId
-                            }`;
-                    }
-                };
-            } else {
-                toastr.error(
-                    "Ошибка во время регистрации",
-                    "Ошибка отправки формы"
-                );
-                xhr.abort();
-            }
-        };
+                setTimeout(() => {
+                    document.location.href = `/cources/${
+                        loggedInUserInfo.id
+                    }`
+                }, 1000)
+
+            }, err => {
+                switch (err.message) {
+                case 'Ошибка добавления нового пользователя':
+                    toastr.err('Ошибка добавления нового пользователя')
+                    break
+                case 'Ошибка входа':
+                    toastr.err('Ошибка входа')
+                    break
+                }
+            })
+
+        // xhr.onload = () => {
+        //
+
+        //         xhr.onload = () =>
+        //     } else {
+        //         toastr.error(
+        //             'Ошибка во время регистрации',
+        //             'Ошибка отправки формы'
+        //         )
+        //         xhr.abort()
+        //     }
+        // }
     }
     render() {
         return (
@@ -207,11 +199,18 @@ class SignUp extends React.Component {
                     </div>
                 </div>
             </div>
-        );
+        )
     }
 }
 
 SignUp.contextTypes = {
     router: PropTypes.object
-};
-export default SignUp;
+}
+const mapDispatchToProps = dispatch => {
+    return {
+        addUserAndLogIn(email, password, userName) {
+            return dispatch(addUserAndLogIn(email, password, userName))
+        }
+    }
+}
+export default connect(null, mapDispatchToProps)(SignUp)

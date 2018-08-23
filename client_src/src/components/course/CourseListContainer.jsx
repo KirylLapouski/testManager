@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import CourseList from "./CourseList";
 import { loadCoursesForUser } from "../../redux/AC/courses";
-import { addloggedInUser } from "../../redux/AC/users";
+import { addLoggedInUser } from "../../redux/AC/users";
 import PropTypes from 'prop-types'
 class CourseListContainer extends React.Component {
     constructor(props) {
@@ -15,7 +15,7 @@ class CourseListContainer extends React.Component {
 
     componentDidMount() {
         this.props.getCourses(this.props.match.params.userId);
-        this.props.addloggedInUser();
+        this.props.addLoggedInUser();
     }
 
     handleModalOpen = ()=> {
@@ -51,9 +51,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     result.getCourses = userId => {
         dispatch(loadCoursesForUser(userId));
     };
-    result.addloggedInUser = ownProps.match.params.userId
+    result.addLoggedInUser = ownProps.match.params.userId
         ? () => {
-              dispatch(addloggedInUser(ownProps.match.params.userId));
+              dispatch(addLoggedInUser(ownProps.match.params.userId));
           }
         : () => {};
     return result;
@@ -62,7 +62,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 CourseListContainer.propTypes = {
     // redux
     getCourses: PropTypes.func,
-    addloggedInUser: PropTypes.func,
+    addLoggedInUser: PropTypes.func,
     courses: PropTypes.object
 }
 export default connect(

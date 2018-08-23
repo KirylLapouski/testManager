@@ -5,7 +5,8 @@ import toastr from 'toastr'
 import { withRouter } from 'react-router-dom'
 import LoadingIndicator from '../decorators/LoadingIndicator'
 import PropTypes from 'prop-types'
-import axios from 'axios'
+import { loginUser } from '../../redux/AC/users'
+import { connect } from 'react-redux'
 toastr.options.closeButton = true
 class LoginInContainer extends React.Component {
 
@@ -40,44 +41,27 @@ class LoginInContainer extends React.Component {
         if (!this.validate())
             return
 
-        // axios.post('http://localhost:3000/api/Participants/login')
         //TODO: need to refactor
-        let xhr = new XMLHttpRequest()
-        xhr.open('POST', 'http://localhost:3000/api/Participants/login', true)
-        xhr.setRequestHeader('Content-Type', 'application/json')
-
-        xhr.timeout = 10000
-
-        xhr.onload = () => {
-            let userResponse = JSON.parse(xhr.response)
-            if (xhr.status == 401) {
+        this.props.loginUser(this.state.mail, this.state.password)
+            .then(userInfo => {
                 this.props.toggleLoading()
-                toastr.error('Неправильный логин или пароль', 'Ошибка входа')
-            }
-            if (xhr.status == 200) {
-                let loopbackToken = JSON.parse(xhr.response).id
-                let loopbackTokenExpireIn = (new Date(JSON.parse(xhr.response).ttl * 1000 + Date.now())).toDateString()
-                xhr.open('PATCH', `http://localhost:3000/api/Participants/${userResponse.userId}`)
-                xhr.setRequestHeader('Content-Type', 'application/json')
-                xhr.onload = () => {
-                    let userInfo = JSON.parse(xhr.response)
+                toastr.success(`Добро пожаловать, ${userInfo.username || 'User'}!`)
+                const cookies = new Cookies()
+
+                cookies.set('loopbackToken', userInfo.loopbackToken, { maxAge: (Date.parse(userInfo.loopbackTokenExpireIn) - Date.now()) / 1000 })
+                this.props.history.push(`/cources/${userInfo.id}`)
+            }, (error) => {
+                if (error.response.status === 401) {
                     this.props.toggleLoading()
-                    toastr.success(`Добро пожаловать, ${userInfo.username || 'User'}!`)
-                    const cookies = new Cookies()
-
-                    cookies.set('loopbackToken', userInfo.loopbackToken, { maxAge: (Date.parse(loopbackTokenExpireIn) - Date.now()) / 1000 })
-                    this.props.history.push(`/cources/${userInfo.id}`)
+                    toastr.error('Неправильный логин или пароль', 'Ошибка входа')
                 }
-                xhr.send(JSON.stringify({ loopbackToken, loopbackTokenExpireIn }))
-            }
-        }
+            })
 
-        xhr.ontimeout = () => {
-            this.props.toggleLoading()
-            toastr.error('Время запроса истекло: сервер не отвечает', 'Ошибка входа')
-        }
+        // xhr.ontimeout = () => {
+        //     this.props.toggleLoading()
+        //     toastr.error('Время запроса истекло: сервер не отвечает', 'Ошибка входа')
+        // }
 
-        xhr.send(JSON.stringify({ email: this.state.mail, password: this.state.password }))
         this.props.toggleLoading()
     }
 
@@ -93,6 +77,16 @@ class LoginInContainer extends React.Component {
 
 LoginInContainer.propTypes = {
     loading: PropTypes.bool,
-    toggleLoading: PropTypes.func
+    toggleLoading: PropTypes.func,
+    // redux
+    loginUser: PropTypes.func
 }
-export default withRouter(LoadingIndicator(LoginInContainer))
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        loginUser(email, password) {
+            return dispatch(loginUser(email, password))
+        }
+    }
+}
+export default withRouter(LoadingIndicator(connect(null, mapDispatchToProps)(LoginInContainer)))
