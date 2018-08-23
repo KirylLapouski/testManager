@@ -1,6 +1,7 @@
-let questionReducer = require('../../../../client_src/src/redux/redusers/questions').default
-let constants = require('../../../../client_src/src/redux/constants').default
-let reducerTest = require('./reducerTest')(questionReducer)
+import questionReducer from '../../../../src/redux/redusers/questions'
+import constants from '../../../../src/redux/constants'
+import reducerTestDefault from './reducerTest'
+const reducerTest = reducerTestDefault(questionReducer)
 const initState = {
     1: {
         id: 1,

@@ -1,20 +1,19 @@
-let assert = require('assert')
-let lessonReducer = require('../../../../client_src/src/redux/redusers/lessons').default
-let constance = require('../../../../client_src/src/redux/constants').default
-let deepFreeze = require('deep-freeze')
-let reducerTest = require('./reducerTest')(lessonReducer)
+import lessonReducer from '../../../../src/redux/redusers/lessons'
+import constance from '../../../../src/redux/constants'
+import reducerTestDefault from './reducerTest'
+const reducerTest = reducerTestDefault(lessonReducer)
 const initState = {
     1: {
         description: 'description 1',
         disciplineId: 1,
         id: 1,
-        title: "title 1",
+        title: 'title 1',
     },
     2: {
         description: 'description 2',
         disciplineId: 1,
         id: 2,
-        title: "title 2",
+        title: 'title 2',
     }
 }
 
@@ -28,18 +27,19 @@ describe('lesson reducer', function () {
                     description: 'description 1',
                     disciplineId: 1,
                     id: 1,
-                    title: "title 1",
+                    title: 'title 1',
                 }
             }
-
-            reducerTest(state, action, {
+            const expected = {
                 1: {
                     description: 'description 1',
                     disciplineId: 1,
                     id: 1,
-                    title: "title 1",
+                    title: 'title 1',
                 }
-            })
+            }
+
+            reducerTest(state, action,expected)
         })
 
         it('add lesson in store with different lessons', function () {
@@ -50,33 +50,32 @@ describe('lesson reducer', function () {
                     description: 'description 3',
                     disciplineId: 1,
                     id: 3,
-                    title: "title 3",
+                    title: 'title 3',
                 }
             }
 
-            deepFreeze(state)
-            deepFreeze(action)
-
-            assert.deepEqual(lessonReducer(state, action), {
+            const expected = {
                 1: {
                     description: 'description 1',
                     disciplineId: 1,
                     id: 1,
-                    title: "title 1",
+                    title: 'title 1',
                 },
                 2: {
                     description: 'description 2',
                     disciplineId: 1,
                     id: 2,
-                    title: "title 2",
+                    title: 'title 2',
                 },
                 3: {
                     description: 'description 3',
                     disciplineId: 1,
                     id: 3,
-                    title: "title 3",
+                    title: 'title 3',
                 }
-            })
+            }
+
+            reducerTest(state, action, expected)
         })
     })
     describe('ADD_LESSONS', function () {
@@ -89,34 +88,32 @@ describe('lesson reducer', function () {
                         description: 'description 3',
                         disciplineId: 1,
                         id: 3,
-                        title: "title 3",
+                        title: 'title 3',
                     },
                     {
                         description: 'description 4',
                         disciplineId: 1,
                         id: 4,
-                        title: "title 4",
+                        title: 'title 4',
                     }
                 ]
             }
-
-            deepFreeze(state)
-            deepFreeze(action)
-
-            assert.deepEqual(lessonReducer(state, action), {
+            const expected =  {
                 3: {
                     description: 'description 3',
                     disciplineId: 1,
                     id: 3,
-                    title: "title 3",
+                    title: 'title 3',
                 },
                 4: {
                     description: 'description 4',
                     disciplineId: 1,
                     id: 4,
-                    title: "title 4",
+                    title: 'title 4',
                 }
-            })
+            }
+
+            reducerTest(state,action,expected)
         })
 
         it('add lessons in store with differenr lessons', function () {
@@ -128,46 +125,45 @@ describe('lesson reducer', function () {
                         description: 'description 3',
                         disciplineId: 1,
                         id: 3,
-                        title: "title 3",
+                        title: 'title 3',
                     },
                     {
                         description: 'description 4',
                         disciplineId: 1,
                         id: 4,
-                        title: "title 4",
+                        title: 'title 4',
                     }
                 ]
             }
 
-            deepFreeze(state)
-            deepFreeze(action)
-
-            assert.deepEqual(lessonReducer(state, action), {
+            const expected =  {
                 1: {
                     description: 'description 1',
                     disciplineId: 1,
                     id: 1,
-                    title: "title 1",
+                    title: 'title 1',
                 },
                 2: {
                     description: 'description 2',
                     disciplineId: 1,
                     id: 2,
-                    title: "title 2",
+                    title: 'title 2',
                 },
                 3: {
                     description: 'description 3',
                     disciplineId: 1,
                     id: 3,
-                    title: "title 3",
+                    title: 'title 3',
                 },
                 4: {
                     description: 'description 4',
                     disciplineId: 1,
                     id: 4,
-                    title: "title 4",
+                    title: 'title 4',
                 }
-            })
+            }
+
+            reducerTest(state,action,expected)
         })
     })
     describe('DELETE_LESSON', function () {
@@ -180,18 +176,16 @@ describe('lesson reducer', function () {
                 }
             }
 
-            deepFreeze(state)
-            deepFreeze(action)
-
-            assert.deepEqual(lessonReducer(state, action), {
+            const expected =  {
                 2: {
                     description: 'description 2',
                     disciplineId: 1,
                     id: 2,
-                    title: "title 2",
+                    title: 'title 2',
                 }
-            })
+            }
 
+            reducerTest(state,action,expected)
         })
     })
     describe('UPDATE_LESSON', function () {
@@ -203,27 +197,26 @@ describe('lesson reducer', function () {
                     description: 'description 4',
                     disciplineId: 1,
                     id: 2,
-                    title: "title 4",
+                    title: 'title 4',
                 }
             }
 
-            deepFreeze(state)
-            deepFreeze(action)
-
-            assert.deepEqual(lessonReducer(state, action), {
+            const expected = {
                 1: {
                     description: 'description 1',
                     disciplineId: 1,
                     id: 1,
-                    title: "title 1",
+                    title: 'title 1',
                 },
                 2: {
                     description: 'description 4',
                     disciplineId: 1,
                     id: 2,
-                    title: "title 4",
+                    title: 'title 4',
                 }
-            })
+            }
+
+            reducerTest(state,action,expected)
         })
     })
 })

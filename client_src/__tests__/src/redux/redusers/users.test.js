@@ -1,18 +1,19 @@
-let constants = require('../../../../client_src/src/redux/constants').default
-let userReducer = require('../../../../client_src/src/redux/redusers/users').default
-let reducerTest = require('./reducerTest')(userReducer)
-let initStore = {
+import constants from '../../../../src/redux/constants'
+import userReducer from '../../../../src/redux/redusers/users'
+import reducerTestDefault from './reducerTest'
+const reducerTest = reducerTestDefault(userReducer)
+const initStore = {
     loggedIn: {
-        email: "lapkovskyk@mail.ru",
+        email: 'lapkovskyk@mail.ru',
         emailVerified: null,
         firstName: null,
         id: 1,
         imageUrl: null,
-        loopbackToken: "KQFjsYyHw4bQekuCWFmWDWy6uvpmBwOGwlb330Yt0ud62o6SksCggWPGJ6mFCzxX",
-        loopbackTokenExpireIn: "Sat Jul 21 2018",
+        loopbackToken: 'KQFjsYyHw4bQekuCWFmWDWy6uvpmBwOGwlb330Yt0ud62o6SksCggWPGJ6mFCzxX',
+        loopbackTokenExpireIn: 'Sat Jul 21 2018',
         realm: null,
         secondName: null,
-        username: "kirill",
+        username: 'kirill',
         yandexRefreshToken: null,
         yandexToken: null,
         yandexTokenExpireIn: null,
@@ -25,16 +26,16 @@ describe('user reducer', function () {
             let action = {
                 type: constants.users.ADD_LOGGED_IN_USER,
                 payload: {
-                    email: "lapkovskyk@mail.ru",
+                    email: 'lapkovskyk@mail.ru',
                     emailVerified: null,
                     firstName: null,
                     id: 1,
                     imageUrl: null,
-                    loopbackToken: "KQFjsYyHw4bQekuCWFmWDWy6uvpmBwOGwlb330Yt0ud62o6SksCggWPGJ6mFCzxX",
-                    loopbackTokenExpireIn: "Sat Jul 21 2018",
+                    loopbackToken: 'KQFjsYyHw4bQekuCWFmWDWy6uvpmBwOGwlb330Yt0ud62o6SksCggWPGJ6mFCzxX',
+                    loopbackTokenExpireIn: 'Sat Jul 21 2018',
                     realm: null,
                     secondName: null,
-                    username: "kirill",
+                    username: 'kirill',
                     yandexRefreshToken: null,
                     yandexToken: null,
                     yandexTokenExpireIn: null,
@@ -42,16 +43,16 @@ describe('user reducer', function () {
             }
             let expectedResult = {
                 loggedIn: {
-                    email: "lapkovskyk@mail.ru",
+                    email: 'lapkovskyk@mail.ru',
                     emailVerified: null,
                     firstName: null,
                     id: 1,
                     imageUrl: null,
-                    loopbackToken: "KQFjsYyHw4bQekuCWFmWDWy6uvpmBwOGwlb330Yt0ud62o6SksCggWPGJ6mFCzxX",
-                    loopbackTokenExpireIn: "Sat Jul 21 2018",
+                    loopbackToken: 'KQFjsYyHw4bQekuCWFmWDWy6uvpmBwOGwlb330Yt0ud62o6SksCggWPGJ6mFCzxX',
+                    loopbackTokenExpireIn: 'Sat Jul 21 2018',
                     realm: null,
                     secondName: null,
-                    username: "kirill",
+                    username: 'kirill',
                     yandexRefreshToken: null,
                     yandexToken: null,
                     yandexTokenExpireIn: null,
@@ -69,24 +70,24 @@ describe('user reducer', function () {
                 payload: {
                     questions: [
                         {
-                            description: "",
+                            description: '',
                             id: 1,
-                            title: "New Question 1",
+                            title: 'New Question 1',
                             topicId: 1,
                             weight: 1,
 
                         },
                         {
-                            description: "",
+                            description: '',
                             id: 4,
-                            title: "Question 22",
+                            title: 'Question 22',
                             topicId: 2,
                             weight: 1
                         },
                         {
-                            description: "",
+                            description: '',
                             id: 3,
-                            title: "Question 21",
+                            title: 'Question 21',
                             topicId: 2,
                             weight: 1,
                         }
@@ -97,17 +98,17 @@ describe('user reducer', function () {
             const expectedResult = {
                 loggedIn: {
                     answeredQuestions: [1, 3, 4],
-                    email: "lapkovskyk@mail.ru",
+                    email: 'lapkovskyk@mail.ru',
                     emailVerified: null,
                     firstName: null,
                     id: 1,
                     imageUrl: null,
-                    loopbackToken: "KQFjsYyHw4bQekuCWFmWDWy6uvpmBwOGwlb330Yt0ud62o6SksCggWPGJ6mFCzxX",
-                    loopbackTokenExpireIn: "Sat Jul 21 2018",
+                    loopbackToken: 'KQFjsYyHw4bQekuCWFmWDWy6uvpmBwOGwlb330Yt0ud62o6SksCggWPGJ6mFCzxX',
+                    loopbackTokenExpireIn: 'Sat Jul 21 2018',
                     realm: null,
                     rightAnswered: [],
                     secondName: null,
-                    username: "kirill",
+                    username: 'kirill',
                     yandexRefreshToken: null,
                     yandexToken: null,
                     yandexTokenExpireIn: null,
@@ -135,9 +136,9 @@ describe('user reducer', function () {
                 payload: {
                     questions: [
                         {
-                            description: "",
+                            description: '',
                             id: 2,
-                            title: "Question 2",
+                            title: 'Question 2',
                             topicId: 2,
                             weight: 1,
                         }
@@ -147,17 +148,17 @@ describe('user reducer', function () {
             const expectedResult = {
                 loggedIn: {
                     answeredQuestions: [1, 2, 3],
-                    email: "lapkovskyk@mail.ru",
+                    email: 'lapkovskyk@mail.ru',
                     emailVerified: null,
                     firstName: null,
                     id: 1,
                     imageUrl: null,
-                    loopbackToken: "KQFjsYyHw4bQekuCWFmWDWy6uvpmBwOGwlb330Yt0ud62o6SksCggWPGJ6mFCzxX",
-                    loopbackTokenExpireIn: "Sat Jul 21 2018",
+                    loopbackToken: 'KQFjsYyHw4bQekuCWFmWDWy6uvpmBwOGwlb330Yt0ud62o6SksCggWPGJ6mFCzxX',
+                    loopbackTokenExpireIn: 'Sat Jul 21 2018',
                     realm: null,
                     rightAnswered: [],
                     secondName: null,
-                    username: "kirill",
+                    username: 'kirill',
                     yandexRefreshToken: null,
                     yandexToken: null,
                     yandexTokenExpireIn: null,
@@ -175,14 +176,14 @@ describe('user reducer', function () {
                     yandexToken: null,
                     yandexRefreshToken: null,
                     yandexTokenExpireIn: null,
-                    loopbackToken: "l7eAGXEBK0vMv7vyYY3P5hXvqflHt8PPgwLixL0fPvh1sXDlU3TAkEVRBppnD32E",
-                    loopbackTokenExpireIn: "Sat Jul 21 2018",
+                    loopbackToken: 'l7eAGXEBK0vMv7vyYY3P5hXvqflHt8PPgwLixL0fPvh1sXDlU3TAkEVRBppnD32E',
+                    loopbackTokenExpireIn: 'Sat Jul 21 2018',
                     imageUrl: null,
                     firstName: null,
                     secondName: null,
                     realm: null,
-                    username: "kirill",
-                    email: "lapkovskyk@mail.ru",
+                    username: 'kirill',
+                    email: 'lapkovskyk@mail.ru',
                     emailVerified: null,
                     id: 1
                 }
@@ -192,14 +193,14 @@ describe('user reducer', function () {
                     yandexToken: null,
                     yandexRefreshToken: null,
                     yandexTokenExpireIn: null,
-                    loopbackToken: "l7eAGXEBK0vMv7vyYY3P5hXvqflHt8PPgwLixL0fPvh1sXDlU3TAkEVRBppnD32E",
-                    loopbackTokenExpireIn: "Sat Jul 21 2018",
+                    loopbackToken: 'l7eAGXEBK0vMv7vyYY3P5hXvqflHt8PPgwLixL0fPvh1sXDlU3TAkEVRBppnD32E',
+                    loopbackTokenExpireIn: 'Sat Jul 21 2018',
                     imageUrl: null,
                     firstName: null,
                     secondName: null,
                     realm: null,
-                    username: "kirill",
-                    email: "lapkovskyk@mail.ru",
+                    username: 'kirill',
+                    email: 'lapkovskyk@mail.ru',
                     emailVerified: null,
                     id: 1
                 }
@@ -208,13 +209,13 @@ describe('user reducer', function () {
             reducerTest(store, action, expextedResult)
         })
     })
-    describe('ADD_RIGHT_ANSWERED_QUESTION_FOR_LOGGED_IN', function () {
+    describe.skip('ADD_RIGHT_ANSWERED_QUESTION_FOR_LOGGED_IN', function () {
         it('TODO')
     })
-    describe('ADD_WRONG_ANSWERED_QUESTION_FOR_LOGGED_IN', function () {
+    describe.skip('ADD_WRONG_ANSWERED_QUESTION_FOR_LOGGED_IN', function () {
         it('TODO')
     })
-    describe('ADD USERS', function () {
+    describe.skip('ADD USERS', function () {
         it('TODO')
     })
 })

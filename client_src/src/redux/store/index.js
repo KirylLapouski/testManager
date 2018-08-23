@@ -8,7 +8,6 @@ import courses from '../redusers/courses'
 import users from '../redusers/users'
 import lessons from '../redusers/lessons'
 import topics from '../redusers/topics'
-import tests from '../redusers/test'
 import questions from '../redusers/questions'
 import answers from '../redusers/answers'
 import mapping from '../redusers/mapping/mapping'
@@ -21,7 +20,6 @@ const store = createStore(combineReducers({
     users,
     lessons,
     topics,
-    tests,
     questions,
     answers,
     mapping

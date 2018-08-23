@@ -1,7 +1,7 @@
-let assert = require('assert')
-let deepFreeze = require('deep-freeze')
-let constants = require('../../../../client_src/src/redux/constants').default
-let answersReducer = require('../../../../client_src/src/redux/redusers/answers').default
+import constants from '../../../../src/redux/constants'
+import answersReducer from '../../../../src/redux/redusers/answers'
+import reducerTestDefault from './reducerTest'
+const reducerTest = reducerTestDefault(answersReducer)
 const initState = {
     1: {
         id: 1,
@@ -28,15 +28,14 @@ describe('answer reducer', function () {
                 }
             }
 
-            deepFreeze(state)
-            deepFreeze(action)
-            assert.deepEqual(answersReducer(state, action), {
+            const expected = {
                 0: {
                     id: 0,
                     titile: 'title',
                     description: 'description'
                 }
-            })
+            }
+            reducerTest(state, action, expected)
         })
 
         it('add answer in store with different answers', function () {
@@ -51,10 +50,7 @@ describe('answer reducer', function () {
                 }
             }
 
-            deepFreeze(state)
-            deepFreeze(action)
-
-            assert.deepEqual(answersReducer(state, action), {
+            const expected = {
                 1: {
                     id: 1,
                     title: 'title1',
@@ -70,7 +66,9 @@ describe('answer reducer', function () {
                     title: 'title3',
                     description: 'description3'
                 }
-            })
+            }
+
+            reducerTest(state, action, expected)
         })
     })
 
@@ -89,11 +87,7 @@ describe('answer reducer', function () {
                     description: 'description1'
                 }]
             }
-
-            deepFreeze(state)
-            deepFreeze(action)
-
-            assert.deepEqual(answersReducer(state, action), {
+            const expected = {
                 0: {
                     id: 0,
                     title: 'title0',
@@ -104,7 +98,9 @@ describe('answer reducer', function () {
                     title: 'title1',
                     description: 'description1'
                 }
-            })
+            }
+
+            reducerTest(state, action, expected)
         })
         it('add answers in store with different answers', function () {
             const state = initState
@@ -120,11 +116,7 @@ describe('answer reducer', function () {
                     description: 'description4'
                 }]
             }
-
-            deepFreeze(state)
-            deepFreeze(action)
-
-            assert.deepEqual(answersReducer(state, action), {
+            const expected = {
                 1: {
                     id: 1,
                     title: 'title1',
@@ -145,7 +137,9 @@ describe('answer reducer', function () {
                     title: 'title4',
                     description: 'description4'
                 }
-            })
+            }
+
+            reducerTest(state, action, expected)
         })
     })
     describe('DELETE_ANSWER', function () {
@@ -157,17 +151,15 @@ describe('answer reducer', function () {
                     answerId: 1
                 }
             }
-
-            deepFreeze(state)
-            deepFreeze(action)
-
-            assert.deepEqual(answersReducer(state, action), {
+            const expected = {
                 2: {
                     id: 2,
                     title: 'title2',
                     description: 'description2'
                 }
-            })
+            }
+
+            reducerTest(state, action, expected)
         })
     })
     describe('UPDATE_ANSWER', function () {
@@ -182,10 +174,7 @@ describe('answer reducer', function () {
                 }
             }
 
-            deepFreeze(state)
-            deepFreeze(action)
-
-            assert.deepEqual(answersReducer(state, action), {
+            const expected = {
                 1: {
                     id: 1,
                     title: 'title1',
@@ -201,7 +190,8 @@ describe('answer reducer', function () {
                     title: 'title4',
                     description: 'description4'
                 }
-            })
+            }
+            reducerTest(state, action, expected)
         })
     })
 })

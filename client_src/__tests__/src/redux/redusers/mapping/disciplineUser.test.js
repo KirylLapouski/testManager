@@ -1,19 +1,20 @@
-let constants = require('../../../../../client_src/src/redux/constants').default
-let disciplineUserReducer = require('../../../../../client_src/src/redux/redusers/mapping/disciplineUser').default
-let reducerTest = require('../reducerTest')(disciplineUserReducer)
+import constants from '../../../../../src/redux/constants'
+import disciplineUserReducer from '../../../../../src/redux/redusers/mapping/disciplineUser';
+import reducerTestDefault from '../reducerTest'
+const reducerTest = reducerTestDefault(disciplineUserReducer)
 
 const initState = {
     1: {
         disciplineId: 1,
         id: 1,
         participantId: 1,
-        type: "teacher"
+        type: 'teacher'
     },
     2: {
         disciplineId: 1,
         id: 2,
         participantId: 2,
-        type: "student"
+        type: 'student'
     }
 }
 describe('disciplineUser reducer', function () {
@@ -27,7 +28,7 @@ describe('disciplineUser reducer', function () {
                         disciplineId: 1,
                         id: 1,
                         participantId: 1,
-                        type: "teacher",
+                        type: 'teacher',
                     }]
                 }
             }
@@ -36,7 +37,7 @@ describe('disciplineUser reducer', function () {
                     disciplineId: 1,
                     id: 1,
                     participantId: 1,
-                    type: "teacher",
+                    type: 'teacher',
                 }
             }
 
@@ -61,12 +62,12 @@ describe('disciplineUser reducer', function () {
                     disciplineId: 1,
                     id: 1,
                     participantId: 1,
-                    type: "teacher"
+                    type: 'teacher'
                 }, 2: {
                     disciplineId: 1,
                     id: 2,
                     participantId: 2,
-                    type: "student"
+                    type: 'student'
                 }, 3: {
                     disciplineId: 2,
                     id: 3,
@@ -87,7 +88,7 @@ describe('disciplineUser reducer', function () {
                         disciplineId: 1,
                         id: 1,
                         participantId: 1,
-                        type: "teacher"
+                        type: 'teacher'
                     }]
                 }
             }
@@ -96,12 +97,12 @@ describe('disciplineUser reducer', function () {
                     disciplineId: 1,
                     id: 1,
                     participantId: 1,
-                    type: "teacher"
+                    type: 'teacher'
                 }, 2: {
                     disciplineId: 1,
                     id: 2,
                     participantId: 2,
-                    type: "student"
+                    type: 'student'
                 }
             }
 

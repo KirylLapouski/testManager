@@ -1,19 +1,20 @@
-let constants = require('../../../../client_src/src/redux/constants').default
-let topicReducer = require('../../../../client_src/src/redux/redusers/topics').default
-let reducerTest = require('./reducerTest')(topicReducer)
+import constants from '../../../../src/redux/constants'
+import topicReducer from '../../../../src/redux/redusers/topics'
+import reducerTestDefault from './reducerTest'
+const reducerTest = reducerTestDefault(topicReducer)
 
 const initState = {
     1: {
         id: 1,
         lessonId: 9,
-        path: "html html",
-        title: "topic 1"
+        path: 'html html',
+        title: 'topic 1'
     },
     2: {
         id: 2,
         lessonId: 9,
-        path: "html html",
-        title: "topic 1"
+        path: 'html html',
+        title: 'topic 1'
     }
 }
 describe('topic reducer', function () {
@@ -25,16 +26,16 @@ describe('topic reducer', function () {
                 payload: {
                     id: 1,
                     lessonId: 9,
-                    path: "html html",
-                    title: "topic 1"
+                    path: 'html html',
+                    title: 'topic 1'
                 }
             }
             const expectedResult = {
                 1: {
                     id: 1,
                     lessonId: 9,
-                    path: "html html",
-                    title: "topic 1"
+                    path: 'html html',
+                    title: 'topic 1'
                 }
             }
 
@@ -49,28 +50,28 @@ describe('topic reducer', function () {
                     id: 3,
                     lessonId: 9,
                     path: 'html html',
-                    title: "topic 3"
+                    title: 'topic 3'
                 }
             }
             const expectedResult = {
                 1: {
                     id: 1,
                     lessonId: 9,
-                    path: "html html",
-                    title: "topic 1"
+                    path: 'html html',
+                    title: 'topic 1'
                 },
                 2: {
                     id: 2,
                     lessonId: 9,
-                    path: "html html",
-                    title: "topic 1"
+                    path: 'html html',
+                    title: 'topic 1'
 
                 },
                 3: {
                     id: 3,
                     lessonId: 9,
                     path: 'html html',
-                    title: "topic 3"
+                    title: 'topic 3'
                 }
             }
             reducerTest(store, action, expectedResult)
@@ -86,13 +87,13 @@ describe('topic reducer', function () {
                     id: 3,
                     lessonId: 9,
                     path: 'html html',
-                    title: "topic 3"
+                    title: 'topic 3'
                 },
                 {
                     id: 4,
                     lessonId: 9,
                     path: 'html html',
-                    title: "topic 4"
+                    title: 'topic 4'
                 },
                 ]
             }
@@ -101,13 +102,13 @@ describe('topic reducer', function () {
                     id: 3,
                     lessonId: 9,
                     path: 'html html',
-                    title: "topic 3"
+                    title: 'topic 3'
                 },
                 4: {
                     id: 4,
                     lessonId: 9,
                     path: 'html html',
-                    title: "topic 4"
+                    title: 'topic 4'
                 }
             }
 
@@ -122,13 +123,13 @@ describe('topic reducer', function () {
                     id: 3,
                     lessonId: 9,
                     path: 'html html',
-                    title: "topic 3"
+                    title: 'topic 3'
                 },
                 {
                     id: 4,
                     lessonId: 9,
                     path: 'html html',
-                    title: "topic 4"
+                    title: 'topic 4'
                 }]
             }
 
@@ -136,31 +137,33 @@ describe('topic reducer', function () {
                 1: {
                     id: 1,
                     lessonId: 9,
-                    path: "html html",
-                    title: "topic 1"
+                    path: 'html html',
+                    title: 'topic 1'
                 },
                 2: {
                     id: 2,
                     lessonId: 9,
-                    path: "html html",
-                    title: "topic 1"
+                    path: 'html html',
+                    title: 'topic 1'
                 },
                 3: {
                     id: 3,
                     lessonId: 9,
                     path: 'html html',
-                    title: "topic 3"
+                    title: 'topic 3'
                 },
                 4: {
                     id: 4,
                     lessonId: 9,
                     path: 'html html',
-                    title: "topic 4"
+                    title: 'topic 4'
                 }
             }
             reducerTest(store, action, expectedResult)
         })
-        it('do not rewrite previous state')
+        it.skip('do not rewrite previous state',()=>{
+
+        })
     })
 
     describe('UPDATE_TOPIC', function () {
@@ -171,8 +174,8 @@ describe('topic reducer', function () {
                 payload: {
                     id: 2,
                     lessonId: 9,
-                    path: "newhtml newhtml",
-                    title: "topic 1"
+                    path: 'newhtml newhtml',
+                    title: 'topic 1'
                 }
             }
 
@@ -180,14 +183,14 @@ describe('topic reducer', function () {
                 1: {
                     id: 1,
                     lessonId: 9,
-                    path: "html html",
-                    title: "topic 1"
+                    path: 'html html',
+                    title: 'topic 1'
                 },
                 2: {
                     id: 2,
                     lessonId: 9,
-                    path: "newhtml newhtml",
-                    title: "topic 1"
+                    path: 'newhtml newhtml',
+                    title: 'topic 1'
                 }
             }
             reducerTest(store, action, expectedResult)
@@ -201,8 +204,8 @@ describe('topic reducer', function () {
                 payload: {
                     questions: [
                         {
-                            title: "New Question 1",
-                            description: "",
+                            title: 'New Question 1',
+                            description: '',
                             weight: 1,
                             id: 1,
                             topicId: 1
@@ -214,15 +217,15 @@ describe('topic reducer', function () {
                 1: {
                     id: 1,
                     lessonId: 9,
-                    path: "html html",
-                    title: "topic 1",
+                    path: 'html html',
+                    title: 'topic 1',
                     questions: [1]
                 },
                 2: {
                     id: 2,
                     lessonId: 9,
-                    path: "html html",
-                    title: "topic 1"
+                    path: 'html html',
+                    title: 'topic 1'
                 }
             }
             reducerTest(store, action, expectedResult)
@@ -257,8 +260,8 @@ describe('topic reducer', function () {
                 2: {
                     id: 2,
                     lessonId: 9,
-                    path: "html html",
-                    title: "topic 1"
+                    path: 'html html',
+                    title: 'topic 1'
                 }
             }
 
