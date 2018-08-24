@@ -188,7 +188,7 @@ const addFileToUser = (userId, form, yandexUser = false) => {
 }
 const getUserById = userId => {
     return dispatch => {
-        axios
+        return axios
             .get(`http://localhost:3000/api/Participants/${userId}`)
             .then(({ data }) => {
                 dispatch({
@@ -197,6 +197,7 @@ const getUserById = userId => {
                         ...data
                     }
                 })
+                return data
             })
     }
 }

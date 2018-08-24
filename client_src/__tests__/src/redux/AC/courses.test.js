@@ -1,5 +1,5 @@
 import store from '../../../../src/redux/store/index'
-import { addCourse, deleteCourse, addCourseByLessonId, loadCoursesForUser } from '../../../../src/redux/AC/courses'
+import { addCourse, deleteCourse, addCourseByLessonId, loadCoursesForUser, getCourseOwner } from '../../../../src/redux/AC/courses'
 import { addLesson, deleteLesson } from '../../../../src/redux/AC/lessons'
 import { addUserAndLogIn, deleteUser } from '../../../../src/redux/AC/users'
 import constants from "../../../../src/redux/constants";
@@ -184,7 +184,7 @@ describe('loadCoursesForUser', () => {
             })
     })
 
-    it('should add user owner id to course',()=>{
+    it('should add user owner id to course', () => {
         return new Promise(resolve => {
             store.dispatch({ type: constants.courses.DELETE_COURSE, payload: { courseId: createdCourse.id } })
             resolve()
@@ -195,6 +195,51 @@ describe('loadCoursesForUser', () => {
             })
     })
 
+    afterEach(() => {
+        return deleteUser(createdUser.id)(store.dispatch)
+            .catch(() => {
+                console.error(`Ошибка удаления пользователя, созданного в процессе теста.
+                        Проверьте action creator и reducer, отвечающие за удаление пользователей.
+                        Удалите следующий объект из базы данных:`, createdUser)
+            })
+            .then(() => {
+                return deleteCourse(createdCourse.id)(store.dispatch)
+            })
+            .catch(() => {
+                console.error(`Ошибка удаления курса, созданного в процессе теста.
+            Проверьте action creator и reducer, отвечающие за удаление курса.
+            Удалите следующий объект из базы данных:`, createdCourse)
+            })
+    })
+})
+
+describe('getCourseOwner', () => {
+    let createdUser, createdCourse
+
+    beforeEach(() => {
+        return addUserAndLogIn('addCourse@test.ru', '1111', 'addCourseTest')(store.dispatch)
+            .then(user => {
+                createdUser = user
+                return addCourse(user.id, 'add Course unit test')(store.dispatch)
+            })
+            .then(course =>
+                createdCourse = course
+            )
+    })
+
+    it('should return user owner object', () => {
+        return getCourseOwner(createdCourse.id)(store.dispatch)
+            .then(user => {
+                expect(JSON.stringify(user) === JSON.stringify(createdUser)).toBe(true)
+            })
+    })
+
+    it('should add ownerId property in course', () => {
+        return getCourseOwner(createdCourse.id)(store.dispatch)
+            .then(() => {
+                expect(store.getState().courses[createdCourse.id].ownerId).toBe(createdUser.id)
+            })
+    })
     afterEach(() => {
         return deleteUser(createdUser.id)(store.dispatch)
             .catch(() => {

@@ -100,21 +100,20 @@ const loadCoursesForUser = userId => {
 
 const getCourseOwner = courseId => {
     return dispatch => {
-        axios
+        return axios
             .get(
                 `http://localhost:3000/api/ParticipantDisciplineMappings?filter=%7B%22where%22%3A%7B%22type%22%3A%22teacher%22%2C%22disciplineId%22%3A${courseId}%7D%7D`
             )
             .then(({ data }) => {
-                if (data[0]) {
-                    dispatch({
-                        type: constants.courses.ADD_OWNER_TO_COURSE,
-                        payload: {
-                            courseId,
-                            ownerId: data[0].participantId
-                        }
-                    })
-                    dispatch(getUserById(data[0].participantId))
-                }
+                if (!data[0]) return
+                dispatch({
+                    type: constants.courses.ADD_OWNER_TO_COURSE,
+                    payload: {
+                        courseId,
+                        ownerId: data[0].participantId
+                    }
+                })
+                return getUserById(data[0].participantId)(dispatch)
             })
     }
 }
