@@ -1,20 +1,19 @@
-import constants from "../constants";
-import axios from "axios";
-//TODO: ОБРАБОТКА ОШИБОК В REACT THUNK????
+import constants from '../constants'
+import axios from 'axios'
 const addLesson = (title, disciplineId, desc) => {
     return dispatch => {
-        let id;
-        axios
-            .post("http://localhost:3000/api/Lessons/", {
+        let id
+        return axios
+            .post('http://localhost:3000/api/Lessons/', {
                 title,
                 disciplineId,
                 desc
             })
             .then(response => {
                 if (response.status === 200) {
-                    id = response.data.id;
-                    return;
-                } else throw new Error();
+                    id = response.data.id
+                    return
+                } else throw new Error()
             })
             .then(
                 response => {
@@ -25,22 +24,22 @@ const addLesson = (title, disciplineId, desc) => {
                             title: title,
                             disciplineId: Number(disciplineId)
                         }
-                    });
-                },
-                error => {
-                    //TODO: NEED TO DO ERROR HANDLER
-                    throw error;
-                }
-            );
-    };
-};
+                    })
+                    return {
+                        id,
+                        title: title,
+                        disciplineId: Number(disciplineId)
+                    }
+                })
+    }
+}
 
 const deleteLesson = lessonId => {
     return dispatch => {
         return axios
             .delete(`http://localhost:3000/api/Lessons/${lessonId}`)
             .then(response => {
-                return response.data;
+                return response.data
             })
             .then(response => {
                 dispatch({
@@ -48,21 +47,21 @@ const deleteLesson = lessonId => {
                     payload: {
                         id: lessonId
                     }
-                });
-            });
-    };
-};
+                })
+            })
+    }
+}
 
 const editLesson = (lessonId, title, desctiption) => {
-    let resLesson = { id: String(lessonId) };
+    let resLesson = { id: String(lessonId) }
 
-    if (title) resLesson.title = title;
-    if (desctiption) resLesson.description = desctiption;
+    if (title) resLesson.title = title
+    if (desctiption) resLesson.description = desctiption
     return dispatch => {
         return axios
-            .patch("http://localhost:3000/api/Lessons", resLesson)
+            .patch('http://localhost:3000/api/Lessons', resLesson)
             .then(response => {
-                return response.data;
+                return response.data
             })
             .then(response => {
                 dispatch({
@@ -70,10 +69,10 @@ const editLesson = (lessonId, title, desctiption) => {
                     payload: {
                         ...response
                     }
-                });
-            });
-    };
-};
+                })
+            })
+    }
+}
 const loadLessons = courseId => {
     return dispatch => {
         return axios
@@ -82,11 +81,11 @@ const loadLessons = courseId => {
                 dispatch({
                     type: constants.lessons.ADD_LESSONS,
                     payload: response
-                });
-                return response;
-            });
-    };
-};
+                })
+                return response
+            })
+    }
+}
 
 const addLessonById = lessonId => {
     return dispatch => {
@@ -100,10 +99,10 @@ const addLessonById = lessonId => {
                         title: response.title,
                         disciplineId: Number(response.disciplineId)
                     }
-                });
-                return response;
-            });
-    };
-};
+                })
+                return response
+            })
+    }
+}
 
-export { addLesson, loadLessons, deleteLesson, editLesson, addLessonById };
+export { addLesson, loadLessons, deleteLesson, editLesson, addLessonById }
