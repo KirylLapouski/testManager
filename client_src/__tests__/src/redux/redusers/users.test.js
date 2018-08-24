@@ -209,6 +209,37 @@ describe('user reducer', function () {
             reducerTest(store, action, expextedResult)
         })
     })
+    describe('DELETE_USER', function () {
+        it('delete one user from store', function () {
+            const store = {
+                ...initStore,
+                2: {
+                    email: 'check@check.ru',
+                    emailVerified: null,
+                    firstName: null,
+                    id: 2,
+                    imageUrl: null,
+                    loopbackToken: 'KQFjsYyHw4bQekuCWFmWDWy6uvpmBwOGwlb330Yt0ud62o6SksCggWPGJ6mFCzxX',
+                    loopbackTokenExpireIn: 'Sat Jul 21 2018',
+                    realm: null,
+                    secondName: null,
+                    username: 'kirill',
+                    yandexRefreshToken: null,
+                    yandexToken: null,
+                    yandexTokenExpireIn: null,
+                }
+            }
+            const action = {
+                type: constants.users.DELETE_USER,
+                payload: {
+                    userId: 2
+                }
+            }
+            const expectedResult = initStore
+
+            reducerTest(store,action,expectedResult)
+        })
+    })
     describe.skip('ADD_RIGHT_ANSWERED_QUESTION_FOR_LOGGED_IN', function () {
         it('TODO')
     })

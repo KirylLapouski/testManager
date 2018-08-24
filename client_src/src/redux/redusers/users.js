@@ -73,6 +73,10 @@ const users = (state = {}, action) => {
             ...state,
             newLoggedIn
         }
+    case constants.users.DELETE_USER:
+        newState = {...state}
+        delete newState[action.payload.userId]
+        return newState
     default:
         return state
     }

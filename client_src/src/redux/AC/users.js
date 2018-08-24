@@ -23,8 +23,8 @@ const addUserAndLogIn = (email, password, userName) => {
             password: password,
             username: userName
         }).then(() => {
-            return loginUser(email,password)(dispatch)
-        }, () => {
+            return loginUser(email, password)(dispatch)
+        }, (err) => {
             // TODO: this error will be rewriten by second reject handler
             throw new Error('Ошибка добавления нового пользователя')
         })
@@ -33,17 +33,17 @@ const addUserAndLogIn = (email, password, userName) => {
 
 const loginUser = (email, password) => {
     return dispatch => {
-        return axios.post('http://localhost:3000/api/Participants/login', { email, password }, {timeout: 10000})
+        return axios.post('http://localhost:3000/api/Participants/login', { email, password }, { timeout: 10000 })
             .then(({ data }) => {
                 const loopbackToken = data.id
                 const loopbackTokenExpireIn = (new Date(data.ttl * 1000 + Date.now())).toDateString()
 
                 return axios.patch(`http://localhost:3000/api/Participants/${data.userId}`, { loopbackToken, loopbackTokenExpireIn })
             })
-            .then(({data})=>{
+            .then(({ data }) => {
                 dispatch({
-                    type:constants.users.ADD_LOGGED_IN_USER,
-                    payload:{
+                    type: constants.users.ADD_LOGGED_IN_USER,
+                    payload: {
                         ...data
                     }
                 })
@@ -382,10 +382,27 @@ const getUsersInDiscipline = disciplineId => {
             })
     }
 }
+const deleteUser = userId => {
+    return dispatch => {
+        return axios.delete(`http://localhost:3000/api/Participants/${userId}`)
+            .then(({ data: count }) => {
+                if (!count.count)
+                    throw new Error(`Ошибка удаления: пользователя с id ${userId} не существует`)
+
+                dispatch({
+                    type: constants.users.DELETE_USER,
+                    payload: {
+                        userId
+                    }
+                })
+            })
+    }
+}
 export {
     addLoggedInUser,
     addUserAndLogIn,
     loginUser,
+    deleteUser,
     submitQuestionResult,
     addImageToUser,
     getUserById,

@@ -8,7 +8,7 @@ const addCourse = (
 ) => {
     let id, secretWord
     return dispatch => {
-        axios
+        return axios
             .post('http://localhost:3000/api/Disciplines', {
                 title,
                 backgroundUrl
@@ -37,6 +37,13 @@ const addCourse = (
                         backgroundUrl
                     }
                 })
+                return {
+                    id,
+                    title,
+                    ownerId: userId,
+                    secretWord,
+                    backgroundUrl
+                }
             })
     }
 }
@@ -127,9 +134,28 @@ const updateCourse = (id, course) => {
     }
 }
 
+const deleteCourse = courseId=>{
+    return dispatch =>{
+        return axios.delete(`http://localhost:3000/api/Disciplines/${courseId}`)
+            .then(({data:count})=>{
+                if(!count.count){
+                    throw new Error(`Ошибка удаления: курса с id ${courseId} не существует`)
+                }
+
+                dispatch({
+                    type: constants.courses.DELETE_COURSE,
+                    payload: {
+                        courseId
+                    }
+                })
+            })
+    }
+}
+
 export {
     addCourse,
     loadCourses,
+    deleteCourse,
     loadCoursesForUser,
     getCourseOwner,
     updateCourse,
