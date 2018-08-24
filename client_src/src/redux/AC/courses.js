@@ -88,11 +88,12 @@ const loadCoursesForUser = userId => {
         return axios
             .get(`http://localhost:3000/api/Participants/${userId}/disciplines`)
             .then(({ data }) => {
+                let payload = data.map(course => { return { ...course, ownerId: userId } })
                 dispatch({
                     type: constants.courses.ADD_COURSES,
-                    payload: data
+                    payload
                 })
-                return data
+                return payload
             })
     }
 }
@@ -134,11 +135,11 @@ const updateCourse = (id, course) => {
     }
 }
 
-const deleteCourse = courseId=>{
-    return dispatch =>{
+const deleteCourse = courseId => {
+    return dispatch => {
         return axios.delete(`http://localhost:3000/api/Disciplines/${courseId}`)
-            .then(({data:count})=>{
-                if(!count.count){
+            .then(({ data: count }) => {
+                if (!count.count) {
                     throw new Error(`Ошибка удаления: курса с id ${courseId} не существует`)
                 }
 

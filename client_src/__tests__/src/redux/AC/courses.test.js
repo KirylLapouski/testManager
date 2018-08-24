@@ -1,5 +1,5 @@
 import store from '../../../../src/redux/store/index'
-import { addCourse, deleteCourse, addCourseByLessonId } from '../../../../src/redux/AC/courses'
+import { addCourse, deleteCourse, addCourseByLessonId, loadCoursesForUser } from '../../../../src/redux/AC/courses'
 import { addLesson, deleteLesson } from '../../../../src/redux/AC/lessons'
 import { addUserAndLogIn, deleteUser } from '../../../../src/redux/AC/users'
 import constants from "../../../../src/redux/constants";
@@ -153,6 +153,62 @@ describe('addCourseByLessonId', () => {
                 console.error(`Ошибка удаления уроков, созданного в процессе теста.
             Проверьте action creator и reducer, отвечающие за удаление уроков.
             Удалите следующий объект из базы данных:`, createdLessons)
+            })
+    })
+})
+
+
+describe('loadCoursesForUser', () => {
+
+    let createdUser, createdCourse
+
+    beforeEach(() => {
+        return addUserAndLogIn('addCourse@test.ru', '1111', 'addCourseTest')(store.dispatch)
+            .then(user => {
+                createdUser = user
+                return addCourse(user.id, 'add Course unit test')(store.dispatch)
+            })
+            .then(course =>
+                createdCourse = course
+            )
+    })
+
+    it('should add new courses in store', () => {
+        return new Promise(resolve => {
+            store.dispatch({ type: constants.courses.DELETE_COURSE, payload: { courseId: createdCourse.id } })
+            resolve()
+        })
+            .then(() => loadCoursesForUser(createdUser.id)(store.dispatch))
+            .then((courses) => {
+                courses.map(course => expect(store.getState().courses[course.id]).toBeDefined())
+            })
+    })
+
+    it('should add user owner id to course',()=>{
+        return new Promise(resolve => {
+            store.dispatch({ type: constants.courses.DELETE_COURSE, payload: { courseId: createdCourse.id } })
+            resolve()
+        })
+            .then(() => loadCoursesForUser(createdUser.id)(store.dispatch))
+            .then((courses) => {
+                courses.map(course => expect(typeof store.getState().courses[course.id].ownerId).toBe('number'))
+            })
+    })
+
+    afterEach(() => {
+        return deleteUser(createdUser.id)(store.dispatch)
+            .catch(() => {
+                console.error(`Ошибка удаления пользователя, созданного в процессе теста.
+                        Проверьте action creator и reducer, отвечающие за удаление пользователей.
+                        Удалите следующий объект из базы данных:`, createdUser)
+            })
+            .then(() => {
+                return deleteCourse(createdCourse.id)(store.dispatch)
+            })
+            .catch(() => {
+                console.error(`Ошибка удаления курса, созданного в процессе теста.
+            Проверьте action creator и reducer, отвечающие за удаление курса.
+            Удалите следующий объект из базы данных:`, createdCourse)
             })
     })
 })
