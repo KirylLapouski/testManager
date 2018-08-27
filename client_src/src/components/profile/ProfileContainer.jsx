@@ -85,18 +85,6 @@ class ProfileContainer extends React.Component {
         }
         return true;
     }
-    checkIsImage = e => {
-        this.setState({
-            fileName: e.target.value
-        });
-        //TODO: cancel choosen file
-        if (!e.target.files[0].type.match("image.*")) {
-            toastr.warning("Фотография пользователя должна быть изображением");
-            this.setState({
-                fileName: ""
-            });
-        }
-    };
     onSubmitHandler = e => {
         e.preventDefault();
 

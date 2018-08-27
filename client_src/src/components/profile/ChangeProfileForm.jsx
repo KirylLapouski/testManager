@@ -7,7 +7,6 @@ class ChangeProfileForm extends React.Component {
         let {
             onChangeHandler,
             hasYandexToken,
-            checkIsImage,
             onSubmitHandler,
             userName,
             email,
@@ -142,7 +141,6 @@ ChangeProfileForm.propTypes = {
     lastName: PropTypes.string,
     hasYandexToken: PropTypes.bool,
     onChangeHandle: PropTypes.func,
-    onSubmitHandler: PropTypes.func,
-    checkIsImage: PropTypes.func
+    onSubmitHandler: PropTypes.func
 }
 export default ChangeProfileForm
