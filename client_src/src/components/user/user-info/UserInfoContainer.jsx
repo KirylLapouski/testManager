@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { getUserById } from '../../../redux/AC/users'
+import { getUserById , logout} from '../../../redux/AC/users'
 import { withRouter } from 'react-router-dom'
 import Cookies from 'universal-cookie'
 import UserInfo from "./UserInfo";
@@ -41,7 +41,7 @@ class UserInfoContainer extends React.Component {
         cookies.remove('yandexToken', { path: '/' })
 
         window.localStorage.setItem('redux', '')
-
+        this.props.logout()
         this.props.history.push(`/`)
     }
     render() {
@@ -81,6 +81,9 @@ const mapDispatchToProps = dispatch => {
     return {
         getUser(userId) {
             dispatch(getUserById(userId))
+        },
+        logout(){
+            dispatch(logout())
         }
     }
 }

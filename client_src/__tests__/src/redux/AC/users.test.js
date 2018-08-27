@@ -31,7 +31,7 @@ describe('logInUserById', () => {
         let createdUser
         return addUser('checkcheck@checkc.ch', '1111', 'checkcheckch')(store.dispatch)
             .then((user) => {
-                createdUser=user
+                createdUser = user
                 expect(logInUserById(user.id)(store.dispatch)).resolve
                 return logout()(store.dispatch)
             })
@@ -40,6 +40,39 @@ describe('logInUserById', () => {
             })
     })
     afterEach(() => {
+        return logout()(store.dispatch)
+            .then(() => {
+                return deleteUser(createdUser.id)(store.dispatch)
+            })
+    })
+})
+
+describe('logout', () => {
+    let createdUser;
+    beforeAll(() => {
+        return addUser('checkcheck@check.ch', '1111', 'checkcheck')(store.dispatch)
+            .then((user) => {
+                createdUser = user
+                return logInUserById(user.id)(store.dispatch)
+            }, err => {
+                console.error('Error when creating a user. ')
+            })
+    })
+
+    it('should delete loggedIn from user in store', () => {
+        logout()(store.dispatch)
+        expect(store.getState().users.loggedIn).not.toBeDefined()
+    })
+
+    it('could logout as many times as you want',()=>{
+        expect(()=>{
+            logout()(store.dispatch)
+            logout()(store.dispatch)
+            logout()(store.dispatch)
+        }).not.toThrow()
+
+    })
+    afterAll(() => {
         return logout()(store.dispatch)
             .then(() => {
                 return deleteUser(createdUser.id)(store.dispatch)
