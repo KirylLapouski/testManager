@@ -1,9 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
 class ProfileCard extends React.Component {
     render() {
-        let { email, username, imageUrl, firstName, secondName } = this.props.loggedInUser
+        let { email, username, imageUrl, firstName, secondName } = this.props
 
         return <div className="col-4">
             <div className="card card-cascade">
@@ -29,20 +28,12 @@ class ProfileCard extends React.Component {
 
 ProfileCard.propTypes = {
     //redux
-    loggedInUser: PropTypes.shape({
-        email: PropTypes.string,
-        username: PropTypes.string,
-        imageUrl: PropTypes.string,
-        firstName: PropTypes.string,
-        secondName: PropTypes.string
-    })
+    email: PropTypes.string,
+    username: PropTypes.string,
+    imageUrl: PropTypes.string,
+    firstName: PropTypes.string,
+    secondName: PropTypes.string
 }
 
-const mapStateToProps = state => {
-
-    return {
-        loggedInUser: state.users.loggedIn
-    }
-}
-export default connect(mapStateToProps)(ProfileCard)
+export default ProfileCard
 

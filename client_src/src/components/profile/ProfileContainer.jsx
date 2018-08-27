@@ -40,8 +40,7 @@ class ProfileContainer extends React.Component {
         let sendingForm = new FormData();
         sendingForm.append("file", filefield.files[0]);
         try {
-            addUserImage(userId, sendingForm,!!cookies.get('yandexToken')).then(value=>{
-                console.log(value)
+            addUserImage(userId, sendingForm, !!cookies.get('yandexToken')).then(value => {
                 toastr.success('Изображение установлено')
             })
         } catch (e) {
@@ -204,7 +203,11 @@ const mapStateToProps = state => {
             state.users.loggedIn && !!state.users.loggedIn.yandexToken,
         userImageSrc: state.users.loggedIn
             ? state.users.loggedIn.imageUrl
-            : "https://globalblueproject.org/wp-content/uploads/2016/07/blank-profile-picture.png"
+            : "https://globalblueproject.org/wp-content/uploads/2016/07/blank-profile-picture.png",
+        savedEmail: state.users.loggedIn.email,
+        savedUsername: state.users.loggedIn.userName,
+        savedFirstName: state.users.loggedIn.firstName,
+        savedSecondName: state.users.loggedIn.secondName
     };
 };
 

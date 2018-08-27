@@ -148,7 +148,7 @@ const addImageToUser = (userId, form, yandexUser = false) => {
             .then(file => {
                 return axios.patch(`http://localhost:3000/${userId}/setAvatar`, file)
                     .then(() => {
-                        return getUserById(userId)(dispatch)
+                        return updateLoggedInUserById(userId)(dispatch)
                     })
             })
     }

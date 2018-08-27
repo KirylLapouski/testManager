@@ -25,6 +25,10 @@ class Profile extends React.Component {
             handleChangeIndex,
             onChangeHandler,
             onSubmitHandler,
+            savedEmail,
+            savedUsername,
+            savedFirstName,
+            savedSecondName,
             tabsValue } = this.props
         return (
             <div
@@ -58,7 +62,7 @@ class Profile extends React.Component {
                             paddingBottom: '10px'
                         }}
                     >
-                        <ProfileCard />
+                        <ProfileCard email={savedEmail} username={savedUsername} imageUrl={userImageSrc} firstName={savedFirstName} secondName={savedSecondName} />
                         <ChangeProfileForm onChangeHandler={onChangeHandler} checkIsImage={checkIsImage} userName={userName} email={email} firstName={firstName} lastName={lastName} hasYandexToken={hasYandexToken} onSubmitHandler={onSubmitHandler} />
                     </div >
                     <div style={{
@@ -80,6 +84,11 @@ class Profile extends React.Component {
 }
 
 Profile.propTypes = {
+    savedEmail: PropTypes.string,
+    savedUsername: PropTypes.string,
+    savedImageUrl: PropTypes.string,
+    savedFirstName: PropTypes.string,
+    savedSecondName: PropTypes.string,
     userId: PropTypes.number,
     userImageSrc: PropTypes.string,
     hasYandexToken: PropTypes.bool,
