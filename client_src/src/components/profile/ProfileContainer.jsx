@@ -1,10 +1,12 @@
 import React from "react";
 import { connect } from "react-redux";
 import toastr from "toastr";
-import { addImageToUser, logInUserById } from "../../redux/AC/users";
+import { addImageToUser, updateLoggedInUserById } from "../../redux/AC/users";
 import { loadCoursesForUser } from '../../redux/AC/courses'
 import Profile from "./Profile";
 import PropTypes from "prop-types";
+import Cookies from 'universal-cookie'
+const cookies = new Cookies()
 class ProfileContainer extends React.Component {
     constructor(props) {
         super(props);
@@ -12,7 +14,6 @@ class ProfileContainer extends React.Component {
         this.state = {
             userName: "",
             email: "",
-            fileName: "",
             firstName: "",
             lastName: "",
             tabsValue: 0
@@ -37,11 +38,15 @@ class ProfileContainer extends React.Component {
 
         let { userId, addUserImage } = this.props;
         let sendingForm = new FormData();
-        sendingForm.append("imageFile", filefield.files[0]);
+        sendingForm.append("file", filefield.files[0]);
         try {
-            addUserImage(userId, sendingForm);
+            addUserImage(userId, sendingForm,!!cookies.get('yandexToken')).then(value=>{
+                console.log(value)
+                toastr.success('Изображение установлено')
+            })
         } catch (e) {
-            toastr.error(e.message);
+            // toastr.error(e.message);
+            console.error(e.message)
         }
         toastr.info(
             "Можете продолжать работу, изменения будут приняты в ближайшее время",
@@ -206,10 +211,10 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         addUserImage(userId, image) {
-            dispatch(addImageToUser(userId, image));
+            return dispatch(addImageToUser(userId, image));
         },
         updateLoggedUser(userId) {
-            dispatch(logInUserById(userId));
+            dispatch(updateLoggedInUserById(userId));
         },
         loadCoursesForUser(userId) {
             return dispatch(loadCoursesForUser(userId))

@@ -1,6 +1,6 @@
 module.exports = function (app) {
     let router = app.loopback.Router()
-    const fs = require('fs');
+    const fs = require('fs')
     const path = require('path')
     const promisify = require('util').promisify
     let appendFile = promisify(fs.appendFile)

@@ -1,8 +1,8 @@
 module.exports = function(app) {
-    let parseTest = require("../utils/test-parser");
-    let router = app.loopback.Router();
-    let fileUpload = require("express-fileupload");
-    router.use(fileUpload());
+    let parseTest = require('../utils/test-parser')
+    let router = app.loopback.Router()
+    let fileUpload = require('express-fileupload')
+    router.use(fileUpload())
 
     // function parseQuestion(question) {
     //     if (question.indexOf('?') === -1)
@@ -55,7 +55,7 @@ module.exports = function(app) {
     //     throw Error('Ни символ = ни символ ~ небыли найдены в ответе')
     // }
     function saveQuestion(question, topicId) {
-        let Question = app.models.Question;
+        let Question = app.models.Question
 
         return new Promise((resolve, reject) => {
             Question.create(
@@ -65,30 +65,30 @@ module.exports = function(app) {
                     topicId
                 },
                 (err, resp) => {
-                    if (err) reject(err);
-                    resolve(resp);
+                    if (err) reject(err)
+                    resolve(resp)
                 }
-            );
-        });
+            )
+        })
     }
 
     function saveAnswers(answers, questionId) {
-        let Answer = app.models.Answer;
+        let Answer = app.models.Answer
         return answers.map(answer => {
             return new Promise((resolve, reject) => {
                 Answer.create(
                     {
                         ...answer,
                         questionId,
-                        typeOfAnswer: "radio"
+                        typeOfAnswer: 'radio'
                     },
                     (err, newAnswer) => {
-                        if (err) reject(err);
-                        resolve(newAnswer);
+                        if (err) reject(err)
+                        resolve(newAnswer)
                     }
-                );
-            });
-        });
+                )
+            })
+        })
     }
 
     function saveTest(questions, topicId) {
@@ -97,43 +97,43 @@ module.exports = function(app) {
                 .then(newQuestion => {
                     return Promise.all(
                         saveAnswers(question.answers, newQuestion.id)
-                    );
+                    )
                 })
                 .then(
                     (/*values*/) => {
                         //console.log(values)
                         //all answers for this question saved return question to check if all question saved
-                        return question;
+                        return question
                     },
                     err => {
                         //TODO: how test it?
-                        console.error(err);
-                        throw new Error("Ошибка при сохранении ответа");
+                        console.error(err)
+                        throw new Error('Ошибка при сохранении ответа')
                     }
-                );
-        });
+                )
+        })
     }
-    router.post("/:topicId/parseQuestion", function(req, resp) {
-        let dataStr = req.files.file.data.toString();
+    router.post('/:topicId/parseQuestion', function(req, resp) {
+        let dataStr = req.files.file.data.toString()
         try {
-            let questions = parseTest(dataStr);
+            let questions = parseTest(dataStr)
         } catch (e) {
-            resp.status(400).send(e.message);
+            resp.status(400).send(e.message)
         }
         Promise.all(saveTest(questions, req.params.topicId)).then(
             (/*values*/) => {
                 //all questions for this test saved
                 // console.log(values)
-                resp.sendStatus(201);
+                resp.sendStatus(201)
             },
             err => {
                 //TODO: how test it?
-                if (err.message === "Ошибка при сохранении ответа")
-                    resp.status(500).send(err.message);
-                resp.status(500).send("Ошибка при сохранении вопросов");
+                if (err.message === 'Ошибка при сохранении ответа')
+                    resp.status(500).send(err.message)
+                resp.status(500).send('Ошибка при сохранении вопросов')
             }
-        );
-    });
+        )
+    })
 
-    app.use(router);
+    app.use(router)
 };

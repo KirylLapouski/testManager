@@ -1,7 +1,7 @@
 import constants from '../constants'
 import axios from 'axios'
 
-const logInUserById = userId => {
+const updateLoggedInUserById = userId => {
     return dispatch => {
         return axios
             .get(`http://localhost:3000/api/Participants/${userId}`)
@@ -48,12 +48,13 @@ const addUser = (email, password, userName) => {
 }
 const addUserAndLogIn = (email, password, userName) => {
     return dispatch => {
-        return addUser(email, password, userName).then(() => {
-            return loginUser(email, password)(dispatch)
-        }, (err) => {
-            // TODO: this error will be rewriten by second reject handler
-            throw new Error('Ошибка добавления нового пользователя')
-        })
+        return addUser(email, password, userName)(dispatch)
+            .then(() => {
+                return loginUser(email, password)(dispatch)
+            }, (err) => {
+                // TODO: this error will be rewriten by second reject handler
+                throw new Error('Ошибка добавления нового пользователя')
+            })
     }
 }
 
@@ -141,32 +142,15 @@ const submitQuestionResult = (userId, questionId, isRightAnswered) => {
 // const returnRightAnsweredQuestions = (userId, lessonId) => {
 
 // }
-const addImageToUser = (userId, form) => {
+const addImageToUser = (userId, form, yandexUser = false) => {
     return dispatch => {
-        let xhr = new XMLHttpRequest()
-        xhr.open('POST', `http://localhost:3000/${userId}/setAvatar`, true)
-        xhr.withCredentials = true
-
-        xhr.onload = () => {
-            // if(xhr.status === 400)
-            //     throw new Error(xhr.response)
-            xhr.open('GET', `http://localhost:3000/api/Participants/${userId}`)
-            xhr.onload = res => {
-                dispatch({
-                    type: constants.users.LOG_IN_USER,
-                    payload: {
-                        ...JSON.parse(res.currentTarget.response)
-                    }
-                })
-            }
-            xhr.send()
-        }
-
-        // xhr.onerror = ()=>{
-        //     console.log('1111')
-        //     throw new Error('check')
-        // }
-        xhr.send(form)
+        return addFileToUser(userId, form, yandexUser)(dispatch)
+            .then(file => {
+                return axios.patch(`http://localhost:3000/${userId}/setAvatar`, file)
+                    .then(() => {
+                        return getUserById(userId)(dispatch)
+                    })
+            })
     }
 }
 
@@ -181,35 +165,15 @@ const addFileToUser = (userId, form, yandexUser = false) => {
         const url = yandexUser
             ? `http://localhost:3000/${userId}/saveFile`
             : `http://localhost:3000/save-file/${userId}/saveFileLocal`
-        return axios.post(url, form, config).then(
-            response => {
-                return {
-                    url: response.data,
-                    type: form.get('file').type
-                }
-            },
-            () => {
-                throw new Error('Ошибка загрузки файла на сервер')
+        return axios.post(url, form, config).then(response => {
+            return {
+                url: response.data,
+                type: form.get('file').type
             }
-        )
-
-        // let xhr = new XMLHttpRequest()
-        // xhr.open('POST', `http://localhost:3000/${userId}/saveFile`, true)
-
-        // xhr.onload = () => {
-        //     // if(xhr.status)
-        //     // xhr.open('GET', `http://localhost:3000/api/Participants/${userId}`)
-        //     // xhr.onload = (res) => {
-        //     //     dispatch({
-        //     //         type: constants.users.LOG_IN_USER,
-        //     //         payload: {
-        //     //             ...JSON.parse(res.currentTarget.response)
-        //     //         }
-        //     //     })
-        //     // }
-        //     // xhr.send()
-        // }
-        // xhr.send(form)
+        },
+        () => {
+            throw new Error('Ошибка загрузки файла на сервер')
+        })
     }
 }
 const getUserById = userId => {
@@ -427,7 +391,7 @@ const deleteUser = userId => {
 }
 
 export {
-    logInUserById,
+    updateLoggedInUserById,
     logout,
     addUser,
     addUserAndLogIn,
