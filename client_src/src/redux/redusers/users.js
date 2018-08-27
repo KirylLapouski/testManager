@@ -2,7 +2,7 @@ import constants from '../constants'
 import { uniqueArrayOfPrimitives } from '../../utils'
 const users = (state = {}, action) => {
     switch (action.type) {
-    case constants.users.ADD_LOGGED_IN_USER:
+    case constants.users.LOG_IN_USER:
         return {
             ...state,
             loggedIn: {
@@ -10,8 +10,14 @@ const users = (state = {}, action) => {
                 ...action.payload
             }
         }
+    case constants.users.LOG_OUT:
+        let newState = { ...state }
+        delete newState.loggedIn
+        return {
+            ...newState
+        }
     case constants.users.SUBMIT_RESULT_OF_QUESTIONS_FOR_LOGGEDIN_USER:
-        let newState = {
+        newState = {
             ...state
         }
         let loggedInUser = Object.assign({}, newState.loggedIn)
@@ -74,7 +80,7 @@ const users = (state = {}, action) => {
             newLoggedIn
         }
     case constants.users.DELETE_USER:
-        newState = {...state}
+        newState = { ...state }
         delete newState[action.payload.userId]
         return newState
     default:

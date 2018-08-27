@@ -3,12 +3,14 @@ import { addCourse, deleteCourse, addCourseByLessonId, loadCoursesForUser, getCo
 import { addLesson, deleteLesson } from '../../../../src/redux/AC/lessons'
 import { addUserAndLogIn, deleteUser } from '../../../../src/redux/AC/users'
 import constants from "../../../../src/redux/constants";
+// TODO: check than no trash data left in database and store after tests
 // disable cosole.log and console.group
 console.log = jest.fn()
 console.group = jest.fn()
 
 describe('addCourse', () => {
     let createdUser, createdCourse
+    // create new user, create new course
     beforeAll(() => {
         return addUserAndLogIn('addCourse@test.ru', '1111', 'addCourseTest')(store.dispatch)
             .then(user => {
@@ -57,6 +59,7 @@ describe('addCourse', () => {
 
 describe('addCourseByLessonId', () => {
     let createdUser, createdCourses, createdLessons
+    // add user, add 2 courses for user, add 5 lesson for eather courses
     beforeEach(() => {
         return addUserAndLogIn('addCourse@test.ru', '1111', 'addCourseTest')(store.dispatch)
             .then(user => {

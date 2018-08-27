@@ -20,11 +20,11 @@ const initStore = {
     }
 }
 describe('user reducer', function () {
-    describe('ADD_LOGGED_IN_USER', function () {
+    describe('LOG_IN_USER', function () {
         it('add one loggedIn user in empty store', function () {
             let store = {}
             let action = {
-                type: constants.users.ADD_LOGGED_IN_USER,
+                type: constants.users.LOG_IN_USER,
                 payload: {
                     email: 'lapkovskyk@mail.ru',
                     emailVerified: null,
@@ -60,6 +60,8 @@ describe('user reducer', function () {
             }
             reducerTest(store, action, expectedResult)
         })
+
+        it.skip('log in twice (should merge)', () => { })
 
     })
     describe('SUBMIT_RESULT_OF_QUESTIONS_FOR_LOGGEDIN_USER', function () {
@@ -237,7 +239,7 @@ describe('user reducer', function () {
             }
             const expectedResult = initStore
 
-            reducerTest(store,action,expectedResult)
+            reducerTest(store, action, expectedResult)
         })
     })
     describe.skip('ADD_RIGHT_ANSWERED_QUESTION_FOR_LOGGED_IN', function () {
@@ -248,5 +250,8 @@ describe('user reducer', function () {
     })
     describe.skip('ADD USERS', function () {
         it('TODO')
+    })
+    describe.skip('LOG_OUT', function () {
+
     })
 })

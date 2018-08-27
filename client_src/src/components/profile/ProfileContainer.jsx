@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import toastr from "toastr";
-import { addImageToUser, addLoggedInUser } from "../../redux/AC/users";
+import { addImageToUser, logInUserById } from "../../redux/AC/users";
 import { loadCoursesForUser } from '../../redux/AC/courses'
 import Profile from "./Profile";
 import PropTypes from "prop-types";
@@ -209,7 +209,7 @@ const mapDispatchToProps = dispatch => {
             dispatch(addImageToUser(userId, image));
         },
         updateLoggedUser(userId) {
-            dispatch(addLoggedInUser(userId));
+            dispatch(logInUserById(userId));
         },
         loadCoursesForUser(userId) {
             return dispatch(loadCoursesForUser(userId))

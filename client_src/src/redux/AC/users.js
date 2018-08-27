@@ -1,13 +1,13 @@
 import constants from '../constants'
 import axios from 'axios'
 
-const addLoggedInUser = userId => {
+const logInUserById = userId => {
     return dispatch => {
-        axios
+        return axios
             .get(`http://localhost:3000/api/Participants/${userId}`)
             .then(({ data }) => {
                 dispatch({
-                    type: constants.users.ADD_LOGGED_IN_USER,
+                    type: constants.users.LOG_IN_USER,
                     payload: {
                         ...data
                     }
@@ -16,13 +16,39 @@ const addLoggedInUser = userId => {
     }
 }
 
-const addUserAndLogIn = (email, password, userName) => {
+const logout = () => {
+    return dispatch => {
+        return new Promise(resolve => {
+            dispatch({
+                type: constants.users.LOG_OUT
+            })
+            resolve()
+        })
+    }
+}
+const addUser = (email, password, userName) => {
     return dispatch => {
         return axios.post('http://localhost:3000/api/Participants', {
-            email: email,
-            password: password,
+            email,
+            password,
             username: userName
-        }).then(() => {
+        })
+            .then(({ data: user }) => {
+                return axios.get(`http://localhost:3000/api/Participants/${user.id}`)
+            })
+            .then(({ data: user }) => {
+                dispatch({
+                    type: constants.users.ADD_USER,
+                    payload: user
+                })
+                return user
+            })
+
+    }
+}
+const addUserAndLogIn = (email, password, userName) => {
+    return dispatch => {
+        return addUser(email, password, userName).then(() => {
             return loginUser(email, password)(dispatch)
         }, (err) => {
             // TODO: this error will be rewriten by second reject handler
@@ -42,7 +68,7 @@ const loginUser = (email, password) => {
             })
             .then(({ data }) => {
                 dispatch({
-                    type: constants.users.ADD_LOGGED_IN_USER,
+                    type: constants.users.LOG_IN_USER,
                     payload: {
                         ...data
                     }
@@ -127,7 +153,7 @@ const addImageToUser = (userId, form) => {
             xhr.open('GET', `http://localhost:3000/api/Participants/${userId}`)
             xhr.onload = res => {
                 dispatch({
-                    type: constants.users.ADD_LOGGED_IN_USER,
+                    type: constants.users.LOG_IN_USER,
                     payload: {
                         ...JSON.parse(res.currentTarget.response)
                     }
@@ -175,7 +201,7 @@ const addFileToUser = (userId, form, yandexUser = false) => {
         //     // xhr.open('GET', `http://localhost:3000/api/Participants/${userId}`)
         //     // xhr.onload = (res) => {
         //     //     dispatch({
-        //     //         type: constants.users.ADD_LOGGED_IN_USER,
+        //     //         type: constants.users.LOG_IN_USER,
         //     //         payload: {
         //     //             ...JSON.parse(res.currentTarget.response)
         //     //         }
@@ -399,8 +425,11 @@ const deleteUser = userId => {
             })
     }
 }
+
 export {
-    addLoggedInUser,
+    logInUserById,
+    logout,
+    addUser,
     addUserAndLogIn,
     loginUser,
     deleteUser,
