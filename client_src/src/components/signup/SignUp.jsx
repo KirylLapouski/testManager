@@ -5,8 +5,7 @@ import toastr from 'toastr'
 import Flag from '@material-ui/icons/Flag'
 import { connect } from 'react-redux'
 import './sign-up.css'
-import { addUserAndLogIn } from '../../redux/AC/users'
-import Cookies from 'universal-cookie'
+import { signUpAndLogin } from '../../utils/authentication'
 //CAN ADD REAL TIME VALIDATION
 class SignUp extends React.Component {
     constructor(props) {
@@ -66,15 +65,12 @@ class SignUp extends React.Component {
         if (this.state.userName && !this.nameValidation(this.state.userName))
             return
 
-        this.props.addUserAndLogIn(this.state.email, this.state.password, this.state.userName)
+        signUpAndLogin(this.state.email, this.state.password, this.state.userName)
             .then((loggedInUserInfo) => {
                 toastr.success('Регистрация прошла успешно')
                 toastr.success(
                     `Добро пожаловать, ${loggedInUserInfo.userName || 'User'}!`
                 )
-
-                const cookies = new Cookies()
-                cookies.set('loopbackToken', loggedInUserInfo.loopbackToken, { maxAge: (Date.parse(loggedInUserInfo.loopbackTokenExpireIn) - Date.now()) / 1000 })
 
                 setTimeout(() => {
                     document.location.href = `/cources/${
@@ -92,19 +88,6 @@ class SignUp extends React.Component {
                     break
                 }
             })
-
-        // xhr.onload = () => {
-        //
-
-        //         xhr.onload = () =>
-        //     } else {
-        //         toastr.error(
-        //             'Ошибка во время регистрации',
-        //             'Ошибка отправки формы'
-        //         )
-        //         xhr.abort()
-        //     }
-        // }
     }
     render() {
         return (
@@ -206,11 +189,5 @@ class SignUp extends React.Component {
 SignUp.contextTypes = {
     router: PropTypes.object
 }
-const mapDispatchToProps = dispatch => {
-    return {
-        addUserAndLogIn(email, password, userName) {
-            return dispatch(addUserAndLogIn(email, password, userName))
-        }
-    }
-}
-export default connect(null, mapDispatchToProps)(SignUp)
+
+export default SignUp

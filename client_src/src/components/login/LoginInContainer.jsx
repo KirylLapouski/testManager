@@ -1,6 +1,5 @@
 import React from 'react'
 import LoginIn from './LoginIn'
-import Cookies from 'universal-cookie'
 import toastr from 'toastr'
 import { withRouter } from 'react-router-dom'
 import LoadingIndicator from '../decorators/LoadingIndicator'
@@ -8,6 +7,7 @@ import PropTypes from 'prop-types'
 import { loginUser } from '../../redux/AC/users'
 import { connect } from 'react-redux'
 import { validateEmail } from "../../utils/validation";
+import { login } from "../../utils/authentication";
 toastr.options.closeButton = true
 class LoginInContainer extends React.Component {
 
@@ -34,28 +34,30 @@ class LoginInContainer extends React.Component {
             toastr.error('Неправильный формат электронной почты', 'Ошибка входа')
             return
         }
-
-        //TODO: need to refactor
-        this.props.loginUser(this.state.mail, this.state.password)
+        login(this.state.mail, this.state.password)
             .then(userInfo => {
                 this.props.toggleLoading()
                 toastr.success(`Добро пожаловать, ${userInfo.username || 'User'}!`)
-                const cookies = new Cookies()
-
-                cookies.set('loopbackToken', userInfo.loopbackToken, { maxAge: (Date.parse(userInfo.loopbackTokenExpireIn) - Date.now()) / 1000 })
                 this.props.history.push(`/cources/${userInfo.id}`)
-            }, (error) => {
-                if (error.response.status === 401) {
+            },
+                error => {
                     this.props.toggleLoading()
                     toastr.error('Неправильный логин или пароль', 'Ошибка входа')
-                }
-            })
+                })
 
-        // xhr.ontimeout = () => {
-        //     this.props.toggleLoading()
-        //     toastr.error('Время запроса истекло: сервер не отвечает', 'Ошибка входа')
-        // }
+        // //TODO: need to refactor
+        // this.props.loginUser(this.state.mail, this.state.password)
+        //     .then(userInfo => {
+        //         this.props.toggleLoading()
+        //         toastr.success(`Добро пожаловать, ${userInfo.username || 'User'}!`)
 
+        //         this.props.history.push(`/cources/${userInfo.id}`)
+        //     }, (error) => {
+        //         if (error.response.status === 401) {
+        //             this.props.toggleLoading()
+        //             toastr.error('Неправильный логин или пароль', 'Ошибка входа')
+        //         }
+        //     })
         this.props.toggleLoading()
     }
 
