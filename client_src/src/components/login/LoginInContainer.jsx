@@ -44,20 +44,6 @@ class LoginInContainer extends React.Component {
                     this.props.toggleLoading()
                     toastr.error('Неправильный логин или пароль', 'Ошибка входа')
                 })
-
-        // //TODO: need to refactor
-        // this.props.loginUser(this.state.mail, this.state.password)
-        //     .then(userInfo => {
-        //         this.props.toggleLoading()
-        //         toastr.success(`Добро пожаловать, ${userInfo.username || 'User'}!`)
-
-        //         this.props.history.push(`/cources/${userInfo.id}`)
-        //     }, (error) => {
-        //         if (error.response.status === 401) {
-        //             this.props.toggleLoading()
-        //             toastr.error('Неправильный логин или пароль', 'Ошибка входа')
-        //         }
-        //     })
         this.props.toggleLoading()
     }
 

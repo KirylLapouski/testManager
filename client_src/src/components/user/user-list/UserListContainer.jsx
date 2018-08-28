@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { getUsersInDiscipline } from '../../../redux/AC/users'
 import { addDisciplineUserMapping } from '../../../redux/AC/mapping'
 import PropTypes from 'prop-types'
-import { uniqueArrayOfObjectById } from '../../../utils'
+import { uniqueArrayOfObjectById } from '../../../utils/utils'
 class UserListContainer extends React.Component {
     componentDidMount() {
         let { getUsers } = this.props

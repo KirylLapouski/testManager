@@ -7,7 +7,7 @@ import { loadAnswers } from "../redux/AC/answers";
 import { submitQuestionResult } from "../redux/AC/users";
 import toastr from "toastr";
 import DraggableListQuestionSwitcher from './testCMS/answers/draggable-list/DraggableListQuestionSwitcher'
-import { shuffle } from '../utils'
+import { shuffle } from '../utils/utils'
 class Question extends React.Component {
     constructor(props) {
         super(props);

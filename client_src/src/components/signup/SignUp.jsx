@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import toastr from 'toastr'
 import Flag from '@material-ui/icons/Flag'
-import { connect } from 'react-redux'
+import { validateName, validateEmail } from '../../utils/validation'
 import './sign-up.css'
 import { signUpAndLogin } from '../../utils/authentication'
 //CAN ADD REAL TIME VALIDATION
@@ -14,31 +14,19 @@ class SignUp extends React.Component {
             email: '',
             password: '',
             passwordConfirm: '',
-            userName: ''
+            login: ''
         }
-
-        this.onChangeHandler = this.onChangeHandler.bind(this)
-        this.onSubmitHandler = this.onSubmitHandler.bind(this)
     }
 
-    onChangeHandler(e) {
+    onChangeHandler = (e) => {
         let { name, value } = e.target
         this.setState({
             [name]: value
         })
     }
-    nameValidation(name) {
-        let reg = /^[a-z]{4,}(?:[._-][a-z\d]+)*$/i
-        if (reg.test(name) == false) {
-            toastr.error('Неправильный логин', 'Ошибка отправки формы')
-            return false
-        }
-        return true
-    }
 
-    onSubmitHandler(e) {
+    onSubmitHandler = (e) => {
         e.preventDefault()
-        let reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/
         if (
             !this.state.email ||
             !this.state.password ||
@@ -55,37 +43,39 @@ class SignUp extends React.Component {
             return
             //WRONG PASSWORD
         }
-        if (reg.test(this.state.email) == false) {
+        if (!validateEmail(this.state.email)) {
             toastr.error(
-                'Неправильный формат для электронной почты',
+                'Неправильный формат электронной почты',
                 'Ошибка отправки формы'
             )
             return
         }
-        if (this.state.userName && !this.nameValidation(this.state.userName))
+        if (this.state.login && !validateName(this.state.login)) {
+            toastr.error('Неправильный логин', 'Ошибка отправки формы')
             return
+        }
 
-        signUpAndLogin(this.state.email, this.state.password, this.state.userName)
+        signUpAndLogin(this.state.email, this.state.password, this.state.login)
             .then((loggedInUserInfo) => {
                 toastr.success('Регистрация прошла успешно')
                 toastr.success(
-                    `Добро пожаловать, ${loggedInUserInfo.userName || 'User'}!`
+                    `Добро пожаловать, ${loggedInUserInfo.login || 'User'}!`
                 )
 
                 setTimeout(() => {
                     document.location.href = `/cources/${
                         loggedInUserInfo.id
-                    }`
+                        }`
                 }, 1000)
 
             }, err => {
                 switch (err.message) {
-                case 'Ошибка добавления нового пользователя':
-                    toastr.err('Ошибка добавления нового пользователя')
-                    break
-                case 'Ошибка входа':
-                    toastr.err('Ошибка входа')
-                    break
+                    case 'Ошибка добавления нового пользователя':
+                        toastr.err('Ошибка добавления нового пользователя')
+                        break
+                    case 'Ошибка входа':
+                        toastr.err('Ошибка входа')
+                        break
                 }
             })
     }
@@ -129,7 +119,7 @@ class SignUp extends React.Component {
                                 onChange={this.onChangeHandler}
                                 type="text"
                                 id="defaultFormRegisterCheckLogin"
-                                name="userName"
+                                name="login"
                                 placeholder="User123"
                                 className="form-control"
                             />

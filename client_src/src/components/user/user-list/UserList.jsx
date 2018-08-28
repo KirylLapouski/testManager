@@ -1,19 +1,19 @@
-import React from "react";
-import UserInfoContainer from "../user-info/UserInfoContainer";
-import PropTypes from "prop-types";
+import React from 'react'
+import UserInfoContainer from '../user-info/UserInfoContainer'
+import PropTypes from 'prop-types'
 class UserList extends React.Component {
     render() {
-        let { users, toggleShowChartClick } = this.props;
+        let { users, toggleShowChartClick } = this.props
         return (
             <div
                 style={{
-                    display: "flex",
-                    position: "relative",
-                    marginTop: "20px",
-                    justifyContent: "space-between",
-                    flexWrap: "wrap",
-                    width: "800px",
-                    marginLeft: "30px"
+                    display: 'flex',
+                    position: 'relative',
+                    marginTop: '20px',
+                    justifyContent: 'space-between',
+                    flexWrap: 'wrap',
+                    width: '800px',
+                    marginLeft: '30px'
                 }}
             >
                 {users.map(value => {
@@ -25,10 +25,10 @@ class UserList extends React.Component {
                             userId={value && value.id}
                             toggleShowChartClick={toggleShowChartClick}
                         />
-                    );
+                    )
                 })}
             </div>
-        );
+        )
     }
 }
 
@@ -39,6 +39,6 @@ UserList.propTypes = {
         })
     ),
     toggleShowChartClick: PropTypes.func
-};
+}
 
-export default UserList;
+export default UserList
