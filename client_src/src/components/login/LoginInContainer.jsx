@@ -7,6 +7,7 @@ import LoadingIndicator from '../decorators/LoadingIndicator'
 import PropTypes from 'prop-types'
 import { loginUser } from '../../redux/AC/users'
 import { connect } from 'react-redux'
+import { validateEmail } from "../../utils/validation";
 toastr.options.closeButton = true
 class LoginInContainer extends React.Component {
 
@@ -24,22 +25,15 @@ class LoginInContainer extends React.Component {
             [name]: value
         })
     }
-    // validate = () => {
-    //     //email validation
-    //     let reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,5})$/
-    //     let address = this.state.mail
-    //     if (reg.test(address) == false) {
-    //         toastr.error('Неправильный формат электронной почты', 'Ошибка входа')
-    //         return false
-    //     }
-    //     return true
-    // }
+
     //TODO: rewrite on reducers
     onSubmitHandler = (e) => {
         e.preventDefault()
 
-        if (!this.validate())
+        if (!validateEmail(this.state.mail)) {
+            toastr.error('Неправильный формат электронной почты', 'Ошибка входа')
             return
+        }
 
         //TODO: need to refactor
         this.props.loginUser(this.state.mail, this.state.password)

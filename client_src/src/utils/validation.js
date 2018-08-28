@@ -21,3 +21,5 @@ const validateName = (name) => {
 
     return true
 }
+
+export {validateEmail,validateLogin,validateName}

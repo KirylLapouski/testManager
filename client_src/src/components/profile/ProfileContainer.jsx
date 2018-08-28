@@ -6,6 +6,7 @@ import { loadCoursesForUser } from '../../redux/AC/courses'
 import Profile from "./Profile";
 import PropTypes from "prop-types";
 import Cookies from 'universal-cookie'
+import { validateEmail, validateLogin, validateName } from '../../utils/validation'
 const cookies = new Cookies()
 class ProfileContainer extends React.Component {
     constructor(props) {
@@ -52,27 +53,6 @@ class ProfileContainer extends React.Component {
             "Форма отправлена"
         );
     };
-
-    // emailValidation(email) {
-    //     let reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
-
-    //     if (reg.test(email) == false) {
-    //         toastr.error(
-    //             "Неправильный формат электронной почты",
-    //             "Ошибка отправки формы"
-    //         );
-    //         return false;
-    //     }
-    //     return true;
-    // }
-    // loginValidation(name) {
-    //     let reg = /^[a-z]{4,}(?:[._-][a-z\d]+)*$/i;
-    //     if (reg.test(name) == false) {
-    //         toastr.error("Неправильный логин", "Ошибка отправки формы");
-    //         return false;
-    //     }
-    //     return true;
-    // }
 
     // nameValidation(name, field) {
     //     let reg = /^[а-яА-ЯёЁa-zA-Z]+$/;
@@ -123,19 +103,31 @@ class ProfileContainer extends React.Component {
         let user = {};
         if (this.state.email) {
             user.email = this.state.email;
-            if (!this.emailValidation(this.state.email)) return;
+            if (!validateEmail(this.state.email)) {
+                toastr.error("Неправильный формат электронной почты", "Ошибка отправки формы");
+                return;
+            }
         }
         if (this.state.userName) {
             user.username = this.state.userName;
-            if (!this.loginValidation(this.state.userName)) return;
+            if (!validateLogin(this.state.userName)) {
+                toastr.error("Неправильный логин", "Ошибка отправки формы");
+                return;
+            }
         }
         if (this.state.firstName) {
             user.firstName = this.state.firstName;
-            if (!this.nameValidation(this.state.firstName, "имени")) return;
+            if (!validateName(this.state.firstName)) {
+                toastr.error(`Имя введено неправильно`, "Ошибка отправки формы");
+                return;
+            }
         }
         if (this.state.lastName) {
             user.lastName = this.state.lastName;
-            if (!this.nameValidation(this.state.lastName, "фамилии")) return;
+            if (!validateName(this.state.lastName)){
+                toastr.error('Фамилия введена направильно','Ошибка отправки формы')
+                return
+            }
         }
         xhr.onload = () => {
             if (xhr.status == 200) {
