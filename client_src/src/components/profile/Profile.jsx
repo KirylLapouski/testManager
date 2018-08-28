@@ -14,11 +14,8 @@ class Profile extends React.Component {
             userImageSrc,
             hasYandexToken,
             courses,
-            addUserImage,
-            updateLoggedUser,
             userName,
             email,
-            checkIsImage,
             firstName,
             lastName,
             handleTabChange,
@@ -63,7 +60,7 @@ class Profile extends React.Component {
                         }}
                     >
                         <ProfileCard email={savedEmail} username={savedUsername} imageUrl={userImageSrc} firstName={savedFirstName} secondName={savedSecondName} />
-                        <ChangeProfileForm onChangeHandler={onChangeHandler} checkIsImage={checkIsImage} userName={userName} email={email} firstName={firstName} lastName={lastName} hasYandexToken={hasYandexToken} onSubmitHandler={onSubmitHandler} />
+                        <ChangeProfileForm onChangeHandler={onChangeHandler} userName={userName} email={email} firstName={firstName} lastName={lastName} hasYandexToken={hasYandexToken} onSubmitHandler={onSubmitHandler} />
                     </div >
                     <div style={{
                         width: '100%',
@@ -86,15 +83,12 @@ class Profile extends React.Component {
 Profile.propTypes = {
     savedEmail: PropTypes.string,
     savedUsername: PropTypes.string,
-    savedImageUrl: PropTypes.string,
     savedFirstName: PropTypes.string,
     savedSecondName: PropTypes.string,
     userId: PropTypes.number,
     userImageSrc: PropTypes.string,
     hasYandexToken: PropTypes.bool,
     courses: PropTypes.object,
-    addUserImage: PropTypes.func,
-    updateLoggedUser: PropTypes.func,
     userName: PropTypes.string,
     email: PropTypes.string,
     firstName: PropTypes.string,
@@ -104,7 +98,6 @@ Profile.propTypes = {
     handleChangeIndex: PropTypes.func,
     onChangeHandler: PropTypes.func,
     onSubmitHandler: PropTypes.func,
-    checkIsImage: PropTypes.func
 }
 
 export default Profile

@@ -6,7 +6,7 @@ import { addTopics } from "../../redux/AC/topic";
 import Lesson from "./Lesson";
 import { deleteLesson, editLesson } from "../../redux/AC/lessons";
 import LessonEdditingFields from './LessonEdditingFields'
-import LessonSidebar from './LessonSidebar'
+import LessonSidebar from './LessonSideBar'
 import TopicModal from "../modal/modal-total/TopicModal";
 import TopicList from "./TopicListInLesson";
 class LessonContainer extends React.Component {
