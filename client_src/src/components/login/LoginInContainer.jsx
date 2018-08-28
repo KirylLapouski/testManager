@@ -24,16 +24,16 @@ class LoginInContainer extends React.Component {
             [name]: value
         })
     }
-    validate = () => {
-        //email validation
-        let reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,5})$/
-        let address = this.state.mail
-        if (reg.test(address) == false) {
-            toastr.error('Неправильный формат электронной почты', 'Ошибка входа')
-            return false
-        }
-        return true
-    }
+    // validate = () => {
+    //     //email validation
+    //     let reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,5})$/
+    //     let address = this.state.mail
+    //     if (reg.test(address) == false) {
+    //         toastr.error('Неправильный формат электронной почты', 'Ошибка входа')
+    //         return false
+    //     }
+    //     return true
+    // }
     //TODO: rewrite on reducers
     onSubmitHandler = (e) => {
         e.preventDefault()

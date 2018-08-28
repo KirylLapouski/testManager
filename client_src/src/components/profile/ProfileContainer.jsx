@@ -53,38 +53,38 @@ class ProfileContainer extends React.Component {
         );
     };
 
-    emailValidation(email) {
-        let reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+    // emailValidation(email) {
+    //     let reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
 
-        if (reg.test(email) == false) {
-            toastr.error(
-                "Неправильный формат электронной почты",
-                "Ошибка отправки формы"
-            );
-            return false;
-        }
-        return true;
-    }
-    loginValidation(name) {
-        let reg = /^[a-z]{4,}(?:[._-][a-z\d]+)*$/i;
-        if (reg.test(name) == false) {
-            toastr.error("Неправильный логин", "Ошибка отправки формы");
-            return false;
-        }
-        return true;
-    }
+    //     if (reg.test(email) == false) {
+    //         toastr.error(
+    //             "Неправильный формат электронной почты",
+    //             "Ошибка отправки формы"
+    //         );
+    //         return false;
+    //     }
+    //     return true;
+    // }
+    // loginValidation(name) {
+    //     let reg = /^[a-z]{4,}(?:[._-][a-z\d]+)*$/i;
+    //     if (reg.test(name) == false) {
+    //         toastr.error("Неправильный логин", "Ошибка отправки формы");
+    //         return false;
+    //     }
+    //     return true;
+    // }
 
-    nameValidation(name, field) {
-        let reg = /^[а-яА-ЯёЁa-zA-Z]+$/;
-        if (reg.test(name) == false) {
-            toastr.error(
-                `Такой формат ${field} не поддерживается`,
-                "Ошибка отправки формы"
-            );
-            return false;
-        }
-        return true;
-    }
+    // nameValidation(name, field) {
+    //     let reg = /^[а-яА-ЯёЁa-zA-Z]+$/;
+    //     if (reg.test(name) == false) {
+    //         toastr.error(
+    //             `Такой формат ${field} не поддерживается`,
+    //             "Ошибка отправки формы"
+    //         );
+    //         return false;
+    //     }
+    //     return true;
+    // }
     checkIsImage = e => {
         this.setState({
             fileName: e.target.value
