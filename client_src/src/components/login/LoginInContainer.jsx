@@ -8,6 +8,7 @@ import { loginUser } from '../../redux/AC/users'
 import { connect } from 'react-redux'
 import { validateEmail } from "../../utils/validation";
 import { login } from "../../utils/authentication";
+import mediator from '../../mediator/mediator'
 toastr.options.closeButton = true
 class LoginInContainer extends React.Component {
 
@@ -30,20 +31,18 @@ class LoginInContainer extends React.Component {
     onSubmitHandler = (e) => {
         e.preventDefault()
 
-        if (!validateEmail(this.state.mail)) {
-            toastr.error('Неправильный формат электронной почты', 'Ошибка входа')
-            return
-        }
-        login(this.state.mail, this.state.password)
-            .then(userInfo => {
+        let res = mediator.publish('LOGIN', this.state.mail, this.state.password)
+        Promise.all(res)
+            .then((values) => {
+                let userInfo = values.filter(value => {
+                    if (value && (value.type === 'USER_INFO'))
+                        return true
+                })[0].payload
+
                 this.props.toggleLoading()
-                toastr.success(`Добро пожаловать, ${userInfo.username || 'User'}!`)
-                this.props.history.push(`/cources/${userInfo.id}`)
-            },
-                error => {
-                    this.props.toggleLoading()
-                    toastr.error('Неправильный логин или пароль', 'Ошибка входа')
-                })
+                if (userInfo)
+                    this.props.history.push(`/cources/${userInfo.id}`)
+            })
         this.props.toggleLoading()
     }
 

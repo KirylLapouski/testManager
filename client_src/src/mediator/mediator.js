@@ -1,5 +1,9 @@
+import {loginHandler} from './login'
+
+// TODO: return promise from subscribe and publish
 let mediator = function () {
-    let subscribe = (channel, fn) => {
+    let subscribe = function (channel, fn)  {
+
         if (!mediator.channels[channel])
             mediator.channels[channel] = []
 
@@ -7,14 +11,13 @@ let mediator = function () {
         return this
     }
 
-    let publish = (channel, ...args) => {
+    let publish = function(channel, ...args) {
         if (!mediator.channels[channel])
             return
 
-        mediator.channels[channel].map(signatory =>
-            signatory.callback.apply(signatory.context, ...args)
+        return mediator.channels[channel].map(signatory =>
+            signatory.callback.apply(signatory.context, args)
         )
-        return this
     }
 
     return {
@@ -23,3 +26,7 @@ let mediator = function () {
         publish,
     }
 }()
+
+mediator.subscribe('LOGIN', loginHandler)
+
+export default mediator
