@@ -1,19 +1,18 @@
-import React from "react";
-import UserInfoContainer from "../user/user-info/UserInfoContainer";
-import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
+import React from 'react'
+import UserInfoContainer from '../user/user-info/UserInfoContainer'
+import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
 import ExpansionPanel, {
     ExpansionPanelSummary,
     ExpansionPanelDetails
-} from "material-ui/ExpansionPanel";
-import Typography from "material-ui/Typography";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import TextField from "@material-ui/core/TextField";
-import Slide from "@material-ui/core/Slide";
-import { withStyles } from "@material-ui/core/styles";
-import Flag from "@material-ui/icons/Flag";
-import Tooltip from "@material-ui/core/Tooltip";
-import TopicList from "./TopicListInLesson";
+} from 'material-ui/ExpansionPanel'
+import Typography from 'material-ui/Typography'
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
+import TextField from '@material-ui/core/TextField'
+import Slide from '@material-ui/core/Slide'
+import { withStyles } from '@material-ui/core/styles'
+import Flag from '@material-ui/icons/Flag'
+import Tooltip from '@material-ui/core/Tooltip'
 class Lesson extends React.Component {
 
     render() {
@@ -28,15 +27,16 @@ class Lesson extends React.Component {
             edditing,
             sidebar,
             edditingNode,
-            topicsNode
-        } = this.props;
+            topicsNode,
+            classes
+        } = this.props
 
         let readOnlyexpantionPanel = (
             <ExpansionPanelDetails className={this.props.classes.lessonDetails}>
                 {(loggedUserId === (lessonOwner && lessonOwner.id)) &&
                     sidebar
                 }
-                <Typography style={{ color: "white", marginLeft: "5px" }}>
+                <Typography style={{ color: 'white', marginLeft: '5px' }}>
                     {description}
                 </Typography>
             </ExpansionPanelDetails>
@@ -48,21 +48,15 @@ class Lesson extends React.Component {
             >
                 {edditingNode}
             </ExpansionPanelDetails>
-        );
+        )
         return (
-            <Slide
-                direction="up"
-                in={true}
-                timeout={600}
-                mountOnEnter
-                unmountOnExit
-            >
+            <Slide direction="up" in={true} timeout={600} mountOnEnter unmountOnExit            >
                 <div>
                     {/* TODO: expand when edditing */}
                     <ExpansionPanel className={this.props.classes.lesson}>
                         <ExpansionPanelSummary
                             expandIcon={
-                                <ExpandMoreIcon style={{ color: "white" }} />
+                                <ExpandMoreIcon style={{ color: 'white' }} />
                             }
                         >
                             <UserInfoContainer
@@ -79,36 +73,20 @@ class Lesson extends React.Component {
                                     InputProps={{ disableUnderline: true }}
                                     placeholder="Название урока"
                                     onClick={this.handleEditableHeaderClick}
-                                    style={{
-                                        backgroundColor: "white",
-                                        padding: "10px",
-                                        opacity: "0.9",
-                                        borderRadius: "4px",
-                                        width: "85%"
-                                    }}
+                                    className={classes.lessonTitleInput}
                                 />
                             ) : topics.length ? (
-                                <Link
-                                    to={`/lesson/${id}/topic/${
-                                        topics[0] ? topics[0].id : null
-                                        }`}
-                                    style={{ height: "20px" }}
-                                >
+                                <Link to={`/lesson/${id}/topic/${topics[0] ? topics[0].id : null}`} style={{ height: '20px' }}>
                                     {title}
                                 </Link>
                             ) : (
-                                        <React.Fragment>
-                                            <Tooltip
-                                                title="Урок не содержит топиков"
-                                                placement="left"
-                                            >
-                                                <Flag
-                                                    className={this.props.classes.flag}
-                                                />
-                                            </Tooltip>{" "}
+                                <React.Fragment>
+                                    <Tooltip title="Урок не содержит топиков" placement="left">
+                                        <Flag className={this.props.classes.flag} />
+                                    </Tooltip>{' '}
                                             title
                                 </React.Fragment>
-                                    )}
+                            )}
                         </ExpansionPanelSummary>
                         {edditing
                             ? edditingExpantionPanel
@@ -117,7 +95,7 @@ class Lesson extends React.Component {
                     {topicsNode}
                 </div>
             </Slide>
-        );
+        )
     }
 }
 
@@ -140,29 +118,35 @@ Lesson.propTypes = {
 
 const styles = {
     lesson: {
-        marginTop: "20px",
-        paddingBottom: "10px",
-        backgroundColor: "grey",
+        marginTop: '20px',
+        paddingBottom: '10px',
+        backgroundColor: 'grey',
         backgroundImage:
             'url(" https://lh4.googleusercontent.com/-64uhpsHBEZw/VMqrG_6wowI/AAAAAAAAAIE/_Pw_QoP0opU/w1005-h214-no/123_rainbowtriangle_teal.jpg")'
     },
-    userInfoContainer: { float: "left" },
+    userInfoContainer: { float: 'left' },
     lessonDetails: {
-        display: "flex",
-        justifyContent: "flex-start",
-        paddingBottom: "0px",
-        textAlign: "left"
+        display: 'flex',
+        justifyContent: 'flex-start',
+        paddingBottom: '0px',
+        textAlign: 'left'
     },
     editingLessonDetails: {
-        display: "flex",
-        justifyContent: "flex-start",
-        flexDirection: "column",
-        paddingBottom: "0px",
-        textAlign: "left"
+        display: 'flex',
+        justifyContent: 'flex-start',
+        flexDirection: 'column',
+        paddingBottom: '0px',
+        textAlign: 'left'
     },
     flag: {
-        color: "#ff7961"
+        color: '#ff7961'
+    },
+    lessonTitleInput: {
+        backgroundColor: 'white',
+        padding: '10px',
+        opacity: '0.9',
+        borderRadius: '4px',
+        width: '85%'
     }
-
-};
+}
 export default withStyles(styles)(Lesson)

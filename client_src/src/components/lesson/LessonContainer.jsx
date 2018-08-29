@@ -73,13 +73,7 @@ class LessonContainer extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <Lesson
-                    handleInputChange={this.handleInputChange}
-                    sidebar={<LessonSidebar
-                        onDeleteClick={this.handleDeleteClick}
-                        toggleEdditing={this.toggleState("edditing")}
-                        onModalOpen={this.handleOpen("modalOpened")(true)}
-                    />}
+                <Lesson handleInputChange={this.handleInputChange} sidebar={<LessonSidebar onDeleteClick={this.handleDeleteClick} toggleEdditing={this.toggleState("edditing")} onModalOpen={this.handleOpen("modalOpened")(true)} />}
                     edditingNode={
                         <LessonEdditingFields
                             onCancelEdditingClick={this.handleCancelEdditingClick}
@@ -96,11 +90,7 @@ class LessonContainer extends React.Component {
                     {...this.props}
                     {...this.state}
                 />
-                <TopicModal
-                    open={this.state.modalOpened}
-                    handleClose={this.handleOpen("modalOpened")(false)}
-                    lessonId={this.props.id}
-                />
+                <TopicModal open={this.state.modalOpened} handleClose={this.handleOpen("modalOpened")(false)} lessonId={this.props.id} />
             </React.Fragment>
         );
     }

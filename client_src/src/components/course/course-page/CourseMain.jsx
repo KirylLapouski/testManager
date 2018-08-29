@@ -5,10 +5,16 @@ import SideBar from "./SideBar";
 import UserListContainer from "../../user/user-list/UserListContainer";
 import CourseResultContainer from "./course-result/CourseResultContainer";
 import CourseResultChart from './course-result/CourseResultChart'
+import { withStyles } from "@material-ui/core/styles";
 const CONTENT_TYPE = ["Lessons", "Students"];
+
+const styles = {
+    courseMain: { position: "relative", display: "flex", alignItems: "flex-start" },
+        contentContainer: { width: "1200px", display: "flex", justifyContent: "center" }
+}
 class CourseMain extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         this.state = {
             contentDisplay: CONTENT_TYPE[0],
@@ -29,52 +35,22 @@ class CourseMain extends React.Component {
     };
 
     render() {
-        let { ownerUser, loggedUserId, courseId } = this.props;
+        let { ownerUser, loggedUserId, courseId, classes } = this.props;
         let { contentDisplay, showCourseResultChartForUser } = this.state;
 
         return (
-            <div
-                style={{
-                    position: "relative",
-                    display: "flex",
-                    alignItems: "flex-start"
-                }}
-            >
-                <SideBar
-                    lessonButtonOnClick={this.sideBarClickHandler(0)}
-                    descipleButtonClick={this.sideBarClickHandler(1)}
-                    style={{
-                        width: "200px",
-                        marginTop: "50px",
-                        marginLeft: "10px",
-                        maxHeight: "300px"
-                    }}
-                />
-                <div
-                    style={{
-                        width: "1200px",
-                        display: "flex",
-                        justifyContent: "center"
-                    }}
-                >
+            <div className={classes.courseMain}>
+                <SideBar lessonButtonOnClick={this.sideBarClickHandler(0)} descipleButtonClick={this.sideBarClickHandler(1)} style={{ width: "200px", marginTop: "50px", marginLeft: "10px", maxHeight: "300px" }} />
+                <div className={classes.contentContainer} >
                     {contentDisplay === CONTENT_TYPE[0] ? (
-                        <LessonListContainer
-                            lessonsOwner={ownerUser}
-                            loggedUserId={loggedUserId}
-                            courseId={courseId}
-                        />
+                        <LessonListContainer lessonsOwner={ownerUser} loggedUserId={loggedUserId} courseId={courseId} />
                     ) : (
-                            <UserListContainer
-                                toggleShowChartClick={this.toggleShowChartClick}
-                                courseId={courseId}
-                            />
+                            <UserListContainer toggleShowChartClick={this.toggleShowChartClick} courseId={courseId} />
                         )}
                 </div>
                 {contentDisplay !== CONTENT_TYPE[0] &&
                     showCourseResultChartForUser && (
-                        <CourseResultContainer
-                            userId={showCourseResultChartForUser}
-                        >
+                        <CourseResultContainer userId={showCourseResultChartForUser}>
                             <CourseResultChart />
                         </CourseResultContainer>
                     )}
@@ -88,4 +64,4 @@ CourseMain.propTypes = {
     courseId: PropTypes.number,
     loggedUserId: PropTypes.number
 };
-export default CourseMain;
+export default withStyles(styles)(CourseMain);

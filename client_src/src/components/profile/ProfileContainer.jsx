@@ -6,7 +6,7 @@ import { loadCoursesForUser } from '../../redux/AC/courses'
 import Profile from "./Profile";
 import PropTypes from "prop-types";
 import Cookies from 'universal-cookie'
-import { validateEmail, validateLogin, validateName } from '../../utils/validation'
+import { validateEmail, validateLogin, validateName } from '../../modules/validation'
 const cookies = new Cookies()
 class ProfileContainer extends React.Component {
     constructor(props) {

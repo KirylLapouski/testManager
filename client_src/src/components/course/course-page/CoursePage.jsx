@@ -42,38 +42,19 @@ class CoursePage extends React.Component {
                     handleSubmitNewBackground={handleSubmitNewBackground}
                     handleChange={handleChange}
                 >
-                    <UserInfoContainer
-                        disabled={true}
-                        userId={ownerUser && ownerUser.id}
-                    />
+                    <UserInfoContainer disabled={true} userId={ownerUser && ownerUser.id} />
                 </CourseHeader>
 
                 {loggedUserId === (ownerUser && ownerUser.id) && (
-                    <Button
-                        onClick={handleTopicModalOpen}
-                        variant="fab"
-                        color="primary"
-                        aria-label="add"
-                        style={{
-                            position: 'fixed',
-                            bottom: '20px',
-                            right: '20px',
-                            zIndex: '2'
-                        }}
+                    <Button onClick={handleTopicModalOpen} variant="fab" color="primary" aria-label="add" style={{
+                        position: 'fixed', bottom: '20px', right: '20px', zIndex: '2'
+                    }}
                     >
                         <AddIcon />
                     </Button>
                 )}
-                <CourseMain
-                    ownerUser={ownerUser}
-                    loggedUserId={loggedUserId}
-                    courseId={+this.props.match.params.courseId}
-                />
-                <NewLessonModal
-                    open={lessonModalOpened}
-                    courseId={this.props.match.params.courseId}
-                    handleClose={handleTopicModalClose}
-                />
+                <CourseMain ownerUser={ownerUser} loggedUserId={loggedUserId} courseId={+this.props.match.params.courseId} />
+                <NewLessonModal open={lessonModalOpened} courseId={this.props.match.params.courseId} handleClose={handleTopicModalClose} />
             </div>
         )
     }

@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import UserInfoContainer from "../user/user-info/UserInfoContainer";
 import { Link } from "react-router-dom";
 import Grow from "@material-ui/core/Grow";
-import Divider from "@material-ui/core/Divider";
 import DeleteIcon from "@material-ui/icons/Delete";
 import OutIcon from "@material-ui/icons/PowerSettingsNew";
 import Button from "@material-ui/core/Button";
@@ -15,6 +14,12 @@ import {
 import { connect } from "react-redux";
 import { getCourseOwner } from "../../redux/AC/courses";
 import Tooltip from "@material-ui/core/Tooltip";
+import { withStyles } from '@material-ui/core/styles'
+const styles = {
+    courseContainer: { height: "400px", width: "270px", color: "white", marginBottom: "20px", backgroundSize: "cover", },
+    courseHeader: { background: "rgba(0,0,0,0.1)", overflow: "hidden", marginBottom: "290px" },
+    openCourse: { color: "white", float: "right", marginTop: "5px" }
+}
 class Course extends React.Component {
     handleOpenClick = () => {
         this.props.history.push(`/${this.props.id}/lessons`);
@@ -30,75 +35,32 @@ class Course extends React.Component {
         this.props.getCourseOwner(this.props.id);
     }
     render() {
-        let { loggedUserId, ownerId, backgroundUrl,id,title } = this.props;
+        let { loggedUserId, ownerId, backgroundUrl, id, title, classes } = this.props;
         return (
             <Grow timeout={800} in={true}>
-                <div
-                    className="z-depth-2"
-                    style={{
-                        height: "400px",
-                        width: "270px",
-                        color: "white",
-                        marginBottom: "20px",
-                        backgroundImage: `url(${backgroundUrl})`,
-                        backgroundSize: "cover"
-                    }}
-                >
-                    <div
-                        style={{
-                            background: "rgba(0,0,0,0.1)",
-                            overflow: "hidden"
-                        }}
-                    >
-                        <UserInfoContainer
-                            disabled={true}
-                            userId={ownerId}
-                            style={{ float: "left" }}
-                        />
+                <div className={"z-depth-2 " + classes.courseContainer} style={{ backgroundImage: `url(${backgroundUrl})` }}>
+                    <div className={classes.courseHeader}>
+                        <UserInfoContainer disabled={true} userId={ownerId} style={{ float: "left" }} />
                         <Link to={"/" + id + "/lessons"}>
                             {" "}
                             {title}
                         </Link>
                     </div>
-                    <Divider
-                        inset={true}
-                        style={{
-                            marginLeft: "0px",
-                            marginTop: "290px",
-                            backgroundColor: "rgba(0,0,0,0)",
-                            width: "100%"
-                        }}
-                    />
 
                     {loggedUserId === ownerId ? (
                         <Tooltip title="Удалить курс" placement="bottom">
-                            <Button
-                                onClick={this.handleDeleteClick}
-                                style={{ float: "left" }}
-                            >
-                                <DeleteIcon
-                                    style={{ color: "white", marginTop: "5px" }}
-                                />
+                            <Button onClick={this.handleDeleteClick} style={{ float: "left" }}>
+                                <DeleteIcon style={{ color: "white", marginTop: "5px" }} />
                             </Button>
                         </Tooltip>
                     ) : (
-                        <Tooltip title="Покинуть курс" placement="bottom">
-                            <Button
-                                onClick={this.handleUntieClick}
-                                style={{ float: "left" }}
-                            >
-                                <OutIcon style={{ color: "white" }} />
-                            </Button>
-                        </Tooltip>
-                    )}
-                    <Button
-                        onClick={this.handleOpenClick}
-                        style={{
-                            color: "white",
-                            float: "right",
-                            marginTop: "5px"
-                        }}
-                    >
+                            <Tooltip title="Покинуть курс" placement="bottom">
+                                <Button onClick={this.handleUntieClick} style={{ float: "left" }}>
+                                    <OutIcon style={{ color: "white" }} />
+                                </Button>
+                            </Tooltip>
+                        )}
+                    <Button onClick={this.handleOpenClick} className={classes.openCourse}>
                         Открыть
                     </Button>
                 </div>
@@ -139,9 +101,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         }
     };
 };
-export default withRouter(
+export default withStyles(styles)(withRouter(
     connect(
         mapStateToProps,
         mapDispatchToProps
     )(Course)
-);
+));

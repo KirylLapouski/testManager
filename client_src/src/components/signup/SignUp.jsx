@@ -3,9 +3,9 @@ import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import toastr from 'toastr'
 import Flag from '@material-ui/icons/Flag'
-import { validateName, validateEmail } from '../../utils/validation'
+import { validateName, validateEmail } from '../../modules/validation'
 import './sign-up.css'
-import { signUpAndLogin } from '../../utils/authentication'
+import { signUpAndLogin } from '../../modules/authentication'
 //CAN ADD REAL TIME VALIDATION
 class SignUp extends React.Component {
     constructor(props) {
@@ -84,87 +84,40 @@ class SignUp extends React.Component {
             <div className="index-background">
                 <div className="w-100 h-100 mask rgba-black-light d-flex justify-content-center align-items-center">
                     <div className="container sign-up-container">
-                        <form
-                            className="index-form"
-                            name="signUp"
-                            method="POST"
-                            action="/signUp"
-                        >
+                        <form className="index-form" name="signUp" method="POST" action="/signUp">
                             <p className="h4 text-center mb-4">Регистрация</p>
 
-                            <label
-                                htmlFor="defaultFormRegisterEmailEx"
-                                className="grey-text"
-                            >
+                            <label htmlFor="defaultFormRegisterEmailEx" className="grey-text">
                                 Электронная почта<Flag className="flag" />
                             </label>
-                            <input
-                                onChange={this.onChangeHandler}
-                                type="email"
-                                id="defaultFormRegisterEmailEx"
-                                name="email"
-                                placeholder="lapkovskyk@mail.ru"
-                                className="form-control"
-                            />
+                            <input onChange={this.onChangeHandler} type="email" id="defaultFormRegisterEmailEx" name="email" placeholder="lapkovskyk@mail.ru" className="form-control" />
 
                             <br />
 
-                            <label
-                                htmlFor="defaultFormRegisterCheckLogin"
-                                className="grey-text"
-                            >
+                            <label htmlFor="defaultFormRegisterCheckLogin" className="grey-text">
                                 Логин
                             </label>
-                            <input
-                                onChange={this.onChangeHandler}
-                                type="text"
-                                id="defaultFormRegisterCheckLogin"
-                                name="login"
-                                placeholder="User123"
-                                className="form-control"
-                            />
+                            <input onChange={this.onChangeHandler} type="text" id="defaultFormRegisterCheckLogin" name="login" placeholder="User123" className="form-control" />
 
                             <br />
 
-                            <label
-                                htmlFor="defaultFormRegisterPasswordEx"
-                                className="grey-text"
-                            >
+                            <label htmlFor="defaultFormRegisterPasswordEx" className="grey-text"                            >
                                 Пароль<Flag className="flag" />
                             </label>
-                            <input
-                                onChange={this.onChangeHandler}
-                                type="password"
-                                id="defaultFormRegisterPasswordEx"
-                                name="password"
-                                className="form-control"
-                            />
+                            <input onChange={this.onChangeHandler} type="password" id="defaultFormRegisterPasswordEx" name="password" className="form-control" />
 
                             <br />
 
-                            <label
-                                htmlFor="defaultFormRegisterCheckPassword"
-                                className="grey-text"
-                            >
+                            <label htmlFor="defaultFormRegisterCheckPassword" className="grey-text">
                                 Подвердите пароль<Flag className="flag" />
                             </label>
-                            <input
-                                onChange={this.onChangeHandler}
-                                type="password"
-                                id="defaultFormRegisterCheckPassword"
-                                name="passwordConfirm"
-                                className="form-control"
-                            />
+                            <input onChange={this.onChangeHandler} type="password" id="defaultFormRegisterCheckPassword" name="passwordConfirm" className="form-control" />
 
                             <div className="submit-form-container text-center mt-4">
                                 <Link className=" btn-primary btn" to="/">
                                     Отмена
                                 </Link>
-                                <button
-                                    className="btn-primary btn"
-                                    onClick={this.onSubmitHandler}
-                                    type="submit"
-                                >
+                                <button className="btn-primary btn" onClick={this.onSubmitHandler} type="submit">
                                     Зарегистрироваться
                                 </button>
                             </div>

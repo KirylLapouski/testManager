@@ -3,18 +3,24 @@ import PropTypes from 'prop-types'
 import Modal from 'material-ui/Modal'
 import Button from '@material-ui/core/Button'
 import ClearIcon from '@material-ui/icons/Clear'
+import { withStyles } from '@material-ui/core/styles'
+const style = {
+    modalBaseContainer: { display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'absolute', left: '50%', top: '50%', background: 'white', paddingTop: '0px' },
+    modalHeader: { width: '111.2%', backgroundColor: '#757ce8', height: '40px' },
+    modalTitleContainer: { alignSelf: 'flex-start' }
+}
 class ModalBase extends React.Component {
     render() {
-        let { title, open, handleClose, children, minHeight, width } = this.props
+        let { title, open, handleClose, children, minHeight, width, classes } = this.props
         return (
             <Modal open={open} onClose={handleClose}>
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', minHeight, width, position: 'absolute', left: '50%', marginLeft: `-${width.replace('px', '') / 2}px`, top: '50%', marginTop: `-${minHeight.replace('px', '') / 2}px`, background: 'white', padding: `${+width.replace('px', '') * 0.05}px`, paddingTop: '0px' }}>
-                    <div style={{ width: '111.2%', backgroundColor: '#757ce8', height: '40px' }}>
+                <div className={classes.modalBaseContainer} style={{ minHeight, width, marginLeft: `-${width.replace('px', '') / 2}px`, marginTop: `-${minHeight.replace('px', '') / 2}px`, padding: `${+width.replace('px', '') * 0.05}px`, }}>
+                    <div className={classes.modalHeader}>
                         <Button style={{ float: 'right' }} onClick={handleClose}>
                             <ClearIcon style={{ color: 'white' }} />
                         </Button>
                     </div>
-                    <h3 style={{ alignSelf: 'flex-start' }}>{title}</h3>
+                    <h3 className={classes.modalTitleContainer} >{title}</h3>
                     {children}
                 </div>
             </Modal >
@@ -37,4 +43,4 @@ ModalBase.defaultProps = {
 }
 
 
-export default ModalBase
+export default withStyles(style)(ModalBase)

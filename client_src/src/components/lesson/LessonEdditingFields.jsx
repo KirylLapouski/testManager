@@ -1,7 +1,8 @@
 import React from 'react'
-import Button from "@material-ui/core/Button"
-import TextField from "@material-ui/core/TextField"
+import Button from '@material-ui/core/Button'
+import TextField from '@material-ui/core/TextField'
 import PropTypes from 'prop-types'
+import { withStyles } from '@material-ui/core/styles'
 function LessonEdditingFields(props) {
 
     let handleHeaderInputChange = e => {
@@ -17,42 +18,46 @@ function LessonEdditingFields(props) {
             multiline={true}
             placeholder="Описание урока"
             rows="5"
-            style={{
-                marginLeft: "61px",
-                backgroundColor: "white",
-                opacity: "0.9",
-                borderRadius: "4px",
-                width: "91%",
-                padding: "10px"
-            }}
+            className={props.classes.lessonDescription}
         />
         <div
-            style={{
-                alignSelf: "flex-end",
-                marginTop: "10px",
-                marginRight: "3px"
-            }}
+            className={props.classes.lessonManipulationContainer}
         >
             <Button
                 onClick={props.onCancelEdditingClick}
-                style={{ marginRight: "5px" }}
+                style={{ marginRight: '5px' }}
             >
                 Отмена
-                    </Button>
+            </Button>
             <Button
                 onClick={props.onSumbitEditLesson}
                 variant="raised"
                 color="primary"
             >
                 Создать
-                    </Button>
+            </Button>
         </div>
     </React.Fragment>
 }
 
+const styles = {
+    lessonDescription: {
+        marginLeft: '61px',
+        backgroundColor: 'white',
+        opacity: '0.9',
+        borderRadius: '4px',
+        width: '91%',
+        padding: '10px'
+    },
+    lessonManipulationContainer: {
+        alignSelf: 'flex-end',
+        marginTop: '10px',
+        marginRight: '3px'
+    }
+}
 LessonEdditingFields.propTypes = {
     onCancelEdditingClick: PropTypes.func,
     onSumbitEditLesson: PropTypes.func,
     onInputChange: PropTypes.func
 }
-export default LessonEdditingFields
+export default withStyles(styles)(LessonEdditingFields)

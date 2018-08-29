@@ -1,5 +1,5 @@
-import { login } from '../utils/authentication'
-import { validateEmail } from '../utils/validation'
+import { login } from '../modules/authentication'
+import { validateEmail } from '../modules/validation'
 import toastr from 'toastr'
 const loginHandler = (email, password) => {
     if (!validateEmail(email)) {

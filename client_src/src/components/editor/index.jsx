@@ -34,12 +34,7 @@ class MyEditor extends Component {
         return this.props.readOnly ? (
             <div>{ReactHtmlParser(this.state.content)}</div>
         ) : (
-            <div
-                style={{
-                    boxShadow:
-                            ' 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)'
-                }}
-            >
+            <div style={{ boxShadow: ' 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)' }}                >
                 <Editor
                     apiKey="awz2mcrcs6wtqo0a2zg6s2jmxg1s322zk417tk3zmddsxpbk"
                     value={this.state.content}
@@ -89,7 +84,6 @@ class MyEditor extends Component {
                                         }
                                     )
                                 }
-
                                 input.click()
                             }
                         },
@@ -119,14 +113,12 @@ class MyEditor extends Component {
                             'a11ychecker advcode advlist anchor autolink codesample colorpicker contextmenu fullscreen help image imagetools',
                             ' lists link linkchecker media mediaembed noneditable powerpaste preview noneditable',
                             ' searchreplace table template textcolor tinymcespellchecker visualblocks wordcount'
-                        ], //removed:  charmap insertdatetime print
+                        ],
 
                         external_plugins: {
                             mentions:
                                     '//www.tinymce.com/pro-demo/mentions/plugin.min.js'
-                            // filemanager: "/filemanager/plugin.min.js"
                         },
-
                         templates: [
                             {
                                 title: 'Non-editable Example',
