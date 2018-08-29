@@ -1,10 +1,10 @@
-import React from "react";
-import QuestionContainer from "../question/QuestionContainer";
-import PropTypes from "prop-types";
+import React from 'react'
+import QuestionContainer from '../question/QuestionContainer'
+import PropTypes from 'prop-types'
 class TestList extends React.Component {
     render() {
         return (
-            <div className="z-depth-1 container" style={{ padding: "0px" }}>
+            <div className="z-depth-1 container" style={{ padding: '0px' }}>
                 {this.props.questions.map((item, i) => (
                     <QuestionContainer
                         key={item.id}
@@ -16,7 +16,7 @@ class TestList extends React.Component {
                     />
                 ))}
             </div>
-        );
+        )
     }
 }
 
@@ -28,6 +28,6 @@ TestList.propTypes = {
     ),
     openedItem: PropTypes.number,
     toggleOpenItem: PropTypes.func
-};
+}
 
-export default TestList;
+export default TestList

@@ -52,8 +52,6 @@ class Question extends React.Component {
                     return true;
                 });
             case "draggableList":
-                console.log(JSON.stringify(this.props.answers))
-                console.log(JSON.stringify(this.state.choosen))
                 return JSON.stringify(this.props.answers) === JSON.stringify(this.state.choosen) ? true : false
         }
 

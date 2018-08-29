@@ -6,7 +6,8 @@ import { loadCoursesForUser } from '../../redux/AC/courses'
 import Profile from "./Profile";
 import PropTypes from "prop-types";
 import Cookies from 'universal-cookie'
-import { validateEmail, validateLogin, validateName } from '../../modules/validation'
+import { addImageToUserByFileField } from "../../mediator/profile";
+import { validateEmail, validateLogin, validateName, validateImageFile } from '../../modules/validation'
 const cookies = new Cookies()
 class ProfileContainer extends React.Component {
     constructor(props) {
@@ -27,68 +28,26 @@ class ProfileContainer extends React.Component {
             [name]: value
         }));
     };
-
+    // TODO:
     upload = filefield => {
-        if (!filefield.files[0]) throw new Error("Выберите изображение");
-        if (!filefield.files[0].type.match("image.*"))
-            throw new Error("Фотография пользователя должна быть изображением");
-        if (filefield.files[0].name.length > 15)
-            throw new Error(
-                "Название изображения должно быть не больше 15 символов включая расширение файла"
-            );
-
-        let { userId, addUserImage } = this.props;
-        let sendingForm = new FormData();
-        sendingForm.append("file", filefield.files[0]);
-        try {
-            addUserImage(userId, sendingForm, !!cookies.get('yandexToken')).then(value => {
-                toastr.success('Изображение установлено')
-            })
-        } catch (e) {
-            // toastr.error(e.message);
-            console.error(e.message)
-        }
+        let { userId } = this.props;
+        addImageToUserByFileField(userId,filefield)
         toastr.info(
             "Можете продолжать работу, изменения будут приняты в ближайшее время",
             "Форма отправлена"
         );
     };
 
-    // nameValidation(name, field) {
-    //     let reg = /^[а-яА-ЯёЁa-zA-Z]+$/;
-    //     if (reg.test(name) == false) {
-    //         toastr.error(
-    //             `Такой формат ${field} не поддерживается`,
-    //             "Ошибка отправки формы"
-    //         );
-    //         return false;
-    //     }
-    //     return true;
-    // }
-    checkIsImage = e => {
-        this.setState({
-            fileName: e.target.value
-        });
-        //TODO: cancel choosen file
-        if (!e.target.files[0].type.match("image.*")) {
-            toastr.warning("Фотография пользователя должна быть изображением");
-            this.setState({
-                fileName: ""
-            });
-        }
-    };
     onSubmitHandler = e => {
         e.preventDefault();
-
+        let error;
         let form = document.querySelector('form[name="userEdit"]');
         //TODO: rewrite on refs
         let file = form.elements.imageFile.files[0];
         if (file) {
-            try {
-                this.upload(form.elements.imageFile);
-            } catch (e) {
-                toastr.error(e.message, "Ошибка отправки формы");
-                return;
+            if (error = this.upload(form.elements.imageFile)) {
+                toastr.error(error, "Ошибка отправки формы");
+                return
             }
         }
 
@@ -124,8 +83,8 @@ class ProfileContainer extends React.Component {
         }
         if (this.state.lastName) {
             user.lastName = this.state.lastName;
-            if (!validateName(this.state.lastName)){
-                toastr.error('Фамилия введена направильно','Ошибка отправки формы')
+            if (!validateName(this.state.lastName)) {
+                toastr.error('Фамилия введена направильно', 'Ошибка отправки формы')
                 return
             }
         }

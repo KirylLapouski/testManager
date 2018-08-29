@@ -142,15 +142,14 @@ const submitQuestionResult = (userId, questionId, isRightAnswered) => {
 // const returnRightAnsweredQuestions = (userId, lessonId) => {
 
 // }
+// TODO: bear addImageToUser and addFileToUser in module
 const addImageToUser = (userId, form, yandexUser = false) => {
     return dispatch => {
         return addFileToUser(userId, form, yandexUser)(dispatch)
-            .then(file => {
-                return axios.patch(`http://localhost:3000/${userId}/setAvatar`, file)
-                    .then(() => {
-                        return updateLoggedInUserById(userId)(dispatch)
-                    })
-            })
+            .then(file =>
+                axios.patch(`http://localhost:3000/${userId}/setAvatar`, file)
+                    .then(() => updateLoggedInUserById(userId)(dispatch))
+            )
     }
 }
 

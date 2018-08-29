@@ -1,16 +1,16 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/core/styles";
-import Stepper from "@material-ui/core/Stepper";
-import Step from "@material-ui/core/Step";
-import StepButton from "@material-ui/core/StepButton";
-import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
+import React from 'react'
+import PropTypes from 'prop-types'
+import { withStyles } from '@material-ui/core/styles'
+import Stepper from '@material-ui/core/Stepper'
+import Step from '@material-ui/core/Step'
+import StepButton from '@material-ui/core/StepButton'
+import Button from '@material-ui/core/Button'
+import Typography from '@material-ui/core/Typography'
 
 const styles = theme => ({
     root: {
-        width: "90%",
-        margin: "10px auto"
+        width: '90%',
+        margin: '10px auto'
     },
     button: {
         marginRight: theme.spacing.unit
@@ -19,17 +19,15 @@ const styles = theme => ({
         marginTop: theme.spacing.unit,
         marginBottom: theme.spacing.unit
     }
-});
+})
 
 class HorizontalLinearStepper extends React.Component {
     render() {
         const {
             classes,
             activeStep,
-            completed,
-            displayWhenComplete
-        } = this.props;
-        const steps = this.props.stepsTitles;
+        } = this.props
+        const steps = this.props.stepsTitles
 
         return (
             <div className={classes.root}>
@@ -47,11 +45,11 @@ class HorizontalLinearStepper extends React.Component {
                                     {label}
                                 </StepButton>
                             </Step>
-                        );
+                        )
                     })}
                 </Stepper>
             </div>
-        );
+        )
     }
 }
 
@@ -60,6 +58,6 @@ HorizontalLinearStepper.propTypes = {
     stepsTitles: PropTypes.arrayOf(PropTypes.string),
     completed: PropTypes.object,
     activeStep: PropTypes.number
-};
+}
 
-export default withStyles(styles)(HorizontalLinearStepper);
+export default withStyles(styles)(HorizontalLinearStepper)

@@ -1,12 +1,11 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Checkbox from '@material-ui/core/Checkbox';
-import Radio from '@material-ui/core/Radio';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import CloseIcon from '@material-ui/icons/Close';
-import TextField from 'material-ui/TextField';
-import { connect } from 'react-redux';
-import { Button } from 'material-ui';
+import React from 'react'
+import PropTypes from 'prop-types'
+import Checkbox from '@material-ui/core/Checkbox'
+import Radio from '@material-ui/core/Radio'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
+import CloseIcon from '@material-ui/icons/Close'
+import TextField from 'material-ui/TextField'
+import { Button } from 'material-ui'
 class Answer extends React.Component {
     render() {
         let {
