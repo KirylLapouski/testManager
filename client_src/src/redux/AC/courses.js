@@ -88,12 +88,11 @@ const loadCoursesForUser = userId => {
         return axios
             .get(`http://localhost:3000/api/Participants/${userId}/disciplines`)
             .then(({ data }) => {
-                let payload = data.map(course => { return { ...course, ownerId: userId } })
                 dispatch({
                     type: constants.courses.ADD_COURSES,
-                    payload
+                    payload:data
                 })
-                return payload
+                return data
             })
     }
 }

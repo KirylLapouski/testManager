@@ -1,5 +1,5 @@
 import constants from '../constants'
-import { uniqueArrayOfPrimitives } from '../../utils/utils'
+import { uniqueArrayOfPrimitives } from '../../modules/utils'
 const users = (state = {}, action) => {
     switch (action.type) {
     case constants.users.LOG_IN_USER:

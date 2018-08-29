@@ -6,8 +6,6 @@ import LoadingIndicator from '../decorators/LoadingIndicator'
 import PropTypes from 'prop-types'
 import { loginUser } from '../../redux/AC/users'
 import { connect } from 'react-redux'
-import { validateEmail } from "../../utils/validation";
-import { login } from "../../utils/authentication";
 import mediator from '../../mediator/mediator'
 toastr.options.closeButton = true
 class LoginInContainer extends React.Component {
