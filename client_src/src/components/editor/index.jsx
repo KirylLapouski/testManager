@@ -6,7 +6,7 @@ import { updateTopic } from '../../redux/AC/topic'
 import axios from 'axios'
 import toastr from 'toastr'
 import ReactHtmlParser from 'react-html-parser'
-import { addFileToUser } from '../../redux/AC/users'
+import { addFileToUser } from '../../modules/workingWithFiles'
 import Cookies from 'universal-cookie'
 const cookies = new Cookies()
 //TODO: maybe use props instead of state? Fetch data from db. Init complexities
@@ -68,7 +68,7 @@ class MyEditor extends Component {
                                         ownerId,
                                         form,
                                         !!cookies.get('yandexToken')
-                                    )().then(
+                                    ).then(
                                         ({ url }) => {
                                             toastr.success(
                                                 'Файл успешно загружен'

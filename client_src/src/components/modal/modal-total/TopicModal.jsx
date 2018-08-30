@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import TextField from "material-ui/TextField";
 import toastr from "toastr";
 import { addTopic } from "../../../redux/AC/topic";
-import { addFileToUser } from "../../../redux/AC/users";
+import { addFileToUser } from "../../../modules/workingWithFiles";
 import { connect } from "react-redux";
 import SingleTextField from "../modal-content/SingleTextField";
 import { withRouter } from "react-router-dom";
@@ -232,16 +232,12 @@ TopicModal.propTypes = {
     lessonId: PropTypes.number,
     //redux
     createTopic: PropTypes.func,
-    addFileToUser: PropTypes.func
 };
 
 const mapDispatchToProps = dispatch => {
     return {
         createTopic(lessonId, node, title) {
             return dispatch(addTopic(lessonId, node, title));
-        },
-        addFileToUser(userId, form, yandexUser) {
-            return dispatch(addFileToUser(userId, form, yandexUser));
         }
     };
 };

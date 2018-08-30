@@ -1,14 +1,12 @@
 import React from "react";
 import { connect } from "react-redux";
 import toastr from "toastr";
-import { addImageToUser, updateLoggedInUserById } from "../../redux/AC/users";
+import { updateLoggedInUserById } from "../../redux/AC/users";
+import { addImageToUser } from '../../modules/workingWithFiles'
 import { loadCoursesForUser } from '../../redux/AC/courses'
 import Profile from "./Profile";
 import PropTypes from "prop-types";
-import Cookies from 'universal-cookie'
-import { addImageToUserByFileField } from "../../mediator/profile";
-import { validateEmail, validateLogin, validateName, validateImageFile } from '../../modules/validation'
-const cookies = new Cookies()
+import { addImageToUserByFileField,changeProfileInfo } from "../../mediator/profile";
 class ProfileContainer extends React.Component {
     constructor(props) {
         super(props);
@@ -31,7 +29,7 @@ class ProfileContainer extends React.Component {
     // TODO:
     upload = filefield => {
         let { userId } = this.props;
-        addImageToUserByFileField(userId,filefield)
+        addImageToUserByFileField(userId, filefield)
         toastr.info(
             "Можете продолжать работу, изменения будут приняты в ближайшее время",
             "Форма отправлена"
@@ -50,70 +48,71 @@ class ProfileContainer extends React.Component {
                 return
             }
         }
+        changeProfileInfo(this.props.userId,this.state.email,this.state.userName,this.state.firstName,this.state.lastName,file)
 
-        let xhr = new XMLHttpRequest();
-        xhr.open(
-            "PATCH",
-            `http://localhost:3000/api/Participants/${this.props.userId}`,
-            true
-        );
-        xhr.setRequestHeader("Content-Type", "application/json");
+        // let xhr = new XMLHttpRequest();
+        // xhr.open(
+        //     "PATCH",
+        //     `http://localhost:3000/api/Participants/${this.props.userId}`,
+        //     true
+        // );
+        // xhr.setRequestHeader("Content-Type", "application/json");
 
-        let user = {};
-        if (this.state.email) {
-            user.email = this.state.email;
-            if (!validateEmail(this.state.email)) {
-                toastr.error("Неправильный формат электронной почты", "Ошибка отправки формы");
-                return;
-            }
-        }
-        if (this.state.userName) {
-            user.username = this.state.userName;
-            if (!validateLogin(this.state.userName)) {
-                toastr.error("Неправильный логин", "Ошибка отправки формы");
-                return;
-            }
-        }
-        if (this.state.firstName) {
-            user.firstName = this.state.firstName;
-            if (!validateName(this.state.firstName)) {
-                toastr.error(`Имя введено неправильно`, "Ошибка отправки формы");
-                return;
-            }
-        }
-        if (this.state.lastName) {
-            user.lastName = this.state.lastName;
-            if (!validateName(this.state.lastName)) {
-                toastr.error('Фамилия введена направильно', 'Ошибка отправки формы')
-                return
-            }
-        }
-        xhr.onload = () => {
-            if (xhr.status == 200) {
-                toastr.success("Пользователь успешно изменён");
-                this.props.updateLoggedUser(this.props.userId);
-            } else {
-                toastr.error("Пользователь не был изменён", "Ошибка сервера");
-            }
-        };
+        // let user = {};
+        // if (this.state.email) {
+        //     user.email = this.state.email;
+        //     if (!validateEmail(this.state.email)) {
+        //         toastr.error("Неправильный формат электронной почты", "Ошибка отправки формы");
+        //         return;
+        //     }
+        // }
+        // if (this.state.userName) {
+        //     user.username = this.state.userName;
+        //     if (!validateLogin(this.state.userName)) {
+        //         toastr.error("Неправильный логин", "Ошибка отправки формы");
+        //         return;
+        //     }
+        // }
+        // if (this.state.firstName) {
+        //     user.firstName = this.state.firstName;
+        //     if (!validateName(this.state.firstName)) {
+        //         toastr.error(`Имя введено неправильно`, "Ошибка отправки формы");
+        //         return;
+        //     }
+        // }
+        // if (this.state.lastName) {
+        //     user.lastName = this.state.lastName;
+        //     if (!validateName(this.state.lastName)) {
+        //         toastr.error('Фамилия введена направильно', 'Ошибка отправки формы')
+        //         return
+        //     }
+        // }
+        // xhr.onload = () => {
+        //     if (xhr.status == 200) {
+        //         toastr.success("Пользователь успешно изменён");
+        //         this.props.updateLoggedUser(this.props.userId);
+        //     } else {
+        //         toastr.error("Пользователь не был изменён", "Ошибка сервера");
+        //     }
+        // };
 
-        xhr.timeout = 3000;
+        // xhr.timeout = 3000;
 
-        xhr.ontimeout = () => {
-            toastr.error(
-                "Допустимое время выполнения запроса истекло",
-                "Ошибка сервера"
-            );
-        };
-        if (Object.keys(user).length === 0) {
-            if (!file)
-                toastr.error(
-                    "Хотя бы одно поле должно быть заполнено",
-                    "Ошибка отправки формы"
-                );
-            return;
-        }
-        xhr.send(JSON.stringify(user));
+        // xhr.ontimeout = () => {
+        //     toastr.error(
+        //         "Допустимое время выполнения запроса истекло",
+        //         "Ошибка сервера"
+        //     );
+        // };
+        // if (Object.keys(user).length === 0) {
+        //     if (!file)
+        //         toastr.error(
+        //             "Хотя бы одно поле должно быть заполнено",
+        //             "Ошибка отправки формы"
+        //         );
+        //     return;
+        // }
+        // xhr.send(JSON.stringify(user));
     };
     //TODO: rewrite on decorators
     handleTabChange = (event, value) => {
