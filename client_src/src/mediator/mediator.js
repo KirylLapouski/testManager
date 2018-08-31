@@ -1,5 +1,5 @@
 import {loginHandler} from './login'
-
+import {changeProfileInfo} from './profile'
 // TODO: return promise from subscribe and publish
 let mediator = function () {
     let subscribe = function (channel, fn)  {
@@ -28,5 +28,6 @@ let mediator = function () {
 }()
 
 mediator.subscribe('LOGIN', loginHandler)
+mediator.subscribe('CHANGE_PROFILE_INFO', changeProfileInfo)
 
 export default mediator

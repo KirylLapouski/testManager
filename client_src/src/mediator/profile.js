@@ -2,7 +2,7 @@ import { validateImageFile } from '../modules/validation'
 import store from '../redux/store/index'
 import { addImageToUser } from '../modules/workingWithFiles'
 import { validateEmail, validateLogin, validateName } from '../modules/validation'
-import {updateLoggedInUserById} from '../redux/AC/users'
+import { updateLoggedInUserById } from '../redux/AC/users'
 import axios from 'axios'
 import toastr from 'toastr'
 import Cookies from 'universal-cookie'
@@ -19,6 +19,13 @@ const addImageToUserByFile = (userId, file) => {
     return addImageToUser(userId, sendingForm, !!cookies.get('yandexToken'))(store.dispatch)
         .then(() => {
             toastr.success('Изображение установлено')
+        },
+        err => {
+            switch (err.message) {
+            case 'Ошибка загрузки файла на сервер':
+                toastr.error('Ошибка загрузки файла на сервер')
+                break
+            }
         })
 
 }
@@ -27,15 +34,11 @@ const addImageToUserByFileField = (userId, fileField) => {
     return addImageToUserByFile(userId, fileField.files[0])
 }
 
-// TODO
-const changeProfileInfo = (userId,email,userName,firstName,lastName,avatarImage) => {
-    let xhr = new XMLHttpRequest()
-    xhr.open(
-        'PATCH',
-        `http://localhost:3000/api/Participants/${userId}`,
-        true
-    )
-    xhr.setRequestHeader('Content-Type', 'application/json')
+const changeProfileInfo = (userId, email, userName, firstName, lastName, avatarImage) => {
+
+    if (avatarImage)
+        addImageToUserByFile(userId, avatarImage)
+
 
     let user = {}
     if (email) {
@@ -66,23 +69,22 @@ const changeProfileInfo = (userId,email,userName,firstName,lastName,avatarImage)
             return
         }
     }
-    xhr.onload = () => {
-        if (xhr.status == 200) {
-            toastr.success('Пользователь успешно изменён')
-            updateLoggedInUserById(userId)(store.dispatch)
-        } else {
-            toastr.error('Пользователь не был изменён', 'Ошибка сервера')
-        }
-    }
 
-    xhr.timeout = 3000
+    if (Object.keys(user).length !== 0)
+        axios.patch(`http://localhost:3000/api/Participants/${userId}`, user, { timeout: 10000 })
+            .then(() => {
+                toastr.success('Пользователь успешно изменён')
+                return updateLoggedInUserById(userId)(store.dispatch)
+            }, () =>
+                toastr.error('Пользователь не был изменён', 'Ошибка сервера')
+            )
 
-    xhr.ontimeout = () => {
-        toastr.error(
-            'Допустимое время выполнения запроса истекло',
-            'Ошибка сервера'
-        )
-    }
+    // xhr.ontimeout = () => {
+    //     toastr.error(
+    //         'Допустимое время выполнения запроса истекло',
+    //         'Ошибка сервера'
+    //     )
+    // }
     if (Object.keys(user).length === 0) {
         if (!avatarImage)
             toastr.error(
@@ -91,6 +93,5 @@ const changeProfileInfo = (userId,email,userName,firstName,lastName,avatarImage)
             )
         return
     }
-    xhr.send(JSON.stringify(user))
 }
-export { addImageToUserByFile, addImageToUserByFileField,changeProfileInfo }
+export { addImageToUserByFile, addImageToUserByFileField, changeProfileInfo }
